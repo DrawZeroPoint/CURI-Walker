@@ -1,2 +1,11 @@
 /.idea/
 /ubt_sim_ws/src/.idea/
+/ubt_sim_ws/build/
+/ubt_sim_ws/devel/
+/ubt_sim_ws/logs/
+/ubt_sim_ws/.catkin_tools/profiles/default/
+/ubt_sim_ws/.catkin_tools/CATKIN_IGNORE
+/ubt_sim_ws/.catkin_tools/README
+/ubt_sim_ws/.catkin_tools/VERSION
+/ubt_sim_ws/src/example/cmake-build-debug/
+/ubt_sim_ws/src/example/.idea/

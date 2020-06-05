@@ -108,7 +108,7 @@ int main(int argc, char **argv) {
     // control walking velocity and direction
     if (leg_status == "dynamic") {
       vel_ctrl.linear.x = 0.1;
-      vel_ctrl.angular.z = 0.1;
+      vel_ctrl.angular.z = 0.5;
       walker_vel.publish(vel_ctrl);
     }
 
