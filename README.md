@@ -75,6 +75,32 @@ coding the ROS package.
 
 ## Webots API
 
+### Services
+
+| **Name**      | **Type**                   | **Content**                                                                                                                      |
+|---------------|----------------------------|----------------------------------------------------------------------------------------------------------------------------------|
+| /walker/sence | webots\_api/SceneSelection | \.scene\_name “SwitchLight”, “GraspCup”, “PushCart”, “OpenFridge”, “CarryBox”, “Upstairs” \.nav true, false \.vision true, false |
+
+#### Task-scene relation
+
+| **scene name** | **nav/vision** | **task** |
+|----------------|----------------|----------|
+| SwitchLight    | F/F            | 1        |
+| GraspCup       | F/F            | 2        |
+|                | F/T            | 3        |
+|                | T/F            | 4        |
+|                | T/T            | 5        |
+| PushCart       | F/F            | 6        |
+|                | F/T            | 7        |
+|                | T/F            | 8        |
+|                | T/T            | 9        |
+| OpenFridge     | F/F            | 10       |
+|                | F/T            | 11       |
+|                | T/F            | 12       |
+|                | T/T            | 13       |
+| CarryBox       | F/F            | 14       |
+| Upstairs       | F/F            | 15       |
+
 ### Topics
 
 | **Name**                        | **Type**                     | **Content**                                                                                                                                                                                                                                                                      |
@@ -100,15 +126,15 @@ coding the ROS package.
 | /walker/camera/topDepth         | sensor\_msgs/Image           |                                                                                                                                                                                                                                                                                  |
 | /walker/camera/topRGB           | sensor\_msgs/Image           |                                                                                                                                                                                                                                                                                  |
 |                                 |                              |                                                                                                                                                                                                                                                                                  |
-| /walker/head/controller         | ubt\_core\_msgs/JointCommand | \.mode = 5 \(P\), 6 \(V\), 7 \(F\) \.command\.resize\(2\) \[0\] HeadYaw, \[1\] HeadPitch                                                                                                                                                                                         |
+| /walker/head/controller         | ubt\_core\_msgs/JointCommand | \.mode 5 \(P\), 6 \(V\), 7 \(F\) \.command\.resize\(2\) \[0\] HeadYaw, \[1\] HeadPitch                                                                                                                                                                                         |
 | /walker/head/joint\_states      | sensor\_msgs/JointState      |                                                                                                                                                                                                                                                                                  |
-| /walker/leftHand/controller     | ubt\_core\_msgs/JointCommand | \.mode = 5 \(P\), 6 \(V\), 7 \(F\) \.command\.resize\(10\)  \[0\] LFirstFinger1, \[1\] LFirstFinger2, \[2\] LSecondFinger1, \[3\] LSecondFinger2,  \[4\] LThirdFinger1, \[5\] LThirdFinger2, \[6\] LForthFinger1, \[7\] LForthFinger2,  \[8\] LFifthFinger1, \[9\] LFifthFinger2 |
+| /walker/leftHand/controller     | ubt\_core\_msgs/JointCommand | \.mode 5 \(P\), 6 \(V\), 7 \(F\) \.command\.resize\(10\)  \[0\] LFirstFinger1, \[1\] LFirstFinger2, \[2\] LSecondFinger1, \[3\] LSecondFinger2,  \[4\] LThirdFinger1, \[5\] LThirdFinger2, \[6\] LForthFinger1, \[7\] LForthFinger2,  \[8\] LFifthFinger1, \[9\] LFifthFinger2 |
 | /walker/leftHand/joint\_states  | sensor\_msgs/JointState      |                                                                                                                                                                                                                                                                                  |
-| /walker/leftLimb/controller     | ubt\_core\_msgs/JointCommand | \.mode = 5 \(P\), 6 \(V\), 7 \(F\) \.command\.resize\(7\)  \[0\] LShoulderPitch, \[1\] LShoulderRoll, \[2\] LShoulderYaw, \[3\] LElbowRoll,  \[4\] LElbowYaw, \[5\] LWristPitch, \[6\] LWristRoll                                                                                |
+| /walker/leftLimb/controller     | ubt\_core\_msgs/JointCommand | \.mode 5 \(P\), 6 \(V\), 7 \(F\) \.command\.resize\(7\)  \[0\] LShoulderPitch, \[1\] LShoulderRoll, \[2\] LShoulderYaw, \[3\] LElbowRoll,  \[4\] LElbowYaw, \[5\] LWristPitch, \[6\] LWristRoll                                                                                |
 | /walker/leftLimb/joint\_states  | sensor\_msgs/JointState      |                                                                                                                                                                                                                                                                                  |
-| /walker/rightHand/controller    | ubt\_core\_msgs/JointCommand | \.mode = 5 \(P\), 6 \(V\), 7 \(F\) \.command\.resize\(10\)  \[0\] RFirstFinger1, \[1\] RFirstFinger2, \[2\] RSecondFinger1, \[3\] RSecondFinger2,  \[4\] RThirdFinger1, \[5\] RThirdFinger2, \[6\] RForthFinger1, \[7\] RForthFinger2,  \[8\] RFifthFinger1, \[9\] RFifthFinger2 |
+| /walker/rightHand/controller    | ubt\_core\_msgs/JointCommand | \.mode 5 \(P\), 6 \(V\), 7 \(F\) \.command\.resize\(10\)  \[0\] RFirstFinger1, \[1\] RFirstFinger2, \[2\] RSecondFinger1, \[3\] RSecondFinger2,  \[4\] RThirdFinger1, \[5\] RThirdFinger2, \[6\] RForthFinger1, \[7\] RForthFinger2,  \[8\] RFifthFinger1, \[9\] RFifthFinger2 |
 | /walker/rightHand/joint\_states | sensor\_msgs/JointState      |                                                                                                                                                                                                                                                                                  |
-| /walker/rightLimb/controller    | ubt\_core\_msgs/JointCommand | \.mode = 5 \(P\), 6 \(V\), 7 \(F\) \.command\.resize\(7\)  \[0\] RShoulderPitch, \[1\] RShoulderRoll, \[2\] RShoulderYaw, \[3\] RElbowRoll,  \[4\] RElbowYaw, \[5\] RWristPitch, \[6\] RWristRoll                                                                                |
+| /walker/rightLimb/controller    | ubt\_core\_msgs/JointCommand | \.mode 5 \(P\), 6 \(V\), 7 \(F\) \.command\.resize\(7\)  \[0\] RShoulderPitch, \[1\] RShoulderRoll, \[2\] RShoulderYaw, \[3\] RElbowRoll,  \[4\] RElbowYaw, \[5\] RWristPitch, \[6\] RWristRoll                                                                                |
 | /walker/rightLimb/joint\_states | sensor\_msgs/JointState      |                                                                                                                                                                                                                                                                                  |
 |                                 |                              |                                                                                                                                                                                                                                                                                  |
 | /walker/ultrasound/leftBack     | sensor\_msgs/Range           |                                                                                                                                                                                                                                                                                  |
