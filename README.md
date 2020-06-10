@@ -102,15 +102,15 @@ roslaunch leg_motion walker2_leg.launch account_file:=/home/USER/CURI-Walker/use
 | GraspCup       | F/F            | 2        |
 |                | F/T            | 3        |
 |                | T/F            | 4        |
-|                | T/T            | 5        |
+|                | T/F            | 5        |
 | PushCart       | F/F            | 6        |
 |                | F/T            | 7        |
 |                | T/F            | 8        |
-|                | T/T            | 9        |
+|                | T/F            | 9        |
 | OpenFridge     | F/F            | 10       |
 |                | F/T            | 11       |
 |                | T/F            | 12       |
-|                | T/T            | 13       |
+|                | T/F            | 13       |
 | CarryBox       | F/F            | 14       |
 | Upstairs       | F/F            | 15       |
 
@@ -195,6 +195,15 @@ roslaunch leg_motion walker2_leg.launch account_file:=/home/USER/CURI-Walker/use
 | /astra\_aruco\_marker\_publisher\_2/markers | aruco\_msgs/MarkerArray     |             |
 | /nav/cmd\_vel\_nav                          | geometry\_msgs/Twist        |             |
 | /tf                                         | tf2\_msgs/TFMessage         |             |
+
+
+# Issues
+
+1. The Webots simulator could not run in real-time.
+   
+   According to the official statement, the dynamic simulation is time consuming where 0.2x real-time is an reasonable
+   performance, so no need to worry about that and the finial videos will be judged basing on the simulation time.
+
 
 
 [kazam]: <https://linuxhint.com/record_screen_kazaam_ubuntu/>
