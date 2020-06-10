@@ -1,5 +1,5 @@
 <robot
-  name="walker_description">
+  name="example">
   <link
     name="base_link">
     <inertial>
@@ -22,7 +22,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/base_link.STL" />
+          filename="package://example/meshes/base_link.STL" />
       </geometry>
       <material
         name="">
@@ -36,7 +36,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/base_link.STL" />
+          filename="package://example/meshes/base_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -62,7 +62,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_limb_l1.STL" />
+          filename="package://example/meshes/right_limb_l1.STL" />
       </geometry>
       <material
         name="">
@@ -76,7 +76,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_limb_l1.STL" />
+          filename="package://example/meshes/right_limb_l1.STL" />
       </geometry>
     </collision>
   </link>
@@ -120,7 +120,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_limb_l2.STL" />
+          filename="package://example/meshes/right_limb_l2.STL" />
       </geometry>
       <material
         name="">
@@ -134,7 +134,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_limb_l2.STL" />
+          filename="package://example/meshes/right_limb_l2.STL" />
       </geometry>
     </collision>
   </link>
@@ -178,7 +178,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_limb_l3.STL" />
+          filename="package://example/meshes/right_limb_l3.STL" />
       </geometry>
       <material
         name="">
@@ -192,7 +192,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_limb_l3.STL" />
+          filename="package://example/meshes/right_limb_l3.STL" />
       </geometry>
     </collision>
   </link>
@@ -236,7 +236,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_limb_l4.STL" />
+          filename="package://example/meshes/right_limb_l4.STL" />
       </geometry>
       <material
         name="">
@@ -250,7 +250,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_limb_l4.STL" />
+          filename="package://example/meshes/right_limb_l4.STL" />
       </geometry>
     </collision>
   </link>
@@ -294,7 +294,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_limb_l5.STL" />
+          filename="package://example/meshes/right_limb_l5.STL" />
       </geometry>
       <material
         name="">
@@ -308,7 +308,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_limb_l5.STL" />
+          filename="package://example/meshes/right_limb_l5.STL" />
       </geometry>
     </collision>
   </link>
@@ -352,7 +352,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_limb_l6.STL" />
+          filename="package://example/meshes/right_limb_l6.STL" />
       </geometry>
       <material
         name="">
@@ -366,7 +366,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_limb_l6.STL" />
+          filename="package://example/meshes/right_limb_l6.STL" />
       </geometry>
     </collision>
   </link>
@@ -410,7 +410,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_limb_l7.STL" />
+          filename="package://example/meshes/right_limb_l7.STL" />
       </geometry>
       <material
         name="">
@@ -424,7 +424,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_limb_l7.STL" />
+          filename="package://example/meshes/right_limb_l7.STL" />
       </geometry>
     </collision>
   </link>
@@ -468,7 +468,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_palm_link.STL" />
+          filename="package://example/meshes/right_palm_link.STL" />
       </geometry>
       <material
         name="">
@@ -482,7 +482,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_palm_link.STL" />
+          filename="package://example/meshes/right_palm_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -521,7 +521,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_thumb_l1.STL" />
+          filename="package://example/meshes/right_thumb_l1.STL" />
       </geometry>
       <material
         name="">
@@ -535,7 +535,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_thumb_l1.STL" />
+          filename="package://example/meshes/right_thumb_l1.STL" />
       </geometry>
     </collision>
   </link>
@@ -579,7 +579,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_thumb_l2.STL" />
+          filename="package://example/meshes/right_thumb_l2.STL" />
       </geometry>
       <material
         name="">
@@ -593,7 +593,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_thumb_l2.STL" />
+          filename="package://example/meshes/right_thumb_l2.STL" />
       </geometry>
     </collision>
   </link>
@@ -637,7 +637,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_index_l1.STL" />
+          filename="package://example/meshes/right_index_l1.STL" />
       </geometry>
       <material
         name="">
@@ -651,7 +651,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_index_l1.STL" />
+          filename="package://example/meshes/right_index_l1.STL" />
       </geometry>
     </collision>
   </link>
@@ -695,7 +695,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_index_l2.STL" />
+          filename="package://example/meshes/right_index_l2.STL" />
       </geometry>
       <material
         name="">
@@ -709,7 +709,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_index_l2.STL" />
+          filename="package://example/meshes/right_index_l2.STL" />
       </geometry>
     </collision>
   </link>
@@ -753,7 +753,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_middle_l1.STL" />
+          filename="package://example/meshes/right_middle_l1.STL" />
       </geometry>
       <material
         name="">
@@ -767,7 +767,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_middle_l1.STL" />
+          filename="package://example/meshes/right_middle_l1.STL" />
       </geometry>
     </collision>
   </link>
@@ -811,7 +811,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_middle_l2.STL" />
+          filename="package://example/meshes/right_middle_l2.STL" />
       </geometry>
       <material
         name="">
@@ -825,7 +825,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_middle_l2.STL" />
+          filename="package://example/meshes/right_middle_l2.STL" />
       </geometry>
     </collision>
   </link>
@@ -869,7 +869,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_ring_l1.STL" />
+          filename="package://example/meshes/right_ring_l1.STL" />
       </geometry>
       <material
         name="">
@@ -883,7 +883,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_ring_l1.STL" />
+          filename="package://example/meshes/right_ring_l1.STL" />
       </geometry>
     </collision>
   </link>
@@ -927,7 +927,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_ring_l2.STL" />
+          filename="package://example/meshes/right_ring_l2.STL" />
       </geometry>
       <material
         name="">
@@ -941,7 +941,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_ring_l2.STL" />
+          filename="package://example/meshes/right_ring_l2.STL" />
       </geometry>
     </collision>
   </link>
@@ -985,7 +985,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_pinky_l1.STL" />
+          filename="package://example/meshes/right_pinky_l1.STL" />
       </geometry>
       <material
         name="">
@@ -999,7 +999,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_pinky_l1.STL" />
+          filename="package://example/meshes/right_pinky_l1.STL" />
       </geometry>
     </collision>
   </link>
@@ -1043,7 +1043,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_pinky_l2.STL" />
+          filename="package://example/meshes/right_pinky_l2.STL" />
       </geometry>
       <material
         name="">
@@ -1057,7 +1057,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_pinky_l2.STL" />
+          filename="package://example/meshes/right_pinky_l2.STL" />
       </geometry>
     </collision>
   </link>
@@ -1101,7 +1101,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_limb_l1.STL" />
+          filename="package://example/meshes/left_limb_l1.STL" />
       </geometry>
       <material
         name="">
@@ -1115,7 +1115,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_limb_l1.STL" />
+          filename="package://example/meshes/left_limb_l1.STL" />
       </geometry>
     </collision>
   </link>
@@ -1159,7 +1159,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_limb_l2.STL" />
+          filename="package://example/meshes/left_limb_l2.STL" />
       </geometry>
       <material
         name="">
@@ -1173,7 +1173,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_limb_l2.STL" />
+          filename="package://example/meshes/left_limb_l2.STL" />
       </geometry>
     </collision>
   </link>
@@ -1217,7 +1217,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_limb_l3.STL" />
+          filename="package://example/meshes/left_limb_l3.STL" />
       </geometry>
       <material
         name="">
@@ -1231,7 +1231,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_limb_l3.STL" />
+          filename="package://example/meshes/left_limb_l3.STL" />
       </geometry>
     </collision>
   </link>
@@ -1275,7 +1275,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_limb_l4.STL" />
+          filename="package://example/meshes/left_limb_l4.STL" />
       </geometry>
       <material
         name="">
@@ -1289,7 +1289,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_limb_l4.STL" />
+          filename="package://example/meshes/left_limb_l4.STL" />
       </geometry>
     </collision>
   </link>
@@ -1333,7 +1333,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_limb_l5.STL" />
+          filename="package://example/meshes/left_limb_l5.STL" />
       </geometry>
       <material
         name="">
@@ -1347,7 +1347,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_limb_l5.STL" />
+          filename="package://example/meshes/left_limb_l5.STL" />
       </geometry>
     </collision>
   </link>
@@ -1391,7 +1391,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_limb_l6.STL" />
+          filename="package://example/meshes/left_limb_l6.STL" />
       </geometry>
       <material
         name="">
@@ -1405,7 +1405,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_limb_l6.STL" />
+          filename="package://example/meshes/left_limb_l6.STL" />
       </geometry>
     </collision>
   </link>
@@ -1449,7 +1449,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_limb_l7.STL" />
+          filename="package://example/meshes/left_limb_l7.STL" />
       </geometry>
       <material
         name="">
@@ -1463,7 +1463,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_limb_l7.STL" />
+          filename="package://example/meshes/left_limb_l7.STL" />
       </geometry>
     </collision>
   </link>
@@ -1507,7 +1507,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_palm_link.STL" />
+          filename="package://example/meshes/left_palm_link.STL" />
       </geometry>
       <material
         name="">
@@ -1521,7 +1521,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_palm_link.STL" />
+          filename="package://example/meshes/left_palm_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -1560,7 +1560,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_thumb_l1.STL" />
+          filename="package://example/meshes/left_thumb_l1.STL" />
       </geometry>
       <material
         name="">
@@ -1574,7 +1574,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_thumb_l1.STL" />
+          filename="package://example/meshes/left_thumb_l1.STL" />
       </geometry>
     </collision>
   </link>
@@ -1618,7 +1618,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_thumb_l2.STL" />
+          filename="package://example/meshes/left_thumb_l2.STL" />
       </geometry>
       <material
         name="">
@@ -1632,7 +1632,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_thumb_l2.STL" />
+          filename="package://example/meshes/left_thumb_l2.STL" />
       </geometry>
     </collision>
   </link>
@@ -1676,7 +1676,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_index_l1.STL" />
+          filename="package://example/meshes/left_index_l1.STL" />
       </geometry>
       <material
         name="">
@@ -1690,7 +1690,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_index_l1.STL" />
+          filename="package://example/meshes/left_index_l1.STL" />
       </geometry>
     </collision>
   </link>
@@ -1734,7 +1734,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_index_l2.STL" />
+          filename="package://example/meshes/left_index_l2.STL" />
       </geometry>
       <material
         name="">
@@ -1748,7 +1748,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_index_l2.STL" />
+          filename="package://example/meshes/left_index_l2.STL" />
       </geometry>
     </collision>
   </link>
@@ -1792,7 +1792,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_middle_l1.STL" />
+          filename="package://example/meshes/left_middle_l1.STL" />
       </geometry>
       <material
         name="">
@@ -1806,7 +1806,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_middle_l1.STL" />
+          filename="package://example/meshes/left_middle_l1.STL" />
       </geometry>
     </collision>
   </link>
@@ -1850,7 +1850,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_middle_l2.STL" />
+          filename="package://example/meshes/left_middle_l2.STL" />
       </geometry>
       <material
         name="">
@@ -1864,7 +1864,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_middle_l2.STL" />
+          filename="package://example/meshes/left_middle_l2.STL" />
       </geometry>
     </collision>
   </link>
@@ -1908,7 +1908,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_ring_l1.STL" />
+          filename="package://example/meshes/left_ring_l1.STL" />
       </geometry>
       <material
         name="">
@@ -1922,7 +1922,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_ring_l1.STL" />
+          filename="package://example/meshes/left_ring_l1.STL" />
       </geometry>
     </collision>
   </link>
@@ -1966,7 +1966,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_ring_l2.STL" />
+          filename="package://example/meshes/left_ring_l2.STL" />
       </geometry>
       <material
         name="">
@@ -1980,7 +1980,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_ring_l2.STL" />
+          filename="package://example/meshes/left_ring_l2.STL" />
       </geometry>
     </collision>
   </link>
@@ -2024,7 +2024,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_pinky_l1.STL" />
+          filename="package://example/meshes/left_pinky_l1.STL" />
       </geometry>
       <material
         name="">
@@ -2038,7 +2038,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_pinky_l1.STL" />
+          filename="package://example/meshes/left_pinky_l1.STL" />
       </geometry>
     </collision>
   </link>
@@ -2082,7 +2082,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_pinky_l2.STL" />
+          filename="package://example/meshes/left_pinky_l2.STL" />
       </geometry>
       <material
         name="">
@@ -2096,7 +2096,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_pinky_l2.STL" />
+          filename="package://example/meshes/left_pinky_l2.STL" />
       </geometry>
     </collision>
   </link>
@@ -2140,7 +2140,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/head_l1.STL" />
+          filename="package://example/meshes/head_l1.STL" />
       </geometry>
       <material
         name="">
@@ -2154,7 +2154,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/head_l1.STL" />
+          filename="package://example/meshes/head_l1.STL" />
       </geometry>
     </collision>
   </link>
@@ -2198,7 +2198,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/head_l2.STL" />
+          filename="package://example/meshes/head_l2.STL" />
       </geometry>
       <material
         name="">
@@ -2212,7 +2212,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/head_l2.STL" />
+          filename="package://example/meshes/head_l2.STL" />
       </geometry>
     </collision>
   </link>
@@ -2256,7 +2256,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/head_l3.STL" />
+          filename="package://example/meshes/head_l3.STL" />
       </geometry>
       <material
         name="">
@@ -2270,7 +2270,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/head_l3.STL" />
+          filename="package://example/meshes/head_l3.STL" />
       </geometry>
     </collision>
   </link>
@@ -2309,7 +2309,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_leg_l1.STL" />
+          filename="package://example/meshes/right_leg_l1.STL" />
       </geometry>
       <material
         name="">
@@ -2323,7 +2323,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_leg_l1.STL" />
+          filename="package://example/meshes/right_leg_l1.STL" />
       </geometry>
     </collision>
   </link>
@@ -2367,7 +2367,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_leg_l2.STL" />
+          filename="package://example/meshes/right_leg_l2.STL" />
       </geometry>
       <material
         name="">
@@ -2381,7 +2381,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_leg_l2.STL" />
+          filename="package://example/meshes/right_leg_l2.STL" />
       </geometry>
     </collision>
   </link>
@@ -2425,7 +2425,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_leg_l3.STL" />
+          filename="package://example/meshes/right_leg_l3.STL" />
       </geometry>
       <material
         name="">
@@ -2439,7 +2439,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_leg_l3.STL" />
+          filename="package://example/meshes/right_leg_l3.STL" />
       </geometry>
     </collision>
   </link>
@@ -2483,7 +2483,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_leg_link1.STL" />
+          filename="package://example/meshes/right_leg_link1.STL" />
       </geometry>
       <material
         name="">
@@ -2497,7 +2497,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_leg_link1.STL" />
+          filename="package://example/meshes/right_leg_link1.STL" />
       </geometry>
     </collision>
   </link>
@@ -2536,7 +2536,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_leg_l4.STL" />
+          filename="package://example/meshes/right_leg_l4.STL" />
       </geometry>
       <material
         name="">
@@ -2550,7 +2550,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_leg_l4.STL" />
+          filename="package://example/meshes/right_leg_l4.STL" />
       </geometry>
     </collision>
   </link>
@@ -2594,7 +2594,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_leg_l5.STL" />
+          filename="package://example/meshes/right_leg_l5.STL" />
       </geometry>
       <material
         name="">
@@ -2608,7 +2608,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_leg_l5.STL" />
+          filename="package://example/meshes/right_leg_l5.STL" />
       </geometry>
     </collision>
   </link>
@@ -2652,7 +2652,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_leg_l6.STL" />
+          filename="package://example/meshes/right_leg_l6.STL" />
       </geometry>
       <material
         name="">
@@ -2666,7 +2666,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_leg_l6.STL" />
+          filename="package://example/meshes/right_leg_l6.STL" />
       </geometry>
     </collision>
   </link>
@@ -2710,7 +2710,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_leg_link2.STL" />
+          filename="package://example/meshes/right_leg_link2.STL" />
       </geometry>
       <material
         name="">
@@ -2724,7 +2724,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/right_leg_link2.STL" />
+          filename="package://example/meshes/right_leg_link2.STL" />
       </geometry>
     </collision>
   </link>
@@ -2763,7 +2763,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_leg_l1.STL" />
+          filename="package://example/meshes/left_leg_l1.STL" />
       </geometry>
       <material
         name="">
@@ -2777,7 +2777,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_leg_l1.STL" />
+          filename="package://example/meshes/left_leg_l1.STL" />
       </geometry>
     </collision>
   </link>
@@ -2821,7 +2821,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_leg_l2.STL" />
+          filename="package://example/meshes/left_leg_l2.STL" />
       </geometry>
       <material
         name="">
@@ -2835,7 +2835,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_leg_l2.STL" />
+          filename="package://example/meshes/left_leg_l2.STL" />
       </geometry>
     </collision>
   </link>
@@ -2879,7 +2879,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_leg_l3.STL" />
+          filename="package://example/meshes/left_leg_l3.STL" />
       </geometry>
       <material
         name="">
@@ -2893,7 +2893,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_leg_l3.STL" />
+          filename="package://example/meshes/left_leg_l3.STL" />
       </geometry>
     </collision>
   </link>
@@ -2937,7 +2937,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_leg_link1.STL" />
+          filename="package://example/meshes/left_leg_link1.STL" />
       </geometry>
       <material
         name="">
@@ -2951,7 +2951,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_leg_link1.STL" />
+          filename="package://example/meshes/left_leg_link1.STL" />
       </geometry>
     </collision>
   </link>
@@ -2990,7 +2990,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_leg_l4.STL" />
+          filename="package://example/meshes/left_leg_l4.STL" />
       </geometry>
       <material
         name="">
@@ -3004,7 +3004,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_leg_l4.STL" />
+          filename="package://example/meshes/left_leg_l4.STL" />
       </geometry>
     </collision>
   </link>
@@ -3048,7 +3048,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_leg_l5.STL" />
+          filename="package://example/meshes/left_leg_l5.STL" />
       </geometry>
       <material
         name="">
@@ -3062,7 +3062,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_leg_l5.STL" />
+          filename="package://example/meshes/left_leg_l5.STL" />
       </geometry>
     </collision>
   </link>
@@ -3106,7 +3106,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_leg_l6.STL" />
+          filename="package://example/meshes/left_leg_l6.STL" />
       </geometry>
       <material
         name="">
@@ -3120,7 +3120,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_leg_l6.STL" />
+          filename="package://example/meshes/left_leg_l6.STL" />
       </geometry>
     </collision>
   </link>
@@ -3164,7 +3164,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_leg_link2.STL" />
+          filename="package://example/meshes/left_leg_link2.STL" />
       </geometry>
       <material
         name="">
@@ -3178,7 +3178,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/left_leg_link2.STL" />
+          filename="package://example/meshes/left_leg_link2.STL" />
       </geometry>
     </collision>
   </link>
