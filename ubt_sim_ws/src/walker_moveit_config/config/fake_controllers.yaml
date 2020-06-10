@@ -1,0 +1,34 @@
+controller_list:
+  - name: fake_walker_left_arm_controller
+    joints:
+      - left_limb_j1
+      - left_limb_j2
+      - left_limb_j3
+      - left_limb_j4
+      - left_limb_j5
+      - left_limb_j6
+      - left_limb_j7
+  - name: fake_walker_right_arm_controller
+    joints:
+      - right_limb_j1
+      - right_limb_j2
+      - right_limb_j3
+      - right_limb_j4
+      - right_limb_j5
+      - right_limb_j6
+      - right_limb_j7
+  - name: fake_walker_left_hand_controller
+    joints:
+      - left_thumb_j1
+  - name: fake_walker_right_hand_controller
+    joints:
+      []
+initial:  # Define initial robot poses.
+  - group: walker_left_arm
+    pose: left_arm_home
+  - group: walker_right_arm
+    pose: right_arm_home
+  - group: walker_left_hand
+    pose: left_hand_home
+  - group: walker_right_hand
+    pose: right_hand_home
