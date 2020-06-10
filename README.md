@@ -13,7 +13,9 @@ Ubuntu 18.04, ROS Melodic, Webots R2020a
 
 The catkin workspace for development. Two official packages named `example` and 
 `ubt_core_msgs` are exist in `src/`. At the end of this match, we may establish
-a single package to fulfill all tasks required.
+a single package that is self contained to fulfill all tasks required. 
+However before the deadline, we could develop in individual package and leverage
+external resources.
 
 ## walker_install
 
@@ -40,16 +42,11 @@ in this part**.
 
 2. Start Webots, open `WAIC.wbt` in `walker_model/worlds/WAIC.wbt`
 
-3. Launch 
+3. Launch gait node, MoveIt node, recognition node, etc.
+
+4. Prepare to record the videos. [kazam] is preferred by the sponsors.
 
 # Dev Guide
-
-## Strategy
-
-We may follow a distributed development scheme to push forward, i.e., each
-developer takes charge of one or more tasks, whereas at the final stage all
-contributions are composed into one package which runs seamlessly to meet
-the rules.
 
 ## Branch
 
@@ -72,6 +69,22 @@ coding the ROS package.
 
 
 # Cheat sheet
+
+## Launch Packages
+
+### Launch official gait package
+
+```
+# change USER accordingly
+
+roslaunch leg_motion walker2_leg.launch account_file:=/home/USER/CURI-Walker/user_account.json
+```
+
+### Launch moveit_walker_config
+
+```
+
+```
 
 ## Webots API
 
@@ -182,3 +195,6 @@ coding the ROS package.
 | /astra\_aruco\_marker\_publisher\_2/markers | aruco\_msgs/MarkerArray     |             |
 | /nav/cmd\_vel\_nav                          | geometry\_msgs/Twist        |             |
 | /tf                                         | tf2\_msgs/TFMessage         |             |
+
+
+[kazam]: <https://linuxhint.com/record_screen_kazaam_ubuntu/>
