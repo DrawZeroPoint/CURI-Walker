@@ -2,8 +2,14 @@
 
 """
 Before running this:
-1. Launch the MoveIt demo
+1. roslaunch walker_moveit_config demo.launch
 2. Start webots and the simulation
+3. roslaunch leg_motion walker2_leg.launch account_file:=/home/dzp/CURI-Walker/user_account.json
+4. set task 1: rosservice call /walker/sence "scene_name: 'SwitchLight' nav: false vision: false"
+
+Start
+
+Trigger task 1:
 """
 
 from __future__ import print_function
@@ -26,47 +32,58 @@ from rotools.policy.rmp_flow import planner
 from rotools.utility import common
 from rotools.utility import transform
 
-
-# Initialize the RoTools for the robot
+# Initialize the MoveIt interface for the robot via RoTools
 interface = moveit.WalkerMoveGroupInterface('walker_left_arm', 'left_arm_home')
+# Initialize walker left arm calculation model
+walker_left_arm_model = model.RobotModel.from_poe_parameters(predefined_models.walker_left_arm_poe())
+# Initialize publisher to the controller of the left arm
 pub_left_arm = rospy.Publisher('/walker/leftLimb/controller', UBTMsg.JointCommand, queue_size=1)
 
-# Webots joint states for the left limb
+# Joint states temp of the left limb derived from Webots
 wb_js_left_limb = SensorMsg.JointState()
 
 
 def wb_js_left_limb_cb(data):
-    """Get joint state of the left limb from Webots API
+    """Get instant joint state of the left limb from Webots API.
 
+    :param data: sensor_msgs.JointState
     """
     global wb_js_left_limb
     wb_js_left_limb = data
 
     # The API gives no name to these joints, hence we add them according to
-    # MoveIt configuration
+    # the MoveIt configuration
     wb_js_left_limb.name = interface.get_active_joint_names()
 
 
 def task_cb(data):
-    """The task cb give the moveit interface some time to start.
+    """The task cb is triggered by external topic,
+    giving the moveit interface some time to start.
 
+    :param data: std_msgs.Int trigger signal
     """
-    # Initialize the joint states of the arms
-    print('current left limb state', wb_js_left_limb)
+    # Initialize the start joint states in MoveIt with those from Webots
+    # print('current left limb state', wb_js_left_limb)
     interface.set_start_state(wb_js_left_limb)
 
-    prepare_js_deg = np.array([139., -90., 24., -102, -19, -19, -19])
+    # the joint states in obtained with pre-planning
+    prepare_js_deg = np.array([23., -65., -115., -109, -7, -47, -28])
     prepare_js_rad = prepare_js_deg / 180. * np.pi
-    activate_js_deg = np.array([132., -66., 26., -70, -25, -13, -8])
+    activate_js_deg = np.array([80., -56., -63., -69, 11, -42, -12])
     activate_js_rad = activate_js_deg / 180. * np.pi
+    prepare_pose = walker_left_arm_model.fk_to_base(prepare_js_rad)
+    activate_pose = walker_left_arm_model.fk_to_base(activate_js_rad)
+    # print('prepare pose \n', np.array2string(prepare_pose, separator=', '), '\n')
+    # print('activate pose \n', np.array2string(activate_pose, separator=', '), '\n')
+    prepare_ros_pose = common.to_ros_pose(prepare_pose)
+    activate_ros_pose = common.to_ros_pose(activate_pose)
+
     if data.data == 0:
         # reset to home pose
         interface.go_home()
-    elif data.data == 1:
-        # go to prepare pose
-        interface.go_to_joint_state(prepare_js_rad)
-    elif data.data == 2:
-        interface.go_to_joint_state(activate_js_rad)
+    else:
+        # switch the light on
+        interface.go_through_poses([prepare_ros_pose, activate_ros_pose])
 
 
 def moveit_js_cb(data):
@@ -92,23 +109,12 @@ def moveit_js_cb(data):
 def walker_moveit_interface():
     rospy.init_node('walker_moveit_interface', anonymous=True)
 
-    sub_curr_js_left_limb = rospy.Subscriber('/walker/leftLimb/joint_states',
-                                             SensorMsg.JointState, wb_js_left_limb_cb)
+    sub_curr_js = rospy.Subscriber('/walker/leftLimb/joint_states',
+                                   SensorMsg.JointState, wb_js_left_limb_cb)
     sub_task_trigger = rospy.Subscriber('task', StdMsg.Int8, task_cb)
     sub_moveit_js = rospy.Subscriber('joint_states', SensorMsg.JointState, moveit_js_cb)
 
-    # on call for executing task
-    # pose_goal = GeometryMsg.Pose()
-    # pose_goal.position.x = 0.3
-    # pose_goal.position.y = -0.3
-    # pose_goal.position.z = 0.1
-    # pose_goal.orientation.x = 1
-    # pose_goal.orientation.y = 0
-    # pose_goal.orientation.z = 0
-    # pose_goal.orientation.w = 0
-    # interface.go_to_pose_goal(pose_goal)
-
-    print("MoveIt interface ready.\n")
+    print("Task 1 interface ready.\n")
     rospy.spin()
 
 
