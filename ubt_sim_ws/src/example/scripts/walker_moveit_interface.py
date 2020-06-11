@@ -7,9 +7,9 @@ Before running this:
 3. roslaunch leg_motion walker2_leg.launch account_file:=/home/dzp/CURI-Walker/user_account.json
 4. set task 1: rosservice call /walker/sence "scene_name: 'SwitchLight' nav: false vision: false"
 
-Start
+Start: roslaunch example task_1.launch
 
-Trigger task 1:
+Trigger task 1: rostopic pub --once /task std_msgs/Int8 "data: 1"  1 for executing task 1, 0 for home
 """
 
 from __future__ import print_function
