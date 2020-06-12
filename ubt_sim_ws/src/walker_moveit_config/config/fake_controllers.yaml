@@ -20,7 +20,11 @@ controller_list:
   - name: fake_walker_left_hand_controller
     joints:
       - left_thumb_j1
-  - name: fake_walker_right_hand_controller
+  - name: fake_walker_head_controller
+    joints:
+      - head_j1
+      - head_j2
+  - name: fake_head_sensor_controller
     joints:
       []
 initial:  # Define initial robot poses.
@@ -30,5 +34,5 @@ initial:  # Define initial robot poses.
     pose: right_arm_home
   - group: walker_left_hand
     pose: left_hand_home
-  - group: walker_right_hand
-    pose: right_hand_home
+  - group: walker_head
+    pose: head_home

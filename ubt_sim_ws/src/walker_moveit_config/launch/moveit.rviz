@@ -5,7 +5,6 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
-        - /TF1
       Splitter Ratio: 0.400297611951828
     Tree Height: 261
   - Class: rviz/Help
@@ -79,6 +78,10 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
+          dummy:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
           head_l1:
             Alpha: 1
             Show Axes: false
@@ -379,6 +382,10 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
+          dummy:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
           head_l1:
             Alpha: 1
             Show Axes: false
@@ -635,199 +642,49 @@ Visualization Manager:
       Value: true
       Velocity_Scaling_Factor: 1
     - Class: rviz/TF
-      Enabled: true
+      Enabled: false
       Frame Timeout: 15
       Frames:
         All Enabled: false
-        base_link:
-          Value: true
-        head_l1:
-          Value: false
-        head_l2:
-          Value: false
-        head_l3:
-          Value: false
-        left_index_l1:
-          Value: false
-        left_index_l2:
-          Value: false
-        left_leg_l1:
-          Value: true
-        left_leg_l2:
-          Value: false
-        left_leg_l3:
-          Value: false
-        left_leg_l4:
-          Value: false
-        left_leg_l5:
-          Value: false
-        left_leg_l6:
-          Value: false
-        left_leg_link1:
-          Value: false
-        left_leg_link2:
-          Value: false
-        left_limb_l1:
-          Value: false
-        left_limb_l2:
-          Value: false
-        left_limb_l3:
-          Value: false
-        left_limb_l4:
-          Value: false
-        left_limb_l5:
-          Value: false
-        left_limb_l6:
-          Value: false
-        left_limb_l7:
-          Value: false
-        left_middle_l1:
-          Value: false
-        left_middle_l2:
-          Value: false
-        left_palm_link:
-          Value: false
-        left_pinky_l1:
-          Value: false
-        left_pinky_l2:
-          Value: false
-        left_ring_l1:
-          Value: false
-        left_ring_l2:
-          Value: false
-        left_thumb_l1:
-          Value: false
-        left_thumb_l2:
-          Value: false
-        right_index_l1:
-          Value: false
-        right_index_l2:
-          Value: false
-        right_leg_l1:
-          Value: true
-        right_leg_l2:
-          Value: false
-        right_leg_l3:
-          Value: false
-        right_leg_l4:
-          Value: false
-        right_leg_l5:
-          Value: false
-        right_leg_l6:
-          Value: false
-        right_leg_link1:
-          Value: false
-        right_leg_link2:
-          Value: false
-        right_limb_l1:
-          Value: false
-        right_limb_l2:
-          Value: false
-        right_limb_l3:
-          Value: false
-        right_limb_l4:
-          Value: false
-        right_limb_l5:
-          Value: false
-        right_limb_l6:
-          Value: false
-        right_limb_l7:
-          Value: false
-        right_middle_l1:
-          Value: false
-        right_middle_l2:
-          Value: false
-        right_palm_link:
-          Value: false
-        right_pinky_l1:
-          Value: false
-        right_pinky_l2:
-          Value: false
-        right_ring_l1:
-          Value: false
-        right_ring_l2:
-          Value: false
-        right_thumb_l1:
-          Value: false
-        right_thumb_l2:
-          Value: false
       Marker Scale: 1
       Name: TF
-      Show Arrows: true
+      Show Arrows: false
       Show Axes: true
-      Show Names: true
+      Show Names: false
       Tree:
-        base_link:
-          head_l1:
-            head_l2:
-              head_l3:
-                {}
-          left_leg_l1:
-            left_leg_l2:
-              left_leg_l3:
-                left_leg_link1:
-                  left_leg_l4:
-                    left_leg_l5:
-                      left_leg_l6:
-                        left_leg_link2:
-                          {}
-          left_limb_l1:
-            left_limb_l2:
-              left_limb_l3:
-                left_limb_l4:
-                  left_limb_l5:
-                    left_limb_l6:
-                      left_limb_l7:
-                        left_palm_link:
-                          left_index_l1:
-                            left_index_l2:
-                              {}
-                          left_middle_l1:
-                            left_middle_l2:
-                              {}
-                          left_pinky_l1:
-                            left_pinky_l2:
-                              {}
-                          left_ring_l1:
-                            left_ring_l2:
-                              {}
-                          left_thumb_l1:
-                            left_thumb_l2:
-                              {}
-          right_leg_l1:
-            right_leg_l2:
-              right_leg_l3:
-                right_leg_link1:
-                  right_leg_l4:
-                    right_leg_l5:
-                      right_leg_l6:
-                        right_leg_link2:
-                          {}
-          right_limb_l1:
-            right_limb_l2:
-              right_limb_l3:
-                right_limb_l4:
-                  right_limb_l5:
-                    right_limb_l6:
-                      right_limb_l7:
-                        right_palm_link:
-                          right_index_l1:
-                            right_index_l2:
-                              {}
-                          right_middle_l1:
-                            right_middle_l2:
-                              {}
-                          right_pinky_l1:
-                            right_pinky_l2:
-                              {}
-                          right_ring_l1:
-                            right_ring_l2:
-                              {}
-                          right_thumb_l1:
-                            right_thumb_l2:
-                              {}
+        {}
       Update Interval: 0
-      Value: true
+      Value: false
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 0.3693375885486603
+        Min Value: -1.0865169763565063
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/PointCloud2
+      Color: 255; 255; 255
+      Color Transformer: AxisColor
+      Decay Time: 0
+      Enabled: false
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Max Intensity: 4096
+      Min Color: 0; 0; 0
+      Min Intensity: 0
+      Name: PointCloud2
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.009999999776482582
+      Style: Spheres
+      Topic: /head/point_cloud
+      Unreliable: false
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: false
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -844,25 +701,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 2.0795528888702393
+      Distance: 3.329590082168579
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.10335706919431686
-        Y: 0.13098503649234772
-        Z: -0.3356271982192993
+        X: 1.2905007600784302
+        Y: 0.738393247127533
+        Z: -0.1552463173866272
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: -0.0502026341855526
+      Pitch: 0.19479648768901825
       Target Frame: base_link
       Value: Orbit (rviz)
-      Yaw: 0.34866243600845337
+      Yaw: 2.068659782409668
     Saved: ~
 Window Geometry:
   Displays:

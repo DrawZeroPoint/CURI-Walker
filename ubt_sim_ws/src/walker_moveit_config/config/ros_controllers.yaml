@@ -93,4 +93,20 @@ controller_list:
     default: True
     type: FollowJointTrajectory
     joints:
-      left_thumb_j1
+      []
+head_controller:
+  type: position_controllers/JointPositionController
+  joints:
+    - head_j1
+    - head_j2
+  gains:
+    head_j1:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    head_j2:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1

@@ -202,7 +202,35 @@ walker_left_hand:
     - LazyPRMstar
     - SPARS
     - SPARStwo
-walker_right_hand:
+walker_head:
+  default_planner_config: None
+  planner_configs:
+    - SBL
+    - EST
+    - LBKPIECE
+    - BKPIECE
+    - KPIECE
+    - RRT
+    - RRTConnect
+    - RRTstar
+    - TRRT
+    - PRM
+    - PRMstar
+    - FMT
+    - BFMT
+    - PDST
+    - STRIDE
+    - BiTRRT
+    - LBTRRT
+    - BiEST
+    - ProjEST
+    - LazyPRM
+    - LazyPRMstar
+    - SPARS
+    - SPARStwo
+  projection_evaluator: joints(head_j1,head_j2)
+  longest_valid_segment_fraction: 0.005
+head_sensor:
   default_planner_config: None
   planner_configs:
     - SBL

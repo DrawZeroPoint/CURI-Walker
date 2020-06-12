@@ -33,14 +33,21 @@ from rotools.utility import common
 from rotools.utility import transform
 
 # Initialize the MoveIt interface for the robot via RoTools
-interface = moveit.WalkerMoveGroupInterface('walker_left_arm', 'left_arm_home')
-# Initialize walker left arm calculation model
-walker_left_arm_model = model.RobotModel.from_poe_parameters(predefined_models.walker_left_arm_poe())
-# Initialize publisher to the controller of the left arm
-pub_left_arm = rospy.Publisher('/walker/leftLimb/controller', UBTMsg.JointCommand, queue_size=1)
+left_arm_interface = moveit.WalkerMoveGroupInterface('walker_left_arm', 'left_arm_home')
+right_arm_interface = moveit.WalkerMoveGroupInterface('walker_right_arm', 'right_arm_home')
+head_interface = moveit.WalkerMoveGroupInterface('walker_head', 'head_home')
 
-# Joint states temp of the left limb derived from Webots
+# Initialize walker calculation model
+walker_left_arm_model = model.RobotModel.from_poe_parameters(predefined_models.walker_left_arm_poe())
+
+# Initialize publisher to the controllers in webots_api
+pub_left_arm = rospy.Publisher('/walker/leftLimb/controller', UBTMsg.JointCommand, queue_size=1)
+pub_head = rospy.Publisher('walker/head/controller', UBTMsg.JointCommand, queue_size=1)
+
+# Joint states derived from Walker's Webots simulator
 wb_js_left_limb = SensorMsg.JointState()
+wb_js_right_limb = SensorMsg.JointState()
+wb_js_head = SensorMsg.JointState()
 
 
 def wb_js_left_limb_cb(data):
@@ -53,18 +60,31 @@ def wb_js_left_limb_cb(data):
 
     # The API gives no name to these joints, hence we add them according to
     # the MoveIt configuration
-    wb_js_left_limb.name = interface.get_active_joint_names()
+    wb_js_left_limb.name = left_arm_interface.get_active_joint_names()
 
 
-def task_cb(data):
-    """The task cb is triggered by external topic,
+def wb_js_head_cb(data):
+    """Get instant joint state of the head from Webots API.
+
+    :param data: sensor_msgs.JointState
+    """
+    global wb_js_head
+    wb_js_head = data
+
+    # The API gives no name to these joints, hence we add them according to
+    # the MoveIt configuration
+    wb_js_head.name = head_interface.get_active_joint_names()
+
+
+def task_1_cb(data):
+    """The task cb is triggered by an external topic,
     giving the moveit interface some time to start.
 
     :param data: std_msgs.Int trigger signal
     """
     # Initialize the start joint states in MoveIt with those from Webots
     # print('current left limb state', wb_js_left_limb)
-    interface.set_start_state(wb_js_left_limb)
+    left_arm_interface.set_start_state(wb_js_left_limb)
 
     # the joint states in obtained with pre-planning
     prepare_js_deg = np.array([23., -65., -115., -109, -7, -47, -28])
@@ -80,10 +100,10 @@ def task_cb(data):
 
     if data.data == 0:
         # reset to home pose
-        interface.go_home()
+        left_arm_interface.go_home()
     else:
         # switch the light on
-        interface.go_through_poses([prepare_ros_pose, activate_ros_pose])
+        left_arm_interface.go_through_poses([prepare_ros_pose, activate_ros_pose])
 
 
 def moveit_js_cb(data):
@@ -111,7 +131,7 @@ def walker_moveit_interface():
 
     sub_curr_js = rospy.Subscriber('/walker/leftLimb/joint_states',
                                    SensorMsg.JointState, wb_js_left_limb_cb)
-    sub_task_trigger = rospy.Subscriber('task', StdMsg.Int8, task_cb)
+    sub_task_1 = rospy.Subscriber('task_1', StdMsg.Int8, task_1_cb)
     sub_moveit_js = rospy.Subscriber('joint_states', SensorMsg.JointState, moveit_js_cb)
 
     print("Task 1 interface ready.\n")
