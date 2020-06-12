@@ -15,6 +15,7 @@ namespace walker_webots_hardware_interface
         double loop_hz_;
         nh_.param("/walker/hardware_interface/loop_hz", loop_hz_, 100.0);//default 100Hz
         non_realtime_loop_ = nh_.createTimer(ros::Duration(1.0/loop_hz_), &WalkerWebotsHardwareInterface::update, this);
+        nh_.param("/walker/hardware_interface/enable_leg_control", enable_leg_control, false);//default 100Hz
         ROS_INFO("Loop started");
     }
 
@@ -36,6 +37,7 @@ namespace walker_webots_hardware_interface
       leftLimbCommandPublisher = nh_.advertise<ubt_core_msgs::JointCommand>("/walker/leftLimb/controller", 1);
       rightLimbCommandPublisher = nh_.advertise<ubt_core_msgs::JointCommand>("/walker/rightLimb/controller", 1);
       headCommandPublisher = nh_.advertise<ubt_core_msgs::JointCommand>("/walker/head/controller", 1);
+      legsCommandPublisher = nh_.advertise<sensor_msgs::JointState>("/Leg/DesiredJoint",1);
       ROS_INFO_STREAM("Advertised joint controls");
 
 
@@ -125,8 +127,24 @@ namespace walker_webots_hardware_interface
                                    getJointCommandedValue("right_limb_j5"),
                                    getJointCommandedValue("right_limb_j6"),
                                    getJointCommandedValue("right_limb_j7"));
-     sendHeadPositionCommand(getJointCommandedValue("head_j1"),
-                             getJointCommandedValue("head_j2"));
+      sendHeadPositionCommand(getJointCommandedValue("head_j1"),
+                              getJointCommandedValue("head_j2"));
+
+      if(enable_leg_control)
+      {
+        sendLegsPositionCommand(getJointCommandedValue("left_leg_j1"),
+                                getJointCommandedValue("left_leg_j2"),
+                                getJointCommandedValue("left_leg_j3"),
+                                getJointCommandedValue("left_leg_j4"),
+                                getJointCommandedValue("left_leg_j5"),
+                                getJointCommandedValue("left_leg_j6"),
+                                getJointCommandedValue("right_leg_j1"),
+                                getJointCommandedValue("right_leg_j2"),
+                                getJointCommandedValue("right_leg_j3"),
+                                getJointCommandedValue("right_leg_j4"),
+                                getJointCommandedValue("right_leg_j5"),
+                                getJointCommandedValue("right_leg_j6"));
+      }
     }
 
     double WalkerWebotsHardwareInterface::getJointCommandedValue(std::string jointName)
@@ -256,4 +274,34 @@ namespace walker_webots_hardware_interface
       msg.command = std::vector<double>({pitch, yaw});
       headCommandPublisher.publish(msg);
     }
+
+    void WalkerWebotsHardwareInterface::sendLegsPositionCommand(double leftHipYaw,
+                                                                double leftHipRoll,
+                                                                double leftHipPitch,
+                                                                double leftKneePitch,
+                                                                double leftAnklePitch,
+                                                                double leftAnkleRoll,
+                                                                double rightHipYaw,
+                                                                double rightHipRoll,
+                                                                double rightHipPitch,
+                                                                double rightKneePitch,
+                                                                double rightAnklePitch,
+                                                                double rightAnkleRoll)
+    {
+      sensor_msgs::JointState msg;
+      msg.position = std::vector<double>({leftHipYaw,
+                                          leftHipRoll,
+                                          leftHipPitch,
+                                          leftKneePitch,
+                                          leftAnklePitch,
+                                          leftAnkleRoll,
+                                          rightHipYaw,
+                                          rightHipRoll,
+                                          rightHipPitch,
+                                          rightKneePitch,
+                                          rightAnklePitch});
+      legsCommandPublisher.publish(msg);
+    }
+
+
 }

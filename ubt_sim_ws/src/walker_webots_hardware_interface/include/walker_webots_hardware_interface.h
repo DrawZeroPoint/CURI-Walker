@@ -35,6 +35,7 @@ namespace walker_webots_hardware_interface
           void sendLeftLimbPositionCommand(double shoulderPitch, double shoulderRoll, double shoulderYaw, double elbowRoll, double elbowYaw, double wristPitch, double wristRoll);
           void sendRightLimbPositionCommand(double shoulderPitch, double shoulderRoll, double shoulderYaw, double elbowRoll, double elbowYaw, double wristPitch, double wristRoll);
           void sendHeadPositionCommand(double pitch, double yaw);
+          void sendLegsPositionCommand(double leftHipYaw, double leftHipRoll, double leftHipPitch,double leftKneePitch, double leftAnklePitch, double leftAnkleRoll, double rightHipYaw, double rightHipRoll, double rightHipPitch, double rightKneePitch, double rightAnklePitch, double rightAnkleRoll);
           double getJointCommandedValue(std::string jointName);
 
           ros::Subscriber headStateSub;
@@ -47,7 +48,9 @@ namespace walker_webots_hardware_interface
           ros::Publisher leftLimbCommandPublisher;
           ros::Publisher rightLimbCommandPublisher;
           ros::Publisher headCommandPublisher;
+          ros::Publisher legsCommandPublisher;
 
+          bool enable_leg_control;
         protected:
             ros::NodeHandle& nh_;
             ros::Timer non_realtime_loop_;
