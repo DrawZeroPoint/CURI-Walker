@@ -9,3 +9,5 @@
 /ubt_sim_ws/.catkin_tools/VERSION
 /ubt_sim_ws/src/example/cmake-build-debug/
 /ubt_sim_ws/src/example/.idea/
+
+*.gch

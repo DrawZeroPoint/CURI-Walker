@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: walker_description
+    relative_path: urdf/walker.urdf
+    xacro_args: ""
+  SRDF:
+    relative_path: config/walker.srdf
+  CONFIG:
+    author_name: Carlo RIzzardo
+    author_email: crizz.git.mail@gmail.com
+    generated_timestamp: 1591924239
