@@ -59,6 +59,13 @@ roslaunch walker_webots_hardware_interface moveit.launch show_rviz:=true
 This configuration allows to control via MoveIt the arms, the head and the legs of the Walker robot. By default
 the legs control is disabled to avoid interference with the gait module, you can enable it using enable_legs:=true
 
+NOTE: for this to work you may need to install additional system packages, you can use rosdep to install them automatically.
+Just move to ubt_sim_ws and run:
+
+```
+rosdep install --from-paths src --ignore-src -r -y
+```
+
 ### Implementation details
 
 Three different packages have been defined to handle the robot control.
