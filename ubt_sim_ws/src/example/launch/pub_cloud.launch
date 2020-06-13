@@ -4,6 +4,7 @@
     <param name="/use_sim_time" value="true" />
 
     <arg name="ns" default="head"/>
+    <arg name="base_frame" default="base_link"/>
     <arg name="camera_frame" default="head_camera"/>
     <arg name="depth_topic" default="/walker/camera/headDepth"/>
     <arg name="rgb_topic" default="/walker/camera/headRGB"/>
@@ -21,6 +22,14 @@
         <param name="cy" value="0" />
         <param name="min_depth" value="0.15" />
         <param name="max_depth" value="10" />
+    </node>
+
+    <node ns="$(arg ns)" name="hope_ros" pkg="hope" type="hope_ros" respawn="false" output="log">
+        <!-- No slash on the front -->
+        <param name="base_frame" value="$(arg base_frame)" />
+        <param name="cloud_topic" value="$(arg cloud_topic)" />
+        <param name="xy_resolution" value="0.05" />
+        <param name="z_resolution" value="0.02" />
     </node>
 
     <node pkg="tf2_ros" type="static_transform_publisher" name="head_to_camera"
