@@ -1,11 +1,11 @@
 moveit_setup_assistant_config:
   URDF:
-    package: example
-    relative_path: config/walker.urdf
+    package: walker_description
+    relative_path: urdf/walker.urdf
     xacro_args: ""
   SRDF:
-    relative_path: config/example.srdf
+    relative_path: config/walker.srdf
   CONFIG:
-    author_name: zhipengdong
-    author_email: zhipengdongneu@gmail.com
-    generated_timestamp: 1591960528
+    author_name: Carlo RIzzardo
+    author_email: crizz.git.mail@gmail.com
+    generated_timestamp: 1591924239

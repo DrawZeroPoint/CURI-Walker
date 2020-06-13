@@ -1,8 +1,12 @@
 <launch>
-  <param name="/use_sim_time" value="true" />
 
   <!-- specify the planning pipeline -->
   <arg name="pipeline" default="ompl" />
+
+  <!-- By default, we do not start a database (it can be large) -->
+  <arg name="db" default="false" />
+  <!-- Allow user to specify database location -->
+  <arg name="db_path" default="$(find walker_moveit_config)/default_warehouse_mongo_db" />
 
   <!-- By default, we are not in debug mode -->
   <arg name="debug" default="false" />
@@ -23,7 +27,7 @@
   </include>
 
   <!-- If needed, broadcast static tf for robot root -->
-  
+
 
   <!-- We do not have a robot connected, so publish fake joint states -->
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
@@ -47,6 +51,11 @@
   <include file="$(find walker_moveit_config)/launch/moveit_rviz.launch">
     <arg name="rviz_config" value="$(find walker_moveit_config)/launch/moveit.rviz"/>
     <arg name="debug" value="$(arg debug)"/>
+  </include>
+
+  <!-- If database loading was enabled, start mongodb as well -->
+  <include file="$(find walker_moveit_config)/launch/default_warehouse_db.launch" if="$(arg db)">
+    <arg name="moveit_warehouse_database_path" value="$(arg db_path)"/>
   </include>
 
 </launch>

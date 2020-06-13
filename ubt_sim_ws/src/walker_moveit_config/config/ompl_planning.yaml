@@ -120,6 +120,34 @@ planner_configs:
     sparse_delta_fraction: 0.25  # delta fraction for connection distance. This value represents the visibility range of sparse samples. default: 0.25
     dense_delta_fraction: 0.001  # delta fraction for interface detection. default: 0.001
     max_failures: 5000  # maximum consecutive failure limit. default: 5000
+walker_head:
+  default_planner_config: None
+  planner_configs:
+    - SBL
+    - EST
+    - LBKPIECE
+    - BKPIECE
+    - KPIECE
+    - RRT
+    - RRTConnect
+    - RRTstar
+    - TRRT
+    - PRM
+    - PRMstar
+    - FMT
+    - BFMT
+    - PDST
+    - STRIDE
+    - BiTRRT
+    - LBTRRT
+    - BiEST
+    - ProjEST
+    - LazyPRM
+    - LazyPRMstar
+    - SPARS
+    - SPARStwo
+  projection_evaluator: joints(head_j1,head_j2)
+  longest_valid_segment_fraction: 0.005
 walker_left_arm:
   default_planner_config: None
   planner_configs:
@@ -202,7 +230,7 @@ walker_left_hand:
     - LazyPRMstar
     - SPARS
     - SPARStwo
-walker_head:
+walker_right_hand:
   default_planner_config: None
   planner_configs:
     - SBL
@@ -228,9 +256,35 @@ walker_head:
     - LazyPRMstar
     - SPARS
     - SPARStwo
-  projection_evaluator: joints(head_j1,head_j2)
+walker_left_leg:
+  default_planner_config: None
+  planner_configs:
+    - SBL
+    - EST
+    - LBKPIECE
+    - BKPIECE
+    - KPIECE
+    - RRT
+    - RRTConnect
+    - RRTstar
+    - TRRT
+    - PRM
+    - PRMstar
+    - FMT
+    - BFMT
+    - PDST
+    - STRIDE
+    - BiTRRT
+    - LBTRRT
+    - BiEST
+    - ProjEST
+    - LazyPRM
+    - LazyPRMstar
+    - SPARS
+    - SPARStwo
+  projection_evaluator: joints(left_leg_j1,left_leg_j2)
   longest_valid_segment_fraction: 0.005
-head_sensor:
+walker_right_leg:
   default_planner_config: None
   planner_configs:
     - SBL
@@ -256,3 +310,5 @@ head_sensor:
     - LazyPRMstar
     - SPARS
     - SPARStwo
+  projection_evaluator: joints(right_leg_j1,right_leg_j2)
+  longest_valid_segment_fraction: 0.005
