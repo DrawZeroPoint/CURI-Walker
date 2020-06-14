@@ -1,6 +1,6 @@
 # CURI-Walker
 
-Team CURI's solution for World Artificial Intelligence Conference (WAIC) 2020 Walker challenge 
+Team CURI's solution for World Artificial Intelligence Conference (WAIC) 2020 Walker challenge
 competition.
 
 # Pre-requests
@@ -11,9 +11,11 @@ Ubuntu 18.04, ROS Melodic, Webots R2020a
 
 ## ubt_sim_ws
 
-The catkin workspace for development. Two official packages named `example` and 
+The catkin workspace for development. Two official packages named `example` and
 `ubt_core_msgs` are exist in `src/`. At the end of this match, we may establish
-a single package to fulfill all tasks required.
+a single package that is self contained to fulfill all tasks required.
+However before the deadline, we could develop in individual package and leverage
+external resources.
 
 ## walker_install
 
@@ -21,18 +23,19 @@ Official pre-built gait package.
 
 ## walker_model
 
-Official Webots model and controllers. **No modification should be carried out 
+Official Webots model and controllers. **No modification should be carried out
 in this part**.
 
 # Installation
 
-1. In `~`, `git clone https://github.com/DrawZeroPoint/CURI-Walker.git`
+1. In `~`, `git clone https://github.com/DrawZeroPoint/CURI-Walker.git`. You could manually re-create the ubt_sim_ws
+   following this [ROS] instruction, and then move the contents back.
 
-2. In new terminal, `source ~/CURI-Walker/walker_install/setup.bash`, and then 
-   `cd CURI-Walker/ubt_sim_ws/ && catkin build`
+2. In new terminal, `source /opt/ros/molodic/setup.bash`, and then
+   `source ~/CURI-Walker/walker_install/setup.bash`, and finally `catkin_make` in `ubt_sim_ws`.
 
-3. Add `source ~/CURI-Walker/walker_install/setup.bash` and `source ~/CURI-Walker/ubt_sim_ws/devel/setup.bash`
-   into `~/.bashrc`
+3. Add `source ~/CURI-Walker/ubt_sim_ws/devel/setup.bash` into `~/.bashrc`. After that, `echo $ROS_PACKAGE_PATH`
+   should give some output like this: `/home/x/CURI-Walker/ubt_sim_ws/src:/home/x/CURI-Walker/walker_install/share:/opt/ros/melodic/share`
 
 # Execution
 
@@ -40,31 +43,54 @@ in this part**.
 
 2. Start Webots, open `WAIC.wbt` in `walker_model/worlds/WAIC.wbt`
 
-3. Launch 
+3. Launch gait node, MoveIt node, recognition node, etc.
+
+4. Prepare to record the videos. [kazam] is preferred by the sponsors.
+
+
+## Launching MoveIt
+
+To control the Walker robot via MoveIt you can use moveit.launch from the walker_webots_hardware_interface package.
+This launcher will start the MoveIt move_group, together with the hardware interface to the simulated robot.
+
+```
+roslaunch walker_webots_hardware_interface moveit.launch show_rviz:=true
+```
+
+This configuration allows to control via MoveIt the arms, the head and the legs of the Walker robot. By default
+the legs control is disabled to avoid interference with the gait module, you can enable it using enable_legs:=true
+
+NOTE: for this to work you may need to install additional system packages, you can use rosdep to install them automatically.
+Just move to ubt_sim_ws and run:
+
+```
+rosdep install --from-paths src --ignore-src -r -y
+```
+
+### Implementation details
+
+Three different packages have been defined to handle the robot control.
+* walker_description provides the urdf and the 3D meshes that represent the robot
+* walker_moveit_config defines the MoveIt configuration
+* walker_webots_hardware_interface provides the hardware_interface that connects the simulated robot to MoveIt.
+
 
 # Dev Guide
 
-## Strategy
-
-We may follow a distributed development scheme to push forward, i.e., each
-developer takes charge of one or more tasks, whereas at the final stage all
-contributions are composed into one package which runs seamlessly to meet
-the rules.
-
 ## Branch
 
-All developers should maintain their code in individual branch 
+All developers should maintain their code in individual branch
 distinguishable by some ubiquitous prefix, like `dzp-`, and also highlight the
-task # afterwards, hence the branch name could be like `dzp-task1`, meaning 
+task # afterwards, hence the branch name could be like `dzp-task1`, meaning
 that this branch is tailored for solving 1st task.
 
 The `master` branch should serve as a final archive of the development, and
-any in-dev branch mush be reviewed by the team leader or the whole team 
+any in-dev branch mush be reviewed by the team leader or the whole team
 before it could be merged into `master`.
 
 ## Dev language
 
-The developers may either using C++ or Python, or even both for 
+The developers may either using C++ or Python, or even both for
 coding the ROS package.
 
 ## Code style
@@ -72,6 +98,22 @@ coding the ROS package.
 
 
 # Cheat sheet
+
+## Launch Packages
+
+### Launch official gait package
+
+```
+# change USER accordingly
+
+roslaunch leg_motion walker2_leg.launch account_file:=/home/USER/CURI-Walker/user_account.json
+```
+
+### Launch moveit_walker_config
+
+```
+
+```
 
 ## Webots API
 
@@ -89,15 +131,15 @@ coding the ROS package.
 | GraspCup       | F/F            | 2        |
 |                | F/T            | 3        |
 |                | T/F            | 4        |
-|                | T/T            | 5        |
+|                | T/F            | 5        |
 | PushCart       | F/F            | 6        |
 |                | F/T            | 7        |
 |                | T/F            | 8        |
-|                | T/T            | 9        |
+|                | T/F            | 9        |
 | OpenFridge     | F/F            | 10       |
 |                | F/T            | 11       |
 |                | T/F            | 12       |
-|                | T/T            | 13       |
+|                | T/F            | 13       |
 | CarryBox       | F/F            | 14       |
 | Upstairs       | F/F            | 15       |
 
@@ -182,3 +224,15 @@ coding the ROS package.
 | /astra\_aruco\_marker\_publisher\_2/markers | aruco\_msgs/MarkerArray     |             |
 | /nav/cmd\_vel\_nav                          | geometry\_msgs/Twist        |             |
 | /tf                                         | tf2\_msgs/TFMessage         |             |
+
+
+# Issues
+
+1. The Webots simulator could not run in real-time.
+
+   According to the official statement, the dynamic simulation is time consuming where 0.2x real-time is an reasonable
+   performance, so no need to worry about that and the finial videos will be judged basing on the simulation time.
+
+
+[ROS]: <http://wiki.ros.org/ROS/Tutorials/InstallingandConfiguringROSEnvironment>
+[kazam]: <https://linuxhint.com/record_screen_kazaam_ubuntu/>
