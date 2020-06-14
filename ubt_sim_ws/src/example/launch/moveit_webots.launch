@@ -1,6 +1,6 @@
 <launch>
 
-    <param name="use_sim_time" value="true"/>
+    <param name="/use_sim_time" value="true"/>
     <!-- specify the planning pipeline -->
     <arg name="pipeline" default="ompl" />
 
@@ -24,26 +24,20 @@
         <arg name="load_robot_description" value="true"/>
     </include>
 
-    <!-- If needed, broadcast static tf for robot root -->
-
-
     <!-- We do not have a robot connected, so publish fake joint states -->
     <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
         <param name="use_gui" value="$(arg use_gui)"/>
         <rosparam param="source_list">[move_group/fake_controller_joint_states]</rosparam>
     </node>
 
+    <!-- Load joint controller configurations from YAML file to parameter server -->
+    <rosparam file="$(find walker_moveit_config)/config/ros_controllers.yaml" command="load"/>
+
     <!-- Load the controllers -->
     <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"  output="screen"
           args="walker_left_arm_controller walker_right_arm_controller walker_head_controller walker_left_leg_controller walker_right_leg_controller joint_state_controller"/>
 
-    <!-- Given the published joint states, publish tf for the robot links -->
-    <!-- Load the urdf into the parameter server. -->
-    <param name="walker_description" textfile="$(find walker_description)/urdf/walker.urdf"/>
-
     <node pkg="robot_state_publisher" type="robot_state_publisher" name="rob_st_pub" >
-        <remap from="robot_description" to="walker_description" />
-        <remap from="joint_states" to="/walker/head/joint_states" />
     </node>
 
     <node ns="/walker" name="walker_webots_hardware_interface" pkg="walker_webots_hardware_interface"
