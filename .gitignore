@@ -9,6 +9,6 @@
 /ubt_sim_ws/.catkin_tools/VERSION
 /ubt_sim_ws/src/example/cmake-build-debug/
 /ubt_sim_ws/src/example/.idea/
-/ubt_sim_ws/src/cmake-build-debug/
 /ubt_sim_ws/src/walker_webots_hardware_interface/.idea/
 /ubt_sim_ws/src/walker_webots_hardware_interface/cmake-build-debug/
+*.gch
