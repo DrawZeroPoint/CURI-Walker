@@ -2134,29 +2134,6 @@
         iyz="9.47033251933937E-08"
         izz="8.09468687396382E-05" />
     </inertial>
-    <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://walker_description/meshes/head_l1.STL" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://walker_description/meshes/head_l1.STL" />
-      </geometry>
-    </collision>
   </link>
   <joint
     name="head_j1"
@@ -2198,7 +2175,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/head_l2.STL" />
+          filename="package://walker_description/meshes/walker_head.dae" />
       </geometry>
       <material
         name="">
@@ -2212,7 +2189,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://walker_description/meshes/head_l2.STL" />
+          filename="package://walker_description/meshes/walker_head.dae" />
       </geometry>
     </collision>
   </link>
@@ -2250,29 +2227,6 @@
         iyz="0.00039432451273699"
         izz="0.0106759110882988" />
     </inertial>
-    <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://walker_description/meshes/head_l3.STL" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://walker_description/meshes/head_l3.STL" />
-      </geometry>
-    </collision>
   </link>
   <joint
     name="head_j3"

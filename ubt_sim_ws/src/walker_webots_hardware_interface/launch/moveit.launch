@@ -1,33 +1,38 @@
 <launch>
 
-  <arg name="show_rviz" default="true" />
-  <arg name="enable_legs" default="false" />
+  <group ns="/walker">
 
-  <param name="hardware_interface/enable_leg_control" value="$(arg enable_legs)"/>
-  <param name="/use_sim_time" value="true"/>
+    <arg name="show_rviz" default="true" />
+    <arg name="enable_legs" default="false" />
 
-  <!-- Load the URDF, SRDF and other .yaml configuration files on the param server -->
-  <include file="$(find walker_moveit_config)/launch/planning_context.launch">
-    <arg name="load_robot_description" value="true"/>
-  </include>
+    <param name="hardware_interface/enable_leg_control" value="$(arg enable_legs)"/>
+    <param name="/use_sim_time" value="true"/>
 
-  <!-- Load joint controller configurations from YAML file to parameter server -->
-  <rosparam file="$(find walker_moveit_config)/config/ros_controllers.yaml" command="load"/>
+    <!-- Load the URDF, SRDF and other .yaml configuration files on the param server -->
+    <include file="$(find walker_moveit_config)/launch/planning_context.launch">
+      <arg name="load_robot_description" value="true"/>
+    </include>
 
-  <!-- Load the controllers -->
-  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"  output="screen"
-     args="walker_left_arm_controller walker_right_arm_controller walker_head_controller walker_left_leg_controller walker_right_leg_controller joint_state_controller"/>
-  <!-- Given the published joint states, publish tf for the robot links -->
-  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen" />
-
-  <node ns="/walker" name="walker_webots_hardware_interface" pkg="walker_webots_hardware_interface" type="walker_webots_hardware_interface_node" respawn="true" output="screen" />
+    <!-- Load joint controller configurations from YAML file to parameter server -->
+    <rosparam file="$(find walker_moveit_config)/config/ros_controllers.yaml" command="load"/>
 
 
-  <!-- Run the main MoveIt! -->
-  <include file="$(find walker_moveit_config)/launch/move_group.launch">
-    <arg name="info" value="true"/>
-  </include>
 
+    <!-- Load the controllers -->
+    <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"  output="screen"
+       args="walker_left_arm_controller walker_right_arm_controller walker_head_controller walker_left_leg_controller walker_right_leg_controller joint_state_controller"/>
+
+    <!-- Given the published joint states, publish tf for the robot links -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen" />
+
+    <node name="walker_webots_hardware_interface" pkg="walker_webots_hardware_interface" type="walker_webots_hardware_interface_node" respawn="true" output="screen" />
+
+    <!-- Run the main MoveIt! -->
+    <include file="$(find walker_moveit_config)/launch/move_group.launch">
+      <arg name="info" value="true"/>
+    </include>
+
+  </group>
 
   <group if="$(arg show_rviz)">
     <!-- Run Rviz and load the default config to see the state of the move_group node -->
