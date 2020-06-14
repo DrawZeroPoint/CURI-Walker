@@ -28,13 +28,14 @@ in this part**.
 
 # Installation
 
-1. In `~`, `git clone https://github.com/DrawZeroPoint/CURI-Walker.git`
+1. In `~`, `git clone https://github.com/DrawZeroPoint/CURI-Walker.git`. You could manually re-create the ubt_sim_ws
+   following this [ROS] instruction, and then move the contents back.
 
-2. In new terminal, `source ~/CURI-Walker/walker_install/setup.bash`, and then
-   `cd CURI-Walker/ubt_sim_ws/ && catkin build`
+2. In new terminal, `source /opt/ros/molodic/setup.bash`, and then
+   `source ~/CURI-Walker/walker_install/setup.bash`, and finally `catkin_make` in `ubt_sim_ws`.
 
-3. Add `source ~/CURI-Walker/walker_install/setup.bash` and `source ~/CURI-Walker/ubt_sim_ws/devel/setup.bash`
-   into `~/.bashrc`
+3. Add `source ~/CURI-Walker/ubt_sim_ws/devel/setup.bash` into `~/.bashrc`. After that, `echo $ROS_PACKAGE_PATH`
+   should give some output like this: `/home/x/CURI-Walker/ubt_sim_ws/src:/home/x/CURI-Walker/walker_install/share:/opt/ros/melodic/share`
 
 # Execution
 
@@ -233,5 +234,5 @@ roslaunch leg_motion walker2_leg.launch account_file:=/home/USER/CURI-Walker/use
    performance, so no need to worry about that and the finial videos will be judged basing on the simulation time.
 
 
-
+[ROS]: <http://wiki.ros.org/ROS/Tutorials/InstallingandConfiguringROSEnvironment>
 [kazam]: <https://linuxhint.com/record_screen_kazaam_ubuntu/>
