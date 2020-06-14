@@ -43,7 +43,7 @@
 
     <node pkg="robot_state_publisher" type="robot_state_publisher" name="rob_st_pub" >
         <remap from="robot_description" to="walker_description" />
-<!--        <remap from="joint_states" to="different_joint_states" />-->
+        <remap from="joint_states" to="/walker/head/joint_states" />
     </node>
 
     <node ns="/walker" name="walker_webots_hardware_interface" pkg="walker_webots_hardware_interface"
