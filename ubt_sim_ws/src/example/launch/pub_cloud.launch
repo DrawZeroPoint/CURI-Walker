@@ -24,7 +24,7 @@
         <param name="max_depth" value="10" />
     </node>
 
-    <node ns="$(arg ns)" name="hope_ros" pkg="hope" type="hope_ros" respawn="false" output="log">
+    <node ns="$(arg ns)" name="hope_ros" pkg="hope" type="hope_ros" respawn="false" output="screen">
         <!-- No slash on the front -->
         <param name="base_frame" value="$(arg base_frame)" />
         <param name="cloud_topic" value="$(arg cloud_topic)" />
