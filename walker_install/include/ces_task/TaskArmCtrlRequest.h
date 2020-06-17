@@ -216,7 +216,7 @@ struct Definition< ::ces_task::TaskArmCtrlRequest_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "\n"
+    return "# current task id, defined in 'TaskArmStatus.msg'\n"
 "string task_id\n"
 "\n"
 "\n"
@@ -226,13 +226,13 @@ struct Definition< ::ces_task::TaskArmCtrlRequest_<ContainerAllocator> >
 "bool[] collisionDetection\n"
 "\n"
 "\n"
-"\n"
+"# who send request\n"
 "string demander\n"
 "\n"
-"\n"
+"# who execute task\n"
 "string executor\n"
 "\n"
-"\n"
+"# command: start or stop\n"
 "string CMD_START=start\n"
 "string CMD_STOP=stop\n"
 "string cmd\n"

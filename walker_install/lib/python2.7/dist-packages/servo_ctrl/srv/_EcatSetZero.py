@@ -9,8 +9,8 @@ import struct
 class EcatSetZeroRequest(genpy.Message):
   _md5sum = "db917f55775a8bcd06c01a6f4f18b912"
   _type = "servo_ctrl/EcatSetZeroRequest"
-  _has_header = False #flag to mark the presence of a Header object
-  _full_text = """
+  _has_header = False  # flag to mark the presence of a Header object
+  _full_text = """# servo(case insensitive): LHipYaw,LHipRoll,LHipPitch,LKneePitch,LAnklePitch,LAnkleRoll,RHipYaw,RHipRoll,RHipPitch,RKneePitch,RAnklePitch,RAnkleRoll
 string servo
 """
   __slots__ = ['servo']
@@ -32,7 +32,7 @@ string servo
     """
     if args or kwds:
       super(EcatSetZeroRequest, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.servo is None:
         self.servo = ''
     else:
@@ -77,7 +77,7 @@ string servo
         self.servo = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -115,7 +115,7 @@ string servo
         self.servo = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
@@ -132,7 +132,7 @@ import struct
 class EcatSetZeroResponse(genpy.Message):
   _md5sum = "259ef4f625916086608543e920cd1306"
   _type = "servo_ctrl/EcatSetZeroResponse"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """uint16 result
 
 """
@@ -155,7 +155,7 @@ class EcatSetZeroResponse(genpy.Message):
     """
     if args or kwds:
       super(EcatSetZeroResponse, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.result is None:
         self.result = 0
     else:
@@ -173,7 +173,8 @@ class EcatSetZeroResponse(genpy.Message):
     :param buff: buffer, ``StringIO``
     """
     try:
-      buff.write(_get_struct_H().pack(self.result))
+      _x = self.result
+      buff.write(_get_struct_H().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -189,7 +190,7 @@ class EcatSetZeroResponse(genpy.Message):
       (self.result,) = _get_struct_H().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -199,7 +200,8 @@ class EcatSetZeroResponse(genpy.Message):
     :param numpy: numpy python module
     """
     try:
-      buff.write(_get_struct_H().pack(self.result))
+      _x = self.result
+      buff.write(_get_struct_H().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -216,7 +218,7 @@ class EcatSetZeroResponse(genpy.Message):
       (self.result,) = _get_struct_H().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

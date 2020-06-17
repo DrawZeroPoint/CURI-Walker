@@ -121,7 +121,7 @@
       "uint32 priority
 string packetdata
 ---
-
+# time in millisecond. 1000 stands for 1s
 uint32 time
 
 
@@ -133,7 +133,7 @@ uint32 time
       "uint32 priority
 string packetdata
 ---
-
+# time in millisecond. 1000 stands for 1s
 uint32 time
 
 

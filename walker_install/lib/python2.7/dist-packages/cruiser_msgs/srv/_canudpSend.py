@@ -9,7 +9,7 @@ import struct
 class canudpSendRequest(genpy.Message):
   _md5sum = "c074140e21c6ef6ba56748714f78878f"
   _type = "cruiser_msgs/canudpSendRequest"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """uint32 priority
 string packetdata
 """
@@ -32,7 +32,7 @@ string packetdata
     """
     if args or kwds:
       super(canudpSendRequest, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.priority is None:
         self.priority = 0
       if self.packetdata is None:
@@ -53,7 +53,8 @@ string packetdata
     :param buff: buffer, ``StringIO``
     """
     try:
-      buff.write(_get_struct_I().pack(self.priority))
+      _x = self.priority
+      buff.write(_get_struct_I().pack(_x))
       _x = self.packetdata
       length = len(_x)
       if python3 or type(_x) == unicode:
@@ -84,7 +85,7 @@ string packetdata
         self.packetdata = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -94,7 +95,8 @@ string packetdata
     :param numpy: numpy python module
     """
     try:
-      buff.write(_get_struct_I().pack(self.priority))
+      _x = self.priority
+      buff.write(_get_struct_I().pack(_x))
       _x = self.packetdata
       length = len(_x)
       if python3 or type(_x) == unicode:
@@ -126,7 +128,7 @@ string packetdata
         self.packetdata = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
@@ -143,8 +145,8 @@ import struct
 class canudpSendResponse(genpy.Message):
   _md5sum = "d16de83ef4e326bbfdc1e90377f0a2c6"
   _type = "cruiser_msgs/canudpSendResponse"
-  _has_header = False #flag to mark the presence of a Header object
-  _full_text = """
+  _has_header = False  # flag to mark the presence of a Header object
+  _full_text = """# time in millisecond. 1000 stands for 1s
 uint32 time
 
 
@@ -168,7 +170,7 @@ uint32 time
     """
     if args or kwds:
       super(canudpSendResponse, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.time is None:
         self.time = 0
     else:
@@ -186,7 +188,8 @@ uint32 time
     :param buff: buffer, ``StringIO``
     """
     try:
-      buff.write(_get_struct_I().pack(self.time))
+      _x = self.time
+      buff.write(_get_struct_I().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -202,7 +205,7 @@ uint32 time
       (self.time,) = _get_struct_I().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -212,7 +215,8 @@ uint32 time
     :param numpy: numpy python module
     """
     try:
-      buff.write(_get_struct_I().pack(self.time))
+      _x = self.time
+      buff.write(_get_struct_I().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -229,7 +233,7 @@ uint32 time
       (self.time,) = _get_struct_I().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

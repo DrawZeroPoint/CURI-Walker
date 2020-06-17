@@ -11,7 +11,7 @@ import std_msgs.msg
 class Marker(genpy.Message):
   _md5sum = "3f1f32688aa7271ee1d9fa3bf0c33422"
   _type = "aruco_msgs/Marker"
-  _has_header = True #flag to mark the presence of a Header object
+  _has_header = True  # flag to mark the presence of a Header object
   _full_text = """Header header
 uint32 id
 geometry_msgs/PoseWithCovariance pose
@@ -86,7 +86,7 @@ float64 w
     """
     if args or kwds:
       super(Marker, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.header is None:
         self.header = std_msgs.msg.Header()
       if self.id is None:
@@ -124,7 +124,8 @@ float64 w
       _x = self
       buff.write(_get_struct_I7d().pack(_x.id, _x.pose.pose.position.x, _x.pose.pose.position.y, _x.pose.pose.position.z, _x.pose.pose.orientation.x, _x.pose.pose.orientation.y, _x.pose.pose.orientation.z, _x.pose.pose.orientation.w))
       buff.write(_get_struct_36d().pack(*self.pose.covariance))
-      buff.write(_get_struct_d().pack(self.confidence))
+      _x = self.confidence
+      buff.write(_get_struct_d().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -164,7 +165,7 @@ float64 w
       (self.confidence,) = _get_struct_d().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -185,7 +186,8 @@ float64 w
       _x = self
       buff.write(_get_struct_I7d().pack(_x.id, _x.pose.pose.position.x, _x.pose.pose.position.y, _x.pose.pose.position.z, _x.pose.pose.orientation.x, _x.pose.pose.orientation.y, _x.pose.pose.orientation.z, _x.pose.pose.orientation.w))
       buff.write(self.pose.covariance.tostring())
-      buff.write(_get_struct_d().pack(self.confidence))
+      _x = self.confidence
+      buff.write(_get_struct_d().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -226,12 +228,18 @@ float64 w
       (self.confidence,) = _get_struct_d().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
     global _struct_I
     return _struct_I
+_struct_36d = None
+def _get_struct_36d():
+    global _struct_36d
+    if _struct_36d is None:
+        _struct_36d = struct.Struct("<36d")
+    return _struct_36d
 _struct_3I = None
 def _get_struct_3I():
     global _struct_3I
@@ -244,12 +252,6 @@ def _get_struct_I7d():
     if _struct_I7d is None:
         _struct_I7d = struct.Struct("<I7d")
     return _struct_I7d
-_struct_36d = None
-def _get_struct_36d():
-    global _struct_36d
-    if _struct_36d is None:
-        _struct_36d = struct.Struct("<36d")
-    return _struct_36d
 _struct_d = None
 def _get_struct_d():
     global _struct_d

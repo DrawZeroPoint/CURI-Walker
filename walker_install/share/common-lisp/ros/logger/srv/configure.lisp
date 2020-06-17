@@ -143,10 +143,10 @@
   "f542eb6b685060352c4ca123dd2b40da")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<configure-request>)))
   "Returns full string definition for message of type '<configure-request>"
-  (cl:format cl:nil "~%string MODE_QUERY=query~%string MODE_SET_CAPACITY=set_capacity~%string MODE_SET_PATH=set_path~%~%string node~%~%string mode~%~%int32 capacity~%~%string path~%~%~%"))
+  (cl:format cl:nil "#mode对应的常量~%string MODE_QUERY=query~%string MODE_SET_CAPACITY=set_capacity~%string MODE_SET_PATH=set_path~%~%string node~%#set or query,设置或查询~%string mode~%#容量，以条数为单位~%int32 capacity~%#数据存放路径~%string path~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'configure-request)))
   "Returns full string definition for message of type 'configure-request"
-  (cl:format cl:nil "~%string MODE_QUERY=query~%string MODE_SET_CAPACITY=set_capacity~%string MODE_SET_PATH=set_path~%~%string node~%~%string mode~%~%int32 capacity~%~%string path~%~%~%"))
+  (cl:format cl:nil "#mode对应的常量~%string MODE_QUERY=query~%string MODE_SET_CAPACITY=set_capacity~%string MODE_SET_PATH=set_path~%~%string node~%#set or query,设置或查询~%string mode~%#容量，以条数为单位~%int32 capacity~%#数据存放路径~%string path~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <configure-request>))
   (cl:+ 0
      4 (cl:length (cl:slot-value msg 'node))
@@ -253,10 +253,10 @@
   "f542eb6b685060352c4ca123dd2b40da")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<configure-response>)))
   "Returns full string definition for message of type '<configure-response>"
-  (cl:format cl:nil "~%int32 capacity~%~%string path~%bool result~%~%~%~%"))
+  (cl:format cl:nil "#查询容量，以条数为单位~%int32 capacity~%#查询数据存放路径~%string path~%bool result~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'configure-response)))
   "Returns full string definition for message of type 'configure-response"
-  (cl:format cl:nil "~%int32 capacity~%~%string path~%bool result~%~%~%~%"))
+  (cl:format cl:nil "#查询容量，以条数为单位~%int32 capacity~%#查询数据存放路径~%string path~%bool result~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <configure-response>))
   (cl:+ 0
      4

@@ -38,10 +38,10 @@
   "6825166e7da48608dd55394f68c70e3e")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<GetMapJson-request>)))
   "Returns full string definition for message of type '<GetMapJson-request>"
-  (cl:format cl:nil "~%~%~%"))
+  (cl:format cl:nil "# Get the map json data as a cruiser_msgs/MapJson~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'GetMapJson-request)))
   "Returns full string definition for message of type 'GetMapJson-request"
-  (cl:format cl:nil "~%~%~%"))
+  (cl:format cl:nil "# Get the map json data as a cruiser_msgs/MapJson~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <GetMapJson-request>))
   (cl:+ 0
 ))
@@ -94,10 +94,10 @@
   "6825166e7da48608dd55394f68c70e3e")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<GetMapJson-response>)))
   "Returns full string definition for message of type '<GetMapJson-response>"
-  (cl:format cl:nil "cruiser_msgs/MapJson json~%~%~%================================================================================~%MSG: cruiser_msgs/MapJson~%uint8[] data~%~%~%~%"))
+  (cl:format cl:nil "cruiser_msgs/MapJson json~%~%~%================================================================================~%MSG: cruiser_msgs/MapJson~%uint8[] data~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'GetMapJson-response)))
   "Returns full string definition for message of type 'GetMapJson-response"
-  (cl:format cl:nil "cruiser_msgs/MapJson json~%~%~%================================================================================~%MSG: cruiser_msgs/MapJson~%uint8[] data~%~%~%~%"))
+  (cl:format cl:nil "cruiser_msgs/MapJson json~%~%~%================================================================================~%MSG: cruiser_msgs/MapJson~%uint8[] data~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <GetMapJson-response>))
   (cl:+ 0
      (roslisp-msg-protocol:serialization-length (cl:slot-value msg 'json))

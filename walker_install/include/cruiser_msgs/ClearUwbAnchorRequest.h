@@ -130,7 +130,7 @@ struct Definition< ::cruiser_msgs::ClearUwbAnchorRequest_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "\n"
+    return "# clear the uwb stations\n"
 "\n"
 ;
   }

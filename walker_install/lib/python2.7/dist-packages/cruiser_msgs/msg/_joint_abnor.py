@@ -9,7 +9,7 @@ import struct
 class joint_abnor(genpy.Message):
   _md5sum = "d33fc6a742571f80a3793eed68aa9c0d"
   _type = "cruiser_msgs/joint_abnor"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """string jointName
 
 # Joints index
@@ -45,7 +45,7 @@ int32 abnorState
     """
     if args or kwds:
       super(joint_abnor, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.jointName is None:
         self.jointName = ''
       if self.jointIndex is None:
@@ -102,7 +102,7 @@ int32 abnorState
       (_x.jointIndex, _x.abnorState,) = _get_struct_2i().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -146,7 +146,7 @@ int32 abnorState
       (_x.jointIndex, _x.abnorState,) = _get_struct_2i().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

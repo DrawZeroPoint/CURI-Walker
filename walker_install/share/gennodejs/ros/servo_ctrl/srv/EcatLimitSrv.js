@@ -125,19 +125,19 @@ class EcatLimitSrvRequest {
   static messageDefinition() {
     // Returns full string definition for message
     return `
-    
+    # cmd: "get", "set"
     string cmd
     
-    
+    # servo(case insensitive): LHipYaw,LHipRoll,LHipPitch,LKneePitch,LAnklePitch,LAnkleRoll,RHipYaw,RHipRoll,RHipPitch,RKneePitch,RAnklePitch,RAnkleRoll
     string servo
     
-    
+    # mode: pos, vel, trq
     string mode
     
-    
+    # enable/disable limitation
     bool enable
     
-    
+    # limitation value, the positive direction is detected automatically
     float32 min
     float32 max
     

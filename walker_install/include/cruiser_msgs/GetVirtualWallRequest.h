@@ -130,7 +130,7 @@ struct Definition< ::cruiser_msgs::GetVirtualWallRequest_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "\n"
+    return "# Get the virtual wall as a cruiser_msgs/VirtualWall\n"
 ;
   }
 

@@ -91,10 +91,10 @@
   "dfcebdc80a8b049e6a92382d5d1f31d8")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<cruiserSensorAction-request>)))
   "Returns full string definition for message of type '<cruiserSensorAction-request>"
-  (cl:format cl:nil "uint32 ultrasound_freq~%uint32 wall_ir_freq~%uint32 charge_ir_freq~%~%~%"))
+  (cl:format cl:nil "uint32 ultrasound_freq~%uint32 wall_ir_freq~%uint32 charge_ir_freq~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'cruiserSensorAction-request)))
   "Returns full string definition for message of type 'cruiserSensorAction-request"
-  (cl:format cl:nil "uint32 ultrasound_freq~%uint32 wall_ir_freq~%uint32 charge_ir_freq~%~%~%"))
+  (cl:format cl:nil "uint32 ultrasound_freq~%uint32 wall_ir_freq~%uint32 charge_ir_freq~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <cruiserSensorAction-request>))
   (cl:+ 0
      4
@@ -159,10 +159,10 @@
   "dfcebdc80a8b049e6a92382d5d1f31d8")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<cruiserSensorAction-response>)))
   "Returns full string definition for message of type '<cruiserSensorAction-response>"
-  (cl:format cl:nil "uint32 result~%~%~%~%~%"))
+  (cl:format cl:nil "uint32 result~%~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'cruiserSensorAction-response)))
   "Returns full string definition for message of type 'cruiserSensorAction-response"
-  (cl:format cl:nil "uint32 result~%~%~%~%~%"))
+  (cl:format cl:nil "uint32 result~%~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <cruiserSensorAction-response>))
   (cl:+ 0
      4

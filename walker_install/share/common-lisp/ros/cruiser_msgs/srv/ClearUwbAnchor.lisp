@@ -38,10 +38,10 @@
   "358e233cde0c8a8bcfea4ce193f8fc15")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<ClearUwbAnchor-request>)))
   "Returns full string definition for message of type '<ClearUwbAnchor-request>"
-  (cl:format cl:nil "~%~%~%~%"))
+  (cl:format cl:nil "# clear the uwb stations~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'ClearUwbAnchor-request)))
   "Returns full string definition for message of type 'ClearUwbAnchor-request"
-  (cl:format cl:nil "~%~%~%~%"))
+  (cl:format cl:nil "# clear the uwb stations~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <ClearUwbAnchor-request>))
   (cl:+ 0
 ))
@@ -94,10 +94,10 @@
   "358e233cde0c8a8bcfea4ce193f8fc15")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<ClearUwbAnchor-response>)))
   "Returns full string definition for message of type '<ClearUwbAnchor-response>"
-  (cl:format cl:nil "bool success~%~%~%~%~%"))
+  (cl:format cl:nil "bool success~%~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'ClearUwbAnchor-response)))
   "Returns full string definition for message of type 'ClearUwbAnchor-response"
-  (cl:format cl:nil "bool success~%~%~%~%~%"))
+  (cl:format cl:nil "bool success~%~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <ClearUwbAnchor-response>))
   (cl:+ 0
      1

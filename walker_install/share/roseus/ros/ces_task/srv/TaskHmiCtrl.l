@@ -118,13 +118,13 @@
 (setf (get ces_task::TaskHmiCtrlRequest :md5sum-) "d451323ce918ea804b0b0df774879b87")
 (setf (get ces_task::TaskHmiCtrlRequest :datatype-) "ces_task/TaskHmiCtrlRequest")
 (setf (get ces_task::TaskHmiCtrlRequest :definition-)
-      "
+      "# adb commands to send
 string adb_cmd
 ---
-
+# indicate status
 bool success
 
-
+# informational, e.g. for error messages
 string message
 
 
@@ -133,13 +133,13 @@ string message
 (setf (get ces_task::TaskHmiCtrlResponse :md5sum-) "d451323ce918ea804b0b0df774879b87")
 (setf (get ces_task::TaskHmiCtrlResponse :datatype-) "ces_task/TaskHmiCtrlResponse")
 (setf (get ces_task::TaskHmiCtrlResponse :definition-)
-      "
+      "# adb commands to send
 string adb_cmd
 ---
-
+# indicate status
 bool success
 
-
+# informational, e.g. for error messages
 string message
 
 

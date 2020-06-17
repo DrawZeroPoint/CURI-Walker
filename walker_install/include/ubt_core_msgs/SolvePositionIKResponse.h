@@ -169,14 +169,14 @@ struct Definition< ::ubt_core_msgs::SolvePositionIKResponse_<ContainerAllocator>
 {
   static const char* value()
   {
-    return "\n"
+    return "# joints[i]      == joint angle solution for each pose_state[i]\n"
 "sensor_msgs/JointState[] joints\n"
 "\n"
-"\n"
+"# NOTE: isValid will be deprecated by result_type in future versions\n"
 "bool[] isValid\n"
 "\n"
-"\n"
-"\n"
+"# result_type[i] == seed type used to find valid solution, joints[i];\n"
+"# otherwise,     == RESULT_INVALID (no valid solution found).\n"
 "uint8 RESULT_INVALID = 0\n"
 "uint8[] result_type\n"
 "\n"

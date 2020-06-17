@@ -9,8 +9,8 @@ import struct
 class GetVirtualPathRequest(genpy.Message):
   _md5sum = "d41d8cd98f00b204e9800998ecf8427e"
   _type = "cruiser_msgs/GetVirtualPathRequest"
-  _has_header = False #flag to mark the presence of a Header object
-  _full_text = """
+  _has_header = False  # flag to mark the presence of a Header object
+  _full_text = """# Get the virtual path as a cruiser_msgs/VirtualPath
 """
   __slots__ = []
   _slot_types = []
@@ -57,7 +57,7 @@ class GetVirtualPathRequest(genpy.Message):
       end = 0
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -81,7 +81,7 @@ class GetVirtualPathRequest(genpy.Message):
       end = 0
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
@@ -94,16 +94,16 @@ python3 = True if sys.hexversion > 0x03000000 else False
 import genpy
 import struct
 
+import cruiser_msgs.msg
+import genpy
 import geometry_msgs.msg
 import nav_msgs.msg
-import genpy
-import cruiser_msgs.msg
 import std_msgs.msg
 
 class GetVirtualPathResponse(genpy.Message):
   _md5sum = "efa773451ece228573f2fb4e72387f99"
   _type = "cruiser_msgs/GetVirtualPathResponse"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """cruiser_msgs/VirtualPath path
 
 
@@ -196,7 +196,7 @@ Pose pose
     """
     if args or kwds:
       super(GetVirtualPathResponse, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.path is None:
         self.path = cruiser_msgs.msg.VirtualPath()
     else:
@@ -220,7 +220,8 @@ Pose pose
       buff.write(_struct_I.pack(length))
       for val1 in self.path.paths:
         _v1 = val1.header
-        buff.write(_get_struct_I().pack(_v1.seq))
+        _x = _v1.seq
+        buff.write(_get_struct_I().pack(_x))
         _v2 = _v1.stamp
         _x = _v2
         buff.write(_get_struct_2I().pack(_x.secs, _x.nsecs))
@@ -234,7 +235,8 @@ Pose pose
         buff.write(_struct_I.pack(length))
         for val2 in val1.poses:
           _v3 = val2.header
-          buff.write(_get_struct_I().pack(_v3.seq))
+          _x = _v3.seq
+          buff.write(_get_struct_I().pack(_x))
           _v4 = _v3.stamp
           _x = _v4
           buff.write(_get_struct_2I().pack(_x.secs, _x.nsecs))
@@ -330,7 +332,7 @@ Pose pose
         self.path.paths.append(val1)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -346,7 +348,8 @@ Pose pose
       buff.write(_struct_I.pack(length))
       for val1 in self.path.paths:
         _v15 = val1.header
-        buff.write(_get_struct_I().pack(_v15.seq))
+        _x = _v15.seq
+        buff.write(_get_struct_I().pack(_x))
         _v16 = _v15.stamp
         _x = _v16
         buff.write(_get_struct_2I().pack(_x.secs, _x.nsecs))
@@ -360,7 +363,8 @@ Pose pose
         buff.write(_struct_I.pack(length))
         for val2 in val1.poses:
           _v17 = val2.header
-          buff.write(_get_struct_I().pack(_v17.seq))
+          _x = _v17.seq
+          buff.write(_get_struct_I().pack(_x))
           _v18 = _v17.stamp
           _x = _v18
           buff.write(_get_struct_2I().pack(_x.secs, _x.nsecs))
@@ -457,18 +461,12 @@ Pose pose
         self.path.paths.append(val1)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
     global _struct_I
     return _struct_I
-_struct_4d = None
-def _get_struct_4d():
-    global _struct_4d
-    if _struct_4d is None:
-        _struct_4d = struct.Struct("<4d")
-    return _struct_4d
 _struct_2I = None
 def _get_struct_2I():
     global _struct_2I
@@ -487,6 +485,12 @@ def _get_struct_3d():
     if _struct_3d is None:
         _struct_3d = struct.Struct("<3d")
     return _struct_3d
+_struct_4d = None
+def _get_struct_4d():
+    global _struct_4d
+    if _struct_4d is None:
+        _struct_4d = struct.Struct("<4d")
+    return _struct_4d
 class GetVirtualPath(object):
   _type          = 'cruiser_msgs/GetVirtualPath'
   _md5sum = 'efa773451ece228573f2fb4e72387f99'

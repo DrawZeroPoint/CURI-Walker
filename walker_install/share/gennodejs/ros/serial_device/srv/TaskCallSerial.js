@@ -80,11 +80,11 @@ class TaskCallSerialRequest {
   static messageDefinition() {
     // Returns full string definition for message
     return `
-    
+    #cctv_task service
     
     string task_id
     
-    
+    # command: start or stop
     string cmd
     
     
@@ -178,10 +178,10 @@ class TaskCallSerialResponse {
     // Returns full string definition for message
     return `
     
-    
+    # indicate status
     bool success
     
-    
+    # informational, e.g. for error messages
     string message
     
     `;

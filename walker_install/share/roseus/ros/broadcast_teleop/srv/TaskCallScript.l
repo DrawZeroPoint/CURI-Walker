@@ -129,38 +129,38 @@
 (setf (get broadcast_teleop::TaskCallScriptRequest :md5sum-) "d091270bbc490f371f9855f018f74a07")
 (setf (get broadcast_teleop::TaskCallScriptRequest :datatype-) "broadcast_teleop/TaskCallScriptRequest")
 (setf (get broadcast_teleop::TaskCallScriptRequest :definition-)
-      "
+      "#cctv_task service
 
 string task_id
 
-
+# command: start or stop
 string cmd
 
 ---
 
-
+# indicate status
 bool success
 
-
+# informational, e.g. for error messages
 string message
 ")
 
 (setf (get broadcast_teleop::TaskCallScriptResponse :md5sum-) "d091270bbc490f371f9855f018f74a07")
 (setf (get broadcast_teleop::TaskCallScriptResponse :datatype-) "broadcast_teleop/TaskCallScriptResponse")
 (setf (get broadcast_teleop::TaskCallScriptResponse :definition-)
-      "
+      "#cctv_task service
 
 string task_id
 
-
+# command: start or stop
 string cmd
 
 ---
 
-
+# indicate status
 bool success
 
-
+# informational, e.g. for error messages
 string message
 ")
 

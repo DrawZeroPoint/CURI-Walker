@@ -264,7 +264,7 @@ struct Definition< ::walker_srvs::leg_motion_MetaFuncCtrlRequest_<ContainerAlloc
 {
   static const char* value()
   {
-    return "\n"
+    return "# functions\n"
 "string FUNC_DYNAMIC=dynamic\n"
 "string FUNC_BALANCE=balance\n"
 "string FUNC_COMPLIANCE=compliance\n"
@@ -272,13 +272,13 @@ struct Definition< ::walker_srvs::leg_motion_MetaFuncCtrlRequest_<ContainerAlloc
 "string FUNC_YOGA=yoga\n"
 "string FUNC_JUMP=jump\n"
 "\n"
-"\n"
+"# command\n"
 "string CMD_START=start\n"
 "string CMD_STOP=stop\n"
 "\n"
-"\n"
+"# members\n"
 "string func_name\n"
-"string param_json\n"
+"string param_json # json format parameters\n"
 "string cmd\n"
 ;
   }

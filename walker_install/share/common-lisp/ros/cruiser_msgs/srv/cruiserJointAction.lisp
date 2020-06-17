@@ -79,10 +79,10 @@
   "385edf431acc9bbbd7c1e0ee768e259d")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<cruiserJointAction-request>)))
   "Returns full string definition for message of type '<cruiserJointAction-request>"
-  (cl:format cl:nil "~%~%~%string action_name~%~%~%~%int16 action_time~%~%~%~%"))
+  (cl:format cl:nil "# This file defines a command inferring to a action to play~%~%# Action name in ASCII~%string action_name~%~%# Times action will be played~%# 0 means infinite loop~%int16 action_time~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'cruiserJointAction-request)))
   "Returns full string definition for message of type 'cruiserJointAction-request"
-  (cl:format cl:nil "~%~%~%string action_name~%~%~%~%int16 action_time~%~%~%~%"))
+  (cl:format cl:nil "# This file defines a command inferring to a action to play~%~%# Action name in ASCII~%string action_name~%~%# Times action will be played~%# 0 means infinite loop~%int16 action_time~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <cruiserJointAction-request>))
   (cl:+ 0
      4 (cl:length (cl:slot-value msg 'action_name))
@@ -151,10 +151,10 @@
   "385edf431acc9bbbd7c1e0ee768e259d")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<cruiserJointAction-response>)))
   "Returns full string definition for message of type '<cruiserJointAction-response>"
-  (cl:format cl:nil "~%string result~%~%~%~%~%"))
+  (cl:format cl:nil "# Return \"Success\" or \"Fail\"~%string result~%~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'cruiserJointAction-response)))
   "Returns full string definition for message of type 'cruiserJointAction-response"
-  (cl:format cl:nil "~%string result~%~%~%~%~%"))
+  (cl:format cl:nil "# Return \"Success\" or \"Fail\"~%string result~%~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <cruiserJointAction-response>))
   (cl:+ 0
      4 (cl:length (cl:slot-value msg 'result))

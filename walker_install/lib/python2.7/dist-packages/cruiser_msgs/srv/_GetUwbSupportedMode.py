@@ -9,8 +9,8 @@ import struct
 class GetUwbSupportedModeRequest(genpy.Message):
   _md5sum = "ff63f6ea3c3e9b7504b2cb3ee0a09d92"
   _type = "cruiser_msgs/GetUwbSupportedModeRequest"
-  _has_header = False #flag to mark the presence of a Header object
-  _full_text = """
+  _has_header = False  # flag to mark the presence of a Header object
+  _full_text = """# mode=0 uwb_loco_mode supported; mode=1 uwb_nav_mode supported
 int32 mode
 """
   __slots__ = ['mode']
@@ -32,7 +32,7 @@ int32 mode
     """
     if args or kwds:
       super(GetUwbSupportedModeRequest, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.mode is None:
         self.mode = 0
     else:
@@ -50,7 +50,8 @@ int32 mode
     :param buff: buffer, ``StringIO``
     """
     try:
-      buff.write(_get_struct_i().pack(self.mode))
+      _x = self.mode
+      buff.write(_get_struct_i().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -66,7 +67,7 @@ int32 mode
       (self.mode,) = _get_struct_i().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -76,7 +77,8 @@ int32 mode
     :param numpy: numpy python module
     """
     try:
-      buff.write(_get_struct_i().pack(self.mode))
+      _x = self.mode
+      buff.write(_get_struct_i().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -93,7 +95,7 @@ int32 mode
       (self.mode,) = _get_struct_i().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
@@ -116,7 +118,7 @@ import struct
 class GetUwbSupportedModeResponse(genpy.Message):
   _md5sum = "270c37604fc5f878e32ff31167631898"
   _type = "cruiser_msgs/GetUwbSupportedModeResponse"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """bool supported
 
 """
@@ -139,7 +141,7 @@ class GetUwbSupportedModeResponse(genpy.Message):
     """
     if args or kwds:
       super(GetUwbSupportedModeResponse, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.supported is None:
         self.supported = False
     else:
@@ -157,7 +159,8 @@ class GetUwbSupportedModeResponse(genpy.Message):
     :param buff: buffer, ``StringIO``
     """
     try:
-      buff.write(_get_struct_B().pack(self.supported))
+      _x = self.supported
+      buff.write(_get_struct_B().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -174,7 +177,7 @@ class GetUwbSupportedModeResponse(genpy.Message):
       self.supported = bool(self.supported)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -184,7 +187,8 @@ class GetUwbSupportedModeResponse(genpy.Message):
     :param numpy: numpy python module
     """
     try:
-      buff.write(_get_struct_B().pack(self.supported))
+      _x = self.supported
+      buff.write(_get_struct_B().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -202,7 +206,7 @@ class GetUwbSupportedModeResponse(genpy.Message):
       self.supported = bool(self.supported)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

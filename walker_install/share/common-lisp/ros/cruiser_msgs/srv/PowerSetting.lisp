@@ -159,10 +159,10 @@
   "273350ed07798e9062484e197194752f")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<PowerSetting-request>)))
   "Returns full string definition for message of type '<PowerSetting-request>"
-  (cl:format cl:nil "uint8 cmd~%uint16 year~%uint8 month~%uint8 day~%uint8 hour~%uint8 min~%uint8 sec~%bool timerEnable~%bool fullPowerOn~%uint8 flag~%~%~%~%"))
+  (cl:format cl:nil "uint8 cmd~%uint16 year~%uint8 month~%uint8 day~%uint8 hour~%uint8 min~%uint8 sec~%bool timerEnable~%bool fullPowerOn~%uint8 flag~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'PowerSetting-request)))
   "Returns full string definition for message of type 'PowerSetting-request"
-  (cl:format cl:nil "uint8 cmd~%uint16 year~%uint8 month~%uint8 day~%uint8 hour~%uint8 min~%uint8 sec~%bool timerEnable~%bool fullPowerOn~%uint8 flag~%~%~%~%"))
+  (cl:format cl:nil "uint8 cmd~%uint16 year~%uint8 month~%uint8 day~%uint8 hour~%uint8 min~%uint8 sec~%bool timerEnable~%bool fullPowerOn~%uint8 flag~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <PowerSetting-request>))
   (cl:+ 0
      1
@@ -369,10 +369,10 @@
   "273350ed07798e9062484e197194752f")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<PowerSetting-response>)))
   "Returns full string definition for message of type '<PowerSetting-response>"
-  (cl:format cl:nil "uint16 year~%uint8 month~%uint8 day~%uint8 hour~%uint8 min~%uint8 sec~%bool manual~%bool adapter~%bool station~%bool timer~%uint8 state~%~%bool success~%~%~%~%~%"))
+  (cl:format cl:nil "uint16 year~%uint8 month~%uint8 day~%uint8 hour~%uint8 min~%uint8 sec~%bool manual~%bool adapter~%bool station~%bool timer~%uint8 state~%~%bool success~%~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'PowerSetting-response)))
   "Returns full string definition for message of type 'PowerSetting-response"
-  (cl:format cl:nil "uint16 year~%uint8 month~%uint8 day~%uint8 hour~%uint8 min~%uint8 sec~%bool manual~%bool adapter~%bool station~%bool timer~%uint8 state~%~%bool success~%~%~%~%~%"))
+  (cl:format cl:nil "uint16 year~%uint8 month~%uint8 day~%uint8 hour~%uint8 min~%uint8 sec~%bool manual~%bool adapter~%bool station~%bool timer~%uint8 state~%~%bool success~%~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <PowerSetting-response>))
   (cl:+ 0
      2

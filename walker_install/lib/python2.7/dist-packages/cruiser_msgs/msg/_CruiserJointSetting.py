@@ -9,7 +9,7 @@ import struct
 class CruiserJointSetting(genpy.Message):
   _md5sum = "2cb5800afbbffbf910bd3074e8d992fb"
   _type = "cruiser_msgs/CruiserJointSetting"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """int16 joint_num
 
 # Joints name to control in array
@@ -46,7 +46,7 @@ float64[] parameter
     """
     if args or kwds:
       super(CruiserJointSetting, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.joint_num is None:
         self.joint_num = 0
       if self.cmd is None:
@@ -73,7 +73,8 @@ float64[] parameter
     :param buff: buffer, ``StringIO``
     """
     try:
-      buff.write(_get_struct_h().pack(self.joint_num))
+      _x = self.joint_num
+      buff.write(_get_struct_h().pack(_x))
       _x = self.cmd
       length = len(_x)
       if python3 or type(_x) == unicode:
@@ -126,7 +127,7 @@ float64[] parameter
       self.parameter = struct.unpack(pattern, str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -136,7 +137,8 @@ float64[] parameter
     :param numpy: numpy python module
     """
     try:
-      buff.write(_get_struct_h().pack(self.joint_num))
+      _x = self.joint_num
+      buff.write(_get_struct_h().pack(_x))
       _x = self.cmd
       length = len(_x)
       if python3 or type(_x) == unicode:
@@ -190,7 +192,7 @@ float64[] parameter
       self.parameter = numpy.frombuffer(str[start:end], dtype=numpy.float64, count=length)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

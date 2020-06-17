@@ -9,7 +9,7 @@ import struct
 class diagnosticCtrlCmd(genpy.Message):
   _md5sum = "31951abf4e94f1645603ca9e8079c519"
   _type = "cruiser_msgs/diagnosticCtrlCmd"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """#topic "/cruiser/diag_ctrl_cmd"
 int16 key
 int16 ctrlflag"""
@@ -32,7 +32,7 @@ int16 ctrlflag"""
     """
     if args or kwds:
       super(diagnosticCtrlCmd, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.key is None:
         self.key = 0
       if self.ctrlflag is None:
@@ -71,7 +71,7 @@ int16 ctrlflag"""
       (_x.key, _x.ctrlflag,) = _get_struct_2h().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -100,7 +100,7 @@ int16 ctrlflag"""
       (_x.key, _x.ctrlflag,) = _get_struct_2h().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

@@ -9,7 +9,7 @@ import struct
 class AssemblyState(genpy.Message):
   _md5sum = "356d9dd237ce73b2667da9235f541933"
   _type = "ubt_core_msgs/AssemblyState"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """bool ready               # true if enabled and ready to operate, e.g., not homing
 bool enabled             # true if enabled
 bool stopped             # true if stopped -- e-stop asserted
@@ -59,7 +59,7 @@ uint8  estop_source      # If stopped is true, the source of the e-stop.  One of
     """
     if args or kwds:
       super(AssemblyState, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.ready is None:
         self.ready = False
       if self.enabled is None:
@@ -114,7 +114,7 @@ uint8  estop_source      # If stopped is true, the source of the e-stop.  One of
       self.error = bool(self.error)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -147,7 +147,7 @@ uint8  estop_source      # If stopped is true, the source of the e-stop.  One of
       self.error = bool(self.error)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

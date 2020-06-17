@@ -244,7 +244,7 @@
 (setf (get ces_task::TaskArmCtrlRequest :md5sum-) "6487bd4cf07aded076310cb84cded15c")
 (setf (get ces_task::TaskArmCtrlRequest :datatype-) "ces_task/TaskArmCtrlRequest")
 (setf (get ces_task::TaskArmCtrlRequest :definition-)
-      "
+      "# current task id, defined in 'TaskArmStatus.msg'
 string task_id
 
 
@@ -254,26 +254,26 @@ bool[] securityDection
 bool[] collisionDetection
 
 
-
+# who send request
 string demander
 
-
+# who execute task
 string executor
 
-
+# command: start or stop
 string CMD_START=start
 string CMD_STOP=stop
 string cmd
 
 ---
 
-
+# who reply response
 string owner
 
-
+# indicate status
 bool success
 
-
+# informational, e.g. for error messages
 string message
 
 ")
@@ -281,7 +281,7 @@ string message
 (setf (get ces_task::TaskArmCtrlResponse :md5sum-) "6487bd4cf07aded076310cb84cded15c")
 (setf (get ces_task::TaskArmCtrlResponse :datatype-) "ces_task/TaskArmCtrlResponse")
 (setf (get ces_task::TaskArmCtrlResponse :definition-)
-      "
+      "# current task id, defined in 'TaskArmStatus.msg'
 string task_id
 
 
@@ -291,26 +291,26 @@ bool[] securityDection
 bool[] collisionDetection
 
 
-
+# who send request
 string demander
 
-
+# who execute task
 string executor
 
-
+# command: start or stop
 string CMD_START=start
 string CMD_STOP=stop
 string cmd
 
 ---
 
-
+# who reply response
 string owner
 
-
+# indicate status
 bool success
 
-
+# informational, e.g. for error messages
 string message
 
 ")

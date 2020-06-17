@@ -11,7 +11,7 @@ import std_msgs.msg
 class ObstacleStatus(genpy.Message):
   _md5sum = "7e84b2031a914018d70a2626de80e5ca"
   _type = "cruiser_msgs/ObstacleStatus"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """float32 lethal_dis
 float32 inflated_dis
 geometry_msgs/PoseStamped lethal_pose
@@ -80,7 +80,7 @@ float64 w
     """
     if args or kwds:
       super(ObstacleStatus, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.lethal_dis is None:
         self.lethal_dis = 0.
       if self.inflated_dis is None:
@@ -171,7 +171,7 @@ float64 w
       (_x.inflated_pose.pose.position.x, _x.inflated_pose.pose.position.y, _x.inflated_pose.pose.position.z, _x.inflated_pose.pose.orientation.x, _x.inflated_pose.pose.orientation.y, _x.inflated_pose.pose.orientation.z, _x.inflated_pose.pose.orientation.w,) = _get_struct_7d().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -246,24 +246,24 @@ float64 w
       (_x.inflated_pose.pose.position.x, _x.inflated_pose.pose.position.y, _x.inflated_pose.pose.position.z, _x.inflated_pose.pose.orientation.x, _x.inflated_pose.pose.orientation.y, _x.inflated_pose.pose.orientation.z, _x.inflated_pose.pose.orientation.w,) = _get_struct_7d().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
     global _struct_I
     return _struct_I
-_struct_7d = None
-def _get_struct_7d():
-    global _struct_7d
-    if _struct_7d is None:
-        _struct_7d = struct.Struct("<7d")
-    return _struct_7d
 _struct_2f3I = None
 def _get_struct_2f3I():
     global _struct_2f3I
     if _struct_2f3I is None:
         _struct_2f3I = struct.Struct("<2f3I")
     return _struct_2f3I
+_struct_7d = None
+def _get_struct_7d():
+    global _struct_7d
+    if _struct_7d is None:
+        _struct_7d = struct.Struct("<7d")
+    return _struct_7d
 _struct_7d3I = None
 def _get_struct_7d3I():
     global _struct_7d3I

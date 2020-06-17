@@ -182,7 +182,7 @@ struct Definition< ::servo_ctrl::SetFtOffsetRequest_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "\n"
+    return "# ftId: \"lwrist\", \"rwrist\", \"lankle\", \"rankle\"\n"
 "string ftId\n"
 "int32  fx\n"
 "int32  fy\n"

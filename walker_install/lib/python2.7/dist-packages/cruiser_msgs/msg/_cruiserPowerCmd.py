@@ -9,7 +9,7 @@ import struct
 class cruiserPowerCmd(genpy.Message):
   _md5sum = "095e92debc6bcb5e7317d4b6d9d2054c"
   _type = "cruiser_msgs/cruiserPowerCmd"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """uint32 power_cmd
 
 
@@ -33,7 +33,7 @@ class cruiserPowerCmd(genpy.Message):
     """
     if args or kwds:
       super(cruiserPowerCmd, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.power_cmd is None:
         self.power_cmd = 0
     else:
@@ -51,7 +51,8 @@ class cruiserPowerCmd(genpy.Message):
     :param buff: buffer, ``StringIO``
     """
     try:
-      buff.write(_get_struct_I().pack(self.power_cmd))
+      _x = self.power_cmd
+      buff.write(_get_struct_I().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -67,7 +68,7 @@ class cruiserPowerCmd(genpy.Message):
       (self.power_cmd,) = _get_struct_I().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -77,7 +78,8 @@ class cruiserPowerCmd(genpy.Message):
     :param numpy: numpy python module
     """
     try:
-      buff.write(_get_struct_I().pack(self.power_cmd))
+      _x = self.power_cmd
+      buff.write(_get_struct_I().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -94,7 +96,7 @@ class cruiserPowerCmd(genpy.Message):
       (self.power_cmd,) = _get_struct_I().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

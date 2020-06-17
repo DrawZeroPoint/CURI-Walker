@@ -9,7 +9,7 @@ import struct
 class CameraControl(genpy.Message):
   _md5sum = "01e38dd67dfb36af457f0915248629d1"
   _type = "ubt_core_msgs/CameraControl"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """int32   id
 int32   value
 
@@ -55,7 +55,7 @@ int32 CAMERA_CONTROL_RESOLUTION_HALF=109
     """
     if args or kwds:
       super(CameraControl, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.id is None:
         self.id = 0
       if self.value is None:
@@ -94,7 +94,7 @@ int32 CAMERA_CONTROL_RESOLUTION_HALF=109
       (_x.id, _x.value,) = _get_struct_2i().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -123,7 +123,7 @@ int32 CAMERA_CONTROL_RESOLUTION_HALF=109
       (_x.id, _x.value,) = _get_struct_2i().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

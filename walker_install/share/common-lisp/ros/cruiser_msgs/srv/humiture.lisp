@@ -79,10 +79,10 @@
   "f4a4dcb285b63a8cabca03177b46fc2d")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<humiture-request>)))
   "Returns full string definition for message of type '<humiture-request>"
-  (cl:format cl:nil "uint32 priority~%string packetdata~%~%~%"))
+  (cl:format cl:nil "uint32 priority~%string packetdata~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'humiture-request)))
   "Returns full string definition for message of type 'humiture-request"
-  (cl:format cl:nil "uint32 priority~%string packetdata~%~%~%"))
+  (cl:format cl:nil "uint32 priority~%string packetdata~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <humiture-request>))
   (cl:+ 0
      4
@@ -209,10 +209,10 @@
   "f4a4dcb285b63a8cabca03177b46fc2d")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<humiture-response>)))
   "Returns full string definition for message of type '<humiture-response>"
-  (cl:format cl:nil "~%float64 temperature~%float64 humidity~%string message~%~%~%~%"))
+  (cl:format cl:nil "# time in millisecond. 1000 stands for 1s~%float64 temperature~%float64 humidity~%string message~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'humiture-response)))
   "Returns full string definition for message of type 'humiture-response"
-  (cl:format cl:nil "~%float64 temperature~%float64 humidity~%string message~%~%~%~%"))
+  (cl:format cl:nil "# time in millisecond. 1000 stands for 1s~%float64 temperature~%float64 humidity~%string message~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <humiture-response>))
   (cl:+ 0
      8

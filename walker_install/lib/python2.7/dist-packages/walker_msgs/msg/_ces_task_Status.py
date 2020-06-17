@@ -10,7 +10,7 @@ import std_msgs.msg
 class ces_task_Status(genpy.Message):
   _md5sum = "563be51c3a034bac36abd5adb57e46db"
   _type = "walker_msgs/ces_task_Status"
-  _has_header = True #flag to mark the presence of a Header object
+  _has_header = True  # flag to mark the presence of a Header object
   _full_text = """# task status defines
 string MODE_FREERUN=freerun
 string MODE_CONTINOUS=continous
@@ -85,7 +85,7 @@ string frame_id
     """
     if args or kwds:
       super(ces_task_Status, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.header is None:
         self.header = std_msgs.msg.Header()
       if self.show_name is None:
@@ -265,7 +265,7 @@ string frame_id
       self.retrying = bool(self.retrying)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -414,21 +414,21 @@ string frame_id
       self.retrying = bool(self.retrying)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
     global _struct_I
     return _struct_I
-_struct_3I = None
-def _get_struct_3I():
-    global _struct_3I
-    if _struct_3I is None:
-        _struct_3I = struct.Struct("<3I")
-    return _struct_3I
 _struct_2B = None
 def _get_struct_2B():
     global _struct_2B
     if _struct_2B is None:
         _struct_2B = struct.Struct("<2B")
     return _struct_2B
+_struct_3I = None
+def _get_struct_3I():
+    global _struct_3I
+    if _struct_3I is None:
+        _struct_3I = struct.Struct("<3I")
+    return _struct_3I

@@ -79,13 +79,13 @@ class cruiserJointActionRequest {
   static messageDefinition() {
     // Returns full string definition for message
     return `
+    # This file defines a command inferring to a action to play
     
-    
-    
+    # Action name in ASCII
     string action_name
     
-    
-    
+    # Times action will be played
+    # 0 means infinite loop
     int16 action_time
     
     
@@ -167,7 +167,7 @@ class cruiserJointActionResponse {
   static messageDefinition() {
     // Returns full string definition for message
     return `
-    
+    # Return "Success" or "Fail"
     string result
     
     

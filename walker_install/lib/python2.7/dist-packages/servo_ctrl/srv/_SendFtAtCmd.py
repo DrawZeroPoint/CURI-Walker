@@ -9,8 +9,8 @@ import struct
 class SendFtAtCmdRequest(genpy.Message):
   _md5sum = "c22bd48bc684c0ae4c948d5e20ba1a79"
   _type = "servo_ctrl/SendFtAtCmdRequest"
-  _has_header = False #flag to mark the presence of a Header object
-  _full_text = """
+  _has_header = False  # flag to mark the presence of a Header object
+  _full_text = """# Ft ID(case insensitive): lwrist,rwrist,lankle,rankle
 string ft_id
 string at_cmd
 """
@@ -33,7 +33,7 @@ string at_cmd
     """
     if args or kwds:
       super(SendFtAtCmdRequest, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.ft_id is None:
         self.ft_id = ''
       if self.at_cmd is None:
@@ -96,7 +96,7 @@ string at_cmd
         self.at_cmd = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -149,7 +149,7 @@ string at_cmd
         self.at_cmd = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
@@ -166,7 +166,7 @@ import struct
 class SendFtAtCmdResponse(genpy.Message):
   _md5sum = "51b5fa2ba7cc6095b3fa4436ab5e5a44"
   _type = "servo_ctrl/SendFtAtCmdResponse"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """bool success
 string at_res
 string message
@@ -191,7 +191,7 @@ string message
     """
     if args or kwds:
       super(SendFtAtCmdResponse, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.success is None:
         self.success = False
       if self.at_res is None:
@@ -215,7 +215,8 @@ string message
     :param buff: buffer, ``StringIO``
     """
     try:
-      buff.write(_get_struct_B().pack(self.success))
+      _x = self.success
+      buff.write(_get_struct_B().pack(_x))
       _x = self.at_res
       length = len(_x)
       if python3 or type(_x) == unicode:
@@ -262,7 +263,7 @@ string message
         self.message = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -272,7 +273,8 @@ string message
     :param numpy: numpy python module
     """
     try:
-      buff.write(_get_struct_B().pack(self.success))
+      _x = self.success
+      buff.write(_get_struct_B().pack(_x))
       _x = self.at_res
       length = len(_x)
       if python3 or type(_x) == unicode:
@@ -320,7 +322,7 @@ string message
         self.message = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

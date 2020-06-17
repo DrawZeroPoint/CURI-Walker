@@ -9,7 +9,7 @@ import struct
 class cruiserSensorAltrasonic(genpy.Message):
   _md5sum = "52802149de24fd2581b097f77f88a09b"
   _type = "cruiser_msgs/cruiserSensorAltrasonic"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """uint32 distance1
 uint32 distance2
 uint32 distance3
@@ -47,7 +47,7 @@ uint32 waist_microwave
     """
     if args or kwds:
       super(cruiserSensorAltrasonic, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.distance1 is None:
         self.distance1 = 0
       if self.distance2 is None:
@@ -119,7 +119,7 @@ uint32 waist_microwave
       (_x.distance1, _x.distance2, _x.distance3, _x.distance4, _x.distance5, _x.distance6, _x.waist_distance1, _x.waist_distance2, _x.waist_distance3, _x.waist_distance4, _x.waist_distance5, _x.waist_distance6, _x.waist_microwave,) = _get_struct_13I().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -148,7 +148,7 @@ uint32 waist_microwave
       (_x.distance1, _x.distance2, _x.distance3, _x.distance4, _x.distance5, _x.distance6, _x.waist_distance1, _x.waist_distance2, _x.waist_distance3, _x.waist_distance4, _x.waist_distance5, _x.waist_distance6, _x.waist_microwave,) = _get_struct_13I().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

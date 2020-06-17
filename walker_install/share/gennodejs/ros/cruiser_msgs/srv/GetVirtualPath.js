@@ -56,7 +56,7 @@ class GetVirtualPathRequest {
   static messageDefinition() {
     // Returns full string definition for message
     return `
-    
+    # Get the virtual path as a cruiser_msgs/VirtualPath
     
     `;
   }

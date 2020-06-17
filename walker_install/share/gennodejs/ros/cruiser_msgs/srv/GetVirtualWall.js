@@ -56,7 +56,7 @@ class GetVirtualWallRequest {
   static messageDefinition() {
     // Returns full string definition for message
     return `
-    
+    # Get the virtual wall as a cruiser_msgs/VirtualWall
     
     `;
   }

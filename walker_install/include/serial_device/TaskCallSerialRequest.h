@@ -152,11 +152,11 @@ struct Definition< ::serial_device::TaskCallSerialRequest_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "\n"
+    return "#cctv_task service\n"
 "\n"
 "string task_id\n"
 "\n"
-"\n"
+"# command: start or stop\n"
 "string cmd\n"
 "\n"
 ;

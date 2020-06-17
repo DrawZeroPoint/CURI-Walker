@@ -193,10 +193,10 @@
   "f9c88f3e422e4316a11e6c00bab5b2f9")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<SetFtOffset-request>)))
   "Returns full string definition for message of type '<SetFtOffset-request>"
-  (cl:format cl:nil "~%string ftId~%int32  fx~%int32  fy~%int32  fz~%int32  mx~%int32  my~%int32  mz~%~%~%"))
+  (cl:format cl:nil "# ftId: \"lwrist\", \"rwrist\", \"lankle\", \"rankle\"~%string ftId~%int32  fx~%int32  fy~%int32  fz~%int32  mx~%int32  my~%int32  mz~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'SetFtOffset-request)))
   "Returns full string definition for message of type 'SetFtOffset-request"
-  (cl:format cl:nil "~%string ftId~%int32  fx~%int32  fy~%int32  fz~%int32  mx~%int32  my~%int32  mz~%~%~%"))
+  (cl:format cl:nil "# ftId: \"lwrist\", \"rwrist\", \"lankle\", \"rankle\"~%string ftId~%int32  fx~%int32  fy~%int32  fz~%int32  mx~%int32  my~%int32  mz~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <SetFtOffset-request>))
   (cl:+ 0
      4 (cl:length (cl:slot-value msg 'ftId))

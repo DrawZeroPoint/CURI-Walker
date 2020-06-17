@@ -85,10 +85,10 @@
   "d091270bbc490f371f9855f018f74a07")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<TaskCallSerial-request>)))
   "Returns full string definition for message of type '<TaskCallSerial-request>"
-  (cl:format cl:nil "~%~%string task_id~%~%~%string cmd~%~%~%~%"))
+  (cl:format cl:nil "#cctv_task service~%~%string task_id~%~%# command: start or stop~%string cmd~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'TaskCallSerial-request)))
   "Returns full string definition for message of type 'TaskCallSerial-request"
-  (cl:format cl:nil "~%~%string task_id~%~%~%string cmd~%~%~%~%"))
+  (cl:format cl:nil "#cctv_task service~%~%string task_id~%~%# command: start or stop~%string cmd~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <TaskCallSerial-request>))
   (cl:+ 0
      4 (cl:length (cl:slot-value msg 'task_id))
@@ -169,10 +169,10 @@
   "d091270bbc490f371f9855f018f74a07")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<TaskCallSerial-response>)))
   "Returns full string definition for message of type '<TaskCallSerial-response>"
-  (cl:format cl:nil "~%~%bool success~%~%~%string message~%~%~%"))
+  (cl:format cl:nil "~%# indicate status~%bool success~%~%# informational, e.g. for error messages~%string message~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'TaskCallSerial-response)))
   "Returns full string definition for message of type 'TaskCallSerial-response"
-  (cl:format cl:nil "~%~%bool success~%~%~%string message~%~%~%"))
+  (cl:format cl:nil "~%# indicate status~%bool success~%~%# informational, e.g. for error messages~%string message~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <TaskCallSerial-response>))
   (cl:+ 0
      1

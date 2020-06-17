@@ -10,7 +10,7 @@ import std_msgs.msg
 class CollisionDetectionState(genpy.Message):
   _md5sum = "7bde38c182b4d08fdc0635b116f65d04"
   _type = "ubt_core_msgs/CollisionDetectionState"
-  _has_header = True #flag to mark the presence of a Header object
+  _has_header = True  # flag to mark the presence of a Header object
   _full_text = """std_msgs/Header header
 bool collision_state
 
@@ -49,7 +49,7 @@ string frame_id
     """
     if args or kwds:
       super(CollisionDetectionState, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.header is None:
         self.header = std_msgs.msg.Header()
       if self.collision_state is None:
@@ -78,7 +78,8 @@ string frame_id
         _x = _x.encode('utf-8')
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
-      buff.write(_get_struct_B().pack(self.collision_state))
+      _x = self.collision_state
+      buff.write(_get_struct_B().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -110,7 +111,7 @@ string frame_id
       self.collision_state = bool(self.collision_state)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -128,7 +129,8 @@ string frame_id
         _x = _x.encode('utf-8')
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
-      buff.write(_get_struct_B().pack(self.collision_state))
+      _x = self.collision_state
+      buff.write(_get_struct_B().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -161,7 +163,7 @@ string frame_id
       self.collision_state = bool(self.collision_state)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

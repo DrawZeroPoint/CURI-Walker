@@ -10,7 +10,7 @@ import std_msgs.msg
 class CollisionAvoidanceState(genpy.Message):
   _md5sum = "30f5cb8ae019f1ffe8b599e6d2e589c7"
   _type = "ubt_core_msgs/CollisionAvoidanceState"
-  _has_header = True #flag to mark the presence of a Header object
+  _has_header = True  # flag to mark the presence of a Header object
   _full_text = """std_msgs/Header header
 bool other_arm
 string[] collision_object
@@ -49,7 +49,7 @@ string frame_id
     """
     if args or kwds:
       super(CollisionAvoidanceState, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.header is None:
         self.header = std_msgs.msg.Header()
       if self.other_arm is None:
@@ -81,7 +81,8 @@ string frame_id
         _x = _x.encode('utf-8')
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
-      buff.write(_get_struct_B().pack(self.other_arm))
+      _x = self.other_arm
+      buff.write(_get_struct_B().pack(_x))
       length = len(self.collision_object)
       buff.write(_struct_I.pack(length))
       for val1 in self.collision_object:
@@ -136,7 +137,7 @@ string frame_id
         self.collision_object.append(val1)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -154,7 +155,8 @@ string frame_id
         _x = _x.encode('utf-8')
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
-      buff.write(_get_struct_B().pack(self.other_arm))
+      _x = self.other_arm
+      buff.write(_get_struct_B().pack(_x))
       length = len(self.collision_object)
       buff.write(_struct_I.pack(length))
       for val1 in self.collision_object:
@@ -210,7 +212,7 @@ string frame_id
         self.collision_object.append(val1)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

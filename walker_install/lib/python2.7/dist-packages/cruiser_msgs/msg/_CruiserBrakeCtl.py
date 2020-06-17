@@ -9,7 +9,7 @@ import struct
 class CruiserBrakeCtl(genpy.Message):
   _md5sum = "691501d2b5eb4dc01a97397d7baf5fba"
   _type = "cruiser_msgs/CruiserBrakeCtl"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """# cruiser brake control,topic name "Cruiser_brake"
 # brake=1,brake cruiser
 # brake=0,reset to normal
@@ -35,7 +35,7 @@ bool brake
     """
     if args or kwds:
       super(CruiserBrakeCtl, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.brake is None:
         self.brake = False
     else:
@@ -53,7 +53,8 @@ bool brake
     :param buff: buffer, ``StringIO``
     """
     try:
-      buff.write(_get_struct_B().pack(self.brake))
+      _x = self.brake
+      buff.write(_get_struct_B().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -70,7 +71,7 @@ bool brake
       self.brake = bool(self.brake)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -80,7 +81,8 @@ bool brake
     :param numpy: numpy python module
     """
     try:
-      buff.write(_get_struct_B().pack(self.brake))
+      _x = self.brake
+      buff.write(_get_struct_B().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -98,7 +100,7 @@ bool brake
       self.brake = bool(self.brake)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

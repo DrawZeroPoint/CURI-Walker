@@ -66,7 +66,7 @@ class GetUwbSupportedModeRequest {
   static messageDefinition() {
     // Returns full string definition for message
     return `
-    
+    # mode=0 uwb_loco_mode supported; mode=1 uwb_nav_mode supported
     int32 mode
     
     `;

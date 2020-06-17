@@ -152,7 +152,7 @@ class TaskArmCtrlRequest {
   static messageDefinition() {
     // Returns full string definition for message
     return `
-    
+    # current task id, defined in 'TaskArmStatus.msg'
     string task_id
     
     
@@ -162,13 +162,13 @@ class TaskArmCtrlRequest {
     bool[] collisionDetection
     
     
-    
+    # who send request
     string demander
     
-    
+    # who execute task
     string executor
     
-    
+    # command: start or stop
     string CMD_START=start
     string CMD_STOP=stop
     string cmd
@@ -324,13 +324,13 @@ class TaskArmCtrlResponse {
     // Returns full string definition for message
     return `
     
-    
+    # who reply response
     string owner
     
-    
+    # indicate status
     bool success
     
-    
+    # informational, e.g. for error messages
     string message
     
     

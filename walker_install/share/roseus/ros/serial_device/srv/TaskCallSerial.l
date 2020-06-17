@@ -129,38 +129,38 @@
 (setf (get serial_device::TaskCallSerialRequest :md5sum-) "d091270bbc490f371f9855f018f74a07")
 (setf (get serial_device::TaskCallSerialRequest :datatype-) "serial_device/TaskCallSerialRequest")
 (setf (get serial_device::TaskCallSerialRequest :definition-)
-      "
+      "#cctv_task service
 
 string task_id
 
-
+# command: start or stop
 string cmd
 
 ---
 
-
+# indicate status
 bool success
 
-
+# informational, e.g. for error messages
 string message
 ")
 
 (setf (get serial_device::TaskCallSerialResponse :md5sum-) "d091270bbc490f371f9855f018f74a07")
 (setf (get serial_device::TaskCallSerialResponse :datatype-) "serial_device/TaskCallSerialResponse")
 (setf (get serial_device::TaskCallSerialResponse :definition-)
-      "
+      "#cctv_task service
 
 string task_id
 
-
+# command: start or stop
 string cmd
 
 ---
 
-
+# indicate status
 bool success
 
-
+# informational, e.g. for error messages
 string message
 ")
 

@@ -1,4 +1,4 @@
-prefix=/home/chunyu/walker2_motion_output/install
+prefix=/home/chunyu/Simulation/WalkerForCompetition/walker2_motion_output/install
 
 Name: baxter_core_msgs
 Description: Description of baxter_core_msgs

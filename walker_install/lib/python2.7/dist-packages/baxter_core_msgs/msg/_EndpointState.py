@@ -11,7 +11,7 @@ import std_msgs.msg
 class EndpointState(genpy.Message):
   _md5sum = "44bea01d596ff699fa1447bec34167ac"
   _type = "baxter_core_msgs/EndpointState"
-  _has_header = True #flag to mark the presence of a Header object
+  _has_header = True  # flag to mark the presence of a Header object
   _full_text = """Header header
 geometry_msgs/Pose   pose
 geometry_msgs/Twist  twist
@@ -99,7 +99,7 @@ Vector3  torque
     """
     if args or kwds:
       super(EndpointState, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.header is None:
         self.header = std_msgs.msg.Header()
       if self.pose is None:
@@ -173,7 +173,7 @@ Vector3  torque
       (_x.pose.position.x, _x.pose.position.y, _x.pose.position.z, _x.pose.orientation.x, _x.pose.orientation.y, _x.pose.orientation.z, _x.pose.orientation.w, _x.twist.linear.x, _x.twist.linear.y, _x.twist.linear.z, _x.twist.angular.x, _x.twist.angular.y, _x.twist.angular.z, _x.wrench.force.x, _x.wrench.force.y, _x.wrench.force.z, _x.wrench.torque.x, _x.wrench.torque.y, _x.wrench.torque.z,) = _get_struct_19d().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -231,7 +231,7 @@ Vector3  torque
       (_x.pose.position.x, _x.pose.position.y, _x.pose.position.z, _x.pose.orientation.x, _x.pose.orientation.y, _x.pose.orientation.z, _x.pose.orientation.w, _x.twist.linear.x, _x.twist.linear.y, _x.twist.linear.z, _x.twist.angular.x, _x.twist.angular.y, _x.twist.angular.z, _x.wrench.force.x, _x.wrench.force.y, _x.wrench.force.z, _x.wrench.torque.x, _x.wrench.torque.y, _x.wrench.torque.z,) = _get_struct_19d().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

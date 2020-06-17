@@ -55,10 +55,10 @@
   "2138d7d6c1b896d7258bf22cf4d740bb")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<moveDistance-request>)))
   "Returns full string definition for message of type '<moveDistance-request>"
-  (cl:format cl:nil "uint32 reserved~%~%~%"))
+  (cl:format cl:nil "uint32 reserved~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'moveDistance-request)))
   "Returns full string definition for message of type 'moveDistance-request"
-  (cl:format cl:nil "uint32 reserved~%~%~%"))
+  (cl:format cl:nil "uint32 reserved~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <moveDistance-request>))
   (cl:+ 0
      4
@@ -182,10 +182,10 @@
   "2138d7d6c1b896d7258bf22cf4d740bb")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<moveDistance-response>)))
   "Returns full string definition for message of type '<moveDistance-response>"
-  (cl:format cl:nil "uint32 result~%float32 dis_x~%float32 dis_y~%float32 dis_z~%~%~%~%~%"))
+  (cl:format cl:nil "uint32 result~%float32 dis_x~%float32 dis_y~%float32 dis_z~%~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'moveDistance-response)))
   "Returns full string definition for message of type 'moveDistance-response"
-  (cl:format cl:nil "uint32 result~%float32 dis_x~%float32 dis_y~%float32 dis_z~%~%~%~%~%"))
+  (cl:format cl:nil "uint32 result~%float32 dis_x~%float32 dis_y~%float32 dis_z~%~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <moveDistance-response>))
   (cl:+ 0
      4

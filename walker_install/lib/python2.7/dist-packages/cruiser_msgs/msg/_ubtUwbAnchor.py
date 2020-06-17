@@ -10,7 +10,7 @@ import std_msgs.msg
 class ubtUwbAnchor(genpy.Message):
   _md5sum = "ad5f07f4e526d0fa73b93b5ba13bceb5"
   _type = "cruiser_msgs/ubtUwbAnchor"
-  _has_header = True #flag to mark the presence of a Header object
+  _has_header = True  # flag to mark the presence of a Header object
   _full_text = """std_msgs/Header header
 uint16[] id
 uint16[] distance
@@ -53,7 +53,7 @@ string frame_id
     """
     if args or kwds:
       super(ubtUwbAnchor, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.header is None:
         self.header = std_msgs.msg.Header()
       if self.id is None:
@@ -176,7 +176,7 @@ string frame_id
       self.fpRssi = struct.unpack(pattern, str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -277,7 +277,7 @@ string frame_id
       self.fpRssi = numpy.frombuffer(str[start:end], dtype=numpy.float32, count=length)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
