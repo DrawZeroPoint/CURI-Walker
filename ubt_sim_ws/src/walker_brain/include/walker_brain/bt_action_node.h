@@ -1,18 +1,3 @@
-// Copyright (c) 2019 Samsung Research America
-// Copyright (c) 2020 Davide Faconti
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 #ifndef BEHAVIOR_TREE_BT_ACTION_NODE_HPP_
 #define BEHAVIOR_TREE_BT_ACTION_NODE_HPP_
 
@@ -39,7 +24,6 @@ template<class ActionT>
 class RosActionNode : public BT::ActionNodeBase
 {
 protected:
-
   RosActionNode(ros::NodeHandle& nh, const std::string& name, const BT::NodeConfiguration & conf):
   BT::ActionNodeBase(name, conf), node_(nh)
   {
@@ -48,7 +32,6 @@ protected:
   }
 
 public:
-
   using BaseClass  = RosActionNode<ActionT>;
   using ActionClientType = actionlib::SimpleActionClient<ActionT>;
   using ActionType = ActionT;
@@ -56,13 +39,11 @@ public:
   using ResultType = typename ActionT::_action_result_type::_result_type;
 
   RosActionNode() = delete;
-
   virtual ~RosActionNode() = default;
 
   /// These ports will be added automatically if this Node is
   /// registered using RegisterRosAction<DeriveClass>()
-  static PortsList providedPorts()
-  {
+  static PortsList providedPorts() {
     return  {
       InputPort<std::string>("server_name", "name of the Action Server"),
       InputPort<unsigned>("timeout", 500, "timeout to connect (milliseconds)")
@@ -72,7 +53,7 @@ public:
   /// Method called when the Action makes a transition from IDLE to RUNNING.
   /// If it return false, the entire action is immediately aborted, it returns
   /// FAILURE and no request is sent to the server.
-  virtual bool sendGoal(GoalType& goal) = 0;
+  virtual bool onSendGoal(GoalType& goal) = 0;
 
   /// Method (to be implemented by the user) to receive the reply.
   /// User can decide which NodeStatus it will return (SUCCESS or FAILURE).
@@ -84,7 +65,7 @@ public:
     REJECTED_BY_SERVER = 2
   };
 
-  /// Called when a service call failed. Can be overriden by the user.
+  /// Called when a service call failed. Can be override by the user.
   virtual NodeStatus onFailedRequest(FailureCause failure)
   {
     return NodeStatus::FAILURE;
@@ -94,28 +75,23 @@ public:
   ///
   ///    BaseClass::halt()
   ///
-  virtual void halt() override
-  {
-    if( status() == NodeStatus::RUNNING )
-    {
+  virtual void halt() override {
+    if( status() == NodeStatus::RUNNING ) {
       action_client_->cancelGoal();
     }
     setStatus(NodeStatus::IDLE);
   }
 
 protected:
-
   std::shared_ptr<ActionClientType> action_client_;
-
   ros::NodeHandle& node_;
 
-  BT::NodeStatus tick() override
-  {
+  BT::NodeStatus tick() override {
     unsigned msec = getInput<unsigned>("timeout").value();
     ros::Duration timeout(static_cast<double>(msec) * 1e-3);
 
     bool connected = action_client_->waitForServer(timeout);
-    if( !connected ){
+    if(!connected){
       return onFailedRequest(MISSING_SERVER);
     }
 
@@ -125,9 +101,8 @@ protected:
       setStatus(BT::NodeStatus::RUNNING);
 
       GoalType goal;
-      bool valid_goal = sendGoal(goal);
-      if( !valid_goal )
-      {
+      bool valid_goal = onSendGoal(goal);
+      if(!valid_goal) {
         return NodeStatus::FAILURE;
       }
       action_client_->sendGoal(goal);
@@ -180,8 +155,8 @@ template <class DerivedT> static
   manifest.ports = DerivedT::providedPorts();
   manifest.registration_ID = registration_ID;
   const auto& basic_ports = RosActionNode< typename DerivedT::ActionType>::providedPorts();
-  manifest.ports.insert( basic_ports.begin(), basic_ports.end() );
-  factory.registerBuilder( manifest, builder );
+  manifest.ports.insert(basic_ports.begin(), basic_ports.end());
+  factory.registerBuilder(manifest, builder);
 }
 
 

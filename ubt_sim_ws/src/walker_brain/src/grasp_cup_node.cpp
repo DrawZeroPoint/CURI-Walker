@@ -1,5 +1,6 @@
 // RoSEE
 #include <walker_brain/bt_service_node.h>
+#include <walker_brain/bt_action_node.h>
 
 // ROS
 #include <ros/ros.h>
@@ -13,14 +14,13 @@ using namespace BT;
  * Service node for extracting the poses of cups on top of the table
  * The server is provided by hope
  */
-class SenseCupPoses: public RosServiceNode<hope::ExtractObjectOnTop>
+class SenseCupPoses : public RosServiceNode<hope::ExtractObjectOnTop>
 {
 public:
   SenseCupPoses(ros::NodeHandle &nh, const std::string& name, const BT::NodeConfiguration & cfg):
     RosServiceNode<hope::ExtractObjectOnTop>(nh, name, cfg) {}
 
-  static BT::PortsList providedPorts()
-  {
+  static BT::PortsList providedPorts() {
     return  {
       BT::InputPort<std::string>("goal_id"),
       BT::OutputPort<int>("result_status") };
@@ -30,21 +30,21 @@ public:
     getInput("goal_id", request.goal_id.id);
     ros::spinOnce();
     request.header.stamp.sec = this->time_sec_;
-    ROS_INFO("RoSEE: SenseCupPoses sending request.");
+    ROS_INFO("Brain: SenseCupPoses sending request.");
   }
 
   BT::NodeStatus onResponse(const ResponseType &response) override {
     if (response.result_status == response.SUCCEEDED) {
-      ROS_INFO("RoSEE: SenseCupPoses response SUCCEEDED.");
+      ROS_INFO("Brain: SenseCupPoses response SUCCEEDED.");
       return BT::NodeStatus::SUCCESS;
     } else {
-      ROS_INFO("RoSEE: SenseCupPoses response FAILURE.");
+      ROS_INFO("Brain: SenseCupPoses response FAILURE.");
       return BT::NodeStatus::FAILURE;
     }
   }
 
   virtual BT::NodeStatus onFailedRequest(RosServiceNode::FailureCause failure) override {
-    ROS_ERROR("RoSEE: SenseCupPoses request failed %d.", static_cast<int>(failure));
+    ROS_ERROR("Brain: SenseCupPoses request failed %d.", static_cast<int>(failure));
     return BT::NodeStatus::FAILURE;
   }
 
@@ -116,7 +116,7 @@ public:
 
 int main(int argc, char **argv)
 {
-  ros::init(argc, argv, "bt_node");
+  ros::init(argc, argv, "grasp_cup_node");
   ros::NodeHandle nh;
 
   // We use the BehaviorTreeFactory to register our custom nodes
