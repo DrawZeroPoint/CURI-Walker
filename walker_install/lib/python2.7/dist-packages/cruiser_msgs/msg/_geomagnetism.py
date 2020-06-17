@@ -9,7 +9,7 @@ import struct
 class geomagnetism(genpy.Message):
   _md5sum = "a11ec4346fd95eab51cf9d95e5a6dc16"
   _type = "cruiser_msgs/geomagnetism"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """int32 gyro_x
 int32 gyro_y
 int32 gyro_z
@@ -47,7 +47,7 @@ bool trigger
     """
     if args or kwds:
       super(geomagnetism, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.gyro_x is None:
         self.gyro_x = 0
       if self.gyro_y is None:
@@ -120,7 +120,7 @@ bool trigger
       self.trigger = bool(self.trigger)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -150,7 +150,7 @@ bool trigger
       self.trigger = bool(self.trigger)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

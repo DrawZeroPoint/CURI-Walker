@@ -9,7 +9,7 @@ import struct
 class rgbdApproach(genpy.Message):
   _md5sum = "69a51e326617d1f179799e297efe015b"
   _type = "cruiser_msgs/rgbdApproach"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """#topic approachDetect
 # approach status,1=approach 2=leave
 int32 approachStatus
@@ -37,7 +37,7 @@ int32 distance
     """
     if args or kwds:
       super(rgbdApproach, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.approachStatus is None:
         self.approachStatus = 0
       if self.distance is None:
@@ -76,7 +76,7 @@ int32 distance
       (_x.approachStatus, _x.distance,) = _get_struct_2i().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -105,7 +105,7 @@ int32 distance
       (_x.approachStatus, _x.distance,) = _get_struct_2i().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

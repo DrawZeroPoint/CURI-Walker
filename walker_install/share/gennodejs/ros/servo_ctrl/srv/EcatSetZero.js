@@ -68,7 +68,7 @@ class EcatSetZeroRequest {
   static messageDefinition() {
     // Returns full string definition for message
     return `
-    
+    # servo(case insensitive): LHipYaw,LHipRoll,LHipPitch,LKneePitch,LAnklePitch,LAnkleRoll,RHipYaw,RHipRoll,RHipPitch,RKneePitch,RAnklePitch,RAnkleRoll
     string servo
     
     `;

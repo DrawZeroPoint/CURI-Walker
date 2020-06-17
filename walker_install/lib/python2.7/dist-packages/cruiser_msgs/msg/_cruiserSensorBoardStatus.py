@@ -9,7 +9,7 @@ import struct
 class cruiserSensorBoardStatus(genpy.Message):
   _md5sum = "7c0773c157c86740d50fb4f7ef626929"
   _type = "cruiser_msgs/cruiserSensorBoardStatus"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """uint32 sensor_board_abnormal
 
 
@@ -33,7 +33,7 @@ class cruiserSensorBoardStatus(genpy.Message):
     """
     if args or kwds:
       super(cruiserSensorBoardStatus, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.sensor_board_abnormal is None:
         self.sensor_board_abnormal = 0
     else:
@@ -51,7 +51,8 @@ class cruiserSensorBoardStatus(genpy.Message):
     :param buff: buffer, ``StringIO``
     """
     try:
-      buff.write(_get_struct_I().pack(self.sensor_board_abnormal))
+      _x = self.sensor_board_abnormal
+      buff.write(_get_struct_I().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -67,7 +68,7 @@ class cruiserSensorBoardStatus(genpy.Message):
       (self.sensor_board_abnormal,) = _get_struct_I().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -77,7 +78,8 @@ class cruiserSensorBoardStatus(genpy.Message):
     :param numpy: numpy python module
     """
     try:
-      buff.write(_get_struct_I().pack(self.sensor_board_abnormal))
+      _x = self.sensor_board_abnormal
+      buff.write(_get_struct_I().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -94,7 +96,7 @@ class cruiserSensorBoardStatus(genpy.Message):
       (self.sensor_board_abnormal,) = _get_struct_I().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

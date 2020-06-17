@@ -9,8 +9,8 @@ import struct
 class GetMapJsonRequest(genpy.Message):
   _md5sum = "d41d8cd98f00b204e9800998ecf8427e"
   _type = "cruiser_msgs/GetMapJsonRequest"
-  _has_header = False #flag to mark the presence of a Header object
-  _full_text = """
+  _has_header = False  # flag to mark the presence of a Header object
+  _full_text = """# Get the map json data as a cruiser_msgs/MapJson
 """
   __slots__ = []
   _slot_types = []
@@ -57,7 +57,7 @@ class GetMapJsonRequest(genpy.Message):
       end = 0
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -81,7 +81,7 @@ class GetMapJsonRequest(genpy.Message):
       end = 0
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
@@ -99,7 +99,7 @@ import cruiser_msgs.msg
 class GetMapJsonResponse(genpy.Message):
   _md5sum = "6825166e7da48608dd55394f68c70e3e"
   _type = "cruiser_msgs/GetMapJsonResponse"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """cruiser_msgs/MapJson json
 
 
@@ -127,7 +127,7 @@ uint8[] data
     """
     if args or kwds:
       super(GetMapJsonResponse, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.json is None:
         self.json = cruiser_msgs.msg.MapJson()
     else:
@@ -172,7 +172,7 @@ uint8[] data
       self.json.data = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -210,7 +210,7 @@ uint8[] data
       self.json.data = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

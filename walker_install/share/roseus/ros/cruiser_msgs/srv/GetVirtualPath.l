@@ -101,7 +101,7 @@
 (setf (get cruiser_msgs::GetVirtualPathRequest :md5sum-) "efa773451ece228573f2fb4e72387f99")
 (setf (get cruiser_msgs::GetVirtualPathRequest :datatype-) "cruiser_msgs/GetVirtualPathRequest")
 (setf (get cruiser_msgs::GetVirtualPathRequest :definition-)
-      "
+      "# Get the virtual path as a cruiser_msgs/VirtualPath
 ---
 cruiser_msgs/VirtualPath path
 
@@ -180,7 +180,7 @@ Pose pose
 (setf (get cruiser_msgs::GetVirtualPathResponse :md5sum-) "efa773451ece228573f2fb4e72387f99")
 (setf (get cruiser_msgs::GetVirtualPathResponse :datatype-) "cruiser_msgs/GetVirtualPathResponse")
 (setf (get cruiser_msgs::GetVirtualPathResponse :definition-)
-      "
+      "# Get the virtual path as a cruiser_msgs/VirtualPath
 ---
 cruiser_msgs/VirtualPath path
 

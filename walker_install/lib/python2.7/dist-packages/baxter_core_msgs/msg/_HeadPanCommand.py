@@ -9,7 +9,7 @@ import struct
 class HeadPanCommand(genpy.Message):
   _md5sum = "23b8a3f4b7ee9de7099d029e57660a8c"
   _type = "baxter_core_msgs/HeadPanCommand"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """float32 target              # radians for target, 0 str
 float32 speed_ratio         # Percentage of max speed [0-1]
 #
@@ -49,7 +49,7 @@ uint8   enable_pan_request  # override automatic pan enable/disable
     """
     if args or kwds:
       super(HeadPanCommand, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.target is None:
         self.target = 0.
       if self.speed_ratio is None:
@@ -91,7 +91,7 @@ uint8   enable_pan_request  # override automatic pan enable/disable
       (_x.target, _x.speed_ratio, _x.enable_pan_request,) = _get_struct_2fB().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -120,7 +120,7 @@ uint8   enable_pan_request  # override automatic pan enable/disable
       (_x.target, _x.speed_ratio, _x.enable_pan_request,) = _get_struct_2fB().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

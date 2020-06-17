@@ -9,7 +9,7 @@ import struct
 class moveDistanceRequest(genpy.Message):
   _md5sum = "b074c9ce6b42f25fa45f883d993a830a"
   _type = "cruiser_msgs/moveDistanceRequest"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """uint32 reserved
 """
   __slots__ = ['reserved']
@@ -31,7 +31,7 @@ class moveDistanceRequest(genpy.Message):
     """
     if args or kwds:
       super(moveDistanceRequest, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.reserved is None:
         self.reserved = 0
     else:
@@ -49,7 +49,8 @@ class moveDistanceRequest(genpy.Message):
     :param buff: buffer, ``StringIO``
     """
     try:
-      buff.write(_get_struct_I().pack(self.reserved))
+      _x = self.reserved
+      buff.write(_get_struct_I().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -65,7 +66,7 @@ class moveDistanceRequest(genpy.Message):
       (self.reserved,) = _get_struct_I().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -75,7 +76,8 @@ class moveDistanceRequest(genpy.Message):
     :param numpy: numpy python module
     """
     try:
-      buff.write(_get_struct_I().pack(self.reserved))
+      _x = self.reserved
+      buff.write(_get_struct_I().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -92,7 +94,7 @@ class moveDistanceRequest(genpy.Message):
       (self.reserved,) = _get_struct_I().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
@@ -109,7 +111,7 @@ import struct
 class moveDistanceResponse(genpy.Message):
   _md5sum = "f37da2a533f1b13ef7718f68497ab2ac"
   _type = "cruiser_msgs/moveDistanceResponse"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """uint32 result
 float32 dis_x
 float32 dis_y
@@ -136,7 +138,7 @@ float32 dis_z
     """
     if args or kwds:
       super(moveDistanceResponse, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.result is None:
         self.result = 0
       if self.dis_x is None:
@@ -181,7 +183,7 @@ float32 dis_z
       (_x.result, _x.dis_x, _x.dis_y, _x.dis_z,) = _get_struct_I3f().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -210,7 +212,7 @@ float32 dis_z
       (_x.result, _x.dis_x, _x.dis_y, _x.dis_z,) = _get_struct_I3f().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

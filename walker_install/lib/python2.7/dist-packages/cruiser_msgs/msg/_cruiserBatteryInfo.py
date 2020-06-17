@@ -9,7 +9,7 @@ import struct
 class cruiserBatteryInfo(genpy.Message):
   _md5sum = "7c1736befdc88aac8e2cd081c711d9ba"
   _type = "cruiser_msgs/cruiserBatteryInfo"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """uint32 battery_level
 uint32 voltage
 uint32 charge_status
@@ -35,7 +35,7 @@ uint32 temperature
     """
     if args or kwds:
       super(cruiserBatteryInfo, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.battery_level is None:
         self.battery_level = 0
       if self.voltage is None:
@@ -80,7 +80,7 @@ uint32 temperature
       (_x.battery_level, _x.voltage, _x.charge_status, _x.temperature,) = _get_struct_4I().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -109,7 +109,7 @@ uint32 temperature
       (_x.battery_level, _x.voltage, _x.charge_status, _x.temperature,) = _get_struct_4I().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

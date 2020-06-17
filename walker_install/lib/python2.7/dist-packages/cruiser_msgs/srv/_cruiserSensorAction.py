@@ -9,7 +9,7 @@ import struct
 class cruiserSensorActionRequest(genpy.Message):
   _md5sum = "42deacc6f05bc5700ad089daf0418ae6"
   _type = "cruiser_msgs/cruiserSensorActionRequest"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """uint32 ultrasound_freq
 uint32 wall_ir_freq
 uint32 charge_ir_freq
@@ -33,7 +33,7 @@ uint32 charge_ir_freq
     """
     if args or kwds:
       super(cruiserSensorActionRequest, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.ultrasound_freq is None:
         self.ultrasound_freq = 0
       if self.wall_ir_freq is None:
@@ -75,7 +75,7 @@ uint32 charge_ir_freq
       (_x.ultrasound_freq, _x.wall_ir_freq, _x.charge_ir_freq,) = _get_struct_3I().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -104,7 +104,7 @@ uint32 charge_ir_freq
       (_x.ultrasound_freq, _x.wall_ir_freq, _x.charge_ir_freq,) = _get_struct_3I().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
@@ -127,7 +127,7 @@ import struct
 class cruiserSensorActionResponse(genpy.Message):
   _md5sum = "13d5d28ceaaadbc975dd072a2e10b88a"
   _type = "cruiser_msgs/cruiserSensorActionResponse"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """uint32 result
 
 
@@ -151,7 +151,7 @@ class cruiserSensorActionResponse(genpy.Message):
     """
     if args or kwds:
       super(cruiserSensorActionResponse, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.result is None:
         self.result = 0
     else:
@@ -169,7 +169,8 @@ class cruiserSensorActionResponse(genpy.Message):
     :param buff: buffer, ``StringIO``
     """
     try:
-      buff.write(_get_struct_I().pack(self.result))
+      _x = self.result
+      buff.write(_get_struct_I().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -185,7 +186,7 @@ class cruiserSensorActionResponse(genpy.Message):
       (self.result,) = _get_struct_I().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -195,7 +196,8 @@ class cruiserSensorActionResponse(genpy.Message):
     :param numpy: numpy python module
     """
     try:
-      buff.write(_get_struct_I().pack(self.result))
+      _x = self.result
+      buff.write(_get_struct_I().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -212,7 +214,7 @@ class cruiserSensorActionResponse(genpy.Message):
       (self.result,) = _get_struct_I().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

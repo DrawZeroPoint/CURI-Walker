@@ -9,14 +9,14 @@ import struct
 class cruiserJointActionRequest(genpy.Message):
   _md5sum = "e089553ee5ac9434111383802d4dd920"
   _type = "cruiser_msgs/cruiserJointActionRequest"
-  _has_header = False #flag to mark the presence of a Header object
-  _full_text = """
+  _has_header = False  # flag to mark the presence of a Header object
+  _full_text = """# This file defines a command inferring to a action to play
 
-
+# Action name in ASCII
 string action_name
 
-
-
+# Times action will be played
+# 0 means infinite loop
 int16 action_time
 
 """
@@ -39,7 +39,7 @@ int16 action_time
     """
     if args or kwds:
       super(cruiserJointActionRequest, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.action_name is None:
         self.action_name = ''
       if self.action_time is None:
@@ -66,7 +66,8 @@ int16 action_time
         _x = _x.encode('utf-8')
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
-      buff.write(_get_struct_h().pack(self.action_time))
+      _x = self.action_time
+      buff.write(_get_struct_h().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -91,7 +92,7 @@ int16 action_time
       (self.action_time,) = _get_struct_h().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -107,7 +108,8 @@ int16 action_time
         _x = _x.encode('utf-8')
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
-      buff.write(_get_struct_h().pack(self.action_time))
+      _x = self.action_time
+      buff.write(_get_struct_h().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -133,7 +135,7 @@ int16 action_time
       (self.action_time,) = _get_struct_h().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
@@ -156,8 +158,8 @@ import struct
 class cruiserJointActionResponse(genpy.Message):
   _md5sum = "c22f2a1ed8654a0b365f1bb3f7ff2c0f"
   _type = "cruiser_msgs/cruiserJointActionResponse"
-  _has_header = False #flag to mark the presence of a Header object
-  _full_text = """
+  _has_header = False  # flag to mark the presence of a Header object
+  _full_text = """# Return "Success" or "Fail"
 string result
 
 
@@ -181,7 +183,7 @@ string result
     """
     if args or kwds:
       super(cruiserJointActionResponse, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.result is None:
         self.result = ''
     else:
@@ -226,7 +228,7 @@ string result
         self.result = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -264,7 +266,7 @@ string result
         self.result = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

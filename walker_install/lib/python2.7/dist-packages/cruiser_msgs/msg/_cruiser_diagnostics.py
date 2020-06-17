@@ -9,7 +9,7 @@ import struct
 class cruiser_diagnostics(genpy.Message):
   _md5sum = "2acd95d3e541d4e596dab4dec2608e90"
   _type = "cruiser_msgs/cruiser_diagnostics"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """#topic /cruiser/diagnostics
 # level -- ok:0, warn:1, error:2
 byte level
@@ -38,7 +38,7 @@ int32 data
     """
     if args or kwds:
       super(cruiser_diagnostics, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.level is None:
         self.level = 0
       if self.name is None:
@@ -71,7 +71,8 @@ int32 data
     :param buff: buffer, ``StringIO``
     """
     try:
-      buff.write(_get_struct_b().pack(self.level))
+      _x = self.level
+      buff.write(_get_struct_b().pack(_x))
       _x = self.name
       length = len(_x)
       if python3 or type(_x) == unicode:
@@ -123,7 +124,7 @@ int32 data
       (_x.key, _x.value, _x.data,) = _get_struct_3i().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -133,7 +134,8 @@ int32 data
     :param numpy: numpy python module
     """
     try:
-      buff.write(_get_struct_b().pack(self.level))
+      _x = self.level
+      buff.write(_get_struct_b().pack(_x))
       _x = self.name
       length = len(_x)
       if python3 or type(_x) == unicode:
@@ -186,7 +188,7 @@ int32 data
       (_x.key, _x.value, _x.data,) = _get_struct_3i().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

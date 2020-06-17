@@ -9,7 +9,7 @@ import struct
 class CloseCameraRequest(genpy.Message):
   _md5sum = "c1f3d28f1b044c871e6eff2e9fc3c667"
   _type = "baxter_core_msgs/CloseCameraRequest"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """string          name
 """
   __slots__ = ['name']
@@ -31,7 +31,7 @@ class CloseCameraRequest(genpy.Message):
     """
     if args or kwds:
       super(CloseCameraRequest, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.name is None:
         self.name = ''
     else:
@@ -76,7 +76,7 @@ class CloseCameraRequest(genpy.Message):
         self.name = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -114,7 +114,7 @@ class CloseCameraRequest(genpy.Message):
         self.name = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
@@ -131,7 +131,7 @@ import struct
 class CloseCameraResponse(genpy.Message):
   _md5sum = "b6e094011a4dfaee5eddf447220446cf"
   _type = "baxter_core_msgs/CloseCameraResponse"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """int32           err
 
 """
@@ -154,7 +154,7 @@ class CloseCameraResponse(genpy.Message):
     """
     if args or kwds:
       super(CloseCameraResponse, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.err is None:
         self.err = 0
     else:
@@ -172,7 +172,8 @@ class CloseCameraResponse(genpy.Message):
     :param buff: buffer, ``StringIO``
     """
     try:
-      buff.write(_get_struct_i().pack(self.err))
+      _x = self.err
+      buff.write(_get_struct_i().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -188,7 +189,7 @@ class CloseCameraResponse(genpy.Message):
       (self.err,) = _get_struct_i().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -198,7 +199,8 @@ class CloseCameraResponse(genpy.Message):
     :param numpy: numpy python module
     """
     try:
-      buff.write(_get_struct_i().pack(self.err))
+      _x = self.err
+      buff.write(_get_struct_i().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -215,7 +217,7 @@ class CloseCameraResponse(genpy.Message):
       (self.err,) = _get_struct_i().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

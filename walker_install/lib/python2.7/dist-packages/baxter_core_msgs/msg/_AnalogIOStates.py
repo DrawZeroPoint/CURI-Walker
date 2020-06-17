@@ -5,13 +5,13 @@ python3 = True if sys.hexversion > 0x03000000 else False
 import genpy
 import struct
 
-import genpy
 import baxter_core_msgs.msg
+import genpy
 
 class AnalogIOStates(genpy.Message):
   _md5sum = "0a05ba3bbb53a8a3b164e34946d619f7"
   _type = "baxter_core_msgs/AnalogIOStates"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """string[]         names
 AnalogIOState[] states
 ================================================================================
@@ -39,7 +39,7 @@ bool isInputOnly
     """
     if args or kwds:
       super(AnalogIOStates, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.names is None:
         self.names = []
       if self.states is None:
@@ -122,7 +122,7 @@ bool isInputOnly
         self.states.append(val1)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -195,21 +195,21 @@ bool isInputOnly
         self.states.append(val1)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
     global _struct_I
     return _struct_I
-_struct_dB = None
-def _get_struct_dB():
-    global _struct_dB
-    if _struct_dB is None:
-        _struct_dB = struct.Struct("<dB")
-    return _struct_dB
 _struct_2I = None
 def _get_struct_2I():
     global _struct_2I
     if _struct_2I is None:
         _struct_2I = struct.Struct("<2I")
     return _struct_2I
+_struct_dB = None
+def _get_struct_dB():
+    global _struct_dB
+    if _struct_dB is None:
+        _struct_dB = struct.Struct("<dB")
+    return _struct_dB

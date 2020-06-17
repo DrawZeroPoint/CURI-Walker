@@ -168,29 +168,29 @@
 (setf (get ces_task::TaskLegCtrlRequest :md5sum-) "5edc546c7fcff5cab9b3ccbc31c1ea7e")
 (setf (get ces_task::TaskLegCtrlRequest :datatype-) "ces_task/TaskLegCtrlRequest")
 (setf (get ces_task::TaskLegCtrlRequest :definition-)
-      "
+      "# current task id, defined in 'TaskLegStatus.msg'
 string task_id
 
-
+# who send request
 string demander
 
-
+# who execute task
 string executor
 
-
+# command: start or stop
 string CMD_START=start
 string CMD_STOP=stop
 string cmd
 
 ---
 
-
+# who reply response
 string owner
 
-
+# indicate status
 bool success
 
-
+# informational, e.g. for error messages
 string message
 
 ")
@@ -198,29 +198,29 @@ string message
 (setf (get ces_task::TaskLegCtrlResponse :md5sum-) "5edc546c7fcff5cab9b3ccbc31c1ea7e")
 (setf (get ces_task::TaskLegCtrlResponse :datatype-) "ces_task/TaskLegCtrlResponse")
 (setf (get ces_task::TaskLegCtrlResponse :definition-)
-      "
+      "# current task id, defined in 'TaskLegStatus.msg'
 string task_id
 
-
+# who send request
 string demander
 
-
+# who execute task
 string executor
 
-
+# command: start or stop
 string CMD_START=start
 string CMD_STOP=stop
 string cmd
 
 ---
 
-
+# who reply response
 string owner
 
-
+# indicate status
 bool success
 
-
+# informational, e.g. for error messages
 string message
 
 ")

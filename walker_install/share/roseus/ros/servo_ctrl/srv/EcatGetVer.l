@@ -118,7 +118,7 @@
 (setf (get servo_ctrl::EcatGetVerRequest :md5sum-) "3f1b5b791580e357125da8eb47534614")
 (setf (get servo_ctrl::EcatGetVerRequest :datatype-) "servo_ctrl/EcatGetVerRequest")
 (setf (get servo_ctrl::EcatGetVerRequest :definition-)
-      "
+      "# servo(case insensitive): LHipYaw,LHipRoll,LHipPitch,LKneePitch,LAnklePitch,LAnkleRoll,RHipYaw,RHipRoll,RHipPitch,RKneePitch,RAnklePitch,RAnkleRoll
 string servo
 ---
 uint32 mod
@@ -129,7 +129,7 @@ uint32 version
 (setf (get servo_ctrl::EcatGetVerResponse :md5sum-) "3f1b5b791580e357125da8eb47534614")
 (setf (get servo_ctrl::EcatGetVerResponse :datatype-) "servo_ctrl/EcatGetVerResponse")
 (setf (get servo_ctrl::EcatGetVerResponse :definition-)
-      "
+      "# servo(case insensitive): LHipYaw,LHipRoll,LHipPitch,LKneePitch,LAnklePitch,LAnkleRoll,RHipYaw,RHipRoll,RHipPitch,RKneePitch,RAnklePitch,RAnkleRoll
 string servo
 ---
 uint32 mod

@@ -204,28 +204,28 @@
 (setf (get cruiser_msgs::motion_srvRequest :md5sum-) "e17f72359ddf3560f0cea3ec62c3ae72")
 (setf (get cruiser_msgs::motion_srvRequest :datatype-) "cruiser_msgs/motion_srvRequest")
 (setf (get cruiser_msgs::motion_srvRequest :definition-)
-      "
+      "#   command   |   data[0]   |   data[1]   |   data[2]   |           explain
+#      1      |     XXX     |     XXX     |     XXX     |    read current joint positoin
+#      2      | pointNum[x] |   time[x]   |   index[x]  |    store current positoin as pointNum[data0] in time[data1]  index[x]:(1 left_arm; 2 right_arm; 3 arm; 4 Head; 5 Hand; 6 All_Robot)
+#      3      | pointNum[x] |   time[x]   |     XXX     |    move to pointNum[data0] in time[data1]
+#      4      | jointNum[x] |  angle[x]   |   time[x]   |    move jointNum[data0] to angle[data1] in time[data2]
+#      5      |   index[x]  |     XXX     |     XXX     |    stop motion index[data0]   index[x]:(1 left_arm; 2 right_arm; 3 arm; 4 Head; 5 Hand; 6 All_Robot)
+#      6      |     XXX     | pointNum[x] |     XXX     |    store action actionName  pointNum[data1]
+#      7      |     XXX     |     XXX     |     XXX     |    move action actionName
+#      8      |     XXX     |     XXX     |     XXX     |    read action actionName
+#      9      |   index[x]  |     XXX     |     XXX     |    go home index[data0]   index[x]:(1 left_arm; 2 right_arm; 3 arm; 4 Head; 5 Hand; 6 All_Robot)
+#      10     | jointNum[x] |     kp      |     XXX     |    set joint[data0] kp[data1]
+#      11     | jointNum[x] |     XXX     |     XXX     |    set joint[data0] zero
+#      12     |     XXX     |     XXX     |     XXX     |    modify action actionName
+#      13     |     XXX     |     XXX     |     XXX     |    CSI record actionName
+#      14     |     XXX     |     XXX     |     XXX     |    stop CSI record actionName
+#      15     |     XXX     |     XXX     |     XXX     |    move CSI record actionName
+#      16     |   index[x]  |   time[x]   |     XXX     |    move to target joint position in time[x]
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#command for server
 int32 command
 
-
+#data for server
 int32[3] data
 
 string actionName
@@ -247,28 +247,28 @@ float64[16] currentJointPosition
 (setf (get cruiser_msgs::motion_srvResponse :md5sum-) "e17f72359ddf3560f0cea3ec62c3ae72")
 (setf (get cruiser_msgs::motion_srvResponse :datatype-) "cruiser_msgs/motion_srvResponse")
 (setf (get cruiser_msgs::motion_srvResponse :definition-)
-      "
+      "#   command   |   data[0]   |   data[1]   |   data[2]   |           explain
+#      1      |     XXX     |     XXX     |     XXX     |    read current joint positoin
+#      2      | pointNum[x] |   time[x]   |   index[x]  |    store current positoin as pointNum[data0] in time[data1]  index[x]:(1 left_arm; 2 right_arm; 3 arm; 4 Head; 5 Hand; 6 All_Robot)
+#      3      | pointNum[x] |   time[x]   |     XXX     |    move to pointNum[data0] in time[data1]
+#      4      | jointNum[x] |  angle[x]   |   time[x]   |    move jointNum[data0] to angle[data1] in time[data2]
+#      5      |   index[x]  |     XXX     |     XXX     |    stop motion index[data0]   index[x]:(1 left_arm; 2 right_arm; 3 arm; 4 Head; 5 Hand; 6 All_Robot)
+#      6      |     XXX     | pointNum[x] |     XXX     |    store action actionName  pointNum[data1]
+#      7      |     XXX     |     XXX     |     XXX     |    move action actionName
+#      8      |     XXX     |     XXX     |     XXX     |    read action actionName
+#      9      |   index[x]  |     XXX     |     XXX     |    go home index[data0]   index[x]:(1 left_arm; 2 right_arm; 3 arm; 4 Head; 5 Hand; 6 All_Robot)
+#      10     | jointNum[x] |     kp      |     XXX     |    set joint[data0] kp[data1]
+#      11     | jointNum[x] |     XXX     |     XXX     |    set joint[data0] zero
+#      12     |     XXX     |     XXX     |     XXX     |    modify action actionName
+#      13     |     XXX     |     XXX     |     XXX     |    CSI record actionName
+#      14     |     XXX     |     XXX     |     XXX     |    stop CSI record actionName
+#      15     |     XXX     |     XXX     |     XXX     |    move CSI record actionName
+#      16     |   index[x]  |   time[x]   |     XXX     |    move to target joint position in time[x]
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#command for server
 int32 command
 
-
+#data for server
 int32[3] data
 
 string actionName

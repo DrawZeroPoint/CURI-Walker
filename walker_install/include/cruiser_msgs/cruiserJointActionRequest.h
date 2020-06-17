@@ -152,13 +152,13 @@ struct Definition< ::cruiser_msgs::cruiserJointActionRequest_<ContainerAllocator
 {
   static const char* value()
   {
-    return "\n"
+    return "# This file defines a command inferring to a action to play\n"
 "\n"
-"\n"
+"# Action name in ASCII\n"
 "string action_name\n"
 "\n"
-"\n"
-"\n"
+"# Times action will be played\n"
+"# 0 means infinite loop\n"
 "int16 action_time\n"
 "\n"
 ;

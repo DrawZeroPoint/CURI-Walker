@@ -152,7 +152,7 @@ struct Definition< ::servo_ctrl::SetFtPeriodRequest_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "\n"
+    return "# ftId: \"lwrist\", \"rwrist\", \"lankle\", \"rankle\"\n"
 "string ftId\n"
 "int32  period_ms\n"
 ;

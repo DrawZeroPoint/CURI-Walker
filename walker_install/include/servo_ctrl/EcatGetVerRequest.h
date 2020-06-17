@@ -146,7 +146,7 @@ struct Definition< ::servo_ctrl::EcatGetVerRequest_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "\n"
+    return "# servo(case insensitive): LHipYaw,LHipRoll,LHipPitch,LKneePitch,LAnklePitch,LAnkleRoll,RHipYaw,RHipRoll,RHipPitch,RKneePitch,RAnklePitch,RAnkleRoll\n"
 "string servo\n"
 ;
   }

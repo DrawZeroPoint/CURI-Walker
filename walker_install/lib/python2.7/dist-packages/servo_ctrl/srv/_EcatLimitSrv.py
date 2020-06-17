@@ -9,20 +9,20 @@ import struct
 class EcatLimitSrvRequest(genpy.Message):
   _md5sum = "929e3455058e059e9e07f04b022c3edf"
   _type = "servo_ctrl/EcatLimitSrvRequest"
-  _has_header = False #flag to mark the presence of a Header object
-  _full_text = """
+  _has_header = False  # flag to mark the presence of a Header object
+  _full_text = """# cmd: "get", "set"
 string cmd
 
-
+# servo(case insensitive): LHipYaw,LHipRoll,LHipPitch,LKneePitch,LAnklePitch,LAnkleRoll,RHipYaw,RHipRoll,RHipPitch,RKneePitch,RAnklePitch,RAnkleRoll
 string servo
 
-
+# mode: pos, vel, trq
 string mode
 
-
+# enable/disable limitation
 bool enable
 
-
+# limitation value, the positive direction is detected automatically
 float32 min
 float32 max
 """
@@ -45,7 +45,7 @@ float32 max
     """
     if args or kwds:
       super(EcatLimitSrvRequest, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.cmd is None:
         self.cmd = ''
       if self.servo is None:
@@ -142,7 +142,7 @@ float32 max
       self.enable = bool(self.enable)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -217,7 +217,7 @@ float32 max
       self.enable = bool(self.enable)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
@@ -240,7 +240,7 @@ import struct
 class EcatLimitSrvResponse(genpy.Message):
   _md5sum = "2b13c6d0eda9fb6752efa4b22334c34d"
   _type = "servo_ctrl/EcatLimitSrvResponse"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """bool enable
 float32 min
 float32 max
@@ -265,7 +265,7 @@ float32 max
     """
     if args or kwds:
       super(EcatLimitSrvResponse, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.enable is None:
         self.enable = False
       if self.min is None:
@@ -308,7 +308,7 @@ float32 max
       self.enable = bool(self.enable)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -338,7 +338,7 @@ float32 max
       self.enable = bool(self.enable)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

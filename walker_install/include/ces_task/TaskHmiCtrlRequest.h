@@ -146,7 +146,7 @@ struct Definition< ::ces_task::TaskHmiCtrlRequest_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "\n"
+    return "# adb commands to send\n"
 "string adb_cmd\n"
 ;
   }

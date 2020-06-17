@@ -131,10 +131,10 @@
   "192892ca52f2915109ae2e297dfadb46")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<leg_motion_MetaFuncCtrl-request>)))
   "Returns full string definition for message of type '<leg_motion_MetaFuncCtrl-request>"
-  (cl:format cl:nil "~%string FUNC_DYNAMIC=dynamic~%string FUNC_BALANCE=balance~%string FUNC_COMPLIANCE=compliance~%string FUNC_TAICHI=taichi~%string FUNC_YOGA=yoga~%string FUNC_JUMP=jump~%~%~%string CMD_START=start~%string CMD_STOP=stop~%~%~%string func_name~%string param_json~%string cmd~%~%~%"))
+  (cl:format cl:nil "# functions~%string FUNC_DYNAMIC=dynamic~%string FUNC_BALANCE=balance~%string FUNC_COMPLIANCE=compliance~%string FUNC_TAICHI=taichi~%string FUNC_YOGA=yoga~%string FUNC_JUMP=jump~%~%# command~%string CMD_START=start~%string CMD_STOP=stop~%~%# members~%string func_name~%string param_json # json format parameters~%string cmd~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'leg_motion_MetaFuncCtrl-request)))
   "Returns full string definition for message of type 'leg_motion_MetaFuncCtrl-request"
-  (cl:format cl:nil "~%string FUNC_DYNAMIC=dynamic~%string FUNC_BALANCE=balance~%string FUNC_COMPLIANCE=compliance~%string FUNC_TAICHI=taichi~%string FUNC_YOGA=yoga~%string FUNC_JUMP=jump~%~%~%string CMD_START=start~%string CMD_STOP=stop~%~%~%string func_name~%string param_json~%string cmd~%~%~%"))
+  (cl:format cl:nil "# functions~%string FUNC_DYNAMIC=dynamic~%string FUNC_BALANCE=balance~%string FUNC_COMPLIANCE=compliance~%string FUNC_TAICHI=taichi~%string FUNC_YOGA=yoga~%string FUNC_JUMP=jump~%~%# command~%string CMD_START=start~%string CMD_STOP=stop~%~%# members~%string func_name~%string param_json # json format parameters~%string cmd~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <leg_motion_MetaFuncCtrl-request>))
   (cl:+ 0
      4 (cl:length (cl:slot-value msg 'func_name))

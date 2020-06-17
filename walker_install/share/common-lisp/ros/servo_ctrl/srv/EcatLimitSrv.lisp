@@ -163,10 +163,10 @@
   "e3d452c6cafa43f5461e27d1edc8c915")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<EcatLimitSrv-request>)))
   "Returns full string definition for message of type '<EcatLimitSrv-request>"
-  (cl:format cl:nil "~%string cmd~%~%~%string servo~%~%~%string mode~%~%~%bool enable~%~%~%float32 min~%float32 max~%~%~%"))
+  (cl:format cl:nil "# cmd: \"get\", \"set\"~%string cmd~%~%# servo(case insensitive): LHipYaw,LHipRoll,LHipPitch,LKneePitch,LAnklePitch,LAnkleRoll,RHipYaw,RHipRoll,RHipPitch,RKneePitch,RAnklePitch,RAnkleRoll~%string servo~%~%# mode: pos, vel, trq~%string mode~%~%# enable/disable limitation~%bool enable~%~%# limitation value, the positive direction is detected automatically~%float32 min~%float32 max~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'EcatLimitSrv-request)))
   "Returns full string definition for message of type 'EcatLimitSrv-request"
-  (cl:format cl:nil "~%string cmd~%~%~%string servo~%~%~%string mode~%~%~%bool enable~%~%~%float32 min~%float32 max~%~%~%"))
+  (cl:format cl:nil "# cmd: \"get\", \"set\"~%string cmd~%~%# servo(case insensitive): LHipYaw,LHipRoll,LHipPitch,LKneePitch,LAnklePitch,LAnkleRoll,RHipYaw,RHipRoll,RHipPitch,RKneePitch,RAnklePitch,RAnkleRoll~%string servo~%~%# mode: pos, vel, trq~%string mode~%~%# enable/disable limitation~%bool enable~%~%# limitation value, the positive direction is detected automatically~%float32 min~%float32 max~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <EcatLimitSrv-request>))
   (cl:+ 0
      4 (cl:length (cl:slot-value msg 'cmd))

@@ -10,7 +10,7 @@ import std_msgs.msg
 class PermCheckRequest(genpy.Message):
   _md5sum = "abf9ec3fbacde13b0090be0d7f928aae"
   _type = "perm_checker/PermCheckRequest"
-  _has_header = True #flag to mark the presence of a Header object
+  _has_header = True  # flag to mark the presence of a Header object
   _full_text = """Header header
 string content
 
@@ -49,7 +49,7 @@ string frame_id
     """
     if args or kwds:
       super(PermCheckRequest, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.header is None:
         self.header = std_msgs.msg.Header()
       if self.content is None:
@@ -120,7 +120,7 @@ string frame_id
         self.content = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -181,7 +181,7 @@ string frame_id
         self.content = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
@@ -205,7 +205,7 @@ import std_msgs.msg
 class PermCheckResponse(genpy.Message):
   _md5sum = "abf9ec3fbacde13b0090be0d7f928aae"
   _type = "perm_checker/PermCheckResponse"
-  _has_header = True #flag to mark the presence of a Header object
+  _has_header = True  # flag to mark the presence of a Header object
   _full_text = """Header header
 string content
 
@@ -244,7 +244,7 @@ string frame_id
     """
     if args or kwds:
       super(PermCheckResponse, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.header is None:
         self.header = std_msgs.msg.Header()
       if self.content is None:
@@ -315,7 +315,7 @@ string frame_id
         self.content = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -376,7 +376,7 @@ string frame_id
         self.content = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

@@ -140,7 +140,7 @@
 (setf (get servo_ctrl::EcatGetPVTRequest :md5sum-) "c489f93ef6aafee9eaeb152fcdcb6ab1")
 (setf (get servo_ctrl::EcatGetPVTRequest :datatype-) "servo_ctrl/EcatGetPVTRequest")
 (setf (get servo_ctrl::EcatGetPVTRequest :definition-)
-      "
+      "# servo(case insensitive): LHipYaw,LHipRoll,LHipPitch,LKneePitch,LAnklePitch,LAnkleRoll,RHipYaw,RHipRoll,RHipPitch,RKneePitch,RAnklePitch,RAnkleRoll
 string servo
 ---
 float32 pos
@@ -153,7 +153,7 @@ uint16 errcode
 (setf (get servo_ctrl::EcatGetPVTResponse :md5sum-) "c489f93ef6aafee9eaeb152fcdcb6ab1")
 (setf (get servo_ctrl::EcatGetPVTResponse :datatype-) "servo_ctrl/EcatGetPVTResponse")
 (setf (get servo_ctrl::EcatGetPVTResponse :definition-)
-      "
+      "# servo(case insensitive): LHipYaw,LHipRoll,LHipPitch,LKneePitch,LAnklePitch,LAnkleRoll,RHipYaw,RHipRoll,RHipPitch,RKneePitch,RAnklePitch,RAnkleRoll
 string servo
 ---
 float32 pos

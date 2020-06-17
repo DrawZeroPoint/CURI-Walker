@@ -9,7 +9,7 @@ import struct
 class cruiser_stringRequest(genpy.Message):
   _md5sum = "77382d83cbf07d498fedd9ee475648c2"
   _type = "cruiser_msgs/cruiser_stringRequest"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """uint32 priority
 string str
 """
@@ -32,7 +32,7 @@ string str
     """
     if args or kwds:
       super(cruiser_stringRequest, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.priority is None:
         self.priority = 0
       if self.str is None:
@@ -53,7 +53,8 @@ string str
     :param buff: buffer, ``StringIO``
     """
     try:
-      buff.write(_get_struct_I().pack(self.priority))
+      _x = self.priority
+      buff.write(_get_struct_I().pack(_x))
       _x = self.str
       length = len(_x)
       if python3 or type(_x) == unicode:
@@ -84,7 +85,7 @@ string str
         self.str = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -94,7 +95,8 @@ string str
     :param numpy: numpy python module
     """
     try:
-      buff.write(_get_struct_I().pack(self.priority))
+      _x = self.priority
+      buff.write(_get_struct_I().pack(_x))
       _x = self.str
       length = len(_x)
       if python3 or type(_x) == unicode:
@@ -126,7 +128,7 @@ string str
         self.str = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
@@ -143,8 +145,8 @@ import struct
 class cruiser_stringResponse(genpy.Message):
   _md5sum = "994972b6e03928b2476860ce6c4c8e17"
   _type = "cruiser_msgs/cruiser_stringResponse"
-  _has_header = False #flag to mark the presence of a Header object
-  _full_text = """
+  _has_header = False  # flag to mark the presence of a Header object
+  _full_text = """# time in millisecond. 1000 stands for 1s
 string str
 
 
@@ -168,7 +170,7 @@ string str
     """
     if args or kwds:
       super(cruiser_stringResponse, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.str is None:
         self.str = ''
     else:
@@ -213,7 +215,7 @@ string str
         self.str = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -251,7 +253,7 @@ string str
         self.str = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

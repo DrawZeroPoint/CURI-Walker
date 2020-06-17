@@ -9,7 +9,7 @@ import struct
 class PowerSettingRequest(genpy.Message):
   _md5sum = "b8ab82471068ec9bf0220a528179c6bc"
   _type = "cruiser_msgs/PowerSettingRequest"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """uint8 cmd
 uint16 year
 uint8 month
@@ -41,7 +41,7 @@ uint8 flag
     """
     if args or kwds:
       super(PowerSettingRequest, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.cmd is None:
         self.cmd = 0
       if self.year is None:
@@ -106,7 +106,7 @@ uint8 flag
       self.fullPowerOn = bool(self.fullPowerOn)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -137,7 +137,7 @@ uint8 flag
       self.fullPowerOn = bool(self.fullPowerOn)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
@@ -160,7 +160,7 @@ import struct
 class PowerSettingResponse(genpy.Message):
   _md5sum = "d22520ac39d556453b510a4435e4340f"
   _type = "cruiser_msgs/PowerSettingResponse"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """uint16 year
 uint8 month
 uint8 day
@@ -196,7 +196,7 @@ bool success
     """
     if args or kwds:
       super(PowerSettingResponse, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.year is None:
         self.year = 0
       if self.month is None:
@@ -270,7 +270,7 @@ bool success
       self.success = bool(self.success)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -304,7 +304,7 @@ bool success
       self.success = bool(self.success)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

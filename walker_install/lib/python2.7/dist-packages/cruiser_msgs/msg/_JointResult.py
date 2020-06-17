@@ -10,7 +10,7 @@ import genpy
 class JointResult(genpy.Message):
   _md5sum = "60682833e270feaa2ef1ee50b6380b52"
   _type = "cruiser_msgs/JointResult"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """string id
 time stamp
 int32 errCode
@@ -54,7 +54,7 @@ float64[] current
     """
     if args or kwds:
       super(JointResult, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.id is None:
         self.id = ''
       if self.stamp is None:
@@ -217,7 +217,7 @@ float64[] current
       self.stamp.canon()
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -346,7 +346,7 @@ float64[] current
       self.stamp.canon()
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

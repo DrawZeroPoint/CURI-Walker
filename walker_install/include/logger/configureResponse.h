@@ -158,9 +158,9 @@ struct Definition< ::logger::configureResponse_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "\n"
+    return "#查询容量，以条数为单位\n"
 "int32 capacity\n"
-"\n"
+"#查询数据存放路径\n"
 "string path\n"
 "bool result\n"
 "\n"

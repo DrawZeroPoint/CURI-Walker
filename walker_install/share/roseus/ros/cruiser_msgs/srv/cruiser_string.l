@@ -121,7 +121,7 @@
       "uint32 priority
 string str
 ---
-
+# time in millisecond. 1000 stands for 1s
 string str
 
 
@@ -133,7 +133,7 @@ string str
       "uint32 priority
 string str
 ---
-
+# time in millisecond. 1000 stands for 1s
 string str
 
 

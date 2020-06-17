@@ -143,7 +143,7 @@
       "uint32 priority
 string packetdata
 ---
-
+# time in millisecond. 1000 stands for 1s
 float64 temperature
 float64 humidity
 string message
@@ -156,7 +156,7 @@ string message
       "uint32 priority
 string packetdata
 ---
-
+# time in millisecond. 1000 stands for 1s
 float64 temperature
 float64 humidity
 string message

@@ -9,8 +9,8 @@ import struct
 class SetFtPeriodRequest(genpy.Message):
   _md5sum = "6ae68f403a66aa025d9f0a184f843df5"
   _type = "servo_ctrl/SetFtPeriodRequest"
-  _has_header = False #flag to mark the presence of a Header object
-  _full_text = """
+  _has_header = False  # flag to mark the presence of a Header object
+  _full_text = """# ftId: "lwrist", "rwrist", "lankle", "rankle"
 string ftId
 int32  period_ms
 """
@@ -33,7 +33,7 @@ int32  period_ms
     """
     if args or kwds:
       super(SetFtPeriodRequest, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.ftId is None:
         self.ftId = ''
       if self.period_ms is None:
@@ -60,7 +60,8 @@ int32  period_ms
         _x = _x.encode('utf-8')
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
-      buff.write(_get_struct_i().pack(self.period_ms))
+      _x = self.period_ms
+      buff.write(_get_struct_i().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -85,7 +86,7 @@ int32  period_ms
       (self.period_ms,) = _get_struct_i().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -101,7 +102,8 @@ int32  period_ms
         _x = _x.encode('utf-8')
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
-      buff.write(_get_struct_i().pack(self.period_ms))
+      _x = self.period_ms
+      buff.write(_get_struct_i().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -127,7 +129,7 @@ int32  period_ms
       (self.period_ms,) = _get_struct_i().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
@@ -150,7 +152,7 @@ import struct
 class SetFtPeriodResponse(genpy.Message):
   _md5sum = "c22f2a1ed8654a0b365f1bb3f7ff2c0f"
   _type = "servo_ctrl/SetFtPeriodResponse"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """string result
 
 """
@@ -173,7 +175,7 @@ class SetFtPeriodResponse(genpy.Message):
     """
     if args or kwds:
       super(SetFtPeriodResponse, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.result is None:
         self.result = ''
     else:
@@ -218,7 +220,7 @@ class SetFtPeriodResponse(genpy.Message):
         self.result = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -256,7 +258,7 @@ class SetFtPeriodResponse(genpy.Message):
         self.result = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

@@ -61,10 +61,10 @@
   "e7ac98ca304b04e45988c61adb6bc4ce")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<SetUMap-request>)))
   "Returns full string definition for message of type '<SetUMap-request>"
-  (cl:format cl:nil "string data~%~%~%"))
+  (cl:format cl:nil "string data~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'SetUMap-request)))
   "Returns full string definition for message of type 'SetUMap-request"
-  (cl:format cl:nil "string data~%~%~%"))
+  (cl:format cl:nil "string data~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <SetUMap-request>))
   (cl:+ 0
      4 (cl:length (cl:slot-value msg 'data))
@@ -119,10 +119,10 @@
   "e7ac98ca304b04e45988c61adb6bc4ce")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<SetUMap-response>)))
   "Returns full string definition for message of type '<SetUMap-response>"
-  (cl:format cl:nil "bool success~%~%~%~%"))
+  (cl:format cl:nil "bool success~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'SetUMap-response)))
   "Returns full string definition for message of type 'SetUMap-response"
-  (cl:format cl:nil "bool success~%~%~%~%"))
+  (cl:format cl:nil "bool success~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <SetUMap-response>))
   (cl:+ 0
      1

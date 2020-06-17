@@ -10,7 +10,7 @@ import std_msgs.msg
 class SEAJointState(genpy.Message):
   _md5sum = "d36406dcbb6d860b1b39c4e28f81352b"
   _type = "baxter_core_msgs/SEAJointState"
-  _has_header = True #flag to mark the presence of a Header object
+  _has_header = True  # flag to mark the presence of a Header object
   _full_text = """# This is a message that holds data to describe the state of a set of torque controlled joints.
 #
 # The state of each joint (revolute or prismatic) is defined by:
@@ -86,7 +86,7 @@ string frame_id
     """
     if args or kwds:
       super(SEAJointState, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.header is None:
         self.header = std_msgs.msg.Header()
       if self.name is None:
@@ -203,7 +203,8 @@ string frame_id
       buff.write(_struct_I.pack(length))
       pattern = '<%sd'%length
       buff.write(struct.pack(pattern, *self.crosstalk_model_effort))
-      buff.write(_get_struct_d().pack(self.hystState))
+      _x = self.hystState
+      buff.write(_get_struct_d().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -326,7 +327,7 @@ string frame_id
       (self.hystState,) = _get_struct_d().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -396,7 +397,8 @@ string frame_id
       buff.write(_struct_I.pack(length))
       pattern = '<%sd'%length
       buff.write(self.crosstalk_model_effort.tostring())
-      buff.write(_get_struct_d().pack(self.hystState))
+      _x = self.hystState
+      buff.write(_get_struct_d().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -520,7 +522,7 @@ string frame_id
       (self.hystState,) = _get_struct_d().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

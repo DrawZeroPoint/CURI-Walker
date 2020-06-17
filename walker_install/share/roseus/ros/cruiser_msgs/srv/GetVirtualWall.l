@@ -101,7 +101,7 @@
 (setf (get cruiser_msgs::GetVirtualWallRequest :md5sum-) "bf9b4c73a9da4988a548c8f4357827ec")
 (setf (get cruiser_msgs::GetVirtualWallRequest :datatype-) "cruiser_msgs/GetVirtualWallRequest")
 (setf (get cruiser_msgs::GetVirtualWallRequest :definition-)
-      "
+      "# Get the virtual wall as a cruiser_msgs/VirtualWall
 ---
 cruiser_msgs/VirtualWall wall
 
@@ -180,7 +180,7 @@ Pose pose
 (setf (get cruiser_msgs::GetVirtualWallResponse :md5sum-) "bf9b4c73a9da4988a548c8f4357827ec")
 (setf (get cruiser_msgs::GetVirtualWallResponse :datatype-) "cruiser_msgs/GetVirtualWallResponse")
 (setf (get cruiser_msgs::GetVirtualWallResponse :definition-)
-      "
+      "# Get the virtual wall as a cruiser_msgs/VirtualWall
 ---
 cruiser_msgs/VirtualWall wall
 

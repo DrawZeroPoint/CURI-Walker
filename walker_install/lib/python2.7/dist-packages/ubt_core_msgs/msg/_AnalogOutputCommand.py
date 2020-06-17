@@ -9,7 +9,7 @@ import struct
 class AnalogOutputCommand(genpy.Message):
   _md5sum = "a7b945129a083ca4095d48aa94841d85"
   _type = "ubt_core_msgs/AnalogOutputCommand"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """##the name of the output
 string name  
 ##the value to set output 
@@ -34,7 +34,7 @@ uint16 value
     """
     if args or kwds:
       super(AnalogOutputCommand, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.name is None:
         self.name = ''
       if self.value is None:
@@ -61,7 +61,8 @@ uint16 value
         _x = _x.encode('utf-8')
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
-      buff.write(_get_struct_H().pack(self.value))
+      _x = self.value
+      buff.write(_get_struct_H().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -86,7 +87,7 @@ uint16 value
       (self.value,) = _get_struct_H().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -102,7 +103,8 @@ uint16 value
         _x = _x.encode('utf-8')
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
-      buff.write(_get_struct_H().pack(self.value))
+      _x = self.value
+      buff.write(_get_struct_H().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -128,7 +130,7 @@ uint16 value
       (self.value,) = _get_struct_H().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

@@ -184,16 +184,16 @@
 (setf (get servo_ctrl::EcatPidSrvRequest :md5sum-) "7b9594603cb192f9d9c16b8685314164")
 (setf (get servo_ctrl::EcatPidSrvRequest :datatype-) "servo_ctrl/EcatPidSrvRequest")
 (setf (get servo_ctrl::EcatPidSrvRequest :definition-)
-      "
+      "# cmd: \"get\", \"set\"
 string cmd
 
-
+# servo(case insensitive): LHipYaw,LHipRoll,LHipPitch,LKneePitch,LAnklePitch,LAnkleRoll,RHipYaw,RHipRoll,RHipPitch,RKneePitch,RAnklePitch,RAnkleRoll
 string servo
 
-
+# mode: pos, vel, trq
 string mode
 
-
+# pid
 int16 kp
 int16 ki
 int16 kd
@@ -207,16 +207,16 @@ int16 kd
 (setf (get servo_ctrl::EcatPidSrvResponse :md5sum-) "7b9594603cb192f9d9c16b8685314164")
 (setf (get servo_ctrl::EcatPidSrvResponse :datatype-) "servo_ctrl/EcatPidSrvResponse")
 (setf (get servo_ctrl::EcatPidSrvResponse :definition-)
-      "
+      "# cmd: \"get\", \"set\"
 string cmd
 
-
+# servo(case insensitive): LHipYaw,LHipRoll,LHipPitch,LKneePitch,LAnklePitch,LAnkleRoll,RHipYaw,RHipRoll,RHipPitch,RKneePitch,RAnklePitch,RAnkleRoll
 string servo
 
-
+# mode: pos, vel, trq
 string mode
 
-
+# pid
 int16 kp
 int16 ki
 int16 kd

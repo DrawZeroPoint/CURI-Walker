@@ -118,17 +118,17 @@
 (setf (get cruiser_msgs::cruiserJointActionRequest :md5sum-) "385edf431acc9bbbd7c1e0ee768e259d")
 (setf (get cruiser_msgs::cruiserJointActionRequest :datatype-) "cruiser_msgs/cruiserJointActionRequest")
 (setf (get cruiser_msgs::cruiserJointActionRequest :definition-)
-      "
+      "# This file defines a command inferring to a action to play
 
-
+# Action name in ASCII
 string action_name
 
-
-
+# Times action will be played
+# 0 means infinite loop
 int16 action_time
 
 ---
-
+# Return \"Success\" or \"Fail\"
 string result
 
 
@@ -137,17 +137,17 @@ string result
 (setf (get cruiser_msgs::cruiserJointActionResponse :md5sum-) "385edf431acc9bbbd7c1e0ee768e259d")
 (setf (get cruiser_msgs::cruiserJointActionResponse :datatype-) "cruiser_msgs/cruiserJointActionResponse")
 (setf (get cruiser_msgs::cruiserJointActionResponse :definition-)
-      "
+      "# This file defines a command inferring to a action to play
 
-
+# Action name in ASCII
 string action_name
 
-
-
+# Times action will be played
+# 0 means infinite loop
 int16 action_time
 
 ---
-
+# Return \"Success\" or \"Fail\"
 string result
 
 

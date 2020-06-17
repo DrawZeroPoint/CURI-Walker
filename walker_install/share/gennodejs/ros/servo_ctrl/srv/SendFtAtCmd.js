@@ -80,7 +80,7 @@ class SendFtAtCmdRequest {
   static messageDefinition() {
     // Returns full string definition for message
     return `
-    
+    # Ft ID(case insensitive): lwrist,rwrist,lankle,rankle
     string ft_id
     string at_cmd
     

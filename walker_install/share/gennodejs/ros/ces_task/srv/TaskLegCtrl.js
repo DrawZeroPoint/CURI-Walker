@@ -104,16 +104,16 @@ class TaskLegCtrlRequest {
   static messageDefinition() {
     // Returns full string definition for message
     return `
-    
+    # current task id, defined in 'TaskLegStatus.msg'
     string task_id
     
-    
+    # who send request
     string demander
     
-    
+    # who execute task
     string executor
     
-    
+    # command: start or stop
     string CMD_START=start
     string CMD_STOP=stop
     string cmd
@@ -241,13 +241,13 @@ class TaskLegCtrlResponse {
     // Returns full string definition for message
     return `
     
-    
+    # who reply response
     string owner
     
-    
+    # indicate status
     bool success
     
-    
+    # informational, e.g. for error messages
     string message
     
     

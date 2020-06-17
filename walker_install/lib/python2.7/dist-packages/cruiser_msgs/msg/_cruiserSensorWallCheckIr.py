@@ -9,7 +9,7 @@ import struct
 class cruiserSensorWallCheckIr(genpy.Message):
   _md5sum = "2899b05469a7aab9f6a6ab873a44b165"
   _type = "cruiser_msgs/cruiserSensorWallCheckIr"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """uint32 dist1
 uint32 dist2
 uint32 dist3
@@ -39,7 +39,7 @@ uint32 dist6
     """
     if args or kwds:
       super(cruiserSensorWallCheckIr, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.dist1 is None:
         self.dist1 = 0
       if self.dist2 is None:
@@ -90,7 +90,7 @@ uint32 dist6
       (_x.dist1, _x.dist2, _x.dist3, _x.dist4, _x.dist5, _x.dist6,) = _get_struct_6I().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -119,7 +119,7 @@ uint32 dist6
       (_x.dist1, _x.dist2, _x.dist3, _x.dist4, _x.dist5, _x.dist6,) = _get_struct_6I().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

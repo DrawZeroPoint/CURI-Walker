@@ -9,7 +9,7 @@ import struct
 class EskinMsg(genpy.Message):
   _md5sum = "77d3caef613d1fc8fbecb5c35a4b92d0"
   _type = "cruiser_msgs/EskinMsg"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """string Name
 uint32 E_skin
 string message
@@ -34,7 +34,7 @@ string message
     """
     if args or kwds:
       super(EskinMsg, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.Name is None:
         self.Name = ''
       if self.E_skin is None:
@@ -64,7 +64,8 @@ string message
         _x = _x.encode('utf-8')
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
-      buff.write(_get_struct_I().pack(self.E_skin))
+      _x = self.E_skin
+      buff.write(_get_struct_I().pack(_x))
       _x = self.message
       length = len(_x)
       if python3 or type(_x) == unicode:
@@ -104,7 +105,7 @@ string message
         self.message = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -120,7 +121,8 @@ string message
         _x = _x.encode('utf-8')
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
-      buff.write(_get_struct_I().pack(self.E_skin))
+      _x = self.E_skin
+      buff.write(_get_struct_I().pack(_x))
       _x = self.message
       length = len(_x)
       if python3 or type(_x) == unicode:
@@ -161,7 +163,7 @@ string message
         self.message = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

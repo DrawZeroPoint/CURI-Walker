@@ -9,7 +9,7 @@ import struct
 class cruiserLedOnOff(genpy.Message):
   _md5sum = "5542655f2c2b872f0777fe5564fc094c"
   _type = "cruiser_msgs/cruiserLedOnOff"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """uint32 onOff
 
 """
@@ -32,7 +32,7 @@ class cruiserLedOnOff(genpy.Message):
     """
     if args or kwds:
       super(cruiserLedOnOff, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.onOff is None:
         self.onOff = 0
     else:
@@ -50,7 +50,8 @@ class cruiserLedOnOff(genpy.Message):
     :param buff: buffer, ``StringIO``
     """
     try:
-      buff.write(_get_struct_I().pack(self.onOff))
+      _x = self.onOff
+      buff.write(_get_struct_I().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -66,7 +67,7 @@ class cruiserLedOnOff(genpy.Message):
       (self.onOff,) = _get_struct_I().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -76,7 +77,8 @@ class cruiserLedOnOff(genpy.Message):
     :param numpy: numpy python module
     """
     try:
-      buff.write(_get_struct_I().pack(self.onOff))
+      _x = self.onOff
+      buff.write(_get_struct_I().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -93,7 +95,7 @@ class cruiserLedOnOff(genpy.Message):
       (self.onOff,) = _get_struct_I().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

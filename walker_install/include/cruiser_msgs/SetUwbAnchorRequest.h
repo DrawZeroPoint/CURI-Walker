@@ -147,7 +147,7 @@ struct Definition< ::cruiser_msgs::SetUwbAnchorRequest_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "\n"
+    return "# Set the uwb stations as a cruiser_msgs/UwbAnchors\n"
 "cruiser_msgs/UwbAnchor anchor\n"
 "\n"
 "================================================================================\n"

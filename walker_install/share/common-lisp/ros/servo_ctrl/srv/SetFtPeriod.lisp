@@ -83,10 +83,10 @@
   "da5f21de43d7b8e0a73c301ba13f71ef")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<SetFtPeriod-request>)))
   "Returns full string definition for message of type '<SetFtPeriod-request>"
-  (cl:format cl:nil "~%string ftId~%int32  period_ms~%~%~%"))
+  (cl:format cl:nil "# ftId: \"lwrist\", \"rwrist\", \"lankle\", \"rankle\"~%string ftId~%int32  period_ms~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'SetFtPeriod-request)))
   "Returns full string definition for message of type 'SetFtPeriod-request"
-  (cl:format cl:nil "~%string ftId~%int32  period_ms~%~%~%"))
+  (cl:format cl:nil "# ftId: \"lwrist\", \"rwrist\", \"lankle\", \"rankle\"~%string ftId~%int32  period_ms~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <SetFtPeriod-request>))
   (cl:+ 0
      4 (cl:length (cl:slot-value msg 'ftId))

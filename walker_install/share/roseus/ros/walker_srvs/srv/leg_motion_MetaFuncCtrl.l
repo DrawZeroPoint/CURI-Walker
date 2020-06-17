@@ -164,7 +164,7 @@
 (setf (get walker_srvs::leg_motion_MetaFuncCtrlRequest :md5sum-) "192892ca52f2915109ae2e297dfadb46")
 (setf (get walker_srvs::leg_motion_MetaFuncCtrlRequest :datatype-) "walker_srvs/leg_motion_MetaFuncCtrlRequest")
 (setf (get walker_srvs::leg_motion_MetaFuncCtrlRequest :definition-)
-      "
+      "# functions
 string FUNC_DYNAMIC=dynamic
 string FUNC_BALANCE=balance
 string FUNC_COMPLIANCE=compliance
@@ -172,13 +172,13 @@ string FUNC_TAICHI=taichi
 string FUNC_YOGA=yoga
 string FUNC_JUMP=jump
 
-
+# command
 string CMD_START=start
 string CMD_STOP=stop
 
-
+# members
 string func_name
-string param_json
+string param_json # json format parameters
 string cmd
 ---
 bool success
@@ -189,7 +189,7 @@ string message
 (setf (get walker_srvs::leg_motion_MetaFuncCtrlResponse :md5sum-) "192892ca52f2915109ae2e297dfadb46")
 (setf (get walker_srvs::leg_motion_MetaFuncCtrlResponse :datatype-) "walker_srvs/leg_motion_MetaFuncCtrlResponse")
 (setf (get walker_srvs::leg_motion_MetaFuncCtrlResponse :definition-)
-      "
+      "# functions
 string FUNC_DYNAMIC=dynamic
 string FUNC_BALANCE=balance
 string FUNC_COMPLIANCE=compliance
@@ -197,13 +197,13 @@ string FUNC_TAICHI=taichi
 string FUNC_YOGA=yoga
 string FUNC_JUMP=jump
 
-
+# command
 string CMD_START=start
 string CMD_STOP=stop
 
-
+# members
 string func_name
-string param_json
+string param_json # json format parameters
 string cmd
 ---
 bool success

@@ -10,7 +10,7 @@ import genpy
 class URDFConfiguration(genpy.Message):
   _md5sum = "0c7028d878027820eed2aa0cbf1f5e4a"
   _type = "baxter_core_msgs/URDFConfiguration"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """## URDF Configuration
 time time      # time the message was created, serves as a sequence number
                # time should be changed only when the content changes.
@@ -41,7 +41,7 @@ string urdf    # XML or JSON-encoded URDF data.  This should be a URDF fragment
     """
     if args or kwds:
       super(URDFConfiguration, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.time is None:
         self.time = genpy.Time()
       if self.link is None:
@@ -134,7 +134,7 @@ string urdf    # XML or JSON-encoded URDF data.  This should be a URDF fragment
       self.time.canon()
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -211,7 +211,7 @@ string urdf    # XML or JSON-encoded URDF data.  This should be a URDF fragment
       self.time.canon()
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

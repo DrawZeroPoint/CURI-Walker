@@ -5,26 +5,26 @@ python3 = True if sys.hexversion > 0x03000000 else False
 import genpy
 import struct
 
-import sensor_msgs.msg
 import geometry_msgs.msg
+import sensor_msgs.msg
 import std_msgs.msg
 
 class SolvePositionIKRequest(genpy.Message):
   _md5sum = "2587e42983d0081d0a2288230991073b"
   _type = "ubt_core_msgs/SolvePositionIKRequest"
-  _has_header = False #flag to mark the presence of a Header object
-  _full_text = """
+  _has_header = False  # flag to mark the presence of a Header object
+  _full_text = """# Endpoint Pose(s) to request Inverse-Kinematics joint solutions for.
 geometry_msgs/PoseStamped[] pose_stamp
 
-
-
-
+# (optional) Joint Angle Seed(s) for IK solver.
+# * specify a JointState seed for each pose_stamp, using name[] and position[]
+# * empty arrays or a non-default seed_mode will cause user seed to not be used
 sensor_msgs/JointState[] seed_angles
 
-
-
-
-
+# Seed Type Mode
+# * default (SEED_AUTO) mode: iterate through seed types until first valid
+#                             solution is found
+# * setting any other mode:   try only that seed type
 uint8 SEED_AUTO    = 0
 uint8 SEED_USER    = 1
 uint8 SEED_CURRENT = 2
@@ -130,7 +130,7 @@ float64[] effort
     """
     if args or kwds:
       super(SolvePositionIKRequest, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.pose_stamp is None:
         self.pose_stamp = []
       if self.seed_angles is None:
@@ -158,7 +158,8 @@ float64[] effort
       buff.write(_struct_I.pack(length))
       for val1 in self.pose_stamp:
         _v1 = val1.header
-        buff.write(_get_struct_I().pack(_v1.seq))
+        _x = _v1.seq
+        buff.write(_get_struct_I().pack(_x))
         _v2 = _v1.stamp
         _x = _v2
         buff.write(_get_struct_2I().pack(_x.secs, _x.nsecs))
@@ -179,7 +180,8 @@ float64[] effort
       buff.write(_struct_I.pack(length))
       for val1 in self.seed_angles:
         _v6 = val1.header
-        buff.write(_get_struct_I().pack(_v6.seq))
+        _x = _v6.seq
+        buff.write(_get_struct_I().pack(_x))
         _v7 = _v6.stamp
         _x = _v7
         buff.write(_get_struct_2I().pack(_x.secs, _x.nsecs))
@@ -209,7 +211,8 @@ float64[] effort
         buff.write(_struct_I.pack(length))
         pattern = '<%sd'%length
         buff.write(struct.pack(pattern, *val1.effort))
-      buff.write(_get_struct_B().pack(self.seed_mode))
+      _x = self.seed_mode
+      buff.write(_get_struct_B().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -326,7 +329,7 @@ float64[] effort
       (self.seed_mode,) = _get_struct_B().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -340,7 +343,8 @@ float64[] effort
       buff.write(_struct_I.pack(length))
       for val1 in self.pose_stamp:
         _v15 = val1.header
-        buff.write(_get_struct_I().pack(_v15.seq))
+        _x = _v15.seq
+        buff.write(_get_struct_I().pack(_x))
         _v16 = _v15.stamp
         _x = _v16
         buff.write(_get_struct_2I().pack(_x.secs, _x.nsecs))
@@ -361,7 +365,8 @@ float64[] effort
       buff.write(_struct_I.pack(length))
       for val1 in self.seed_angles:
         _v20 = val1.header
-        buff.write(_get_struct_I().pack(_v20.seq))
+        _x = _v20.seq
+        buff.write(_get_struct_I().pack(_x))
         _v21 = _v20.stamp
         _x = _v21
         buff.write(_get_struct_2I().pack(_x.secs, _x.nsecs))
@@ -391,7 +396,8 @@ float64[] effort
         buff.write(_struct_I.pack(length))
         pattern = '<%sd'%length
         buff.write(val1.effort.tostring())
-      buff.write(_get_struct_B().pack(self.seed_mode))
+      _x = self.seed_mode
+      buff.write(_get_struct_B().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -509,24 +515,12 @@ float64[] effort
       (self.seed_mode,) = _get_struct_B().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
     global _struct_I
     return _struct_I
-_struct_4d = None
-def _get_struct_4d():
-    global _struct_4d
-    if _struct_4d is None:
-        _struct_4d = struct.Struct("<4d")
-    return _struct_4d
-_struct_B = None
-def _get_struct_B():
-    global _struct_B
-    if _struct_B is None:
-        _struct_B = struct.Struct("<B")
-    return _struct_B
 _struct_2I = None
 def _get_struct_2I():
     global _struct_2I
@@ -539,6 +533,18 @@ def _get_struct_3d():
     if _struct_3d is None:
         _struct_3d = struct.Struct("<3d")
     return _struct_3d
+_struct_4d = None
+def _get_struct_4d():
+    global _struct_4d
+    if _struct_4d is None:
+        _struct_4d = struct.Struct("<4d")
+    return _struct_4d
+_struct_B = None
+def _get_struct_B():
+    global _struct_B
+    if _struct_B is None:
+        _struct_B = struct.Struct("<B")
+    return _struct_B
 # This Python file uses the following encoding: utf-8
 """autogenerated by genpy from ubt_core_msgs/SolvePositionIKResponse.msg. Do not edit."""
 import sys
@@ -546,21 +552,21 @@ python3 = True if sys.hexversion > 0x03000000 else False
 import genpy
 import struct
 
-import std_msgs.msg
 import sensor_msgs.msg
+import std_msgs.msg
 
 class SolvePositionIKResponse(genpy.Message):
   _md5sum = "d9b0c2b3932e08421f5094cf62743b9f"
   _type = "ubt_core_msgs/SolvePositionIKResponse"
-  _has_header = False #flag to mark the presence of a Header object
-  _full_text = """
+  _has_header = False  # flag to mark the presence of a Header object
+  _full_text = """# joints[i]      == joint angle solution for each pose_state[i]
 sensor_msgs/JointState[] joints
 
-
+# NOTE: isValid will be deprecated by result_type in future versions
 bool[] isValid
 
-
-
+# result_type[i] == seed type used to find valid solution, joints[i];
+# otherwise,     == RESULT_INVALID (no valid solution found).
 uint8 RESULT_INVALID = 0
 uint8[] result_type
 
@@ -632,7 +638,7 @@ string frame_id
     """
     if args or kwds:
       super(SolvePositionIKResponse, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.joints is None:
         self.joints = []
       if self.isValid is None:
@@ -660,7 +666,8 @@ string frame_id
       buff.write(_struct_I.pack(length))
       for val1 in self.joints:
         _v29 = val1.header
-        buff.write(_get_struct_I().pack(_v29.seq))
+        _x = _v29.seq
+        buff.write(_get_struct_I().pack(_x))
         _v30 = _v29.stamp
         _x = _v30
         buff.write(_get_struct_2I().pack(_x.secs, _x.nsecs))
@@ -790,7 +797,7 @@ string frame_id
       self.result_type = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -804,7 +811,8 @@ string frame_id
       buff.write(_struct_I.pack(length))
       for val1 in self.joints:
         _v33 = val1.header
-        buff.write(_get_struct_I().pack(_v33.seq))
+        _x = _v33.seq
+        buff.write(_get_struct_I().pack(_x))
         _v34 = _v33.stamp
         _x = _v34
         buff.write(_get_struct_2I().pack(_x.secs, _x.nsecs))
@@ -935,7 +943,7 @@ string frame_id
       self.result_type = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

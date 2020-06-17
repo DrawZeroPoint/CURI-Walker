@@ -111,7 +111,7 @@
 (setf (get cruiser_msgs::SetUwbAnchorRequest :md5sum-) "99557491fedf4df60949814ebddfa650")
 (setf (get cruiser_msgs::SetUwbAnchorRequest :datatype-) "cruiser_msgs/SetUwbAnchorRequest")
 (setf (get cruiser_msgs::SetUwbAnchorRequest :definition-)
-      "
+      "# Set the uwb stations as a cruiser_msgs/UwbAnchors
 cruiser_msgs/UwbAnchor anchor
 
 ================================================================================
@@ -170,7 +170,7 @@ bool success
 (setf (get cruiser_msgs::SetUwbAnchorResponse :md5sum-) "99557491fedf4df60949814ebddfa650")
 (setf (get cruiser_msgs::SetUwbAnchorResponse :datatype-) "cruiser_msgs/SetUwbAnchorResponse")
 (setf (get cruiser_msgs::SetUwbAnchorResponse :definition-)
-      "
+      "# Set the uwb stations as a cruiser_msgs/UwbAnchors
 cruiser_msgs/UwbAnchor anchor
 
 ================================================================================

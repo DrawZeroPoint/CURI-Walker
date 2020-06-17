@@ -10,7 +10,7 @@ import genpy
 class EndEffectorState(genpy.Message):
   _md5sum = "ade777f069d738595bc19e246b8ec7a0"
   _type = "baxter_core_msgs/EndEffectorState"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """#
 time timestamp              # time when state was updated
 uint32 id                   # EndEffectorId
@@ -74,7 +74,7 @@ uint32 command_sequence
     """
     if args or kwds:
       super(EndEffectorState, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.timestamp is None:
         self.timestamp = genpy.Time()
       if self.id is None:
@@ -157,7 +157,8 @@ uint32 command_sequence
         _x = _x.encode('utf-8')
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
-      buff.write(_get_struct_I().pack(self.command_sequence))
+      _x = self.command_sequence
+      buff.write(_get_struct_I().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -207,7 +208,7 @@ uint32 command_sequence
       self.timestamp.canon()
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -237,7 +238,8 @@ uint32 command_sequence
         _x = _x.encode('utf-8')
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
-      buff.write(_get_struct_I().pack(self.command_sequence))
+      _x = self.command_sequence
+      buff.write(_get_struct_I().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -288,7 +290,7 @@ uint32 command_sequence
       self.timestamp.canon()
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

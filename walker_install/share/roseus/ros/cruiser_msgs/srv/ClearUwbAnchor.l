@@ -97,7 +97,7 @@
 (setf (get cruiser_msgs::ClearUwbAnchorRequest :md5sum-) "358e233cde0c8a8bcfea4ce193f8fc15")
 (setf (get cruiser_msgs::ClearUwbAnchorRequest :datatype-) "cruiser_msgs/ClearUwbAnchorRequest")
 (setf (get cruiser_msgs::ClearUwbAnchorRequest :definition-)
-      "
+      "# clear the uwb stations
 
 ---
 bool success
@@ -108,7 +108,7 @@ bool success
 (setf (get cruiser_msgs::ClearUwbAnchorResponse :md5sum-) "358e233cde0c8a8bcfea4ce193f8fc15")
 (setf (get cruiser_msgs::ClearUwbAnchorResponse :datatype-) "cruiser_msgs/ClearUwbAnchorResponse")
 (setf (get cruiser_msgs::ClearUwbAnchorResponse :definition-)
-      "
+      "# clear the uwb stations
 
 ---
 bool success

@@ -134,7 +134,7 @@ class SetFtOffsetRequest {
   static messageDefinition() {
     // Returns full string definition for message
     return `
-    
+    # ftId: "lwrist", "rwrist", "lankle", "rankle"
     string ftId
     int32  fx
     int32  fy

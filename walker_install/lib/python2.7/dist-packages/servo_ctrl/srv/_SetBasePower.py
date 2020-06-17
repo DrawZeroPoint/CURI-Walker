@@ -9,7 +9,7 @@ import struct
 class SetBasePowerRequest(genpy.Message):
   _md5sum = "774f1f64eea937f4ca5b6e9a998abcb5"
   _type = "servo_ctrl/SetBasePowerRequest"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """uint8[] cmd
 """
   __slots__ = ['cmd']
@@ -31,7 +31,7 @@ class SetBasePowerRequest(genpy.Message):
     """
     if args or kwds:
       super(SetBasePowerRequest, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.cmd is None:
         self.cmd = b''
     else:
@@ -74,7 +74,7 @@ class SetBasePowerRequest(genpy.Message):
       self.cmd = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -110,7 +110,7 @@ class SetBasePowerRequest(genpy.Message):
       self.cmd = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
@@ -127,7 +127,7 @@ import struct
 class SetBasePowerResponse(genpy.Message):
   _md5sum = "b7ed20811caa3db643b4512e66e3f767"
   _type = "servo_ctrl/SetBasePowerResponse"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """uint8[] result
 
 """
@@ -150,7 +150,7 @@ class SetBasePowerResponse(genpy.Message):
     """
     if args or kwds:
       super(SetBasePowerResponse, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.result is None:
         self.result = b''
     else:
@@ -193,7 +193,7 @@ class SetBasePowerResponse(genpy.Message):
       self.result = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -229,7 +229,7 @@ class SetBasePowerResponse(genpy.Message):
       self.result = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
