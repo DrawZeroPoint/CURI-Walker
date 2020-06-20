@@ -163,7 +163,7 @@ roslaunch leg_motion walker2_leg.launch account_file:=/home/USER/CURI-Walker/use
 | /walker/camera/bottomRGB        | sensor\_msgs/Image           |                                                                                                                                                                                                                                                                                  |
 | /walker/camera/doubleLeftRGB    | sensor\_msgs/Image           |                                                                                                                                                                                                                                                                                  |
 | /walker/camera/doubleRightRGB   | sensor\_msgs/Image           |                                                                                                                                                                                                                                                                                  |
-| /walker/camera/headDepth        | sensor\_msgs/Image           |                                                                                                                                                                                                                                                                                  |
+| /walker/camera/headDepth        | sensor\_msgs/Image           | +z: front, +x: right                                                                                                                                                                                                                             |
 | /walker/camera/headRGB          | sensor\_msgs/Image           |                                                                                                                                                                                                                                                                                  |
 | /walker/camera/topDepth         | sensor\_msgs/Image           |                                                                                                                                                                                                                                                                                  |
 | /walker/camera/topRGB           | sensor\_msgs/Image           |                                                                                                                                                                                                                                                                                  |
@@ -232,6 +232,12 @@ roslaunch leg_motion walker2_leg.launch account_file:=/home/USER/CURI-Walker/use
 
    According to the official statement, the dynamic simulation is time consuming where 0.2x real-time is an reasonable
    performance, so no need to worry about that and the finial videos will be judged basing on the simulation time.
+   
+2. Webots crash on startup.
+
+   `/usr/local/bin/webots: line 86: 27518 Segmentation fault (core dumped) "$webots_home/bin/webots-bin" "$@"`
+   
+   Rollback any changes in the file `walker_model/worlds/.WAIC.wbproj`
 
 
 [ROS]: <http://wiki.ros.org/ROS/Tutorials/InstallingandConfiguringROSEnvironment>
