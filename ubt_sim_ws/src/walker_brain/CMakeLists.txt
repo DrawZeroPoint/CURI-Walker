@@ -17,6 +17,16 @@ find_package(catkin REQUIRED COMPONENTS
 )
 find_package(GTest)
 
+add_service_files(
+  FILES
+  Dummy.srv
+)
+
+add_action_files(
+  DIRECTORY action
+  FILES DummyAction.action
+)
+
 add_message_files(
   FILES
   BehaviorTree.msg
