@@ -1,6 +1,14 @@
 <launch>
+    <!-- Usage: roslaunch walker_brain grasp_cup.launch task_id:=2 cup_id:=1 -->
     <param name="/use_sim_time" value="true" />
+
+    <arg name="task_id" default="0"/>
+    <arg name="cup_id" default="0"/>
+
     <node pkg="walker_brain" type="grasp_cup_node" name="grasp_cup_node" output="screen">
+        <param name="tree_file" value="$(find walker_brain)/tree/grasp_cup_$(arg task_id).xml" />
+        <param name="task_id" value="$(arg task_id)" />
+        <param name="cup_id" value="$(arg cup_id)" />
     </node>
 
 </launch>
