@@ -1,0 +1,138 @@
+
+<launch>
+  <!-- Backward compatibility launch file, use rtabmap.launch instead -->
+  
+  <!-- Your RGB-D sensor should be already started with "depth_registration:=true".
+    Examples:
+    $ roslaunch freenect_launch freenect.launch depth_registration:=true 
+    $ roslaunch openni2_launch openni2.launch depth_registration:=true -->
+    
+    
+    <!-- roslaunch leg_motion walker2_leg.launch account_file:=$(pwd)/user_account.json -->
+    <!-- /home/mfernandes/repos/Simucenas/CURI-Walker/user_account.json -->
+    
+    <node name="camera_repub" pkg="walker_nav" type="camera_info.py" respawn="true" output="screen" />
+    <!-- <node name="move_base_services" pkg="walker_nav" type="camera_info.py" respawn="true" output="screen" /> -->
+    
+    <node pkg="nodelet" type="nodelet" args="manager" name="depth_conv_manager" output="screen"/>
+    <node pkg="nodelet" type="nodelet" name="cloudify" args="load depth_image_proc/point_cloud_xyz depth_conv_manager --no-bond">
+      <remap from="image_rect" to="/walker/camera/depth_framed/headDepth"/>
+      <remap from="camera_info" to="/walker/camera/depth_framed/camera_info"/>
+      <remap from="points" to="/walker/camera/headPointCloud"/>
+    </node>
+
+    <include file="$(find leg_motion)/launch/walker2_leg.launch">
+      <arg name="account_file" value="/home/mfernandes/repos/Simucenas/CURI-Walker/user_account.json"/>
+    </include>
+    
+    <include file="$(find walker_webots_hardware_interface)/launch/moveit.launch">
+      <arg name="show_rviz" value="false"/>
+    </include>
+    <!-- 0 0 -1.09 0 0 0 /base_link /base_link_foot 10 -->
+    <node pkg="tf" type="static_transform_publisher" name="head_cam_tf" args="0 0 0 -3.14 0 -0.34 /head_l3 /head_camera 10"/> 
+    <node pkg="tf" type="static_transform_publisher" name="fish_left_cam_tf" args="0.06 0 0 -3.14 0 -0.34 /base_link /right_fisheye 10"/> 
+    <node pkg="tf" type="static_transform_publisher" name="fish_right_cam_tf" args="-0.06 0 0 -3.14 0 -0.34 /base_link /left_fisheye 10"/> 
+    <!-- <node pkg="tf" type="static_transform_publisher" name="odom_to_baselink" args="0 0 0 0 0 0 /odom_centroid_walker /base_link 10"/>  -->
+    <!-- <node pkg="tf" type="static_transform_publisher" name="feet_tf" args="0 0 0 0 0 0 /base_link_feet /base_link 10"/>  -->
+    
+    <!-- rosrun rtabmap_ros rgbd_odometry 
+      depth/image:=/camera/aligned_depth_to_color/image_raw 
+      rgb/image:=/camera/color/image_raw 
+      rgb/camera_info:=/camera/color/camera_info
+      _frame_id:=camera_link -->
+    <!-- <node pkg="rtabmap_ros" type="rgbd" name="rgbd_odom">
+      <remap from="depth/image" to="/walker/camera/depth_framed/headDepth" />
+      <remap from="rgb/image" to="/walker/camera/rgb_framed/headRGB" />
+      <remap from="rgb/camera_info" to="/walker/camera/rgb_framed/camera_info" />
+      </node> -->
+      
+    <group if="true">
+  <!-- Choose visualization -->
+
+  
+
+  <arg name="rviz"                    default="false" />
+  <arg name="rtabmapviz"              default="true" /> 
+  
+  <!-- Localization-only mode -->
+  <arg name="localization"            default="false"/>
+  
+  <!-- Corresponding config files -->
+  <arg name="rtabmapviz_cfg"          default="~/.ros/rtabmap_gui.ini" />
+  <arg name="rviz_cfg"                default="$(find rtabmap_ros)/launch/config/rgbd.rviz" />
+  
+  <arg name="frame_id"                default="base_link"/>   <!-- Fixed frame id, you may set "base_link" or "base_footprint" if they are published -->
+  <arg name="database_path"           default="~/.ros/rtabmap.db"/>
+  <arg name="rtabmap_args"            default="delete_db_on_start"/>              <!-- delete_db_on_start, udebug -->
+  <arg name="launch_prefix"           default=""/>              <!-- for debugging purpose, it fills launch-prefix tag of the nodes -->
+  <arg name="approx_sync"             default="true"/>         <!-- if timestamps of the input topics are not synchronized -->
+  
+  <arg name="rgb_topic"               default="/walker/camera/rgb_framed/headRGB" />
+  <arg name="depth_registered_topic"  default="/walker/camera/depth_framed/headDepth" />
+  <arg name="camera_info_topic"       default="/walker/camera/rgb_framed/camera_info" />
+  <arg name="compressed"              default="false"/>
+
+  <arg name="stereo_namespace"        default="/walker/camera/fisheyes"/>
+  <arg name="left_image_topic"        default="$(arg stereo_namespace)/left/image" />
+  <arg name="right_image_topic"       default="$(arg stereo_namespace)/right/image" /> 
+  <arg name="left_camera_info_topic"  default="$(arg stereo_namespace)/left/camera_info" />
+  <arg name="right_camera_info_topic" default="$(arg stereo_namespace)/right/camera_info" />
+
+  <arg name="subscribe_scan"          default="false"/>         <!-- Assuming 2D scan if set, rtabmap will do 3DoF mapping instead of 6DoF -->
+  <arg name="scan_topic"              default="/scan"/>
+  
+  <arg name="subscribe_scan_cloud"    default="false"/>         <!-- Assuming 3D scan if set -->
+  <arg name="scan_cloud_topic"        default="/scan_cloud"/>
+  
+  <arg name="visual_odometry"         default="true"/>          <!-- Generate visual odometry -->
+  <arg name="odom_topic"              default="odom"/>         <!-- /Leg/walking_odom Odometry topic used if visual_odometry is false -->
+  <arg name="odom_frame_id"           default=""/>              <!-- If set, TF is used to get odometry instead of the topic -->
+  
+  <arg name="namespace"               default="rtabmap"/>
+  <arg name="wait_for_transform"      default="0.2"/>
+  
+  <include file="$(find rtabmap_ros)/launch/rtabmap.launch">
+    <arg name="rtabmapviz"              value="$(arg rtabmapviz)" /> 
+    <arg name="rviz"                    value="$(arg rviz)" />
+    <arg name="localization"            value="$(arg localization)"/>
+    <arg name="gui_cfg"                 value="$(arg rtabmapviz_cfg)" />
+    <arg name="rviz_cfg"                value="$(arg rviz_cfg)" />
+    
+    <arg name="frame_id"                value="$(arg frame_id)"/>
+    <arg name="namespace"               value="$(arg namespace)"/>
+    <arg name="database_path"           value="$(arg database_path)"/>
+    <arg name="wait_for_transform"      value="$(arg wait_for_transform)"/>
+    <arg name="rtabmap_args"            value="$(arg rtabmap_args)"/>  
+    <arg name="launch_prefix"           value="$(arg launch_prefix)"/>          
+    <arg name="approx_sync"             value="$(arg approx_sync)"/>
+    
+    <arg name="rgb_topic"               value="$(arg rgb_topic)" />
+    <arg name="depth_topic"             value="$(arg depth_registered_topic)" />
+    <arg name="camera_info_topic"       value="$(arg camera_info_topic)" />
+    <arg name="compressed"              value="$(arg compressed)"/>  
+                                                                                
+    <arg name="stereo"                  value="false"/>
+    <arg name="stereo_namespace"        value="$(arg stereo_namespace)"/>
+    <arg name="left_image_topic"        value="$(arg left_image_topic)" />
+    <arg name="right_image_topic"       value="$(arg right_image_topic)" />
+    <arg name="left_camera_info_topic"  value="$(arg left_camera_info_topic)" />
+    <arg name="right_camera_info_topic" value="$(arg right_camera_info_topic)" />
+
+    <arg name="subscribe_scan"          value="$(arg subscribe_scan)"/>
+    <arg name="scan_topic"              value="$(arg scan_topic)"/>
+    
+    <arg name="subscribe_scan_cloud"    value="$(arg subscribe_scan_cloud)"/>
+    <arg name="scan_cloud_topic"        value="$(arg scan_cloud_topic)"/>
+    
+    <arg name="visual_odometry"         value="$(arg visual_odometry)"/>          
+    <arg name="odom_topic"              value="$(arg odom_topic)"/>    
+    <arg name="odom_frame_id"           value="$(arg odom_frame_id)"/>         
+    <arg name="odom_args"               value="$(arg rtabmap_args)"/>
+  </include>
+
+  <include file="$(find walker_nav)/launch/move_base.launch">
+  </include>
+</group>
+
+  
+</launch>
