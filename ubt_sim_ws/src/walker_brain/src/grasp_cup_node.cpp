@@ -1,5 +1,6 @@
 #include <walker_brain/bt_service_node.h>
 #include <walker_brain/bt_action_node.h>
+#include <walker_brain/bt_generic_types.h>
 
 // ROS
 #include <ros/ros.h>
@@ -26,12 +27,13 @@ public:
   static BT::PortsList providedPorts() {
     return {
       BT::InputPort<std::string>("goal_id"),
-      BT::OutputPort<int>("result_status") };
+      BT::OutputPort<int>("result_status")
+    };
   }
 
   void onSendRequest(RequestType &request) override {
     getInput("goal_id", request.goal_id.id);
-    ros::spinOnce();
+    ros::spinOnce();  // synchronize clock time
     request.header.stamp.sec = this->time_sec_;
     ROS_INFO("Brain: SenseCupPoses sending request.");
   }

@@ -35,17 +35,18 @@ namespace BT
     RosServiceNode() = delete;
     virtual ~RosServiceNode() = default;
 
-    /// These ports will be added automatically if this Node is
-    /// registered using RegisterRosAction<DeriveClass>()
-    static PortsList providedPorts()
-    {
-      return  {
+    // These ports will be added automatically if this Node is
+    // registered using RegisterRosAction<DeriveClass>()
+    // The ports without a default value (like the service_name port here)
+    // must be given a value during implementation
+    static PortsList providedPorts() {
+      return {
         InputPort<std::string>("service_name", "name of the ROS service"),
         InputPort<unsigned>("timeout", 100, "timeout to connect to server (milliseconds)")
       };
     }
 
-    /// User must implement this method.
+    // User must implement this method.
     virtual void onSendRequest(RequestType& request) = 0;
 
     /// Method (to be implemented by the user) to receive the reply.
@@ -69,11 +70,10 @@ namespace BT
     // The node that will be used for any ROS operations
     ros::NodeHandle& node_;
 
-    BT::NodeStatus tick() override
-    {
-      if( !service_client_.isValid() ){
+    BT::NodeStatus tick() override {
+      if(!service_client_.isValid()){
         std::string server = getInput<std::string>("service_name").value();
-        service_client_ = node_.serviceClient<ServiceT>( server );
+        service_client_ = node_.serviceClient<ServiceT>(server);
       }
 
       unsigned msec;
@@ -81,7 +81,7 @@ namespace BT
       ros::Duration timeout(static_cast<double>(msec) * 1e-3);
 
       bool connected = service_client_.waitForExistence(timeout);
-      if( !connected ){
+      if(!connected) {
         return onFailedRequest(MISSING_SERVER);
       }
 
@@ -103,7 +103,6 @@ namespace BT
     }
   };
 
-
   // Method to register the service into a factory.
   // It gives you the opportunity to set the ros::NodeHandle.
   template <class DerivedT> static
@@ -122,7 +121,7 @@ namespace BT
     const auto& basic_ports = RosServiceNode< typename DerivedT::ServiceType>::providedPorts();
     manifest.ports.insert( basic_ports.begin(), basic_ports.end() );
 
-    factory.registerBuilder( manifest, builder );
+    factory.registerBuilder(manifest, builder);
   }
 
 
