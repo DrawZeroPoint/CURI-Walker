@@ -1,8 +1,12 @@
 #! /usr/bin/env python
 import rospy
-from sensor_msgs.msg import CameraInfo, Image
+from sensor_msgs.msg import CameraInfo, Image , Imu
 import numpy as np
 # for head and chest camera
+def imu_repub_callback(msg):
+    msg.header.frame_id = "head_camera"
+    republisher_imu.publish(msg)
+
 
 def head_rgb_callback(msg):
     # rospy.loginfo("rgb callback")
@@ -96,6 +100,10 @@ def right_fish_rgb_callback(msg):
     republisher_fish_right.publish(msg)
 
 rospy.init_node("camera_info_publisher", anonymous=True)
+
+sub_imu = rospy.Subscriber("/sensor/head_imu",Imu,imu_repub_callback,queue_size=10)
+republisher_imu = rospy.Publisher("/sensor/head_imu_framed",Imu,queue_size=10)
+
 publisherRGB = rospy.Publisher("/walker/camera/rgb_framed/camera_info", CameraInfo, queue_size=10)
 publisherDepth = rospy.Publisher("/walker/camera/depth_framed/camera_info", CameraInfo, queue_size=10)
 

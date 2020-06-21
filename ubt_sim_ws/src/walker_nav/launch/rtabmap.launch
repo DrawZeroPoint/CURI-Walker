@@ -40,12 +40,17 @@
       rgb/image:=/camera/color/image_raw 
       rgb/camera_info:=/camera/color/camera_info
       _frame_id:=camera_link -->
-    <!-- <node pkg="rtabmap_ros" type="rgbd" name="rgbd_odom">
+
+    <!-- <node pkg="rtabmap_ros" type="rgbd_odometry" name="rgbd_odom" args="">
       <remap from="depth/image" to="/walker/camera/depth_framed/headDepth" />
       <remap from="rgb/image" to="/walker/camera/rgb_framed/headRGB" />
       <remap from="rgb/camera_info" to="/walker/camera/rgb_framed/camera_info" />
+      <remap from="odom" to="vis_odom"/>
       </node> -->
-      
+<!--       
+      <include file="$(find walker_nav)/launch/ukf_template.launch">
+
+      </include> -->
     <group if="true">
   <!-- Choose visualization -->
 
@@ -85,7 +90,7 @@
   <arg name="scan_cloud_topic"        default="/scan_cloud"/>
   
   <arg name="visual_odometry"         default="true"/>          <!-- Generate visual odometry -->
-  <arg name="odom_topic"              default="odom"/>         <!-- /Leg/walking_odom Odometry topic used if visual_odometry is false -->
+  <arg name="odom_topic"              default="/odom"/>         <!-- /Leg/walking_odom Odometry topic used if visual_odometry is false -->
   <arg name="odom_frame_id"           default=""/>              <!-- If set, TF is used to get odometry instead of the topic -->
   
   <arg name="namespace"               default="rtabmap"/>
