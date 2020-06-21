@@ -79,10 +79,10 @@
   "5b1b6b129155e5a4f811f32ad75d66ed")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<canudpSend-request>)))
   "Returns full string definition for message of type '<canudpSend-request>"
-  (cl:format cl:nil "uint32 priority~%string packetdata~%~%~%"))
+  (cl:format cl:nil "uint32 priority~%string packetdata~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'canudpSend-request)))
   "Returns full string definition for message of type 'canudpSend-request"
-  (cl:format cl:nil "uint32 priority~%string packetdata~%~%~%"))
+  (cl:format cl:nil "uint32 priority~%string packetdata~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <canudpSend-request>))
   (cl:+ 0
      4
@@ -145,10 +145,10 @@
   "5b1b6b129155e5a4f811f32ad75d66ed")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<canudpSend-response>)))
   "Returns full string definition for message of type '<canudpSend-response>"
-  (cl:format cl:nil "~%uint32 time~%~%~%~%~%"))
+  (cl:format cl:nil "# time in millisecond. 1000 stands for 1s~%uint32 time~%~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'canudpSend-response)))
   "Returns full string definition for message of type 'canudpSend-response"
-  (cl:format cl:nil "~%uint32 time~%~%~%~%~%"))
+  (cl:format cl:nil "# time in millisecond. 1000 stands for 1s~%uint32 time~%~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <canudpSend-response>))
   (cl:+ 0
      4

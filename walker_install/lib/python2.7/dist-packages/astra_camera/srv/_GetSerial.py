@@ -9,7 +9,7 @@ import struct
 class GetSerialRequest(genpy.Message):
   _md5sum = "d41d8cd98f00b204e9800998ecf8427e"
   _type = "astra_camera/GetSerialRequest"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """"""
   __slots__ = []
   _slot_types = []
@@ -56,7 +56,7 @@ class GetSerialRequest(genpy.Message):
       end = 0
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -80,7 +80,7 @@ class GetSerialRequest(genpy.Message):
       end = 0
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
@@ -97,7 +97,7 @@ import struct
 class GetSerialResponse(genpy.Message):
   _md5sum = "fca40cf463282a80db4e2037c8a61741"
   _type = "astra_camera/GetSerialResponse"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """string serial
 
 """
@@ -120,7 +120,7 @@ class GetSerialResponse(genpy.Message):
     """
     if args or kwds:
       super(GetSerialResponse, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.serial is None:
         self.serial = ''
     else:
@@ -165,7 +165,7 @@ class GetSerialResponse(genpy.Message):
         self.serial = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -203,7 +203,7 @@ class GetSerialResponse(genpy.Message):
         self.serial = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

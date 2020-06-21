@@ -9,8 +9,8 @@ import struct
 class EcatGetPVTRequest(genpy.Message):
   _md5sum = "db917f55775a8bcd06c01a6f4f18b912"
   _type = "servo_ctrl/EcatGetPVTRequest"
-  _has_header = False #flag to mark the presence of a Header object
-  _full_text = """
+  _has_header = False  # flag to mark the presence of a Header object
+  _full_text = """# servo(case insensitive): LHipYaw,LHipRoll,LHipPitch,LKneePitch,LAnklePitch,LAnkleRoll,RHipYaw,RHipRoll,RHipPitch,RKneePitch,RAnklePitch,RAnkleRoll
 string servo
 """
   __slots__ = ['servo']
@@ -32,7 +32,7 @@ string servo
     """
     if args or kwds:
       super(EcatGetPVTRequest, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.servo is None:
         self.servo = ''
     else:
@@ -77,7 +77,7 @@ string servo
         self.servo = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -115,7 +115,7 @@ string servo
         self.servo = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
@@ -132,7 +132,7 @@ import struct
 class EcatGetPVTResponse(genpy.Message):
   _md5sum = "0607ae32f3876e7e57f5a31f95f51d33"
   _type = "servo_ctrl/EcatGetPVTResponse"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """float32 pos
 float32 vel
 float32 trq
@@ -158,7 +158,7 @@ uint16 errcode
     """
     if args or kwds:
       super(EcatGetPVTResponse, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.pos is None:
         self.pos = 0.
       if self.vel is None:
@@ -203,7 +203,7 @@ uint16 errcode
       (_x.pos, _x.vel, _x.trq, _x.errcode,) = _get_struct_3fH().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -232,7 +232,7 @@ uint16 errcode
       (_x.pos, _x.vel, _x.trq, _x.errcode,) = _get_struct_3fH().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

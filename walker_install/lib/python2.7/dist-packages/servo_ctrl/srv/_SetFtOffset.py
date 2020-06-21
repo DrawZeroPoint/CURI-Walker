@@ -9,8 +9,8 @@ import struct
 class SetFtOffsetRequest(genpy.Message):
   _md5sum = "7c4f78021f9d940884cc85d7c567fe52"
   _type = "servo_ctrl/SetFtOffsetRequest"
-  _has_header = False #flag to mark the presence of a Header object
-  _full_text = """
+  _has_header = False  # flag to mark the presence of a Header object
+  _full_text = """# ftId: "lwrist", "rwrist", "lankle", "rankle"
 string ftId
 int32  fx
 int32  fy
@@ -38,7 +38,7 @@ int32  mz
     """
     if args or kwds:
       super(SetFtOffsetRequest, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.ftId is None:
         self.ftId = ''
       if self.fx is None:
@@ -107,7 +107,7 @@ int32  mz
       (_x.fx, _x.fy, _x.fz, _x.mx, _x.my, _x.mz,) = _get_struct_6i().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -151,7 +151,7 @@ int32  mz
       (_x.fx, _x.fy, _x.fz, _x.mx, _x.my, _x.mz,) = _get_struct_6i().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
@@ -174,7 +174,7 @@ import struct
 class SetFtOffsetResponse(genpy.Message):
   _md5sum = "c22f2a1ed8654a0b365f1bb3f7ff2c0f"
   _type = "servo_ctrl/SetFtOffsetResponse"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """string result
 
 """
@@ -197,7 +197,7 @@ class SetFtOffsetResponse(genpy.Message):
     """
     if args or kwds:
       super(SetFtOffsetResponse, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.result is None:
         self.result = ''
     else:
@@ -242,7 +242,7 @@ class SetFtOffsetResponse(genpy.Message):
         self.result = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -280,7 +280,7 @@ class SetFtOffsetResponse(genpy.Message):
         self.result = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

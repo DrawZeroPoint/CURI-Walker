@@ -9,7 +9,7 @@ import struct
 class NavigatorState(genpy.Message):
   _md5sum = "680d121a1f16a32647298b292492fffd"
   _type = "baxter_core_msgs/NavigatorState"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """# buttons
 string[] button_names
 bool[] buttons
@@ -41,7 +41,7 @@ bool[] lights
     """
     if args or kwds:
       super(NavigatorState, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.button_names is None:
         self.button_names = []
       if self.buttons is None:
@@ -83,7 +83,8 @@ bool[] lights
       buff.write(_struct_I.pack(length))
       pattern = '<%sB'%length
       buff.write(struct.pack(pattern, *self.buttons))
-      buff.write(_get_struct_B().pack(self.wheel))
+      _x = self.wheel
+      buff.write(_get_struct_B().pack(_x))
       length = len(self.light_names)
       buff.write(_struct_I.pack(length))
       for val1 in self.light_names:
@@ -157,7 +158,7 @@ bool[] lights
       self.lights = list(map(bool, self.lights))
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -179,7 +180,8 @@ bool[] lights
       buff.write(_struct_I.pack(length))
       pattern = '<%sB'%length
       buff.write(self.buttons.tostring())
-      buff.write(_get_struct_B().pack(self.wheel))
+      _x = self.wheel
+      buff.write(_get_struct_B().pack(_x))
       length = len(self.light_names)
       buff.write(_struct_I.pack(length))
       for val1 in self.light_names:
@@ -254,7 +256,7 @@ bool[] lights
       self.lights = list(map(bool, self.lights))
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

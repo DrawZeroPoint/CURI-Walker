@@ -9,7 +9,7 @@ import struct
 class JointCommand(genpy.Message):
   _md5sum = "19bfec8434dd568ab3c633d187c36f2e"
   _type = "ubt_core_msgs/JointCommand"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """int32 mode
 float64[] command
 string[]  names
@@ -43,7 +43,7 @@ int32 RAW_POSITION_MODE=4"""
     """
     if args or kwds:
       super(JointCommand, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.mode is None:
         self.mode = 0
       if self.command is None:
@@ -67,7 +67,8 @@ int32 RAW_POSITION_MODE=4"""
     :param buff: buffer, ``StringIO``
     """
     try:
-      buff.write(_get_struct_i().pack(self.mode))
+      _x = self.mode
+      buff.write(_get_struct_i().pack(_x))
       length = len(self.command)
       buff.write(_struct_I.pack(length))
       pattern = '<%sd'%length
@@ -117,7 +118,7 @@ int32 RAW_POSITION_MODE=4"""
         self.names.append(val1)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -127,7 +128,8 @@ int32 RAW_POSITION_MODE=4"""
     :param numpy: numpy python module
     """
     try:
-      buff.write(_get_struct_i().pack(self.mode))
+      _x = self.mode
+      buff.write(_get_struct_i().pack(_x))
       length = len(self.command)
       buff.write(_struct_I.pack(length))
       pattern = '<%sd'%length
@@ -178,7 +180,7 @@ int32 RAW_POSITION_MODE=4"""
         self.names.append(val1)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

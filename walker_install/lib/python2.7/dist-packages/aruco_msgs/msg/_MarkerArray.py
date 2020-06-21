@@ -5,14 +5,14 @@ python3 = True if sys.hexversion > 0x03000000 else False
 import genpy
 import struct
 
-import geometry_msgs.msg
 import aruco_msgs.msg
+import geometry_msgs.msg
 import std_msgs.msg
 
 class MarkerArray(genpy.Message):
   _md5sum = "9d486b76ee1f72a8b0d33e8c66a97306"
   _type = "aruco_msgs/MarkerArray"
-  _has_header = True #flag to mark the presence of a Header object
+  _has_header = True  # flag to mark the presence of a Header object
   _full_text = """Header header
 aruco_msgs/Marker[] markers
 
@@ -92,7 +92,7 @@ float64 w
     """
     if args or kwds:
       super(MarkerArray, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.header is None:
         self.header = std_msgs.msg.Header()
       if self.markers is None:
@@ -125,7 +125,8 @@ float64 w
       buff.write(_struct_I.pack(length))
       for val1 in self.markers:
         _v1 = val1.header
-        buff.write(_get_struct_I().pack(_v1.seq))
+        _x = _v1.seq
+        buff.write(_get_struct_I().pack(_x))
         _v2 = _v1.stamp
         _x = _v2
         buff.write(_get_struct_2I().pack(_x.secs, _x.nsecs))
@@ -135,7 +136,8 @@ float64 w
           _x = _x.encode('utf-8')
           length = len(_x)
         buff.write(struct.pack('<I%ss'%length, length, _x))
-        buff.write(_get_struct_I().pack(val1.id))
+        _x = val1.id
+        buff.write(_get_struct_I().pack(_x))
         _v3 = val1.pose
         _v4 = _v3.pose
         _v5 = _v4.position
@@ -145,7 +147,8 @@ float64 w
         _x = _v6
         buff.write(_get_struct_4d().pack(_x.x, _x.y, _x.z, _x.w))
         buff.write(_get_struct_36d().pack(*_v3.covariance))
-        buff.write(_get_struct_d().pack(val1.confidence))
+        _x = val1.confidence
+        buff.write(_get_struct_d().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -221,7 +224,7 @@ float64 w
         self.markers.append(val1)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -243,7 +246,8 @@ float64 w
       buff.write(_struct_I.pack(length))
       for val1 in self.markers:
         _v13 = val1.header
-        buff.write(_get_struct_I().pack(_v13.seq))
+        _x = _v13.seq
+        buff.write(_get_struct_I().pack(_x))
         _v14 = _v13.stamp
         _x = _v14
         buff.write(_get_struct_2I().pack(_x.secs, _x.nsecs))
@@ -253,7 +257,8 @@ float64 w
           _x = _x.encode('utf-8')
           length = len(_x)
         buff.write(struct.pack('<I%ss'%length, length, _x))
-        buff.write(_get_struct_I().pack(val1.id))
+        _x = val1.id
+        buff.write(_get_struct_I().pack(_x))
         _v15 = val1.pose
         _v16 = _v15.pose
         _v17 = _v16.position
@@ -263,7 +268,8 @@ float64 w
         _x = _v18
         buff.write(_get_struct_4d().pack(_x.x, _x.y, _x.z, _x.w))
         buff.write(_v15.covariance.tostring())
-        buff.write(_get_struct_d().pack(val1.confidence))
+        _x = val1.confidence
+        buff.write(_get_struct_d().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -340,18 +346,18 @@ float64 w
         self.markers.append(val1)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
     global _struct_I
     return _struct_I
-_struct_d = None
-def _get_struct_d():
-    global _struct_d
-    if _struct_d is None:
-        _struct_d = struct.Struct("<d")
-    return _struct_d
+_struct_2I = None
+def _get_struct_2I():
+    global _struct_2I
+    if _struct_2I is None:
+        _struct_2I = struct.Struct("<2I")
+    return _struct_2I
 _struct_36d = None
 def _get_struct_36d():
     global _struct_36d
@@ -364,21 +370,21 @@ def _get_struct_3I():
     if _struct_3I is None:
         _struct_3I = struct.Struct("<3I")
     return _struct_3I
-_struct_4d = None
-def _get_struct_4d():
-    global _struct_4d
-    if _struct_4d is None:
-        _struct_4d = struct.Struct("<4d")
-    return _struct_4d
-_struct_2I = None
-def _get_struct_2I():
-    global _struct_2I
-    if _struct_2I is None:
-        _struct_2I = struct.Struct("<2I")
-    return _struct_2I
 _struct_3d = None
 def _get_struct_3d():
     global _struct_3d
     if _struct_3d is None:
         _struct_3d = struct.Struct("<3d")
     return _struct_3d
+_struct_4d = None
+def _get_struct_4d():
+    global _struct_4d
+    if _struct_4d is None:
+        _struct_4d = struct.Struct("<4d")
+    return _struct_4d
+_struct_d = None
+def _get_struct_d():
+    global _struct_d
+    if _struct_d is None:
+        _struct_d = struct.Struct("<d")
+    return _struct_d

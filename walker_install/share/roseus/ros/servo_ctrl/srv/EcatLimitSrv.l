@@ -184,19 +184,19 @@
 (setf (get servo_ctrl::EcatLimitSrvRequest :md5sum-) "e3d452c6cafa43f5461e27d1edc8c915")
 (setf (get servo_ctrl::EcatLimitSrvRequest :datatype-) "servo_ctrl/EcatLimitSrvRequest")
 (setf (get servo_ctrl::EcatLimitSrvRequest :definition-)
-      "
+      "# cmd: \"get\", \"set\"
 string cmd
 
-
+# servo(case insensitive): LHipYaw,LHipRoll,LHipPitch,LKneePitch,LAnklePitch,LAnkleRoll,RHipYaw,RHipRoll,RHipPitch,RKneePitch,RAnklePitch,RAnkleRoll
 string servo
 
-
+# mode: pos, vel, trq
 string mode
 
-
+# enable/disable limitation
 bool enable
 
-
+# limitation value, the positive direction is detected automatically
 float32 min
 float32 max
 ---
@@ -209,19 +209,19 @@ float32 max
 (setf (get servo_ctrl::EcatLimitSrvResponse :md5sum-) "e3d452c6cafa43f5461e27d1edc8c915")
 (setf (get servo_ctrl::EcatLimitSrvResponse :datatype-) "servo_ctrl/EcatLimitSrvResponse")
 (setf (get servo_ctrl::EcatLimitSrvResponse :definition-)
-      "
+      "# cmd: \"get\", \"set\"
 string cmd
 
-
+# servo(case insensitive): LHipYaw,LHipRoll,LHipPitch,LKneePitch,LAnklePitch,LAnkleRoll,RHipYaw,RHipRoll,RHipPitch,RKneePitch,RAnklePitch,RAnkleRoll
 string servo
 
-
+# mode: pos, vel, trq
 string mode
 
-
+# enable/disable limitation
 bool enable
 
-
+# limitation value, the positive direction is detected automatically
 float32 min
 float32 max
 ---

@@ -127,10 +127,10 @@
   "8841f861ab1593cb1f054a475ae4347d")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<cruiserLedAction-request>)))
   "Returns full string definition for message of type '<cruiserLedAction-request>"
-  (cl:format cl:nil "uint32 type~%uint32 data0~%uint32 data1~%uint32 data2~%uint32 max_times~%~%~%"))
+  (cl:format cl:nil "uint32 type~%uint32 data0~%uint32 data1~%uint32 data2~%uint32 max_times~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'cruiserLedAction-request)))
   "Returns full string definition for message of type 'cruiserLedAction-request"
-  (cl:format cl:nil "uint32 type~%uint32 data0~%uint32 data1~%uint32 data2~%uint32 max_times~%~%~%"))
+  (cl:format cl:nil "uint32 type~%uint32 data0~%uint32 data1~%uint32 data2~%uint32 max_times~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <cruiserLedAction-request>))
   (cl:+ 0
      4
@@ -199,10 +199,10 @@
   "8841f861ab1593cb1f054a475ae4347d")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<cruiserLedAction-response>)))
   "Returns full string definition for message of type '<cruiserLedAction-response>"
-  (cl:format cl:nil "uint32 result~%~%~%~%~%"))
+  (cl:format cl:nil "uint32 result~%~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'cruiserLedAction-response)))
   "Returns full string definition for message of type 'cruiserLedAction-response"
-  (cl:format cl:nil "uint32 result~%~%~%~%~%"))
+  (cl:format cl:nil "uint32 result~%~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <cruiserLedAction-response>))
   (cl:+ 0
      4

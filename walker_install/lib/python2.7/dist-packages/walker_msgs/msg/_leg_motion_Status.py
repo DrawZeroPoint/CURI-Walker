@@ -9,7 +9,7 @@ import struct
 class leg_motion_Status(genpy.Message):
   _md5sum = "9d1a441ce08becf86e68bfea26a6dade"
   _type = "walker_msgs/leg_motion_Status"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """# legs status defines
 string INIT=standInit
 string STANDING=standing
@@ -65,7 +65,7 @@ string status
     """
     if args or kwds:
       super(leg_motion_Status, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.status is None:
         self.status = ''
     else:
@@ -110,7 +110,7 @@ string status
         self.status = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -148,7 +148,7 @@ string status
         self.status = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

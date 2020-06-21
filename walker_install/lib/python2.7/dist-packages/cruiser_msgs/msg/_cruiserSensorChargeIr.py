@@ -9,7 +9,7 @@ import struct
 class cruiserSensorChargeIr(genpy.Message):
   _md5sum = "b56708e1301d3b452c9ff47195efedb6"
   _type = "cruiser_msgs/cruiserSensorChargeIr"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """uint32 data1
 uint32 data2
 uint32 data3
@@ -40,7 +40,7 @@ uint32 data7
     """
     if args or kwds:
       super(cruiserSensorChargeIr, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.data1 is None:
         self.data1 = 0
       if self.data2 is None:
@@ -94,7 +94,7 @@ uint32 data7
       (_x.data1, _x.data2, _x.data3, _x.data4, _x.data5, _x.data6, _x.data7,) = _get_struct_7I().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -123,7 +123,7 @@ uint32 data7
       (_x.data1, _x.data2, _x.data3, _x.data4, _x.data5, _x.data6, _x.data7,) = _get_struct_7I().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

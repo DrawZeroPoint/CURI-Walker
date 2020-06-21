@@ -56,7 +56,7 @@ class GetMapJsonRequest {
   static messageDefinition() {
     // Returns full string definition for message
     return `
-    
+    # Get the map json data as a cruiser_msgs/MapJson
     
     `;
   }

@@ -9,7 +9,7 @@ import struct
 class humitureRequest(genpy.Message):
   _md5sum = "c074140e21c6ef6ba56748714f78878f"
   _type = "cruiser_msgs/humitureRequest"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """uint32 priority
 string packetdata
 """
@@ -32,7 +32,7 @@ string packetdata
     """
     if args or kwds:
       super(humitureRequest, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.priority is None:
         self.priority = 0
       if self.packetdata is None:
@@ -53,7 +53,8 @@ string packetdata
     :param buff: buffer, ``StringIO``
     """
     try:
-      buff.write(_get_struct_I().pack(self.priority))
+      _x = self.priority
+      buff.write(_get_struct_I().pack(_x))
       _x = self.packetdata
       length = len(_x)
       if python3 or type(_x) == unicode:
@@ -84,7 +85,7 @@ string packetdata
         self.packetdata = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -94,7 +95,8 @@ string packetdata
     :param numpy: numpy python module
     """
     try:
-      buff.write(_get_struct_I().pack(self.priority))
+      _x = self.priority
+      buff.write(_get_struct_I().pack(_x))
       _x = self.packetdata
       length = len(_x)
       if python3 or type(_x) == unicode:
@@ -126,7 +128,7 @@ string packetdata
         self.packetdata = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
@@ -143,8 +145,8 @@ import struct
 class humitureResponse(genpy.Message):
   _md5sum = "5ad8470d604c1ba25cf0ad6b03378ac9"
   _type = "cruiser_msgs/humitureResponse"
-  _has_header = False #flag to mark the presence of a Header object
-  _full_text = """
+  _has_header = False  # flag to mark the presence of a Header object
+  _full_text = """# time in millisecond. 1000 stands for 1s
 float64 temperature
 float64 humidity
 string message
@@ -169,7 +171,7 @@ string message
     """
     if args or kwds:
       super(humitureResponse, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.temperature is None:
         self.temperature = 0.
       if self.humidity is None:
@@ -226,7 +228,7 @@ string message
         self.message = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -270,7 +272,7 @@ string message
         self.message = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

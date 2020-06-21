@@ -125,16 +125,16 @@ class EcatPidSrvRequest {
   static messageDefinition() {
     // Returns full string definition for message
     return `
-    
+    # cmd: "get", "set"
     string cmd
     
-    
+    # servo(case insensitive): LHipYaw,LHipRoll,LHipPitch,LKneePitch,LAnklePitch,LAnkleRoll,RHipYaw,RHipRoll,RHipPitch,RKneePitch,RAnklePitch,RAnkleRoll
     string servo
     
-    
+    # mode: pos, vel, trq
     string mode
     
-    
+    # pid
     int16 kp
     int16 ki
     int16 kd

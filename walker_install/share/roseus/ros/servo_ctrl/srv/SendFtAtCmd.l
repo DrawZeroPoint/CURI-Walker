@@ -140,7 +140,7 @@
 (setf (get servo_ctrl::SendFtAtCmdRequest :md5sum-) "6047a75169370a000cccb1c1e8fefc47")
 (setf (get servo_ctrl::SendFtAtCmdRequest :datatype-) "servo_ctrl/SendFtAtCmdRequest")
 (setf (get servo_ctrl::SendFtAtCmdRequest :definition-)
-      "
+      "# Ft ID(case insensitive): lwrist,rwrist,lankle,rankle
 string ft_id
 string at_cmd
 ---
@@ -153,7 +153,7 @@ string message
 (setf (get servo_ctrl::SendFtAtCmdResponse :md5sum-) "6047a75169370a000cccb1c1e8fefc47")
 (setf (get servo_ctrl::SendFtAtCmdResponse :datatype-) "servo_ctrl/SendFtAtCmdResponse")
 (setf (get servo_ctrl::SendFtAtCmdResponse :definition-)
-      "
+      "# Ft ID(case insensitive): lwrist,rwrist,lankle,rankle
 string ft_id
 string at_cmd
 ---

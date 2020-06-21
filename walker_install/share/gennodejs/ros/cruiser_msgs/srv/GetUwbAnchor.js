@@ -56,7 +56,7 @@ class GetUwbAnchorRequest {
   static messageDefinition() {
     // Returns full string definition for message
     return `
-    
+    # Get the uwb stations as a cruiser_msgs/UwbAnchors
     
     `;
   }

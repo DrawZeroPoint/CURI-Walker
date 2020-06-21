@@ -153,10 +153,10 @@ struct Definition< ::broadcast_teleop::TaskCallScriptResponse_<ContainerAllocato
   static const char* value()
   {
     return "\n"
-"\n"
+"# indicate status\n"
 "bool success\n"
 "\n"
-"\n"
+"# informational, e.g. for error messages\n"
 "string message\n"
 ;
   }

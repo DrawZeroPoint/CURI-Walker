@@ -173,7 +173,7 @@
 (setf (get servo_ctrl::SetFtOffsetRequest :md5sum-) "f9c88f3e422e4316a11e6c00bab5b2f9")
 (setf (get servo_ctrl::SetFtOffsetRequest :datatype-) "servo_ctrl/SetFtOffsetRequest")
 (setf (get servo_ctrl::SetFtOffsetRequest :definition-)
-      "
+      "# ftId: \"lwrist\", \"rwrist\", \"lankle\", \"rankle\"
 string ftId
 int32  fx
 int32  fy
@@ -189,7 +189,7 @@ string result
 (setf (get servo_ctrl::SetFtOffsetResponse :md5sum-) "f9c88f3e422e4316a11e6c00bab5b2f9")
 (setf (get servo_ctrl::SetFtOffsetResponse :datatype-) "servo_ctrl/SetFtOffsetResponse")
 (setf (get servo_ctrl::SetFtOffsetResponse :definition-)
-      "
+      "# ftId: \"lwrist\", \"rwrist\", \"lankle\", \"rankle\"
 string ftId
 int32  fx
 int32  fy

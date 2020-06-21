@@ -10,7 +10,7 @@ import baxter_core_msgs.msg
 class AssemblyStates(genpy.Message):
   _md5sum = "63427318d41dbd2077c105027ad82a2b"
   _type = "baxter_core_msgs/AssemblyStates"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """string[] names
 AssemblyState[] states
 ================================================================================
@@ -53,7 +53,7 @@ uint8  estop_source      # If stopped is true, the source of the e-stop.  One of
     """
     if args or kwds:
       super(AssemblyStates, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.names is None:
         self.names = []
       if self.states is None:
@@ -131,7 +131,7 @@ uint8  estop_source      # If stopped is true, the source of the e-stop.  One of
         self.states.append(val1)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -199,7 +199,7 @@ uint8  estop_source      # If stopped is true, the source of the e-stop.  One of
         self.states.append(val1)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

@@ -9,8 +9,8 @@ import struct
 class GetUwbAnchorRequest(genpy.Message):
   _md5sum = "d41d8cd98f00b204e9800998ecf8427e"
   _type = "cruiser_msgs/GetUwbAnchorRequest"
-  _has_header = False #flag to mark the presence of a Header object
-  _full_text = """
+  _has_header = False  # flag to mark the presence of a Header object
+  _full_text = """# Get the uwb stations as a cruiser_msgs/UwbAnchors
 """
   __slots__ = []
   _slot_types = []
@@ -57,7 +57,7 @@ class GetUwbAnchorRequest(genpy.Message):
       end = 0
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -81,7 +81,7 @@ class GetUwbAnchorRequest(genpy.Message):
       end = 0
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
@@ -94,14 +94,14 @@ python3 = True if sys.hexversion > 0x03000000 else False
 import genpy
 import struct
 
-import geometry_msgs.msg
 import cruiser_msgs.msg
+import geometry_msgs.msg
 import std_msgs.msg
 
 class GetUwbAnchorResponse(genpy.Message):
   _md5sum = "5f4b95f067596a6c57f174e4ed94b6a5"
   _type = "cruiser_msgs/GetUwbAnchorResponse"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """cruiser_msgs/UwbAnchor anchor
 
 
@@ -172,7 +172,7 @@ float64 w
     """
     if args or kwds:
       super(GetUwbAnchorResponse, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.anchor is None:
         self.anchor = cruiser_msgs.msg.UwbAnchor()
     else:
@@ -194,7 +194,8 @@ float64 w
       buff.write(_struct_I.pack(length))
       for val1 in self.anchor.anchors:
         _v1 = val1.header
-        buff.write(_get_struct_I().pack(_v1.seq))
+        _x = _v1.seq
+        buff.write(_get_struct_I().pack(_x))
         _v2 = _v1.stamp
         _x = _v2
         buff.write(_get_struct_2I().pack(_x.secs, _x.nsecs))
@@ -261,7 +262,7 @@ float64 w
         self.anchor.anchors.append(val1)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -275,7 +276,8 @@ float64 w
       buff.write(_struct_I.pack(length))
       for val1 in self.anchor.anchors:
         _v11 = val1.header
-        buff.write(_get_struct_I().pack(_v11.seq))
+        _x = _v11.seq
+        buff.write(_get_struct_I().pack(_x))
         _v12 = _v11.stamp
         _x = _v12
         buff.write(_get_struct_2I().pack(_x.secs, _x.nsecs))
@@ -343,18 +345,12 @@ float64 w
         self.anchor.anchors.append(val1)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
     global _struct_I
     return _struct_I
-_struct_4d = None
-def _get_struct_4d():
-    global _struct_4d
-    if _struct_4d is None:
-        _struct_4d = struct.Struct("<4d")
-    return _struct_4d
 _struct_2I = None
 def _get_struct_2I():
     global _struct_2I
@@ -367,6 +363,12 @@ def _get_struct_3d():
     if _struct_3d is None:
         _struct_3d = struct.Struct("<3d")
     return _struct_3d
+_struct_4d = None
+def _get_struct_4d():
+    global _struct_4d
+    if _struct_4d is None:
+        _struct_4d = struct.Struct("<4d")
+    return _struct_4d
 class GetUwbAnchor(object):
   _type          = 'cruiser_msgs/GetUwbAnchor'
   _md5sum = '5f4b95f067596a6c57f174e4ed94b6a5'

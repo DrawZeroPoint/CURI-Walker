@@ -10,7 +10,7 @@ import ubt_core_msgs.msg
 class NavigatorStates(genpy.Message):
   _md5sum = "2c2eeb02fbbaa6f1ab6c680887f2db78"
   _type = "ubt_core_msgs/NavigatorStates"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """# used when publishing multiple navigators
 string[]         names
 NavigatorState[] states
@@ -48,7 +48,7 @@ bool[] lights
     """
     if args or kwds:
       super(NavigatorStates, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.names is None:
         self.names = []
       if self.states is None:
@@ -92,7 +92,8 @@ bool[] lights
         buff.write(_struct_I.pack(length))
         pattern = '<%sB'%length
         buff.write(struct.pack(pattern, *val1.buttons))
-        buff.write(_get_struct_B().pack(val1.wheel))
+        _x = val1.wheel
+        buff.write(_get_struct_B().pack(_x))
         length = len(val1.light_names)
         buff.write(_struct_I.pack(length))
         for val2 in val1.light_names:
@@ -190,7 +191,7 @@ bool[] lights
         self.states.append(val1)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -223,7 +224,8 @@ bool[] lights
         buff.write(_struct_I.pack(length))
         pattern = '<%sB'%length
         buff.write(val1.buttons.tostring())
-        buff.write(_get_struct_B().pack(val1.wheel))
+        _x = val1.wheel
+        buff.write(_get_struct_B().pack(_x))
         length = len(val1.light_names)
         buff.write(_struct_I.pack(length))
         for val2 in val1.light_names:
@@ -322,7 +324,7 @@ bool[] lights
         self.states.append(val1)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

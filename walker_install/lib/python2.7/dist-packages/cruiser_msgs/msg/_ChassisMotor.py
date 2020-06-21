@@ -10,7 +10,7 @@ import std_msgs.msg
 class ChassisMotor(genpy.Message):
   _md5sum = "e0989c5ad1d0ba9f193ad5ca3b435331"
   _type = "cruiser_msgs/ChassisMotor"
-  _has_header = True #flag to mark the presence of a Header object
+  _has_header = True  # flag to mark the presence of a Header object
   _full_text = """# cruiser chassis motor speed info
 # for request speed,topic name "chassis_reqVel"
 # for response speed,topic name "chassis_respVel"
@@ -55,7 +55,7 @@ string frame_id
     """
     if args or kwds:
       super(ChassisMotor, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.header is None:
         self.header = std_msgs.msg.Header()
       if self.M1 is None:
@@ -123,7 +123,7 @@ string frame_id
       (_x.M1, _x.M2, _x.M3,) = _get_struct_3d().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -175,7 +175,7 @@ string frame_id
       (_x.M1, _x.M2, _x.M3,) = _get_struct_3d().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

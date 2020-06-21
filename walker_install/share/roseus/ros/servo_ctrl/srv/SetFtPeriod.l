@@ -118,7 +118,7 @@
 (setf (get servo_ctrl::SetFtPeriodRequest :md5sum-) "da5f21de43d7b8e0a73c301ba13f71ef")
 (setf (get servo_ctrl::SetFtPeriodRequest :datatype-) "servo_ctrl/SetFtPeriodRequest")
 (setf (get servo_ctrl::SetFtPeriodRequest :definition-)
-      "
+      "# ftId: \"lwrist\", \"rwrist\", \"lankle\", \"rankle\"
 string ftId
 int32  period_ms
 ---
@@ -129,7 +129,7 @@ string result
 (setf (get servo_ctrl::SetFtPeriodResponse :md5sum-) "da5f21de43d7b8e0a73c301ba13f71ef")
 (setf (get servo_ctrl::SetFtPeriodResponse :datatype-) "servo_ctrl/SetFtPeriodResponse")
 (setf (get servo_ctrl::SetFtPeriodResponse :definition-)
-      "
+      "# ftId: \"lwrist\", \"rwrist\", \"lankle\", \"rankle\"
 string ftId
 int32  period_ms
 ---

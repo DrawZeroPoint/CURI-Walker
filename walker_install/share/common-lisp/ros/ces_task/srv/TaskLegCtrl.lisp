@@ -143,10 +143,10 @@
   "5edc546c7fcff5cab9b3ccbc31c1ea7e")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<TaskLegCtrl-request>)))
   "Returns full string definition for message of type '<TaskLegCtrl-request>"
-  (cl:format cl:nil "~%string task_id~%~%~%string demander~%~%~%string executor~%~%~%string CMD_START=start~%string CMD_STOP=stop~%string cmd~%~%~%~%"))
+  (cl:format cl:nil "# current task id, defined in 'TaskLegStatus.msg'~%string task_id~%~%# who send request~%string demander~%~%# who execute task~%string executor~%~%# command: start or stop~%string CMD_START=start~%string CMD_STOP=stop~%string cmd~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'TaskLegCtrl-request)))
   "Returns full string definition for message of type 'TaskLegCtrl-request"
-  (cl:format cl:nil "~%string task_id~%~%~%string demander~%~%~%string executor~%~%~%string CMD_START=start~%string CMD_STOP=stop~%string cmd~%~%~%~%"))
+  (cl:format cl:nil "# current task id, defined in 'TaskLegStatus.msg'~%string task_id~%~%# who send request~%string demander~%~%# who execute task~%string executor~%~%# command: start or stop~%string CMD_START=start~%string CMD_STOP=stop~%string cmd~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <TaskLegCtrl-request>))
   (cl:+ 0
      4 (cl:length (cl:slot-value msg 'task_id))
@@ -255,10 +255,10 @@
   "5edc546c7fcff5cab9b3ccbc31c1ea7e")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<TaskLegCtrl-response>)))
   "Returns full string definition for message of type '<TaskLegCtrl-response>"
-  (cl:format cl:nil "~%~%string owner~%~%~%bool success~%~%~%string message~%~%~%~%"))
+  (cl:format cl:nil "~%# who reply response~%string owner~%~%# indicate status~%bool success~%~%# informational, e.g. for error messages~%string message~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'TaskLegCtrl-response)))
   "Returns full string definition for message of type 'TaskLegCtrl-response"
-  (cl:format cl:nil "~%~%string owner~%~%~%bool success~%~%~%string message~%~%~%~%"))
+  (cl:format cl:nil "~%# who reply response~%string owner~%~%# indicate status~%bool success~%~%# informational, e.g. for error messages~%string message~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <TaskLegCtrl-response>))
   (cl:+ 0
      4 (cl:length (cl:slot-value msg 'owner))

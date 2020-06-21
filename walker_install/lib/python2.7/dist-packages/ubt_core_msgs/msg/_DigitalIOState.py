@@ -9,7 +9,7 @@ import struct
 class DigitalIOState(genpy.Message):
   _md5sum = "29d0be3859dae81a66b28f167ecec98c"
   _type = "ubt_core_msgs/DigitalIOState"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """int8 state
 bool isInputOnly
 
@@ -42,7 +42,7 @@ int8 UNPRESSED = 0"""
     """
     if args or kwds:
       super(DigitalIOState, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.state is None:
         self.state = 0
       if self.isInputOnly is None:
@@ -82,7 +82,7 @@ int8 UNPRESSED = 0"""
       self.isInputOnly = bool(self.isInputOnly)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -112,7 +112,7 @@ int8 UNPRESSED = 0"""
       self.isInputOnly = bool(self.isInputOnly)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

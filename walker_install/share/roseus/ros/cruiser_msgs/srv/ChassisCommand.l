@@ -145,7 +145,7 @@ float64 x
 float64 y
 float64 angle
 ---
-
+# time in millisecond. 1000 stands for 1s
 uint32 time
 
 ")
@@ -158,7 +158,7 @@ float64 x
 float64 y
 float64 angle
 ---
-
+# time in millisecond. 1000 stands for 1s
 uint32 time
 
 ")

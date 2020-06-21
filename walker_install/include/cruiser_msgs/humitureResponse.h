@@ -158,7 +158,7 @@ struct Definition< ::cruiser_msgs::humitureResponse_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "\n"
+    return "# time in millisecond. 1000 stands for 1s\n"
 "float64 temperature\n"
 "float64 humidity\n"
 "string message\n"

@@ -196,7 +196,7 @@ class ChassisCommandResponse {
   static messageDefinition() {
     // Returns full string definition for message
     return `
-    
+    # time in millisecond. 1000 stands for 1s
     uint32 time
     
     

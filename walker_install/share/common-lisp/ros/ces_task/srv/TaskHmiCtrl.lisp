@@ -61,10 +61,10 @@
   "d451323ce918ea804b0b0df774879b87")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<TaskHmiCtrl-request>)))
   "Returns full string definition for message of type '<TaskHmiCtrl-request>"
-  (cl:format cl:nil "~%string adb_cmd~%~%~%"))
+  (cl:format cl:nil "# adb commands to send~%string adb_cmd~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'TaskHmiCtrl-request)))
   "Returns full string definition for message of type 'TaskHmiCtrl-request"
-  (cl:format cl:nil "~%string adb_cmd~%~%~%"))
+  (cl:format cl:nil "# adb commands to send~%string adb_cmd~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <TaskHmiCtrl-request>))
   (cl:+ 0
      4 (cl:length (cl:slot-value msg 'adb_cmd))
@@ -143,10 +143,10 @@
   "d451323ce918ea804b0b0df774879b87")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<TaskHmiCtrl-response>)))
   "Returns full string definition for message of type '<TaskHmiCtrl-response>"
-  (cl:format cl:nil "~%bool success~%~%~%string message~%~%~%~%~%"))
+  (cl:format cl:nil "# indicate status~%bool success~%~%# informational, e.g. for error messages~%string message~%~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'TaskHmiCtrl-response)))
   "Returns full string definition for message of type 'TaskHmiCtrl-response"
-  (cl:format cl:nil "~%bool success~%~%~%string message~%~%~%~%~%"))
+  (cl:format cl:nil "# indicate status~%bool success~%~%# informational, e.g. for error messages~%string message~%~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <TaskHmiCtrl-response>))
   (cl:+ 0
      1

@@ -10,7 +10,7 @@ import ubt_core_msgs.msg
 class CameraSettings(genpy.Message):
   _md5sum = "d133bef4a3bd9a6e490a5dc91d20f429"
   _type = "ubt_core_msgs/CameraSettings"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """int32           width
 int32           height
 float32         fps
@@ -51,7 +51,7 @@ int32 CAMERA_CONTROL_RESOLUTION_HALF=109
     """
     if args or kwds:
       super(CameraSettings, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.width is None:
         self.width = 0
       if self.height is None:
@@ -114,7 +114,7 @@ int32 CAMERA_CONTROL_RESOLUTION_HALF=109
         self.controls.append(val1)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -161,21 +161,21 @@ int32 CAMERA_CONTROL_RESOLUTION_HALF=109
         self.controls.append(val1)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
     global _struct_I
     return _struct_I
-_struct_2if = None
-def _get_struct_2if():
-    global _struct_2if
-    if _struct_2if is None:
-        _struct_2if = struct.Struct("<2if")
-    return _struct_2if
 _struct_2i = None
 def _get_struct_2i():
     global _struct_2i
     if _struct_2i is None:
         _struct_2i = struct.Struct("<2i")
     return _struct_2i
+_struct_2if = None
+def _get_struct_2if():
+    global _struct_2if
+    if _struct_2if is None:
+        _struct_2if = struct.Struct("<2if")
+    return _struct_2if

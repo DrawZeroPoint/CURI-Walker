@@ -9,7 +9,7 @@ import struct
 class cruiserPowerActionRequest(genpy.Message):
   _md5sum = "d87e4d84452162181a760885dc9110d4"
   _type = "cruiser_msgs/cruiserPowerActionRequest"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """uint32 dev_name
 uint32 on_off
 """
@@ -32,7 +32,7 @@ uint32 on_off
     """
     if args or kwds:
       super(cruiserPowerActionRequest, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.dev_name is None:
         self.dev_name = 0
       if self.on_off is None:
@@ -71,7 +71,7 @@ uint32 on_off
       (_x.dev_name, _x.on_off,) = _get_struct_2I().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -100,7 +100,7 @@ uint32 on_off
       (_x.dev_name, _x.on_off,) = _get_struct_2I().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
@@ -123,7 +123,7 @@ import struct
 class cruiserPowerActionResponse(genpy.Message):
   _md5sum = "13d5d28ceaaadbc975dd072a2e10b88a"
   _type = "cruiser_msgs/cruiserPowerActionResponse"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """uint32 result
 
 
@@ -147,7 +147,7 @@ class cruiserPowerActionResponse(genpy.Message):
     """
     if args or kwds:
       super(cruiserPowerActionResponse, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.result is None:
         self.result = 0
     else:
@@ -165,7 +165,8 @@ class cruiserPowerActionResponse(genpy.Message):
     :param buff: buffer, ``StringIO``
     """
     try:
-      buff.write(_get_struct_I().pack(self.result))
+      _x = self.result
+      buff.write(_get_struct_I().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -181,7 +182,7 @@ class cruiserPowerActionResponse(genpy.Message):
       (self.result,) = _get_struct_I().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -191,7 +192,8 @@ class cruiserPowerActionResponse(genpy.Message):
     :param numpy: numpy python module
     """
     try:
-      buff.write(_get_struct_I().pack(self.result))
+      _x = self.result
+      buff.write(_get_struct_I().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -208,7 +210,7 @@ class cruiserPowerActionResponse(genpy.Message):
       (self.result,) = _get_struct_I().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

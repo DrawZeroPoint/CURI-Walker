@@ -9,29 +9,29 @@ import struct
 class motion_srvRequest(genpy.Message):
   _md5sum = "5664711c84c4775f891ad12ba2520f64"
   _type = "cruiser_msgs/motion_srvRequest"
-  _has_header = False #flag to mark the presence of a Header object
-  _full_text = """
+  _has_header = False  # flag to mark the presence of a Header object
+  _full_text = """#   command   |   data[0]   |   data[1]   |   data[2]   |           explain
+#      1      |     XXX     |     XXX     |     XXX     |    read current joint positoin
+#      2      | pointNum[x] |   time[x]   |   index[x]  |    store current positoin as pointNum[data0] in time[data1]  index[x]:(1 left_arm; 2 right_arm; 3 arm; 4 Head; 5 Hand; 6 All_Robot)
+#      3      | pointNum[x] |   time[x]   |     XXX     |    move to pointNum[data0] in time[data1]
+#      4      | jointNum[x] |  angle[x]   |   time[x]   |    move jointNum[data0] to angle[data1] in time[data2]
+#      5      |   index[x]  |     XXX     |     XXX     |    stop motion index[data0]   index[x]:(1 left_arm; 2 right_arm; 3 arm; 4 Head; 5 Hand; 6 All_Robot)
+#      6      |     XXX     | pointNum[x] |     XXX     |    store action actionName  pointNum[data1]
+#      7      |     XXX     |     XXX     |     XXX     |    move action actionName
+#      8      |     XXX     |     XXX     |     XXX     |    read action actionName
+#      9      |   index[x]  |     XXX     |     XXX     |    go home index[data0]   index[x]:(1 left_arm; 2 right_arm; 3 arm; 4 Head; 5 Hand; 6 All_Robot)
+#      10     | jointNum[x] |     kp      |     XXX     |    set joint[data0] kp[data1]
+#      11     | jointNum[x] |     XXX     |     XXX     |    set joint[data0] zero
+#      12     |     XXX     |     XXX     |     XXX     |    modify action actionName
+#      13     |     XXX     |     XXX     |     XXX     |    CSI record actionName
+#      14     |     XXX     |     XXX     |     XXX     |    stop CSI record actionName
+#      15     |     XXX     |     XXX     |     XXX     |    move CSI record actionName
+#      16     |   index[x]  |   time[x]   |     XXX     |    move to target joint position in time[x]
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#command for server
 int32 command
 
-
+#data for server
 int32[3] data
 
 string actionName
@@ -60,7 +60,7 @@ float64[16] targetJointPosition
     """
     if args or kwds:
       super(motion_srvRequest, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.command is None:
         self.command = 0
       if self.data is None:
@@ -90,7 +90,8 @@ float64[16] targetJointPosition
     :param buff: buffer, ``StringIO``
     """
     try:
-      buff.write(_get_struct_i().pack(self.command))
+      _x = self.command
+      buff.write(_get_struct_i().pack(_x))
       buff.write(_get_struct_3i().pack(*self.data))
       _x = self.actionName
       length = len(_x)
@@ -133,7 +134,7 @@ float64[16] targetJointPosition
       self.targetJointPosition = _get_struct_16d().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -143,7 +144,8 @@ float64[16] targetJointPosition
     :param numpy: numpy python module
     """
     try:
-      buff.write(_get_struct_i().pack(self.command))
+      _x = self.command
+      buff.write(_get_struct_i().pack(_x))
       buff.write(self.data.tostring())
       _x = self.actionName
       length = len(_x)
@@ -187,18 +189,18 @@ float64[16] targetJointPosition
       self.targetJointPosition = numpy.frombuffer(str[start:end], dtype=numpy.float64, count=16)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
     global _struct_I
     return _struct_I
-_struct_i = None
-def _get_struct_i():
-    global _struct_i
-    if _struct_i is None:
-        _struct_i = struct.Struct("<i")
-    return _struct_i
+_struct_1024i = None
+def _get_struct_1024i():
+    global _struct_1024i
+    if _struct_1024i is None:
+        _struct_1024i = struct.Struct("<1024i")
+    return _struct_1024i
 _struct_16d = None
 def _get_struct_16d():
     global _struct_16d
@@ -211,12 +213,12 @@ def _get_struct_3i():
     if _struct_3i is None:
         _struct_3i = struct.Struct("<3i")
     return _struct_3i
-_struct_1024i = None
-def _get_struct_1024i():
-    global _struct_1024i
-    if _struct_1024i is None:
-        _struct_1024i = struct.Struct("<1024i")
-    return _struct_1024i
+_struct_i = None
+def _get_struct_i():
+    global _struct_i
+    if _struct_i is None:
+        _struct_i = struct.Struct("<i")
+    return _struct_i
 # This Python file uses the following encoding: utf-8
 """autogenerated by genpy from cruiser_msgs/motion_srvResponse.msg. Do not edit."""
 import sys
@@ -228,7 +230,7 @@ import struct
 class motion_srvResponse(genpy.Message):
   _md5sum = "2ce250692c803104fdc0bc22bac3888f"
   _type = "cruiser_msgs/motion_srvResponse"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """
 int32 result
 int32[1024] readtime
@@ -256,7 +258,7 @@ float64[16] currentJointPosition
     """
     if args or kwds:
       super(motion_srvResponse, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.result is None:
         self.result = 0
       if self.readtime is None:
@@ -283,9 +285,11 @@ float64[16] currentJointPosition
     :param buff: buffer, ``StringIO``
     """
     try:
-      buff.write(_get_struct_i().pack(self.result))
+      _x = self.result
+      buff.write(_get_struct_i().pack(_x))
       buff.write(_get_struct_1024i().pack(*self.readtime))
-      buff.write(_get_struct_i().pack(self.duration))
+      _x = self.duration
+      buff.write(_get_struct_i().pack(_x))
       buff.write(_get_struct_16d().pack(*self.currentJointPosition))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
@@ -311,7 +315,7 @@ float64[16] currentJointPosition
       self.currentJointPosition = _get_struct_16d().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -321,9 +325,11 @@ float64[16] currentJointPosition
     :param numpy: numpy python module
     """
     try:
-      buff.write(_get_struct_i().pack(self.result))
+      _x = self.result
+      buff.write(_get_struct_i().pack(_x))
       buff.write(self.readtime.tostring())
-      buff.write(_get_struct_i().pack(self.duration))
+      _x = self.duration
+      buff.write(_get_struct_i().pack(_x))
       buff.write(self.currentJointPosition.tostring())
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
@@ -350,30 +356,30 @@ float64[16] currentJointPosition
       self.currentJointPosition = numpy.frombuffer(str[start:end], dtype=numpy.float64, count=16)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
     global _struct_I
     return _struct_I
-_struct_i = None
-def _get_struct_i():
-    global _struct_i
-    if _struct_i is None:
-        _struct_i = struct.Struct("<i")
-    return _struct_i
-_struct_16d = None
-def _get_struct_16d():
-    global _struct_16d
-    if _struct_16d is None:
-        _struct_16d = struct.Struct("<16d")
-    return _struct_16d
 _struct_1024i = None
 def _get_struct_1024i():
     global _struct_1024i
     if _struct_1024i is None:
         _struct_1024i = struct.Struct("<1024i")
     return _struct_1024i
+_struct_16d = None
+def _get_struct_16d():
+    global _struct_16d
+    if _struct_16d is None:
+        _struct_16d = struct.Struct("<16d")
+    return _struct_16d
+_struct_i = None
+def _get_struct_i():
+    global _struct_i
+    if _struct_i is None:
+        _struct_i = struct.Struct("<i")
+    return _struct_i
 class motion_srv(object):
   _type          = 'cruiser_msgs/motion_srv'
   _md5sum = 'e17f72359ddf3560f0cea3ec62c3ae72'

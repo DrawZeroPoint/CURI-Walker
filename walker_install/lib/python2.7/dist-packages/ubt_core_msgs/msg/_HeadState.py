@@ -9,7 +9,7 @@ import struct
 class HeadState(genpy.Message):
   _md5sum = "71c43b264307205358e7e49be5601348"
   _type = "ubt_core_msgs/HeadState"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """float32 pan
 bool isTurning
 bool isNodding
@@ -34,7 +34,7 @@ bool isPanEnabled
     """
     if args or kwds:
       super(HeadState, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.pan is None:
         self.pan = 0.
       if self.isTurning is None:
@@ -82,7 +82,7 @@ bool isPanEnabled
       self.isPanEnabled = bool(self.isPanEnabled)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -114,7 +114,7 @@ bool isPanEnabled
       self.isPanEnabled = bool(self.isPanEnabled)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

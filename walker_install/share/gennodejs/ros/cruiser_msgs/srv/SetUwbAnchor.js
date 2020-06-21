@@ -69,7 +69,7 @@ class SetUwbAnchorRequest {
   static messageDefinition() {
     // Returns full string definition for message
     return `
-    
+    # Set the uwb stations as a cruiser_msgs/UwbAnchors
     cruiser_msgs/UwbAnchor anchor
     
     ================================================================================

@@ -112,10 +112,10 @@
   "795d5cb78f54a9363452cba320578b0f")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<uwbCoordinateMap-request>)))
   "Returns full string definition for message of type '<uwbCoordinateMap-request>"
-  (cl:format cl:nil "float32 intput_x~%float32 intput_y~%float32 intput_theta~%bool theta_valid_flag~%~%~%"))
+  (cl:format cl:nil "float32 intput_x~%float32 intput_y~%float32 intput_theta~%bool theta_valid_flag~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'uwbCoordinateMap-request)))
   "Returns full string definition for message of type 'uwbCoordinateMap-request"
-  (cl:format cl:nil "float32 intput_x~%float32 intput_y~%float32 intput_theta~%bool theta_valid_flag~%~%~%"))
+  (cl:format cl:nil "float32 intput_x~%float32 intput_y~%float32 intput_theta~%bool theta_valid_flag~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <uwbCoordinateMap-request>))
   (cl:+ 0
      4
@@ -245,10 +245,10 @@
   "795d5cb78f54a9363452cba320578b0f")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<uwbCoordinateMap-response>)))
   "Returns full string definition for message of type '<uwbCoordinateMap-response>"
-  (cl:format cl:nil "uint32 result~%float32 output_x~%float32 output_y~%float32 output_theta~%~%~%~%~%"))
+  (cl:format cl:nil "uint32 result~%float32 output_x~%float32 output_y~%float32 output_theta~%~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'uwbCoordinateMap-response)))
   "Returns full string definition for message of type 'uwbCoordinateMap-response"
-  (cl:format cl:nil "uint32 result~%float32 output_x~%float32 output_y~%float32 output_theta~%~%~%~%~%"))
+  (cl:format cl:nil "uint32 result~%float32 output_x~%float32 output_y~%float32 output_theta~%~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <uwbCoordinateMap-response>))
   (cl:+ 0
      4

@@ -94,10 +94,10 @@
   "358e233cde0c8a8bcfea4ce193f8fc15")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<ClearUMap-response>)))
   "Returns full string definition for message of type '<ClearUMap-response>"
-  (cl:format cl:nil "bool success~%~%~%~%"))
+  (cl:format cl:nil "bool success~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'ClearUMap-response)))
   "Returns full string definition for message of type 'ClearUMap-response"
-  (cl:format cl:nil "bool success~%~%~%~%"))
+  (cl:format cl:nil "bool success~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <ClearUMap-response>))
   (cl:+ 0
      1

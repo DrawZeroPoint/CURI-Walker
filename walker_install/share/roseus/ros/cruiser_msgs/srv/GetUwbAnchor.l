@@ -101,7 +101,7 @@
 (setf (get cruiser_msgs::GetUwbAnchorRequest :md5sum-) "5f4b95f067596a6c57f174e4ed94b6a5")
 (setf (get cruiser_msgs::GetUwbAnchorRequest :datatype-) "cruiser_msgs/GetUwbAnchorRequest")
 (setf (get cruiser_msgs::GetUwbAnchorRequest :definition-)
-      "
+      "# Get the uwb stations as a cruiser_msgs/UwbAnchors
 ---
 cruiser_msgs/UwbAnchor anchor
 
@@ -158,7 +158,7 @@ float64 w
 (setf (get cruiser_msgs::GetUwbAnchorResponse :md5sum-) "5f4b95f067596a6c57f174e4ed94b6a5")
 (setf (get cruiser_msgs::GetUwbAnchorResponse :datatype-) "cruiser_msgs/GetUwbAnchorResponse")
 (setf (get cruiser_msgs::GetUwbAnchorResponse :definition-)
-      "
+      "# Get the uwb stations as a cruiser_msgs/UwbAnchors
 ---
 cruiser_msgs/UwbAnchor anchor
 

@@ -9,7 +9,7 @@ import struct
 class diagnosticReportData(genpy.Message):
   _md5sum = "95276667cdb3126b4b795b4f8eee5706"
   _type = "cruiser_msgs/diagnosticReportData"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """#topic "/cruiser/diag_report"
 int16 key
 string data"""
@@ -32,7 +32,7 @@ string data"""
     """
     if args or kwds:
       super(diagnosticReportData, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.key is None:
         self.key = 0
       if self.data is None:
@@ -53,7 +53,8 @@ string data"""
     :param buff: buffer, ``StringIO``
     """
     try:
-      buff.write(_get_struct_h().pack(self.key))
+      _x = self.key
+      buff.write(_get_struct_h().pack(_x))
       _x = self.data
       length = len(_x)
       if python3 or type(_x) == unicode:
@@ -84,7 +85,7 @@ string data"""
         self.data = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -94,7 +95,8 @@ string data"""
     :param numpy: numpy python module
     """
     try:
-      buff.write(_get_struct_h().pack(self.key))
+      _x = self.key
+      buff.write(_get_struct_h().pack(_x))
       _x = self.data
       length = len(_x)
       if python3 or type(_x) == unicode:
@@ -126,7 +128,7 @@ string data"""
         self.data = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

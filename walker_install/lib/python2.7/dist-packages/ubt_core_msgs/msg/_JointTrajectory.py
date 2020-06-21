@@ -9,7 +9,7 @@ import struct
 class JointTrajectory(genpy.Message):
   _md5sum = "e9cd8f555650318d9b4f9cd4dce763db"
   _type = "ubt_core_msgs/JointTrajectory"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """int32 mode
 float64[] position
 float64[] velocity
@@ -35,7 +35,7 @@ float64[] acceleration
     """
     if args or kwds:
       super(JointTrajectory, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.mode is None:
         self.mode = 0
       if self.position is None:
@@ -65,7 +65,8 @@ float64[] acceleration
     :param buff: buffer, ``StringIO``
     """
     try:
-      buff.write(_get_struct_i().pack(self.mode))
+      _x = self.mode
+      buff.write(_get_struct_i().pack(_x))
       length = len(self.position)
       buff.write(_struct_I.pack(length))
       pattern = '<%sd'%length
@@ -125,7 +126,7 @@ float64[] acceleration
       self.acceleration = struct.unpack(pattern, str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -135,7 +136,8 @@ float64[] acceleration
     :param numpy: numpy python module
     """
     try:
-      buff.write(_get_struct_i().pack(self.mode))
+      _x = self.mode
+      buff.write(_get_struct_i().pack(_x))
       length = len(self.position)
       buff.write(_struct_I.pack(length))
       pattern = '<%sd'%length
@@ -196,7 +198,7 @@ float64[] acceleration
       self.acceleration = numpy.frombuffer(str[start:end], dtype=numpy.float64, count=length)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

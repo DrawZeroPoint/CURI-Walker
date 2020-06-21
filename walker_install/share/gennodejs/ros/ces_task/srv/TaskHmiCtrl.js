@@ -68,7 +68,7 @@ class TaskHmiCtrlRequest {
   static messageDefinition() {
     // Returns full string definition for message
     return `
-    
+    # adb commands to send
     string adb_cmd
     
     `;
@@ -153,10 +153,10 @@ class TaskHmiCtrlResponse {
   static messageDefinition() {
     // Returns full string definition for message
     return `
-    
+    # indicate status
     bool success
     
-    
+    # informational, e.g. for error messages
     string message
     
     

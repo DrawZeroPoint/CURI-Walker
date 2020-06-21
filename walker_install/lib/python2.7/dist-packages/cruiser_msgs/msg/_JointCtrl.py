@@ -10,7 +10,7 @@ import genpy
 class JointCtrl(genpy.Message):
   _md5sum = "8223324199b2c8c391007fad926392ef"
   _type = "cruiser_msgs/JointCtrl"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """string ctrlId
 time ctrlStamp
 string ctrlName
@@ -35,7 +35,7 @@ uint8[] reserved"""
     """
     if args or kwds:
       super(JointCtrl, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.ctrlId is None:
         self.ctrlId = ''
       if self.ctrlStamp is None:
@@ -79,7 +79,8 @@ uint8[] reserved"""
         _x = _x.encode('utf-8')
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
-      buff.write(_get_struct_i().pack(self.jointIdx))
+      _x = self.jointIdx
+      buff.write(_get_struct_i().pack(_x))
       _x = self.reserved
       length = len(_x)
       # - if encoded as a list instead, serialize as bytes instead of string
@@ -133,7 +134,7 @@ uint8[] reserved"""
       self.ctrlStamp.canon()
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -157,7 +158,8 @@ uint8[] reserved"""
         _x = _x.encode('utf-8')
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
-      buff.write(_get_struct_i().pack(self.jointIdx))
+      _x = self.jointIdx
+      buff.write(_get_struct_i().pack(_x))
       _x = self.reserved
       length = len(_x)
       # - if encoded as a list instead, serialize as bytes instead of string
@@ -212,21 +214,21 @@ uint8[] reserved"""
       self.ctrlStamp.canon()
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
     global _struct_I
     return _struct_I
-_struct_i = None
-def _get_struct_i():
-    global _struct_i
-    if _struct_i is None:
-        _struct_i = struct.Struct("<i")
-    return _struct_i
 _struct_2I = None
 def _get_struct_2I():
     global _struct_2I
     if _struct_2I is None:
         _struct_2I = struct.Struct("<2I")
     return _struct_2I
+_struct_i = None
+def _get_struct_i():
+    global _struct_i
+    if _struct_i is None:
+        _struct_i = struct.Struct("<i")
+    return _struct_i

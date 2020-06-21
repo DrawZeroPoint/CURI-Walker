@@ -73,10 +73,10 @@
   "e9b14d2fb77896c676ca42362f1376f2")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<cruiserPowerAction-request>)))
   "Returns full string definition for message of type '<cruiserPowerAction-request>"
-  (cl:format cl:nil "uint32 dev_name~%uint32 on_off~%~%~%"))
+  (cl:format cl:nil "uint32 dev_name~%uint32 on_off~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'cruiserPowerAction-request)))
   "Returns full string definition for message of type 'cruiserPowerAction-request"
-  (cl:format cl:nil "uint32 dev_name~%uint32 on_off~%~%~%"))
+  (cl:format cl:nil "uint32 dev_name~%uint32 on_off~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <cruiserPowerAction-request>))
   (cl:+ 0
      4
@@ -139,10 +139,10 @@
   "e9b14d2fb77896c676ca42362f1376f2")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<cruiserPowerAction-response>)))
   "Returns full string definition for message of type '<cruiserPowerAction-response>"
-  (cl:format cl:nil "uint32 result~%~%~%~%~%"))
+  (cl:format cl:nil "uint32 result~%~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'cruiserPowerAction-response)))
   "Returns full string definition for message of type 'cruiserPowerAction-response"
-  (cl:format cl:nil "uint32 result~%~%~%~%~%"))
+  (cl:format cl:nil "uint32 result~%~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <cruiserPowerAction-response>))
   (cl:+ 0
      4

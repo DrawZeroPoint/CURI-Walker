@@ -9,7 +9,7 @@ import struct
 class SceneSelectionRequest(genpy.Message):
   _md5sum = "be849e4f9e637f9b6fbdaf322e38373d"
   _type = "webots_api/SceneSelectionRequest"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """string scene_name
 bool nav
 bool vision
@@ -33,7 +33,7 @@ bool vision
     """
     if args or kwds:
       super(SceneSelectionRequest, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.scene_name is None:
         self.scene_name = ''
       if self.nav is None:
@@ -92,7 +92,7 @@ bool vision
       self.vision = bool(self.vision)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -138,7 +138,7 @@ bool vision
       self.vision = bool(self.vision)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
@@ -161,7 +161,7 @@ import struct
 class SceneSelectionResponse(genpy.Message):
   _md5sum = "358e233cde0c8a8bcfea4ce193f8fc15"
   _type = "webots_api/SceneSelectionResponse"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """bool success
 
 
@@ -185,7 +185,7 @@ class SceneSelectionResponse(genpy.Message):
     """
     if args or kwds:
       super(SceneSelectionResponse, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.success is None:
         self.success = False
     else:
@@ -203,7 +203,8 @@ class SceneSelectionResponse(genpy.Message):
     :param buff: buffer, ``StringIO``
     """
     try:
-      buff.write(_get_struct_B().pack(self.success))
+      _x = self.success
+      buff.write(_get_struct_B().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -220,7 +221,7 @@ class SceneSelectionResponse(genpy.Message):
       self.success = bool(self.success)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -230,7 +231,8 @@ class SceneSelectionResponse(genpy.Message):
     :param numpy: numpy python module
     """
     try:
-      buff.write(_get_struct_B().pack(self.success))
+      _x = self.success
+      buff.write(_get_struct_B().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -248,7 +250,7 @@ class SceneSelectionResponse(genpy.Message):
       self.success = bool(self.success)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

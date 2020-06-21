@@ -130,7 +130,7 @@ struct Definition< ::cruiser_msgs::GetVirtualPathRequest_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "\n"
+    return "# Get the virtual path as a cruiser_msgs/VirtualPath\n"
 ;
   }
 

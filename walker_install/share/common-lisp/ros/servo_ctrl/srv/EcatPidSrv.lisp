@@ -163,10 +163,10 @@
   "7b9594603cb192f9d9c16b8685314164")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<EcatPidSrv-request>)))
   "Returns full string definition for message of type '<EcatPidSrv-request>"
-  (cl:format cl:nil "~%string cmd~%~%~%string servo~%~%~%string mode~%~%~%int16 kp~%int16 ki~%int16 kd~%~%~%"))
+  (cl:format cl:nil "# cmd: \"get\", \"set\"~%string cmd~%~%# servo(case insensitive): LHipYaw,LHipRoll,LHipPitch,LKneePitch,LAnklePitch,LAnkleRoll,RHipYaw,RHipRoll,RHipPitch,RKneePitch,RAnklePitch,RAnkleRoll~%string servo~%~%# mode: pos, vel, trq~%string mode~%~%# pid~%int16 kp~%int16 ki~%int16 kd~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'EcatPidSrv-request)))
   "Returns full string definition for message of type 'EcatPidSrv-request"
-  (cl:format cl:nil "~%string cmd~%~%~%string servo~%~%~%string mode~%~%~%int16 kp~%int16 ki~%int16 kd~%~%~%"))
+  (cl:format cl:nil "# cmd: \"get\", \"set\"~%string cmd~%~%# servo(case insensitive): LHipYaw,LHipRoll,LHipPitch,LKneePitch,LAnklePitch,LAnkleRoll,RHipYaw,RHipRoll,RHipPitch,RKneePitch,RAnklePitch,RAnkleRoll~%string servo~%~%# mode: pos, vel, trq~%string mode~%~%# pid~%int16 kp~%int16 ki~%int16 kd~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <EcatPidSrv-request>))
   (cl:+ 0
      4 (cl:length (cl:slot-value msg 'cmd))

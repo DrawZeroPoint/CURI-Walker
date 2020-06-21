@@ -11,7 +11,7 @@ import std_msgs.msg
 class RangeArray(genpy.Message):
   _md5sum = "4c1d9b3ff03219d31e41c86817a72ba8"
   _type = "cruiser_msgs/RangeArray"
-  _has_header = True #flag to mark the presence of a Header object
+  _has_header = True  # flag to mark the presence of a Header object
   _full_text = """std_msgs/Header header
 sensor_msgs/Range[] ranges
 ================================================================================
@@ -91,7 +91,7 @@ float32 range           # range data [m]
     """
     if args or kwds:
       super(RangeArray, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.header is None:
         self.header = std_msgs.msg.Header()
       if self.ranges is None:
@@ -124,7 +124,8 @@ float32 range           # range data [m]
       buff.write(_struct_I.pack(length))
       for val1 in self.ranges:
         _v1 = val1.header
-        buff.write(_get_struct_I().pack(_v1.seq))
+        _x = _v1.seq
+        buff.write(_get_struct_I().pack(_x))
         _v2 = _v1.stamp
         _x = _v2
         buff.write(_get_struct_2I().pack(_x.secs, _x.nsecs))
@@ -194,7 +195,7 @@ float32 range           # range data [m]
         self.ranges.append(val1)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -216,7 +217,8 @@ float32 range           # range data [m]
       buff.write(_struct_I.pack(length))
       for val1 in self.ranges:
         _v5 = val1.header
-        buff.write(_get_struct_I().pack(_v5.seq))
+        _x = _v5.seq
+        buff.write(_get_struct_I().pack(_x))
         _v6 = _v5.stamp
         _x = _v6
         buff.write(_get_struct_2I().pack(_x.secs, _x.nsecs))
@@ -287,12 +289,18 @@ float32 range           # range data [m]
         self.ranges.append(val1)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
     global _struct_I
     return _struct_I
+_struct_2I = None
+def _get_struct_2I():
+    global _struct_2I
+    if _struct_2I is None:
+        _struct_2I = struct.Struct("<2I")
+    return _struct_2I
 _struct_3I = None
 def _get_struct_3I():
     global _struct_3I
@@ -305,9 +313,3 @@ def _get_struct_B4f():
     if _struct_B4f is None:
         _struct_B4f = struct.Struct("<B4f")
     return _struct_B4f
-_struct_2I = None
-def _get_struct_2I():
-    global _struct_2I
-    if _struct_2I is None:
-        _struct_2I = struct.Struct("<2I")
-    return _struct_2I
