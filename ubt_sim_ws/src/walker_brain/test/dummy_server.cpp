@@ -38,9 +38,8 @@ public:
     bool success = true;
 
     goal_ = as_.acceptNewGoal();
-
     if (!goal_->header.frame_id.empty()) {
-      int cnt = 10;
+      int cnt = 5;
       while (cnt) {
         if (as_.isPreemptRequested() || !ros::ok()) {
           success = false;
@@ -48,6 +47,7 @@ public:
         }
         feedback_.feedback_status = 2;
         as_.publishFeedback(feedback_);
+        ROS_INFO("Brain: Dummy action server executing %d", cnt);
         r.sleep();
         cnt--;
       }
