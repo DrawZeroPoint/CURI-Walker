@@ -3,9 +3,9 @@
     <!-- ////////// -->
     <BehaviorTree ID="BehaviorTree">
         <Sequence>
-            <Action ID="Pose1" goal_id="dummy_goal" name="nav1" result_status="" server_name="dummy_action_server"/>
+            <Action ID="Pose1" goal_id="dummy_goal" name="nav1" nav_pose="50 -50 1.57" result_status="" server_name="dummy_action_server" tcp_pose="10 10 10 0 0 0 1"/>
             <Repeat num_cycles="2">
-                <Action ID="Pose2" goal_id="dummy_goal" name="nav2" result_status="" server_name="dummy_action_server"/>
+                <Action ID="Pose2" goal_id="dummy_goal" name="nav2" nav_pose="100 0 -2" result_status="" server_name="dummy_action_server" tcp_pose="30 10 0 1 0 0 0"/>
             </Repeat>
         </Sequence>
     </BehaviorTree>
@@ -13,13 +13,17 @@
     <TreeNodesModel>
         <Action ID="Pose1">
             <input_port default="dummy_goal" name="goal_id"/>
+            <input_port default="50 -50 1.57" name="nav_pose"/>
             <output_port name="result_status"/>
             <input_port default="dummy_action_server" name="server_name"/>
+            <input_port default="10 10 10 0 0 0 1" name="tcp_pose"/>
         </Action>
         <Action ID="Pose2">
             <input_port default="dummy_goal" name="goal_id"/>
+            <input_port default="100 0 -2" name="nav_pose"/>
             <output_port name="result_status"/>
             <input_port default="dummy_action_server" name="server_name"/>
+            <input_port default="30 10 0 1 0 0 0" name="tcp_pose"/>
         </Action>
     </TreeNodesModel>
     <!-- ////////// -->

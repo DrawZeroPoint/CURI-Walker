@@ -1,6 +1,8 @@
 #include <ros/ros.h>
 
 #include <std_msgs/String.h>
+#include <geometry_msgs/Pose.h>
+#include <geometry_msgs/Pose2D.h>
 #include <geometry_msgs/PoseStamped.h>
 
 #include <actionlib/server/simple_action_server.h>
@@ -22,7 +24,7 @@ protected:
   walker_brain::DummyActionResult result_;
 
 public:
-  DummyActionServer(const std::string& name) :
+  explicit DummyActionServer(const std::string& name) :
     as_(nh_, name,  false),
     action_name_(name)
   {
@@ -48,6 +50,10 @@ public:
         feedback_.feedback_status = 2;
         as_.publishFeedback(feedback_);
         ROS_INFO("Brain: Dummy action server executing %d", cnt);
+        ROS_INFO("Brain: TCP moving to x=%.2f y=%.2f z=%.2f", goal_->tcp_pose.position.x, goal_->tcp_pose.position.y,
+                 goal_->tcp_pose.position.z);
+        ROS_INFO("Brain: Nav moving to x=%.2f y=%.2f theta=%.2f", goal_->nav_pose.x, goal_->nav_pose.y,
+                 goal_->nav_pose.theta);
         r.sleep();
         cnt--;
       }

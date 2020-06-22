@@ -1,4 +1,6 @@
 std_msgs/Header header
+geometry_msgs/Pose tcp_pose
+geometry_msgs/Pose2D nav_pose
 ---
 uint8 SUCCEEDED=0
 uint8 FAILED=1

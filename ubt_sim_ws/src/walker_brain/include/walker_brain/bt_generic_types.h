@@ -3,6 +3,10 @@
 
 #include <ros/time.h>
 
+#include <geometry_msgs/Pose.h>
+#include <geometry_msgs/Pose2D.h>
+#include <geometry_msgs/PoseArray.h>
+
 #include <behaviortree_cpp_v3/bt_factory.h>
 
 
@@ -15,20 +19,40 @@ struct Header {
 
 // geometry_msgs/Pose2D
 struct Pose2D {
-  float x;
-  float y;
-  float theta;
+  double x;
+  double y;
+  double theta;
+
+  inline geometry_msgs::Pose2D convertToROS() const {
+    geometry_msgs::Pose2D ros_pose;
+    ros_pose.x = this->x;
+    ros_pose.y = this->y;
+    ros_pose.theta = this->theta;
+    return ros_pose;
+  }
 };
 
 // geometry_msgs/Pose
 struct Pose {
-  float px;
-  float py;
-  float pz;
-  float ox;
-  float oy;
-  float oz;
-  float ow;
+  double px;
+  double py;
+  double pz;
+  double ox;
+  double oy;
+  double oz;
+  double ow;
+
+  inline geometry_msgs::Pose convertToROS() const {
+    geometry_msgs::Pose ros_pose;
+    ros_pose.position.x = this->px;
+    ros_pose.position.y = this->py;
+    ros_pose.position.z = this->pz;
+    ros_pose.orientation.x = this->ox;
+    ros_pose.orientation.y = this->oy;
+    ros_pose.orientation.z = this->oz;
+    ros_pose.orientation.w = this->ow;
+    return ros_pose;
+  }
 };
 
 // geometry_msgs/PoseArray
@@ -36,7 +60,10 @@ struct PoseArray {
   struct Pose poses[0];
 };
 
-
+/**
+ * Note that BT::convertFromString() do not support template specialization of float,
+ * so we use double for all the float values.
+ */
 namespace BT
 {
   template <> inline Pose2D convertFromString(StringView str) {
@@ -46,9 +73,9 @@ namespace BT
       throw RuntimeError("invalid input %s)", str);
     } else {
       Pose2D output{};
-      output.x = convertFromString<float>(parts[0]);
-      output.y = convertFromString<float>(parts[1]);
-      output.theta = convertFromString<float>(parts[2]);
+      output.x = convertFromString<double>(parts[0]);
+      output.y = convertFromString<double>(parts[1]);
+      output.theta = convertFromString<double>(parts[2]);
       return output;
     }
   }
@@ -60,13 +87,13 @@ namespace BT
       throw RuntimeError("invalid input %s)", str);
     } else {
       Pose output{};
-      output.px = convertFromString<float>(parts[0]);
-      output.py = convertFromString<float>(parts[1]);
-      output.pz = convertFromString<float>(parts[2]);
-      output.ox = convertFromString<float>(parts[3]);
-      output.oy = convertFromString<float>(parts[4]);
-      output.oz = convertFromString<float>(parts[5]);
-      output.ow = convertFromString<float>(parts[6]);
+      output.px = convertFromString<double>(parts[0]);
+      output.py = convertFromString<double>(parts[1]);
+      output.pz = convertFromString<double>(parts[2]);
+      output.ox = convertFromString<double>(parts[3]);
+      output.oy = convertFromString<double>(parts[4]);
+      output.oz = convertFromString<double>(parts[5]);
+      output.ow = convertFromString<double>(parts[6]);
       return output;
     }
   }
@@ -86,13 +113,13 @@ namespace BT
         throw RuntimeError("invalid input %s)", p_str);
       } else {
         Pose p{};
-        p.px = convertFromString<float>(parts[0]);
-        p.py = convertFromString<float>(parts[1]);
-        p.pz = convertFromString<float>(parts[2]);
-        p.ox = convertFromString<float>(parts[3]);
-        p.oy = convertFromString<float>(parts[4]);
-        p.oz = convertFromString<float>(parts[5]);
-        p.ow = convertFromString<float>(parts[6]);
+        p.px = convertFromString<double>(parts[0]);
+        p.py = convertFromString<double>(parts[1]);
+        p.pz = convertFromString<double>(parts[2]);
+        p.ox = convertFromString<double>(parts[3]);
+        p.oy = convertFromString<double>(parts[4]);
+        p.oz = convertFromString<double>(parts[5]);
+        p.ow = convertFromString<double>(parts[6]);
         output.poses[cnt] = p;
         cnt++;
       }

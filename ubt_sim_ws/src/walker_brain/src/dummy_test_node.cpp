@@ -58,12 +58,28 @@ public:
   static PortsList providedPorts() {
     return {
       InputPort<std::string>("goal_id"),
-      OutputPort<int>("result_status")};
+      InputPort<Pose>("tcp_pose"),
+      InputPort<Pose2D>("nav_pose"),
+      OutputPort<int>("result_status")
+    };
   }
 
   bool onSendGoal(GoalType& goal) override {
     // TODO
-    if(!getInput<std::string>("goal_id", goal.header.frame_id)) return false;
+    if (!getInput<std::string>("goal_id", goal.header.frame_id)) return false;
+
+    Pose tcp_pose{};
+    if (!getInput<Pose>("tcp_pose", tcp_pose))
+      return false;
+    else
+      goal.tcp_pose = tcp_pose.convertToROS();
+
+    Pose2D nav_pose{};
+    if (!getInput<Pose2D>("nav_pose", nav_pose))
+      return false;
+    else
+      goal.nav_pose = nav_pose.convertToROS();
+
     ros::spinOnce();
     ROS_INFO("Brain: ExecuteNavigation sending request");
     return true;
@@ -116,6 +132,8 @@ int main(int argc, char **argv)
   RegisterRosAction<ExecuteNavigation>(factory, "Pose2", nh);
 
   auto tree = factory.createTreeFromFile(tree_file);
+
+  RosoutLogger logger(tree.rootNode());
 
   printTreeRecursively(tree.rootNode());
 
