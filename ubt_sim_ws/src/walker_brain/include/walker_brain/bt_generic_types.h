@@ -15,6 +15,20 @@ struct Header {
   uint32_t seq;
   ros::Time stamp;
   std::string frame_id;
+
+  inline std_msgs::Header toROS() const {
+    std_msgs::Header ros_header;
+    ros_header.seq = this->seq;
+    ros_header.stamp = this->stamp;
+    ros_header.frame_id = this->frame_id;
+    return ros_header;
+  }
+
+  inline void fromROS(const std_msgs::Header& ros_header) {
+    this->seq = ros_header.seq;
+    this->stamp = ros_header.stamp;
+    this->frame_id = ros_header.frame_id;
+  }
 };
 
 // geometry_msgs/Pose2D
@@ -48,7 +62,7 @@ struct Pose {
   double oz;
   double ow;
 
-  inline geometry_msgs::Pose convertToROS() const {
+  inline geometry_msgs::Pose toROS() const {
     geometry_msgs::Pose ros_pose;
     ros_pose.position.x = this->px;
     ros_pose.position.y = this->py;
@@ -59,11 +73,42 @@ struct Pose {
     ros_pose.orientation.w = this->ow;
     return ros_pose;
   }
+
+  inline void fromROS(geometry_msgs::Pose ros_pose) {
+    this->px = ros_pose.position.x;
+    this->py = ros_pose.position.y;
+    this->pz = ros_pose.position.z;
+    this->ox = ros_pose.orientation.x;
+    this->oy = ros_pose.orientation.y;
+    this->oz = ros_pose.orientation.z;
+    this->ow = ros_pose.orientation.w;
+  }
 };
 
 // geometry_msgs/PoseArray
 struct PoseArray {
-  struct Pose poses[0];
+  struct Header header;
+  std::vector<Pose> poses;
+
+  inline geometry_msgs::PoseArray toROS() const {
+    geometry_msgs::PoseArray ros_poses;
+    for (auto p : this->poses) {
+      geometry_msgs::Pose ros_pose = p.toROS();
+      ros_poses.poses.push_back(ros_pose);
+    }
+    ros_poses.header = this->header.toROS();
+    return ros_poses;
+  }
+
+  inline void fromROS(const geometry_msgs::PoseArray& ros_poses) {
+    this->header.fromROS(ros_poses.header);
+
+    for (auto p : ros_poses.poses) {
+      Pose pose{};
+      pose.fromROS(p);
+      this->poses.push_back(pose);
+    }
+  }
 };
 
 /**
@@ -109,9 +154,7 @@ namespace BT
     auto poses_str = splitString(str, ';');
     int len = poses_str.size();
     PoseArray output{};
-    output.poses[len];
 
-    int cnt = 0;
     for (auto p_str : poses_str) {
       // We expect real numbers separated by spaces
       auto parts = splitString(p_str, ' ');
@@ -126,8 +169,7 @@ namespace BT
         p.oy = convertFromString<double>(parts[4]);
         p.oz = convertFromString<double>(parts[5]);
         p.ow = convertFromString<double>(parts[6]);
-        output.poses[cnt] = p;
-        cnt++;
+        output.poses.push_back(p);
       }
     }
     return output;

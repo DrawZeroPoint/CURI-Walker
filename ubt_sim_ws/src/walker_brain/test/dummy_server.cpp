@@ -95,6 +95,10 @@ public:
                  goal_->tcp_pose.position.z);
         ROS_INFO("Brain: Nav moving to x=%.2f y=%.2f theta=%.2f", goal_->nav_pose.x, goal_->nav_pose.y,
                  goal_->nav_pose.theta);
+        if (goal_->obj_poses.poses.size() >= 3) {
+          ROS_INFO("Brain: Object poses 3 x=%.2f y=%.2f z=%.2f", goal_->obj_poses.poses[2].position.x,
+                   goal_->obj_poses.poses[2].position.y, goal_->obj_poses.poses[2].position.z);
+        }
         r.sleep();
         cnt--;
       }

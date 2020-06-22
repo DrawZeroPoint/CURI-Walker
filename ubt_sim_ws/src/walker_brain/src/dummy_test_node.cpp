@@ -44,6 +44,10 @@ public:
       Pose2D nav_pose{};
       nav_pose.fromROS(response.nav_pose);
       setOutput("nav_pose", nav_pose);
+
+      PoseArray obj_poses{};
+      obj_poses.fromROS(response.obj_poses);
+      setOutput("obj_poses", obj_poses);
       return BT::NodeStatus::SUCCESS;
     } else {
       ROS_INFO("Brain: ExecuteMovement response FAILURE.");
@@ -68,6 +72,7 @@ public:
       InputPort<std::string>("goal_id"),
       InputPort<Pose>("tcp_pose"),
       InputPort<Pose2D>("nav_pose"),
+      InputPort<PoseArray>("obj_poses"),
       OutputPort<int>("result_status")
     };
   }
@@ -80,13 +85,21 @@ public:
     if (!getInput<Pose>("tcp_pose", tcp_pose))
       return false;
     else
-      goal.tcp_pose = tcp_pose.convertToROS();
+      goal.tcp_pose = tcp_pose.toROS();
 
     Pose2D nav_pose{};
     if (!getInput<Pose2D>("nav_pose", nav_pose))
       return false;
     else
       goal.nav_pose = nav_pose.toROS();
+
+    PoseArray obj_poses{};
+    try {
+      getInput<PoseArray>("obj_poses", obj_poses);
+      goal.obj_poses = obj_poses.toROS();
+    } catch (const std::exception& e) {
+      ROS_WARN("Brain: No obj_poses given on start.");
+    }
 
     ros::spinOnce();
     ROS_INFO("Brain: ExecuteNavigation sending request");

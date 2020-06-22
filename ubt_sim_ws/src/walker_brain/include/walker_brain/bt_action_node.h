@@ -28,7 +28,7 @@ protected:
   BT::ActionNodeBase(name, conf), node_(nh)
   {
     const std::string server_name = getInput<std::string>("server_name").value();
-    action_client_ = std::make_shared<ActionClientType>( node_, server_name, true );
+    action_client_ = std::make_shared<ActionClientType>(node_, server_name, true);
   }
 
 public:
@@ -44,10 +44,10 @@ public:
   /// These ports will be added automatically if this Node is
   /// registered using RegisterRosAction<DeriveClass>()
   static PortsList providedPorts() {
-    return  {
+    return {
       InputPort<std::string>("server_name", "name of the Action Server"),
       InputPort<unsigned>("timeout", 500, "timeout to connect (milliseconds)")
-      };
+    };
   }
 
   /// Method called when the Action makes a transition from IDLE to RUNNING.
@@ -59,15 +59,14 @@ public:
   /// User can decide which NodeStatus it will return (SUCCESS or FAILURE).
   virtual NodeStatus onResult( const ResultType& res) = 0;
 
-  enum FailureCause{
+  enum FailureCause {
     MISSING_SERVER = 0,
     ABORTED_BY_SERVER = 1,
     REJECTED_BY_SERVER = 2
   };
 
   /// Called when a service call failed. Can be override by the user.
-  virtual NodeStatus onFailedRequest(FailureCause failure)
-  {
+  virtual NodeStatus onFailedRequest(FailureCause failure) {
     return NodeStatus::FAILURE;
   }
 
@@ -76,7 +75,7 @@ public:
   ///    BaseClass::halt()
   ///
   virtual void halt() override {
-    if( status() == NodeStatus::RUNNING ) {
+    if (status() == NodeStatus::RUNNING) {
       action_client_->cancelGoal();
     }
     setStatus(NodeStatus::IDLE);
@@ -91,7 +90,7 @@ protected:
     ros::Duration timeout(static_cast<double>(msec) * 1e-3);
 
     bool connected = action_client_->waitForServer(timeout);
-    if(!connected){
+    if (!connected) {
       return onFailedRequest(MISSING_SERVER);
     }
 
@@ -102,7 +101,7 @@ protected:
 
       GoalType goal;
       bool valid_goal = onSendGoal(goal);
-      if(!valid_goal) {
+      if (!valid_goal) {
         return NodeStatus::FAILURE;
       }
       action_client_->sendGoal(goal);
@@ -113,25 +112,16 @@ protected:
 
     // Please refer to these states
 
-    if( action_state == actionlib::SimpleClientGoalState::PENDING ||
-        action_state == actionlib::SimpleClientGoalState::ACTIVE )
-    {
+    if (action_state == actionlib::SimpleClientGoalState::PENDING ||
+        action_state == actionlib::SimpleClientGoalState::ACTIVE) {
       return NodeStatus::RUNNING;
-    }
-    else if( action_state == actionlib::SimpleClientGoalState::SUCCEEDED)
-    {
+    } else if (action_state == actionlib::SimpleClientGoalState::SUCCEEDED) {
       return onResult( *action_client_->getResult() );
-    }
-    else if( action_state == actionlib::SimpleClientGoalState::ABORTED)
-    {
+    } else if (action_state == actionlib::SimpleClientGoalState::ABORTED) {
       return onFailedRequest( ABORTED_BY_SERVER );
-    }
-    else if( action_state == actionlib::SimpleClientGoalState::REJECTED)
-    {
+    } else if (action_state == actionlib::SimpleClientGoalState::REJECTED) {
       return onFailedRequest( REJECTED_BY_SERVER );
-    }
-    else
-    {
+    } else {
       // FIXME: is there any other valid state we should consider?
       throw std::logic_error("Unexpected state in RosActionNode::tick()");
     }
