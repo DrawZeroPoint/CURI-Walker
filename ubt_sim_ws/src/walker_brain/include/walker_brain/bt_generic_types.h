@@ -23,12 +23,18 @@ struct Pose2D {
   double y;
   double theta;
 
-  inline geometry_msgs::Pose2D convertToROS() const {
+  inline geometry_msgs::Pose2D toROS() const {
     geometry_msgs::Pose2D ros_pose;
     ros_pose.x = this->x;
     ros_pose.y = this->y;
     ros_pose.theta = this->theta;
     return ros_pose;
+  }
+
+  inline void fromROS(geometry_msgs::Pose2D ros_pose) {
+    this->x = ros_pose.x;
+    this->y = ros_pose.y;
+    this->theta = ros_pose.theta;
   }
 };
 

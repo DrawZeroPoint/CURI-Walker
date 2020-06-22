@@ -14,40 +14,48 @@
 using namespace BT;
 
 
-//class ExecuteMovement : public RosServiceNode<walker_brain::Dummy>
-//{
-//public:
-//  ExecuteMovement(ros::NodeHandle &nh, const std::string& name, const BT::NodeConfiguration & cfg) :
-//    RosServiceNode<walker_brain::Dummy>(nh, name, cfg) {}
-//
-//  static BT::PortsList providedPorts() {
-//    return {
-//      BT::InputPort<std::string>("planning_group"),
-//      BT::OutputPort<int>("result_status") };
-//  }
-//
-//  void onSendRequest(RequestType &request) override {
-//    if (!getInput("planning_group", request.header.frame_id)) return;  // TODO
-//    ros::spinOnce();
-//    request.header.stamp.sec = this->time_sec_;
-//    ROS_INFO("Brain: ExecuteMovement sending request.");
-//  }
-//
-//  BT::NodeStatus onResponse(const ResponseType &response) override {
-//    if (response.result_status == response.SUCCEEDED) {
-//      ROS_INFO("Brain: ExecuteMovement response SUCCEEDED.");
-//      return BT::NodeStatus::SUCCESS;
-//    } else {
-//      ROS_INFO("Brain: ExecuteMovement response FAILURE.");
-//      return BT::NodeStatus::FAILURE;
-//    }
-//  }
-//
-//  virtual BT::NodeStatus onFailedRequest(RosServiceNode::FailureCause failure) override {
-//    ROS_ERROR("Brain: ExecuteMovement request failed %d.", static_cast<int>(failure));
-//    return BT::NodeStatus::FAILURE;
-//  }
-//};
+class ExecuteMovement : public RosServiceNode<walker_brain::Dummy>
+{
+public:
+  ExecuteMovement(ros::NodeHandle &nh, const std::string& name, const BT::NodeConfiguration & cfg) :
+    RosServiceNode<walker_brain::Dummy>(nh, name, cfg) {}
+
+  static BT::PortsList providedPorts() {
+    return {
+      BT::InputPort<std::string>("goal_id"),
+      BT::OutputPort<Pose2D>("nav_pose"),
+      BT::OutputPort<PoseArray>("obj_poses"),
+      BT::OutputPort<int>("result_status")
+    };
+  }
+
+  void onSendRequest(RequestType &request) override {
+    if (!getInput("goal_id", request.header.frame_id)) return;
+
+    ros::spinOnce();
+    request.header.stamp.sec = this->time_sec_;
+    ROS_INFO("Brain: ExecuteMovement sending request.");
+  }
+
+  BT::NodeStatus onResponse(const ResponseType &response) override {
+    if (response.result_status == response.SUCCEEDED) {
+      ROS_INFO("Brain: ExecuteMovement response SUCCEEDED.");
+
+      Pose2D nav_pose{};
+      nav_pose.fromROS(response.nav_pose);
+      setOutput("nav_pose", nav_pose);
+      return BT::NodeStatus::SUCCESS;
+    } else {
+      ROS_INFO("Brain: ExecuteMovement response FAILURE.");
+      return BT::NodeStatus::FAILURE;
+    }
+  }
+
+  virtual BT::NodeStatus onFailedRequest(RosServiceNode::FailureCause failure) override {
+    ROS_ERROR("Brain: ExecuteMovement request failed %d.", static_cast<int>(failure));
+    return BT::NodeStatus::FAILURE;
+  }
+};
 
 class ExecuteNavigation : public RosActionNode<walker_brain::DummyActionAction>
 {
@@ -78,7 +86,7 @@ public:
     if (!getInput<Pose2D>("nav_pose", nav_pose))
       return false;
     else
-      goal.nav_pose = nav_pose.convertToROS();
+      goal.nav_pose = nav_pose.toROS();
 
     ros::spinOnce();
     ROS_INFO("Brain: ExecuteNavigation sending request");
@@ -127,8 +135,9 @@ int main(int argc, char **argv)
   // We use the BehaviorTreeFactory to register our custom nodes
   BT::BehaviorTreeFactory factory;
 
-  // The recommended way to create a Node is through inheritance.
+  // Make sure Pose1 Pose2 are in the same with the action ids in xml file.
   RegisterRosAction<ExecuteNavigation>(factory, "Pose1", nh);
+  RegisterRosService<ExecuteMovement>(factory, "Move1", nh);
   RegisterRosAction<ExecuteNavigation>(factory, "Pose2", nh);
 
   auto tree = factory.createTreeFromFile(tree_file);

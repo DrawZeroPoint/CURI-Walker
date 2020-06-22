@@ -4,13 +4,18 @@
     <BehaviorTree ID="BehaviorTree">
         <Sequence>
             <Action ID="Pose1" goal_id="dummy_goal" name="nav1" nav_pose="50 -50 1.57" result_status="" server_name="dummy_action_server" tcp_pose="10 10 10 0 0 0 1"/>
-            <Repeat num_cycles="2">
-                <Action ID="Pose2" goal_id="dummy_goal" name="nav2" nav_pose="100 0 -2" result_status="" server_name="dummy_action_server" tcp_pose="30 10 0 1 0 0 0"/>
-            </Repeat>
+            <Action ID="Move1" goal_id="dummy_goal" name="sense" nav_pose="{tgt_pose}" obj_poses="" service_name="dummy_sense_service"/>
+            <Action ID="Pose2" goal_id="dummy_goal" name="nav2" nav_pose="{tgt_pose}" result_status="" server_name="dummy_action_server" tcp_pose="30 10 0 1 0 0 0"/>
         </Sequence>
     </BehaviorTree>
     <!-- ////////// -->
     <TreeNodesModel>
+        <Action ID="Move1">
+            <input_port default="dummy_goal" name="goal_id"/>
+            <output_port name="nav_pose"/>
+            <output_port name="obj_poses"/>
+            <input_port default="dummy_service_server" name="service_name"/>
+        </Action>
         <Action ID="Pose1">
             <input_port default="dummy_goal" name="goal_id"/>
             <input_port default="50 -50 1.57" name="nav_pose"/>

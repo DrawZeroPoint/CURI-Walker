@@ -6,10 +6,51 @@
 #include <geometry_msgs/PoseStamped.h>
 
 #include <actionlib/server/simple_action_server.h>
+#include <walker_brain/Dummy.h>
 #include <walker_brain/DummyActionAction.h>
 
 
 using namespace std;
+
+class DummyServiceServer
+{
+public:
+  explicit DummyServiceServer(const string &name) {
+    server_ = nh_.advertiseService(name, &DummyServiceServer::requestCB, this);
+  }
+
+private:
+  ros::NodeHandle nh_;
+  ros::ServiceServer server_;
+
+  bool requestCB(walker_brain::Dummy::Request &request, walker_brain::Dummy::Response &response) {
+    bool success = true;
+    if (request.header.frame_id.empty()) {
+      success = false;
+    } else {
+      int cnt = 3;
+      while (cnt) {
+        ROS_INFO("Brain: Dummy action server executing %d", cnt);
+        if (!ros::ok()) {
+          success = false;
+          break;
+        }
+        geometry_msgs::Pose pose{};
+        pose.position.x = cnt;
+        pose.position.y = 2*cnt;
+        pose.position.z = 3*cnt;
+        pose.orientation.w = 1;
+        response.obj_poses.poses.push_back(pose);
+        cnt--;
+      }
+      response.nav_pose.x = 99;
+      response.nav_pose.y = -99;
+      response.nav_pose.theta = 1;
+    }
+    success ? response.result_status = response.SUCCEEDED : response.result_status = response.FAILED;
+    return true;
+  }
+};
 
 class DummyActionServer
 {
@@ -25,7 +66,7 @@ protected:
 
 public:
   explicit DummyActionServer(const std::string& name) :
-    as_(nh_, name,  false),
+    as_(nh_, name, false),
     action_name_(name)
   {
     as_.registerGoalCallback([this] { goalCB(); });
@@ -76,6 +117,7 @@ private:
 int main(int argc, char** argv) {
   ros::init(argc, argv, "dummy_node");
 
+  DummyServiceServer ss("dummy_sense_service");
   DummyActionServer as("dummy_action_server");
   ros::spin();
 
