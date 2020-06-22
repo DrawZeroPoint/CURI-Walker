@@ -15,7 +15,7 @@ for i in range(5):
 
 def moveToIntermediate():
     rospy.loginfo("Moving to intermediate pose")
-    moveJointsClient.send_goal(walker_movement.msg.MoveToJointPoseGoal([-0.3383338087563895, -0.6975777197356626, -1.7908677458471025, -1.367886143613522, 1.2121745970333424, 0.05322237355283372, -0.44186775786234195]))
+    moveJointsClient.send_goal(walker_movement.msg.MoveToJointPoseGoal([-0.3383338087563895, -0.6975777197356626, -1.7908677458471025, -1.3, 1.2121745970333424, 0.05322237355283372, -0.44186775786234195]))
     #moveJointsClient.send_goal(walker_movement.msg.MoveToJointPoseGoal([-0.78046666105187, -0.9453471405387165, -1.9496421516412918, -1.1763506230509633, 1.6622610797676982, 0.25049953264133823, -0.45839707051223666]))
     moveJointsClient.wait_for_result()
     #print(moveJointsClient.get_result())
