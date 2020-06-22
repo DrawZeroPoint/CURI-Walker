@@ -9,18 +9,18 @@ import struct
 class configureRequest(genpy.Message):
   _md5sum = "2c8808c6b0ab528f4f7c23920ff3e4bd"
   _type = "logger/configureRequest"
-  _has_header = False #flag to mark the presence of a Header object
-  _full_text = """
+  _has_header = False  # flag to mark the presence of a Header object
+  _full_text = """#mode对应的常量
 string MODE_QUERY=query
 string MODE_SET_CAPACITY=set_capacity
 string MODE_SET_PATH=set_path
 
 string node
-
+#set or query,设置或查询
 string mode
-
+#容量，以条数为单位
 int32 capacity
-
+#数据存放路径
 string path
 """
   # Pseudo-constants
@@ -47,7 +47,7 @@ string path
     """
     if args or kwds:
       super(configureRequest, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.node is None:
         self.node = ''
       if self.mode is None:
@@ -86,7 +86,8 @@ string path
         _x = _x.encode('utf-8')
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
-      buff.write(_get_struct_i().pack(self.capacity))
+      _x = self.capacity
+      buff.write(_get_struct_i().pack(_x))
       _x = self.path
       length = len(_x)
       if python3 or type(_x) == unicode:
@@ -135,7 +136,7 @@ string path
         self.path = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -157,7 +158,8 @@ string path
         _x = _x.encode('utf-8')
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
-      buff.write(_get_struct_i().pack(self.capacity))
+      _x = self.capacity
+      buff.write(_get_struct_i().pack(_x))
       _x = self.path
       length = len(_x)
       if python3 or type(_x) == unicode:
@@ -207,7 +209,7 @@ string path
         self.path = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
@@ -230,10 +232,10 @@ import struct
 class configureResponse(genpy.Message):
   _md5sum = "ec415df144abfdbc57a28b2b48f42288"
   _type = "logger/configureResponse"
-  _has_header = False #flag to mark the presence of a Header object
-  _full_text = """
+  _has_header = False  # flag to mark the presence of a Header object
+  _full_text = """#查询容量，以条数为单位
 int32 capacity
-
+#查询数据存放路径
 string path
 bool result
 
@@ -257,7 +259,7 @@ bool result
     """
     if args or kwds:
       super(configureResponse, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.capacity is None:
         self.capacity = 0
       if self.path is None:
@@ -281,14 +283,16 @@ bool result
     :param buff: buffer, ``StringIO``
     """
     try:
-      buff.write(_get_struct_i().pack(self.capacity))
+      _x = self.capacity
+      buff.write(_get_struct_i().pack(_x))
       _x = self.path
       length = len(_x)
       if python3 or type(_x) == unicode:
         _x = _x.encode('utf-8')
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
-      buff.write(_get_struct_B().pack(self.result))
+      _x = self.result
+      buff.write(_get_struct_B().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -317,7 +321,7 @@ bool result
       self.result = bool(self.result)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -327,14 +331,16 @@ bool result
     :param numpy: numpy python module
     """
     try:
-      buff.write(_get_struct_i().pack(self.capacity))
+      _x = self.capacity
+      buff.write(_get_struct_i().pack(_x))
       _x = self.path
       length = len(_x)
       if python3 or type(_x) == unicode:
         _x = _x.encode('utf-8')
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
-      buff.write(_get_struct_B().pack(self.result))
+      _x = self.result
+      buff.write(_get_struct_B().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -364,24 +370,24 @@ bool result
       self.result = bool(self.result)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
     global _struct_I
     return _struct_I
-_struct_i = None
-def _get_struct_i():
-    global _struct_i
-    if _struct_i is None:
-        _struct_i = struct.Struct("<i")
-    return _struct_i
 _struct_B = None
 def _get_struct_B():
     global _struct_B
     if _struct_B is None:
         _struct_B = struct.Struct("<B")
     return _struct_B
+_struct_i = None
+def _get_struct_i():
+    global _struct_i
+    if _struct_i is None:
+        _struct_i = struct.Struct("<i")
+    return _struct_i
 class configure(object):
   _type          = 'logger/configure'
   _md5sum = 'f542eb6b685060352c4ca123dd2b40da'

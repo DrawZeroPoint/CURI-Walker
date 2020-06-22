@@ -182,7 +182,7 @@ class humitureResponse {
   static messageDefinition() {
     // Returns full string definition for message
     return `
-    
+    # time in millisecond. 1000 stands for 1s
     float64 temperature
     float64 humidity
     string message

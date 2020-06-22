@@ -152,7 +152,7 @@ struct Definition< ::servo_ctrl::SendFtAtCmdRequest_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "\n"
+    return "# Ft ID(case insensitive): lwrist,rwrist,lankle,rankle\n"
 "string ft_id\n"
 "string at_cmd\n"
 ;

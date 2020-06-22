@@ -176,16 +176,16 @@ struct Definition< ::servo_ctrl::EcatPidSrvRequest_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "\n"
+    return "# cmd: \"get\", \"set\"\n"
 "string cmd\n"
 "\n"
-"\n"
+"# servo(case insensitive): LHipYaw,LHipRoll,LHipPitch,LKneePitch,LAnklePitch,LAnkleRoll,RHipYaw,RHipRoll,RHipPitch,RKneePitch,RAnklePitch,RAnkleRoll\n"
 "string servo\n"
 "\n"
-"\n"
+"# mode: pos, vel, trq\n"
 "string mode\n"
 "\n"
-"\n"
+"# pid\n"
 "int16 kp\n"
 "int16 ki\n"
 "int16 kd\n"

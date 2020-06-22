@@ -5,15 +5,15 @@ python3 = True if sys.hexversion > 0x03000000 else False
 import genpy
 import struct
 
+import genpy
 import geometry_msgs.msg
 import nav_msgs.msg
-import genpy
 import std_msgs.msg
 
 class VirtualWall(genpy.Message):
   _md5sum = "f2a170bcae45cdc4c5d5fe2965ae941e"
   _type = "cruiser_msgs/VirtualWall"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """nav_msgs/MapMetaData info
 nav_msgs/Path[] walls
 
@@ -101,7 +101,7 @@ Pose pose
     """
     if args or kwds:
       super(VirtualWall, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.info is None:
         self.info = nav_msgs.msg.MapMetaData()
       if self.walls is None:
@@ -128,7 +128,8 @@ Pose pose
       buff.write(_struct_I.pack(length))
       for val1 in self.walls:
         _v1 = val1.header
-        buff.write(_get_struct_I().pack(_v1.seq))
+        _x = _v1.seq
+        buff.write(_get_struct_I().pack(_x))
         _v2 = _v1.stamp
         _x = _v2
         buff.write(_get_struct_2I().pack(_x.secs, _x.nsecs))
@@ -142,7 +143,8 @@ Pose pose
         buff.write(_struct_I.pack(length))
         for val2 in val1.poses:
           _v3 = val2.header
-          buff.write(_get_struct_I().pack(_v3.seq))
+          _x = _v3.seq
+          buff.write(_get_struct_I().pack(_x))
           _v4 = _v3.stamp
           _x = _v4
           buff.write(_get_struct_2I().pack(_x.secs, _x.nsecs))
@@ -240,7 +242,7 @@ Pose pose
         self.walls.append(val1)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -256,7 +258,8 @@ Pose pose
       buff.write(_struct_I.pack(length))
       for val1 in self.walls:
         _v15 = val1.header
-        buff.write(_get_struct_I().pack(_v15.seq))
+        _x = _v15.seq
+        buff.write(_get_struct_I().pack(_x))
         _v16 = _v15.stamp
         _x = _v16
         buff.write(_get_struct_2I().pack(_x.secs, _x.nsecs))
@@ -270,7 +273,8 @@ Pose pose
         buff.write(_struct_I.pack(length))
         for val2 in val1.poses:
           _v17 = val2.header
-          buff.write(_get_struct_I().pack(_v17.seq))
+          _x = _v17.seq
+          buff.write(_get_struct_I().pack(_x))
           _v18 = _v17.stamp
           _x = _v18
           buff.write(_get_struct_2I().pack(_x.secs, _x.nsecs))
@@ -369,18 +373,12 @@ Pose pose
         self.walls.append(val1)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
     global _struct_I
     return _struct_I
-_struct_4d = None
-def _get_struct_4d():
-    global _struct_4d
-    if _struct_4d is None:
-        _struct_4d = struct.Struct("<4d")
-    return _struct_4d
 _struct_2I = None
 def _get_struct_2I():
     global _struct_2I
@@ -399,3 +397,9 @@ def _get_struct_3d():
     if _struct_3d is None:
         _struct_3d = struct.Struct("<3d")
     return _struct_3d
+_struct_4d = None
+def _get_struct_4d():
+    global _struct_4d
+    if _struct_4d is None:
+        _struct_4d = struct.Struct("<4d")
+    return _struct_4d

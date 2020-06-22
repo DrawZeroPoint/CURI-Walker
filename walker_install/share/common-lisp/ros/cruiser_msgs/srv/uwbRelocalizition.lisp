@@ -69,10 +69,10 @@
   "ce1b6b26da28ea681dfc3a90266c2fdd")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<uwbRelocalizition-request>)))
   "Returns full string definition for message of type '<uwbRelocalizition-request>"
-  (cl:format cl:nil "int32 TRIGGER_RELOCALIZITION =0~%int32 GET_STATUS =1~%int32 data~%~%~%"))
+  (cl:format cl:nil "int32 TRIGGER_RELOCALIZITION =0~%int32 GET_STATUS =1~%int32 data~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'uwbRelocalizition-request)))
   "Returns full string definition for message of type 'uwbRelocalizition-request"
-  (cl:format cl:nil "int32 TRIGGER_RELOCALIZITION =0~%int32 GET_STATUS =1~%int32 data~%~%~%"))
+  (cl:format cl:nil "int32 TRIGGER_RELOCALIZITION =0~%int32 GET_STATUS =1~%int32 data~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <uwbRelocalizition-request>))
   (cl:+ 0
      4
@@ -153,10 +153,10 @@
   "ce1b6b26da28ea681dfc3a90266c2fdd")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<uwbRelocalizition-response>)))
   "Returns full string definition for message of type '<uwbRelocalizition-response>"
-  (cl:format cl:nil "int32 STATE_IDLE =0~%int32 STATE_ESTMATING =1~%int32 STATE_SUCCESS = 2~%int32 STATE_FAIL = 3~%int32 TRIGGER_SUCCESS = 4~%int32 status~%~%~%~%~%"))
+  (cl:format cl:nil "int32 STATE_IDLE =0~%int32 STATE_ESTMATING =1~%int32 STATE_SUCCESS = 2~%int32 STATE_FAIL = 3~%int32 TRIGGER_SUCCESS = 4~%int32 status~%~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'uwbRelocalizition-response)))
   "Returns full string definition for message of type 'uwbRelocalizition-response"
-  (cl:format cl:nil "int32 STATE_IDLE =0~%int32 STATE_ESTMATING =1~%int32 STATE_SUCCESS = 2~%int32 STATE_FAIL = 3~%int32 TRIGGER_SUCCESS = 4~%int32 status~%~%~%~%~%"))
+  (cl:format cl:nil "int32 STATE_IDLE =0~%int32 STATE_ESTMATING =1~%int32 STATE_SUCCESS = 2~%int32 STATE_FAIL = 3~%int32 TRIGGER_SUCCESS = 4~%int32 status~%~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <uwbRelocalizition-response>))
   (cl:+ 0
      4

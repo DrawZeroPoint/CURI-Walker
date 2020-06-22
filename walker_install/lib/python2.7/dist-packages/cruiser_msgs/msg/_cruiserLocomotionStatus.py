@@ -9,7 +9,7 @@ import struct
 class cruiserLocomotionStatus(genpy.Message):
   _md5sum = "e713c1a9d9ca1e3ec2ae4bd0d8ac35e3"
   _type = "cruiser_msgs/cruiserLocomotionStatus"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """uint32 status
 float32 vx
 float32 vy
@@ -35,7 +35,7 @@ float32 vz
     """
     if args or kwds:
       super(cruiserLocomotionStatus, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.status is None:
         self.status = 0
       if self.vx is None:
@@ -80,7 +80,7 @@ float32 vz
       (_x.status, _x.vx, _x.vy, _x.vz,) = _get_struct_I3f().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -109,7 +109,7 @@ float32 vz
       (_x.status, _x.vx, _x.vy, _x.vz,) = _get_struct_I3f().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

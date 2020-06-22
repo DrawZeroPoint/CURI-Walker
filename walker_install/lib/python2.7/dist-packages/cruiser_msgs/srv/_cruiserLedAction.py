@@ -9,7 +9,7 @@ import struct
 class cruiserLedActionRequest(genpy.Message):
   _md5sum = "89522dd3d5a7af6022d0717e6853a943"
   _type = "cruiser_msgs/cruiserLedActionRequest"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """uint32 type
 uint32 data0
 uint32 data1
@@ -35,7 +35,7 @@ uint32 max_times
     """
     if args or kwds:
       super(cruiserLedActionRequest, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.type is None:
         self.type = 0
       if self.data0 is None:
@@ -83,7 +83,7 @@ uint32 max_times
       (_x.type, _x.data0, _x.data1, _x.data2, _x.max_times,) = _get_struct_5I().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -112,7 +112,7 @@ uint32 max_times
       (_x.type, _x.data0, _x.data1, _x.data2, _x.max_times,) = _get_struct_5I().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
@@ -135,7 +135,7 @@ import struct
 class cruiserLedActionResponse(genpy.Message):
   _md5sum = "13d5d28ceaaadbc975dd072a2e10b88a"
   _type = "cruiser_msgs/cruiserLedActionResponse"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """uint32 result
 
 
@@ -159,7 +159,7 @@ class cruiserLedActionResponse(genpy.Message):
     """
     if args or kwds:
       super(cruiserLedActionResponse, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.result is None:
         self.result = 0
     else:
@@ -177,7 +177,8 @@ class cruiserLedActionResponse(genpy.Message):
     :param buff: buffer, ``StringIO``
     """
     try:
-      buff.write(_get_struct_I().pack(self.result))
+      _x = self.result
+      buff.write(_get_struct_I().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -193,7 +194,7 @@ class cruiserLedActionResponse(genpy.Message):
       (self.result,) = _get_struct_I().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -203,7 +204,8 @@ class cruiserLedActionResponse(genpy.Message):
     :param numpy: numpy python module
     """
     try:
-      buff.write(_get_struct_I().pack(self.result))
+      _x = self.result
+      buff.write(_get_struct_I().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -220,7 +222,7 @@ class cruiserLedActionResponse(genpy.Message):
       (self.result,) = _get_struct_I().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

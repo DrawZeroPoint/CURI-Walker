@@ -1,0 +1,41 @@
+<launch>
+
+    <!-- Comment this if using wall time -->
+    <param name="/use_sim_time" value="true" />
+
+    <arg name="ns" default="head"/>
+    <arg name="base_frame" default="base_link"/>
+    <arg name="camera_frame" default="head_camera"/>
+    <arg name="depth_topic" default="/walker/camera/headDepth"/>
+    <arg name="rgb_topic" default="/walker/camera/headRGB"/>
+    <arg name="cloud_topic" default="point_cloud"/>
+
+    <node ns="$(arg ns)" name="pub_cloud" pkg="hope" type="pub_cloud" respawn="false">
+        <param name="camera_frame" value="$(arg camera_frame)" />
+        <param name="rgb_topic" value="$(arg rgb_topic)" />
+        <param name="depth_topic" value="$(arg depth_topic)" />
+        <param name="cloud_topic" value="$(arg cloud_topic)" />
+
+        <param name="fx" value="572.5725821" />
+        <param name="fy" value="597.0187533" />
+        <param name="cx" value="0" />
+        <param name="cy" value="0" />
+        <param name="min_depth" value="0.15" />
+        <param name="max_depth" value="10" />
+    </node>
+
+    <node ns="$(arg ns)" name="hope_ros" pkg="hope" type="hope_ros" respawn="false" output="screen">
+        <!-- No slash on the front -->
+        <param name="base_frame" value="$(arg base_frame)" />
+        <param name="cloud_topic" value="$(arg cloud_topic)" />
+        <param name="xy_resolution" value="0.05" />
+        <param name="z_resolution" value="0.02" />
+    </node>
+
+    <node pkg="tf2_ros" type="static_transform_publisher" name="head_to_camera"
+          args="0 0.071 0.0056 0. -0.1736  0.9848  0. head_l3 head_camera" />
+
+<!--    <node pkg="tf2_ros" type="static_transform_publisher" name="base_to_head"-->
+<!--          args="0.084 0. 0.1918 0.5 0.5 0.5 0.5 base_link head_l3" />-->
+
+</launch>

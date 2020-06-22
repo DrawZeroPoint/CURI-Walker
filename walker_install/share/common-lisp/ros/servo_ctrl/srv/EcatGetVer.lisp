@@ -61,10 +61,10 @@
   "3f1b5b791580e357125da8eb47534614")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<EcatGetVer-request>)))
   "Returns full string definition for message of type '<EcatGetVer-request>"
-  (cl:format cl:nil "~%string servo~%~%~%"))
+  (cl:format cl:nil "# servo(case insensitive): LHipYaw,LHipRoll,LHipPitch,LKneePitch,LAnklePitch,LAnkleRoll,RHipYaw,RHipRoll,RHipPitch,RKneePitch,RAnklePitch,RAnkleRoll~%string servo~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'EcatGetVer-request)))
   "Returns full string definition for message of type 'EcatGetVer-request"
-  (cl:format cl:nil "~%string servo~%~%~%"))
+  (cl:format cl:nil "# servo(case insensitive): LHipYaw,LHipRoll,LHipPitch,LKneePitch,LAnklePitch,LAnkleRoll,RHipYaw,RHipRoll,RHipPitch,RKneePitch,RAnklePitch,RAnkleRoll~%string servo~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <EcatGetVer-request>))
   (cl:+ 0
      4 (cl:length (cl:slot-value msg 'servo))

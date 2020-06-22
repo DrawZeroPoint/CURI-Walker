@@ -146,7 +146,7 @@ struct Definition< ::cruiser_msgs::cruiser_stringResponse_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "\n"
+    return "# time in millisecond. 1000 stands for 1s\n"
 "string str\n"
 "\n"
 "\n"

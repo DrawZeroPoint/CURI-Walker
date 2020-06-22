@@ -146,7 +146,7 @@ struct Definition< ::cruiser_msgs::GetUwbSupportedModeRequest_<ContainerAllocato
 {
   static const char* value()
   {
-    return "\n"
+    return "# mode=0 uwb_loco_mode supported; mode=1 uwb_nav_mode supported\n"
 "int32 mode\n"
 ;
   }

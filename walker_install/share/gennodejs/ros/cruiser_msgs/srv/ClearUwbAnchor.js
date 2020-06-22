@@ -55,7 +55,7 @@ class ClearUwbAnchorRequest {
   static messageDefinition() {
     // Returns full string definition for message
     return `
-    
+    # clear the uwb stations
     
     
     `;

@@ -9,8 +9,8 @@ import struct
 class leg_motion_MetaFuncCtrlRequest(genpy.Message):
   _md5sum = "2afd2d796a1d13d7076c914aac06fc59"
   _type = "walker_srvs/leg_motion_MetaFuncCtrlRequest"
-  _has_header = False #flag to mark the presence of a Header object
-  _full_text = """
+  _has_header = False  # flag to mark the presence of a Header object
+  _full_text = """# functions
 string FUNC_DYNAMIC=dynamic
 string FUNC_BALANCE=balance
 string FUNC_COMPLIANCE=compliance
@@ -18,13 +18,13 @@ string FUNC_TAICHI=taichi
 string FUNC_YOGA=yoga
 string FUNC_JUMP=jump
 
-
+# command
 string CMD_START=start
 string CMD_STOP=stop
 
-
+# members
 string func_name
-string param_json
+string param_json # json format parameters
 string cmd
 """
   # Pseudo-constants
@@ -56,7 +56,7 @@ string cmd
     """
     if args or kwds:
       super(leg_motion_MetaFuncCtrlRequest, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.func_name is None:
         self.func_name = ''
       if self.param_json is None:
@@ -137,7 +137,7 @@ string cmd
         self.cmd = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -205,7 +205,7 @@ string cmd
         self.cmd = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
@@ -222,7 +222,7 @@ import struct
 class leg_motion_MetaFuncCtrlResponse(genpy.Message):
   _md5sum = "937c9679a518e3a18d831e57125ea522"
   _type = "walker_srvs/leg_motion_MetaFuncCtrlResponse"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """bool success
 string message
 
@@ -246,7 +246,7 @@ string message
     """
     if args or kwds:
       super(leg_motion_MetaFuncCtrlResponse, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.success is None:
         self.success = False
       if self.message is None:
@@ -267,7 +267,8 @@ string message
     :param buff: buffer, ``StringIO``
     """
     try:
-      buff.write(_get_struct_B().pack(self.success))
+      _x = self.success
+      buff.write(_get_struct_B().pack(_x))
       _x = self.message
       length = len(_x)
       if python3 or type(_x) == unicode:
@@ -299,7 +300,7 @@ string message
         self.message = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -309,7 +310,8 @@ string message
     :param numpy: numpy python module
     """
     try:
-      buff.write(_get_struct_B().pack(self.success))
+      _x = self.success
+      buff.write(_get_struct_B().pack(_x))
       _x = self.message
       length = len(_x)
       if python3 or type(_x) == unicode:
@@ -342,7 +344,7 @@ string message
         self.message = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

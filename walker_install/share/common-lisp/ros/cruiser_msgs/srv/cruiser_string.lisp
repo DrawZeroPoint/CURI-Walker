@@ -79,10 +79,10 @@
   "be3d0e35ecd74786b92f4acafccf0d4a")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<cruiser_string-request>)))
   "Returns full string definition for message of type '<cruiser_string-request>"
-  (cl:format cl:nil "uint32 priority~%string str~%~%~%"))
+  (cl:format cl:nil "uint32 priority~%string str~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'cruiser_string-request)))
   "Returns full string definition for message of type 'cruiser_string-request"
-  (cl:format cl:nil "uint32 priority~%string str~%~%~%"))
+  (cl:format cl:nil "uint32 priority~%string str~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <cruiser_string-request>))
   (cl:+ 0
      4
@@ -151,10 +151,10 @@
   "be3d0e35ecd74786b92f4acafccf0d4a")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<cruiser_string-response>)))
   "Returns full string definition for message of type '<cruiser_string-response>"
-  (cl:format cl:nil "~%string str~%~%~%~%~%"))
+  (cl:format cl:nil "# time in millisecond. 1000 stands for 1s~%string str~%~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'cruiser_string-response)))
   "Returns full string definition for message of type 'cruiser_string-response"
-  (cl:format cl:nil "~%string str~%~%~%~%~%"))
+  (cl:format cl:nil "# time in millisecond. 1000 stands for 1s~%string str~%~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <cruiser_string-response>))
   (cl:+ 0
      4 (cl:length (cl:slot-value msg 'str))

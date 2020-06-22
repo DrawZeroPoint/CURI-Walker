@@ -101,7 +101,7 @@
 (setf (get cruiser_msgs::GetMapJsonRequest :md5sum-) "6825166e7da48608dd55394f68c70e3e")
 (setf (get cruiser_msgs::GetMapJsonRequest :datatype-) "cruiser_msgs/GetMapJsonRequest")
 (setf (get cruiser_msgs::GetMapJsonRequest :definition-)
-      "
+      "# Get the map json data as a cruiser_msgs/MapJson
 ---
 cruiser_msgs/MapJson json
 
@@ -115,7 +115,7 @@ uint8[] data
 (setf (get cruiser_msgs::GetMapJsonResponse :md5sum-) "6825166e7da48608dd55394f68c70e3e")
 (setf (get cruiser_msgs::GetMapJsonResponse :datatype-) "cruiser_msgs/GetMapJsonResponse")
 (setf (get cruiser_msgs::GetMapJsonResponse :definition-)
-      "
+      "# Get the map json data as a cruiser_msgs/MapJson
 ---
 cruiser_msgs/MapJson json
 

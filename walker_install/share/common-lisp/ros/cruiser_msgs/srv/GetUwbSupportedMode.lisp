@@ -59,10 +59,10 @@
   "3c35866e3d60aa551b5343ed0f3e9138")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<GetUwbSupportedMode-request>)))
   "Returns full string definition for message of type '<GetUwbSupportedMode-request>"
-  (cl:format cl:nil "~%int32 mode~%~%~%"))
+  (cl:format cl:nil "# mode=0 uwb_loco_mode supported; mode=1 uwb_nav_mode supported~%int32 mode~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'GetUwbSupportedMode-request)))
   "Returns full string definition for message of type 'GetUwbSupportedMode-request"
-  (cl:format cl:nil "~%int32 mode~%~%~%"))
+  (cl:format cl:nil "# mode=0 uwb_loco_mode supported; mode=1 uwb_nav_mode supported~%int32 mode~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <GetUwbSupportedMode-request>))
   (cl:+ 0
      4
@@ -117,10 +117,10 @@
   "3c35866e3d60aa551b5343ed0f3e9138")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<GetUwbSupportedMode-response>)))
   "Returns full string definition for message of type '<GetUwbSupportedMode-response>"
-  (cl:format cl:nil "bool supported~%~%~%~%"))
+  (cl:format cl:nil "bool supported~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'GetUwbSupportedMode-response)))
   "Returns full string definition for message of type 'GetUwbSupportedMode-response"
-  (cl:format cl:nil "bool supported~%~%~%~%"))
+  (cl:format cl:nil "bool supported~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <GetUwbSupportedMode-response>))
   (cl:+ 0
      1

@@ -152,10 +152,10 @@ struct Definition< ::ces_task::TaskHmiCtrlResponse_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "\n"
+    return "# indicate status\n"
 "bool success\n"
 "\n"
-"\n"
+"# informational, e.g. for error messages\n"
 "string message\n"
 "\n"
 "\n"

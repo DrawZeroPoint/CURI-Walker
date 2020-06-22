@@ -9,7 +9,7 @@ import struct
 class TaskServiceRequest(genpy.Message):
   _md5sum = "2578414395b78e4280493cdc6999b7cd"
   _type = "walker_arm/TaskServiceRequest"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """string taskName
 bool taskEnable
 bool[] useJointOTG
@@ -37,7 +37,7 @@ bool[] collisionDetection
     """
     if args or kwds:
       super(TaskServiceRequest, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.taskName is None:
         self.taskName = ''
       if self.taskEnable is None:
@@ -76,7 +76,8 @@ bool[] collisionDetection
         _x = _x.encode('utf-8')
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
-      buff.write(_get_struct_B().pack(self.taskEnable))
+      _x = self.taskEnable
+      buff.write(_get_struct_B().pack(_x))
       length = len(self.useJointOTG)
       buff.write(_struct_I.pack(length))
       pattern = '<%sB'%length
@@ -150,7 +151,7 @@ bool[] collisionDetection
       self.collisionDetection = list(map(bool, self.collisionDetection))
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -166,7 +167,8 @@ bool[] collisionDetection
         _x = _x.encode('utf-8')
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
-      buff.write(_get_struct_B().pack(self.taskEnable))
+      _x = self.taskEnable
+      buff.write(_get_struct_B().pack(_x))
       length = len(self.useJointOTG)
       buff.write(_struct_I.pack(length))
       pattern = '<%sB'%length
@@ -241,7 +243,7 @@ bool[] collisionDetection
       self.collisionDetection = list(map(bool, self.collisionDetection))
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
@@ -264,7 +266,7 @@ import struct
 class TaskServiceResponse(genpy.Message):
   _md5sum = "b543fbd3518c791be28589b850702201"
   _type = "walker_arm/TaskServiceResponse"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """
 bool result
 string message
@@ -289,7 +291,7 @@ string message
     """
     if args or kwds:
       super(TaskServiceResponse, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.result is None:
         self.result = False
       if self.message is None:
@@ -310,7 +312,8 @@ string message
     :param buff: buffer, ``StringIO``
     """
     try:
-      buff.write(_get_struct_B().pack(self.result))
+      _x = self.result
+      buff.write(_get_struct_B().pack(_x))
       _x = self.message
       length = len(_x)
       if python3 or type(_x) == unicode:
@@ -342,7 +345,7 @@ string message
         self.message = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -352,7 +355,8 @@ string message
     :param numpy: numpy python module
     """
     try:
-      buff.write(_get_struct_B().pack(self.result))
+      _x = self.result
+      buff.write(_get_struct_B().pack(_x))
       _x = self.message
       length = len(_x)
       if python3 or type(_x) == unicode:
@@ -385,7 +389,7 @@ string message
         self.message = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

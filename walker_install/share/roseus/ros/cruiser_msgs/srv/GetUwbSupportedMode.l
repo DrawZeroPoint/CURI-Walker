@@ -107,7 +107,7 @@
 (setf (get cruiser_msgs::GetUwbSupportedModeRequest :md5sum-) "3c35866e3d60aa551b5343ed0f3e9138")
 (setf (get cruiser_msgs::GetUwbSupportedModeRequest :datatype-) "cruiser_msgs/GetUwbSupportedModeRequest")
 (setf (get cruiser_msgs::GetUwbSupportedModeRequest :definition-)
-      "
+      "# mode=0 uwb_loco_mode supported; mode=1 uwb_nav_mode supported
 int32 mode
 ---
 bool supported
@@ -117,7 +117,7 @@ bool supported
 (setf (get cruiser_msgs::GetUwbSupportedModeResponse :md5sum-) "3c35866e3d60aa551b5343ed0f3e9138")
 (setf (get cruiser_msgs::GetUwbSupportedModeResponse :datatype-) "cruiser_msgs/GetUwbSupportedModeResponse")
 (setf (get cruiser_msgs::GetUwbSupportedModeResponse :definition-)
-      "
+      "# mode=0 uwb_loco_mode supported; mode=1 uwb_nav_mode supported
 int32 mode
 ---
 bool supported

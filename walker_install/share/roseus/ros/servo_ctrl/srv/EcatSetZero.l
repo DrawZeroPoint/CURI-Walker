@@ -107,7 +107,7 @@
 (setf (get servo_ctrl::EcatSetZeroRequest :md5sum-) "d3a64b889fd5801c30f651acd61f9dd1")
 (setf (get servo_ctrl::EcatSetZeroRequest :datatype-) "servo_ctrl/EcatSetZeroRequest")
 (setf (get servo_ctrl::EcatSetZeroRequest :definition-)
-      "
+      "# servo(case insensitive): LHipYaw,LHipRoll,LHipPitch,LKneePitch,LAnklePitch,LAnkleRoll,RHipYaw,RHipRoll,RHipPitch,RKneePitch,RAnklePitch,RAnkleRoll
 string servo
 ---
 uint16 result
@@ -117,7 +117,7 @@ uint16 result
 (setf (get servo_ctrl::EcatSetZeroResponse :md5sum-) "d3a64b889fd5801c30f651acd61f9dd1")
 (setf (get servo_ctrl::EcatSetZeroResponse :datatype-) "servo_ctrl/EcatSetZeroResponse")
 (setf (get servo_ctrl::EcatSetZeroResponse :definition-)
-      "
+      "# servo(case insensitive): LHipYaw,LHipRoll,LHipPitch,LKneePitch,LAnklePitch,LAnkleRoll,RHipYaw,RHipRoll,RHipPitch,RKneePitch,RAnklePitch,RAnkleRoll
 string servo
 ---
 uint16 result

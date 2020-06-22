@@ -159,13 +159,13 @@ struct Definition< ::ces_task::TaskArmCtrlResponse_<ContainerAllocator> >
   static const char* value()
   {
     return "\n"
-"\n"
+"# who reply response\n"
 "string owner\n"
 "\n"
-"\n"
+"# indicate status\n"
 "bool success\n"
 "\n"
-"\n"
+"# informational, e.g. for error messages\n"
 "string message\n"
 "\n"
 ;

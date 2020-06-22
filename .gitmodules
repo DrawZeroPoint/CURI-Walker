@@ -1,0 +1,3 @@
+[submodule "ubt_sim_ws/src/hope"]
+	path = ubt_sim_ws/src/hope
+	url = https://github.com/DrawZeroPoint/hope.git

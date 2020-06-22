@@ -9,7 +9,7 @@ import struct
 class uwbCoordinateMapRequest(genpy.Message):
   _md5sum = "7f6018a742f32b139af5bdf538b4633a"
   _type = "cruiser_msgs/uwbCoordinateMapRequest"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """float32 intput_x
 float32 intput_y
 float32 intput_theta
@@ -34,7 +34,7 @@ bool theta_valid_flag
     """
     if args or kwds:
       super(uwbCoordinateMapRequest, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.intput_x is None:
         self.intput_x = 0.
       if self.intput_y is None:
@@ -80,7 +80,7 @@ bool theta_valid_flag
       self.theta_valid_flag = bool(self.theta_valid_flag)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -110,7 +110,7 @@ bool theta_valid_flag
       self.theta_valid_flag = bool(self.theta_valid_flag)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
@@ -133,7 +133,7 @@ import struct
 class uwbCoordinateMapResponse(genpy.Message):
   _md5sum = "b33e9bd7010c42d2771bcf6ee2749245"
   _type = "cruiser_msgs/uwbCoordinateMapResponse"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """uint32 result
 float32 output_x
 float32 output_y
@@ -160,7 +160,7 @@ float32 output_theta
     """
     if args or kwds:
       super(uwbCoordinateMapResponse, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.result is None:
         self.result = 0
       if self.output_x is None:
@@ -205,7 +205,7 @@ float32 output_theta
       (_x.result, _x.output_x, _x.output_y, _x.output_theta,) = _get_struct_I3f().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -234,7 +234,7 @@ float32 output_theta
       (_x.result, _x.output_x, _x.output_y, _x.output_theta,) = _get_struct_I3f().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

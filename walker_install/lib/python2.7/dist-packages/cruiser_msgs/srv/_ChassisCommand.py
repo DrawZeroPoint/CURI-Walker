@@ -9,7 +9,7 @@ import struct
 class ChassisCommandRequest(genpy.Message):
   _md5sum = "cd31140473c3b1e0c7396ddf3cddef8f"
   _type = "cruiser_msgs/ChassisCommandRequest"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """string command
 float64 x
 float64 y
@@ -34,7 +34,7 @@ float64 angle
     """
     if args or kwds:
       super(ChassisCommandRequest, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.command is None:
         self.command = ''
       if self.x is None:
@@ -94,7 +94,7 @@ float64 angle
       (_x.x, _x.y, _x.angle,) = _get_struct_3d().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -138,7 +138,7 @@ float64 angle
       (_x.x, _x.y, _x.angle,) = _get_struct_3d().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
@@ -161,8 +161,8 @@ import struct
 class ChassisCommandResponse(genpy.Message):
   _md5sum = "d16de83ef4e326bbfdc1e90377f0a2c6"
   _type = "cruiser_msgs/ChassisCommandResponse"
-  _has_header = False #flag to mark the presence of a Header object
-  _full_text = """
+  _has_header = False  # flag to mark the presence of a Header object
+  _full_text = """# time in millisecond. 1000 stands for 1s
 uint32 time
 
 """
@@ -185,7 +185,7 @@ uint32 time
     """
     if args or kwds:
       super(ChassisCommandResponse, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.time is None:
         self.time = 0
     else:
@@ -203,7 +203,8 @@ uint32 time
     :param buff: buffer, ``StringIO``
     """
     try:
-      buff.write(_get_struct_I().pack(self.time))
+      _x = self.time
+      buff.write(_get_struct_I().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -219,7 +220,7 @@ uint32 time
       (self.time,) = _get_struct_I().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -229,7 +230,8 @@ uint32 time
     :param numpy: numpy python module
     """
     try:
-      buff.write(_get_struct_I().pack(self.time))
+      _x = self.time
+      buff.write(_get_struct_I().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -246,7 +248,7 @@ uint32 time
       (self.time,) = _get_struct_I().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

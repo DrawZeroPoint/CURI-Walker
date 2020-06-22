@@ -148,10 +148,10 @@
   "940f7011356df6e59e5a0f812422088b")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<ChassisCommand-request>)))
   "Returns full string definition for message of type '<ChassisCommand-request>"
-  (cl:format cl:nil "string command~%float64 x~%float64 y~%float64 angle~%~%~%"))
+  (cl:format cl:nil "string command~%float64 x~%float64 y~%float64 angle~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'ChassisCommand-request)))
   "Returns full string definition for message of type 'ChassisCommand-request"
-  (cl:format cl:nil "string command~%float64 x~%float64 y~%float64 angle~%~%~%"))
+  (cl:format cl:nil "string command~%float64 x~%float64 y~%float64 angle~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <ChassisCommand-request>))
   (cl:+ 0
      4 (cl:length (cl:slot-value msg 'command))
@@ -218,10 +218,10 @@
   "940f7011356df6e59e5a0f812422088b")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<ChassisCommand-response>)))
   "Returns full string definition for message of type '<ChassisCommand-response>"
-  (cl:format cl:nil "~%uint32 time~%~%~%~%"))
+  (cl:format cl:nil "# time in millisecond. 1000 stands for 1s~%uint32 time~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'ChassisCommand-response)))
   "Returns full string definition for message of type 'ChassisCommand-response"
-  (cl:format cl:nil "~%uint32 time~%~%~%~%"))
+  (cl:format cl:nil "# time in millisecond. 1000 stands for 1s~%uint32 time~%~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <ChassisCommand-response>))
   (cl:+ 0
      4

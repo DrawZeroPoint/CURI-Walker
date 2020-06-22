@@ -9,7 +9,7 @@ import struct
 class RobustControllerStatus(genpy.Message):
   _md5sum = "2f15441b7285d915e7e59d3618e173f2"
   _type = "baxter_core_msgs/RobustControllerStatus"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """# True if the RC is enabled and running, false if not.
 bool isEnabled
 
@@ -64,7 +64,7 @@ string[] labels
     """
     if args or kwds:
       super(RobustControllerStatus, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.isEnabled is None:
         self.isEnabled = False
       if self.complete is None:
@@ -105,7 +105,8 @@ string[] labels
         _x = _x.encode('utf-8')
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
-      buff.write(_get_struct_B().pack(self.timedOut))
+      _x = self.timedOut
+      buff.write(_get_struct_B().pack(_x))
       length = len(self.errorCodes)
       buff.write(_struct_I.pack(length))
       for val1 in self.errorCodes:
@@ -182,7 +183,7 @@ string[] labels
         self.labels.append(val1)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -200,7 +201,8 @@ string[] labels
         _x = _x.encode('utf-8')
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
-      buff.write(_get_struct_B().pack(self.timedOut))
+      _x = self.timedOut
+      buff.write(_get_struct_B().pack(_x))
       length = len(self.errorCodes)
       buff.write(_struct_I.pack(length))
       for val1 in self.errorCodes:
@@ -278,7 +280,7 @@ string[] labels
         self.labels.append(val1)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

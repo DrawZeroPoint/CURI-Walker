@@ -130,7 +130,7 @@ struct Definition< ::cruiser_msgs::GetMapJsonRequest_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "\n"
+    return "# Get the map json data as a cruiser_msgs/MapJson\n"
 ;
   }
 

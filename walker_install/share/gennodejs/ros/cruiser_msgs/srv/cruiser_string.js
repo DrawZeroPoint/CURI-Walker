@@ -160,7 +160,7 @@ class cruiser_stringResponse {
   static messageDefinition() {
     // Returns full string definition for message
     return `
-    
+    # time in millisecond. 1000 stands for 1s
     string str
     
     

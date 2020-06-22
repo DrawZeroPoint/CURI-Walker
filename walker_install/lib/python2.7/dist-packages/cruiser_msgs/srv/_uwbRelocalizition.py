@@ -9,7 +9,7 @@ import struct
 class uwbRelocalizitionRequest(genpy.Message):
   _md5sum = "b89b336dc57314475970b7bc037ad9b1"
   _type = "cruiser_msgs/uwbRelocalizitionRequest"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """int32 TRIGGER_RELOCALIZITION =0
 int32 GET_STATUS =1
 int32 data
@@ -37,7 +37,7 @@ int32 data
     """
     if args or kwds:
       super(uwbRelocalizitionRequest, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.data is None:
         self.data = 0
     else:
@@ -55,7 +55,8 @@ int32 data
     :param buff: buffer, ``StringIO``
     """
     try:
-      buff.write(_get_struct_i().pack(self.data))
+      _x = self.data
+      buff.write(_get_struct_i().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -71,7 +72,7 @@ int32 data
       (self.data,) = _get_struct_i().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -81,7 +82,8 @@ int32 data
     :param numpy: numpy python module
     """
     try:
-      buff.write(_get_struct_i().pack(self.data))
+      _x = self.data
+      buff.write(_get_struct_i().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -98,7 +100,7 @@ int32 data
       (self.data,) = _get_struct_i().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
@@ -121,7 +123,7 @@ import struct
 class uwbRelocalizitionResponse(genpy.Message):
   _md5sum = "1c005e1fd8169ae41397758a18e6927e"
   _type = "cruiser_msgs/uwbRelocalizitionResponse"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """int32 STATE_IDLE =0
 int32 STATE_ESTMATING =1
 int32 STATE_SUCCESS = 2
@@ -157,7 +159,7 @@ int32 status
     """
     if args or kwds:
       super(uwbRelocalizitionResponse, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.status is None:
         self.status = 0
     else:
@@ -175,7 +177,8 @@ int32 status
     :param buff: buffer, ``StringIO``
     """
     try:
-      buff.write(_get_struct_i().pack(self.status))
+      _x = self.status
+      buff.write(_get_struct_i().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -191,7 +194,7 @@ int32 status
       (self.status,) = _get_struct_i().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -201,7 +204,8 @@ int32 status
     :param numpy: numpy python module
     """
     try:
-      buff.write(_get_struct_i().pack(self.status))
+      _x = self.status
+      buff.write(_get_struct_i().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -218,7 +222,7 @@ int32 status
       (self.status,) = _get_struct_i().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

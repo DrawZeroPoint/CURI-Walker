@@ -10,7 +10,7 @@ import std_msgs.msg
 class joint_test(genpy.Message):
   _md5sum = "fe0269b8d1126523cfcd35f289bfd301"
   _type = "cruiser_msgs/joint_test"
-  _has_header = True #flag to mark the presence of a Header object
+  _has_header = True  # flag to mark the presence of a Header object
   _full_text = """Header header
 float64 position
 
@@ -52,7 +52,7 @@ string frame_id
     """
     if args or kwds:
       super(joint_test, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.header is None:
         self.header = std_msgs.msg.Header()
       if self.position is None:
@@ -117,7 +117,7 @@ string frame_id
       (_x.position, _x.speed,) = _get_struct_2d().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -169,7 +169,7 @@ string frame_id
       (_x.position, _x.speed,) = _get_struct_2d().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

@@ -9,8 +9,8 @@ import struct
 class EcatGetVerRequest(genpy.Message):
   _md5sum = "db917f55775a8bcd06c01a6f4f18b912"
   _type = "servo_ctrl/EcatGetVerRequest"
-  _has_header = False #flag to mark the presence of a Header object
-  _full_text = """
+  _has_header = False  # flag to mark the presence of a Header object
+  _full_text = """# servo(case insensitive): LHipYaw,LHipRoll,LHipPitch,LKneePitch,LAnklePitch,LAnkleRoll,RHipYaw,RHipRoll,RHipPitch,RKneePitch,RAnklePitch,RAnkleRoll
 string servo
 """
   __slots__ = ['servo']
@@ -32,7 +32,7 @@ string servo
     """
     if args or kwds:
       super(EcatGetVerRequest, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.servo is None:
         self.servo = ''
     else:
@@ -77,7 +77,7 @@ string servo
         self.servo = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -115,7 +115,7 @@ string servo
         self.servo = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
@@ -132,7 +132,7 @@ import struct
 class EcatGetVerResponse(genpy.Message):
   _md5sum = "a5d057395e812926839cdfda59135c19"
   _type = "servo_ctrl/EcatGetVerResponse"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """uint32 mod
 uint32 version
 
@@ -156,7 +156,7 @@ uint32 version
     """
     if args or kwds:
       super(EcatGetVerResponse, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.mod is None:
         self.mod = 0
       if self.version is None:
@@ -195,7 +195,7 @@ uint32 version
       (_x.mod, _x.version,) = _get_struct_2I().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -224,7 +224,7 @@ uint32 version
       (_x.mod, _x.version,) = _get_struct_2I().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

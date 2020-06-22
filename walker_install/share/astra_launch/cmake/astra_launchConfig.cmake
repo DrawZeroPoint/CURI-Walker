@@ -67,14 +67,14 @@ set(astra_launch_CONFIG_INCLUDED TRUE)
 
 # set variables for source/devel/install prefixes
 if("FALSE" STREQUAL "TRUE")
-  set(astra_launch_SOURCE_PREFIX /home/chunyu/walker2_motion_output/src/orbbec_camera/ros_astra_launch)
-  set(astra_launch_DEVEL_PREFIX /home/chunyu/walker2_motion_output/devel)
+  set(astra_launch_SOURCE_PREFIX /home/chunyu/Simulation/WalkerForCompetition/walker2_motion_output/src/orbbec_camera/ros_astra_launch)
+  set(astra_launch_DEVEL_PREFIX /home/chunyu/Simulation/WalkerForCompetition/walker2_motion_output/devel)
   set(astra_launch_INSTALL_PREFIX "")
   set(astra_launch_PREFIX ${astra_launch_DEVEL_PREFIX})
 else()
   set(astra_launch_SOURCE_PREFIX "")
   set(astra_launch_DEVEL_PREFIX "")
-  set(astra_launch_INSTALL_PREFIX /home/chunyu/walker2_motion_output/install)
+  set(astra_launch_INSTALL_PREFIX /home/chunyu/Simulation/WalkerForCompetition/walker2_motion_output/install)
   set(astra_launch_PREFIX ${astra_launch_INSTALL_PREFIX})
 endif()
 
@@ -154,7 +154,7 @@ foreach(library ${libraries})
     set(lib_path "")
     set(lib "${library}-NOTFOUND")
     # since the path where the library is found is returned we have to iterate over the paths manually
-    foreach(path /home/chunyu/walker2_motion_output/install/lib;/home/chunyu/walker2_motion_output/devel/lib;/opt/ros/melodic/lib)
+    foreach(path /home/chunyu/Simulation/WalkerForCompetition/walker2_motion_output/install/lib;/home/chunyu/Simulation/WalkerForCompetition/WalkerSimulation/install/lib;/opt/ros/melodic/lib)
       find_library(lib ${library}
         PATHS ${path}
         NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)

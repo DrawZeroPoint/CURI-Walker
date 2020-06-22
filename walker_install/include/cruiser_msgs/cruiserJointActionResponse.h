@@ -146,7 +146,7 @@ struct Definition< ::cruiser_msgs::cruiserJointActionResponse_<ContainerAllocato
 {
   static const char* value()
   {
-    return "\n"
+    return "# Return \"Success\" or \"Fail\"\n"
 "string result\n"
 "\n"
 "\n"

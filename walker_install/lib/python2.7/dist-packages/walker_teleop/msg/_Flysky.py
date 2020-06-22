@@ -10,7 +10,7 @@ import std_msgs.msg
 class Flysky(genpy.Message):
   _md5sum = "163a5835c0ba7d7356ed3e23c0843803"
   _type = "walker_teleop/Flysky"
-  _has_header = True #flag to mark the presence of a Header object
+  _has_header = True  # flag to mark the presence of a Header object
   _full_text = """Header header
 
 # switch values
@@ -84,7 +84,7 @@ string frame_id
     """
     if args or kwds:
       super(Flysky, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.header is None:
         self.header = std_msgs.msg.Header()
       if self.bSwa is None:
@@ -181,7 +181,7 @@ string frame_id
       self.online = bool(self.online)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -235,21 +235,21 @@ string frame_id
       self.online = bool(self.online)
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
     global _struct_I
     return _struct_I
-_struct_6b4f2B = None
-def _get_struct_6b4f2B():
-    global _struct_6b4f2B
-    if _struct_6b4f2B is None:
-        _struct_6b4f2B = struct.Struct("<6b4f2B")
-    return _struct_6b4f2B
 _struct_3I = None
 def _get_struct_3I():
     global _struct_3I
     if _struct_3I is None:
         _struct_3I = struct.Struct("<3I")
     return _struct_3I
+_struct_6b4f2B = None
+def _get_struct_6b4f2B():
+    global _struct_6b4f2B
+    if _struct_6b4f2B is None:
+        _struct_6b4f2B = struct.Struct("<6b4f2B")
+    return _struct_6b4f2B

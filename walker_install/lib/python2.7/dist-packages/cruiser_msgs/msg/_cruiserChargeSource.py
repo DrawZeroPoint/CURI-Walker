@@ -9,7 +9,7 @@ import struct
 class cruiserChargeSource(genpy.Message):
   _md5sum = "13f65a61a1eae98cfcb8a07995a5d081"
   _type = "cruiser_msgs/cruiserChargeSource"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """uint32 charge_source
 
 """
@@ -32,7 +32,7 @@ class cruiserChargeSource(genpy.Message):
     """
     if args or kwds:
       super(cruiserChargeSource, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.charge_source is None:
         self.charge_source = 0
     else:
@@ -50,7 +50,8 @@ class cruiserChargeSource(genpy.Message):
     :param buff: buffer, ``StringIO``
     """
     try:
-      buff.write(_get_struct_I().pack(self.charge_source))
+      _x = self.charge_source
+      buff.write(_get_struct_I().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -66,7 +67,7 @@ class cruiserChargeSource(genpy.Message):
       (self.charge_source,) = _get_struct_I().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -76,7 +77,8 @@ class cruiserChargeSource(genpy.Message):
     :param numpy: numpy python module
     """
     try:
-      buff.write(_get_struct_I().pack(self.charge_source))
+      _x = self.charge_source
+      buff.write(_get_struct_I().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -93,7 +95,7 @@ class cruiserChargeSource(genpy.Message):
       (self.charge_source,) = _get_struct_I().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

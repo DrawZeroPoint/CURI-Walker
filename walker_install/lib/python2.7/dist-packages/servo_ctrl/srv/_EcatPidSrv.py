@@ -9,17 +9,17 @@ import struct
 class EcatPidSrvRequest(genpy.Message):
   _md5sum = "e61fa0c292a3b55fc27bafe9f449674f"
   _type = "servo_ctrl/EcatPidSrvRequest"
-  _has_header = False #flag to mark the presence of a Header object
-  _full_text = """
+  _has_header = False  # flag to mark the presence of a Header object
+  _full_text = """# cmd: "get", "set"
 string cmd
 
-
+# servo(case insensitive): LHipYaw,LHipRoll,LHipPitch,LKneePitch,LAnklePitch,LAnkleRoll,RHipYaw,RHipRoll,RHipPitch,RKneePitch,RAnklePitch,RAnkleRoll
 string servo
 
-
+# mode: pos, vel, trq
 string mode
 
-
+# pid
 int16 kp
 int16 ki
 int16 kd
@@ -43,7 +43,7 @@ int16 kd
     """
     if args or kwds:
       super(EcatPidSrvRequest, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.cmd is None:
         self.cmd = ''
       if self.servo is None:
@@ -139,7 +139,7 @@ int16 kd
       (_x.kp, _x.ki, _x.kd,) = _get_struct_3h().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -213,7 +213,7 @@ int16 kd
       (_x.kp, _x.ki, _x.kd,) = _get_struct_3h().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
@@ -236,7 +236,7 @@ import struct
 class EcatPidSrvResponse(genpy.Message):
   _md5sum = "71e3df70a675c115e42712a36e93b90f"
   _type = "servo_ctrl/EcatPidSrvResponse"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """int16 kp
 int16 ki
 int16 kd
@@ -261,7 +261,7 @@ int16 kd
     """
     if args or kwds:
       super(EcatPidSrvResponse, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.kp is None:
         self.kp = 0
       if self.ki is None:
@@ -303,7 +303,7 @@ int16 kd
       (_x.kp, _x.ki, _x.kd,) = _get_struct_3h().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -332,7 +332,7 @@ int16 kd
       (_x.kp, _x.ki, _x.kd,) = _get_struct_3h().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

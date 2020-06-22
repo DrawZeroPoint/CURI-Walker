@@ -9,8 +9,8 @@ import struct
 class TaskHmiCtrlRequest(genpy.Message):
   _md5sum = "95afe3e486951c35c42cf7b749497fc3"
   _type = "ces_task/TaskHmiCtrlRequest"
-  _has_header = False #flag to mark the presence of a Header object
-  _full_text = """
+  _has_header = False  # flag to mark the presence of a Header object
+  _full_text = """# adb commands to send
 string adb_cmd
 """
   __slots__ = ['adb_cmd']
@@ -32,7 +32,7 @@ string adb_cmd
     """
     if args or kwds:
       super(TaskHmiCtrlRequest, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.adb_cmd is None:
         self.adb_cmd = ''
     else:
@@ -77,7 +77,7 @@ string adb_cmd
         self.adb_cmd = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -115,7 +115,7 @@ string adb_cmd
         self.adb_cmd = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
@@ -132,11 +132,11 @@ import struct
 class TaskHmiCtrlResponse(genpy.Message):
   _md5sum = "937c9679a518e3a18d831e57125ea522"
   _type = "ces_task/TaskHmiCtrlResponse"
-  _has_header = False #flag to mark the presence of a Header object
-  _full_text = """
+  _has_header = False  # flag to mark the presence of a Header object
+  _full_text = """# indicate status
 bool success
 
-
+# informational, e.g. for error messages
 string message
 
 
@@ -160,7 +160,7 @@ string message
     """
     if args or kwds:
       super(TaskHmiCtrlResponse, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.success is None:
         self.success = False
       if self.message is None:
@@ -181,7 +181,8 @@ string message
     :param buff: buffer, ``StringIO``
     """
     try:
-      buff.write(_get_struct_B().pack(self.success))
+      _x = self.success
+      buff.write(_get_struct_B().pack(_x))
       _x = self.message
       length = len(_x)
       if python3 or type(_x) == unicode:
@@ -213,7 +214,7 @@ string message
         self.message = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -223,7 +224,8 @@ string message
     :param numpy: numpy python module
     """
     try:
-      buff.write(_get_struct_B().pack(self.success))
+      _x = self.success
+      buff.write(_get_struct_B().pack(_x))
       _x = self.message
       length = len(_x)
       if python3 or type(_x) == unicode:
@@ -256,7 +258,7 @@ string message
         self.message = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

@@ -9,8 +9,8 @@ import struct
 class TaskArmCtrlRequest(genpy.Message):
   _md5sum = "eb2e25d94af76f3480b1d4d23ddf0c13"
   _type = "ces_task/TaskArmCtrlRequest"
-  _has_header = False #flag to mark the presence of a Header object
-  _full_text = """
+  _has_header = False  # flag to mark the presence of a Header object
+  _full_text = """# current task id, defined in 'TaskArmStatus.msg'
 string task_id
 
 
@@ -20,13 +20,13 @@ bool[] securityDection
 bool[] collisionDetection
 
 
-
+# who send request
 string demander
 
-
+# who execute task
 string executor
 
-
+# command: start or stop
 string CMD_START=start
 string CMD_STOP=stop
 string cmd
@@ -55,7 +55,7 @@ string cmd
     """
     if args or kwds:
       super(TaskArmCtrlRequest, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.task_id is None:
         self.task_id = ''
       if self.useJointOTG is None:
@@ -214,7 +214,7 @@ string cmd
         self.cmd = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -345,7 +345,7 @@ string cmd
         self.cmd = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
@@ -362,15 +362,15 @@ import struct
 class TaskArmCtrlResponse(genpy.Message):
   _md5sum = "e26e868808b12caba7b649dc730ce2de"
   _type = "ces_task/TaskArmCtrlResponse"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """
-
+# who reply response
 string owner
 
-
+# indicate status
 bool success
 
-
+# informational, e.g. for error messages
 string message
 
 """
@@ -393,7 +393,7 @@ string message
     """
     if args or kwds:
       super(TaskArmCtrlResponse, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.owner is None:
         self.owner = ''
       if self.success is None:
@@ -423,7 +423,8 @@ string message
         _x = _x.encode('utf-8')
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
-      buff.write(_get_struct_B().pack(self.success))
+      _x = self.success
+      buff.write(_get_struct_B().pack(_x))
       _x = self.message
       length = len(_x)
       if python3 or type(_x) == unicode:
@@ -464,7 +465,7 @@ string message
         self.message = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -480,7 +481,8 @@ string message
         _x = _x.encode('utf-8')
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
-      buff.write(_get_struct_B().pack(self.success))
+      _x = self.success
+      buff.write(_get_struct_B().pack(_x))
       _x = self.message
       length = len(_x)
       if python3 or type(_x) == unicode:
@@ -522,7 +524,7 @@ string message
         self.message = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

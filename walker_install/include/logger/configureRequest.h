@@ -205,17 +205,17 @@ struct Definition< ::logger::configureRequest_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "\n"
+    return "#mode对应的常量\n"
 "string MODE_QUERY=query\n"
 "string MODE_SET_CAPACITY=set_capacity\n"
 "string MODE_SET_PATH=set_path\n"
 "\n"
 "string node\n"
-"\n"
+"#set or query,设置或查询\n"
 "string mode\n"
-"\n"
+"#容量，以条数为单位\n"
 "int32 capacity\n"
-"\n"
+"#数据存放路径\n"
 "string path\n"
 ;
   }

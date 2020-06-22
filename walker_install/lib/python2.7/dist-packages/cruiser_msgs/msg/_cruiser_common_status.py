@@ -9,7 +9,7 @@ import struct
 class cruiser_common_status(genpy.Message):
   _md5sum = "f972a7a5f08896dc553e3bc6f867370f"
   _type = "cruiser_msgs/cruiser_common_status"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """#topic obstacleDetect
 byte status
 int32 value
@@ -33,7 +33,7 @@ int32 data"""
     """
     if args or kwds:
       super(cruiser_common_status, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.status is None:
         self.status = 0
       if self.value is None:
@@ -75,7 +75,7 @@ int32 data"""
       (_x.status, _x.value, _x.data,) = _get_struct_b2i().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -104,7 +104,7 @@ int32 data"""
       (_x.status, _x.value, _x.data,) = _get_struct_b2i().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

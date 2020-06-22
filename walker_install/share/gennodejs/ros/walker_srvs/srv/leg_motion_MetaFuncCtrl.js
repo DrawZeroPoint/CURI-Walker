@@ -92,7 +92,7 @@ class leg_motion_MetaFuncCtrlRequest {
   static messageDefinition() {
     // Returns full string definition for message
     return `
-    
+    # functions
     string FUNC_DYNAMIC=dynamic
     string FUNC_BALANCE=balance
     string FUNC_COMPLIANCE=compliance
@@ -100,13 +100,13 @@ class leg_motion_MetaFuncCtrlRequest {
     string FUNC_YOGA=yoga
     string FUNC_JUMP=jump
     
-    
+    # command
     string CMD_START=start
     string CMD_STOP=stop
     
-    
+    # members
     string func_name
-    string param_json
+    string param_json # json format parameters
     string cmd
     
     `;

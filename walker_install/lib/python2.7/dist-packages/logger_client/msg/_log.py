@@ -9,7 +9,7 @@ import struct
 class log(genpy.Message):
   _md5sum = "7212572e30c271c75a76de908bf7c5bc"
   _type = "logger_client/log"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """string level
 int64 time
 int64 time_us
@@ -38,7 +38,7 @@ string content
     """
     if args or kwds:
       super(log, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.level is None:
         self.level = ''
       if self.time is None:
@@ -103,7 +103,8 @@ string content
         _x = _x.encode('utf-8')
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
-      buff.write(_get_struct_i().pack(self.line))
+      _x = self.line
+      buff.write(_get_struct_i().pack(_x))
       _x = self.content
       length = len(_x)
       if python3 or type(_x) == unicode:
@@ -174,7 +175,7 @@ string content
         self.content = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -210,7 +211,8 @@ string content
         _x = _x.encode('utf-8')
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
-      buff.write(_get_struct_i().pack(self.line))
+      _x = self.line
+      buff.write(_get_struct_i().pack(_x))
       _x = self.content
       length = len(_x)
       if python3 or type(_x) == unicode:
@@ -282,21 +284,21 @@ string content
         self.content = str[start:end]
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():
     global _struct_I
     return _struct_I
-_struct_i = None
-def _get_struct_i():
-    global _struct_i
-    if _struct_i is None:
-        _struct_i = struct.Struct("<i")
-    return _struct_i
 _struct_2q = None
 def _get_struct_2q():
     global _struct_2q
     if _struct_2q is None:
         _struct_2q = struct.Struct("<2q")
     return _struct_2q
+_struct_i = None
+def _get_struct_i():
+    global _struct_i
+    if _struct_i is None:
+        _struct_i = struct.Struct("<i")
+    return _struct_i

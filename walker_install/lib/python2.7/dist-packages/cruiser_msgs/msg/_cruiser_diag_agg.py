@@ -9,7 +9,7 @@ import struct
 class cruiser_diag_agg(genpy.Message):
   _md5sum = "68999ce2b5e8dd878bf64d6dbfe7c7dc"
   _type = "cruiser_msgs/cruiser_diag_agg"
-  _has_header = False #flag to mark the presence of a Header object
+  _has_header = False  # flag to mark the presence of a Header object
   _full_text = """#topic /cruiser/diag_agg
 byte status
 string msg
@@ -35,7 +35,7 @@ int32 data"""
     """
     if args or kwds:
       super(cruiser_diag_agg, self).__init__(*args, **kwds)
-      #message fields cannot be None, assign default values for those that are
+      # message fields cannot be None, assign default values for those that are
       if self.status is None:
         self.status = 0
       if self.msg is None:
@@ -65,7 +65,8 @@ int32 data"""
     :param buff: buffer, ``StringIO``
     """
     try:
-      buff.write(_get_struct_b().pack(self.status))
+      _x = self.status
+      buff.write(_get_struct_b().pack(_x))
       _x = self.msg
       length = len(_x)
       if python3 or type(_x) == unicode:
@@ -102,7 +103,7 @@ int32 data"""
       (_x.key, _x.value, _x.data,) = _get_struct_3i().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 
   def serialize_numpy(self, buff, numpy):
@@ -112,7 +113,8 @@ int32 data"""
     :param numpy: numpy python module
     """
     try:
-      buff.write(_get_struct_b().pack(self.status))
+      _x = self.status
+      buff.write(_get_struct_b().pack(_x))
       _x = self.msg
       length = len(_x)
       if python3 or type(_x) == unicode:
@@ -150,7 +152,7 @@ int32 data"""
       (_x.key, _x.value, _x.data,) = _get_struct_3i().unpack(str[start:end])
       return self
     except struct.error as e:
-      raise genpy.DeserializationError(e) #most likely buffer underfill
+      raise genpy.DeserializationError(e)  # most likely buffer underfill
 
 _struct_I = genpy.struct_I
 def _get_struct_I():

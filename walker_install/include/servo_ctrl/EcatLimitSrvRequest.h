@@ -176,19 +176,19 @@ struct Definition< ::servo_ctrl::EcatLimitSrvRequest_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "\n"
+    return "# cmd: \"get\", \"set\"\n"
 "string cmd\n"
 "\n"
-"\n"
+"# servo(case insensitive): LHipYaw,LHipRoll,LHipPitch,LKneePitch,LAnklePitch,LAnkleRoll,RHipYaw,RHipRoll,RHipPitch,RKneePitch,RAnklePitch,RAnkleRoll\n"
 "string servo\n"
 "\n"
-"\n"
+"# mode: pos, vel, trq\n"
 "string mode\n"
 "\n"
-"\n"
+"# enable/disable limitation\n"
 "bool enable\n"
 "\n"
-"\n"
+"# limitation value, the positive direction is detected automatically\n"
 "float32 min\n"
 "float32 max\n"
 ;
