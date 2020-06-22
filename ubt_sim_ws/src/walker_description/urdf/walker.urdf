@@ -499,6 +499,16 @@
     <axis
       xyz="0 0 0" />
   </joint>
+  <link name = "right_tcp">
+  </link>
+  <joint name="right_tcp_joint" type="fixed">
+    <origin
+      xyz="0.02 -0.05 0.015"
+      rpy="0 0 -1.34159265359" />
+    <parent link="right_palm_link" />
+    <child link="right_tcp" />
+    <axis xyz="0 0 0" />
+  </joint>
   <link
     name="right_thumb_l1">
     <inertial>
@@ -1537,6 +1547,16 @@
       link="left_palm_link" />
     <axis
       xyz="0 0 0" />
+  </joint>
+  <link name = "left_tcp">
+  </link>
+  <joint name="left_tcp_joint" type="fixed">
+    <origin
+      xyz="-0.02 -0.05 0.015"
+      rpy="0 0 -1.8" />
+    <parent link="left_palm_link" />
+    <child link="left_tcp" />
+    <axis xyz="0 0 0" />
   </joint>
   <link
     name="left_thumb_l1">

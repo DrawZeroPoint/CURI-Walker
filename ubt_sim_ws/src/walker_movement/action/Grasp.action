@@ -1,0 +1,15 @@
+
+#goal definition
+
+# Joint pose, it must have the right number of elements, one per joint
+int32 grasp_type
+
+int32 GRASP_TYPE_OPEN = 0
+int32 GRASP_TYPE_CUP = 1
+
+---
+#result definition
+bool succeded
+string error_message
+---
+#feedback

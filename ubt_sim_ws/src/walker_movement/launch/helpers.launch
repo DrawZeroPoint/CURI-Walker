@@ -1,0 +1,20 @@
+<launch>
+
+  <node name="move_helper_left_arm" pkg="walker_movement" type="move_helper" respawn="true" output="screen">
+    <param name="planning_group" type="string" value="walker_left_arm" />
+  </node>
+
+  <node name="move_helper_right_arm" pkg="walker_movement" type="move_helper" respawn="true" output="screen">
+    <param name="planning_group" type="string" value="walker_right_arm" />
+  </node>
+
+
+  <node name="hand_helper_left" pkg="walker_movement" type="hand_helper" respawn="true" output="screen">
+    <param name="is_left" type="bool" value="true" />
+  </node>
+
+  <node name="hand_helper_right" pkg="walker_movement" type="hand_helper" respawn="true" output="screen">
+    <param name="is_left" type="bool" value="false" />
+  </node>
+
+</launch>

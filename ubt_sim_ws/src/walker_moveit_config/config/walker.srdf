@@ -15,6 +15,15 @@
         <joint name="head_j3" />
     </group>
     <group name="walker_left_arm">
+        <link name="left_tcp" />
+        <link name="left_palm_link" />
+        <link name="left_limb_l7" />
+        <link name="left_limb_l6" />
+        <link name="left_limb_l5" />
+        <link name="left_limb_l4" />
+        <link name="left_limb_l3" />
+        <link name="left_limb_l2" />
+        <link name="left_limb_l1" />
         <joint name="left_limb_j1" />
         <joint name="left_limb_j2" />
         <joint name="left_limb_j3" />
@@ -22,6 +31,9 @@
         <joint name="left_limb_j5" />
         <joint name="left_limb_j6" />
         <joint name="left_limb_j7" />
+        <joint name="left_tcp_joint" />
+        <joint name="left_palm_joint" />
+        <chain base_link="left_limb_l1" tip_link="left_tcp" />
     </group>
     <group name="walker_right_arm">
         <joint name="right_limb_j1" />
