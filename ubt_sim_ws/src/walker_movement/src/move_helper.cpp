@@ -58,6 +58,7 @@ int submitMoveToJointPose(moveit::planning_interface::MoveGroupInterface& move_g
     return -2;
   }
   ROS_INFO_STREAM("Moving...");
+  return 0;
 }
 
 
@@ -96,6 +97,7 @@ int submitMoveToEePose(moveit::planning_interface::MoveGroupInterface& move_grou
     return -2;
   }
   ROS_INFO_STREAM("Moving...");
+  return 0;
 }
 
 
