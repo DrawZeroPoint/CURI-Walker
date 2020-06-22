@@ -40,7 +40,10 @@ also to open the hand by using GRASP_TYPE_OPEN
 
 # An example
 You can look at the graspCan.py node for an example on using this package.
-It can be launched as:
+
+To use it you will need to start helpers.launch and moveit.launch (from walker_webots_hardware_interface) in separate terminals.
+Then graspCan can be strted as:
+
 ```
-rosrun walker_movement graspCup1.py _can_number:=1
+rosrun walker_movement graspCan.py _can_number:=1
 ```
