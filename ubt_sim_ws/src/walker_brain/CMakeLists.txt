@@ -51,7 +51,18 @@ catkin_package(
 
 include_directories(include ${catkin_INCLUDE_DIRS})
 
+# Declare a C++ library
+add_library(${PROJECT_NAME}
+  src/lib/rosout_logger.cpp
+)
+target_link_libraries(${PROJECT_NAME}
+  ${catkin_LIBRARIES}
+)
+
 add_executable(grasp_cup_node src/grasp_cup_node.cpp)
 add_dependencies(grasp_cup_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(grasp_cup_node ${catkin_LIBRARIES} )
+target_link_libraries(grasp_cup_node ${catkin_LIBRARIES})
 
+add_executable(dummy_server test/dummy_server.cpp)
+add_dependencies(dummy_server ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(dummy_server ${catkin_LIBRARIES})

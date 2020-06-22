@@ -1,6 +1,7 @@
 #include <walker_brain/bt_service_node.h>
 #include <walker_brain/bt_action_node.h>
 #include <walker_brain/bt_generic_types.h>
+#include <walker_brain/rosout_logger.h>
 
 // ROS
 #include <ros/ros.h>
@@ -171,6 +172,8 @@ int main(int argc, char **argv)
   RegisterRosService<ExecuteMovement>(factory, "ExecuteMovement", nh);
 
   auto tree = factory.createTreeFromFile(tree_file);
+
+  printTreeRecursively(tree.rootNode());
 
   BT::NodeStatus status = BT::NodeStatus::IDLE;
   while(ros::ok() && (status == BT::NodeStatus::IDLE || status == BT::NodeStatus::RUNNING)) {
