@@ -145,15 +145,16 @@ public:
   }
 };
 
-class ExecutePreGrasp : public RosActionNode<walker_movement::MoveToEePoseAction>
+class ExecuteEEMove : public RosActionNode<walker_movement::MoveToEePoseAction>
 {
 public:
-  ExecutePreGrasp(ros::NodeHandle& handle, const std::string& name, const NodeConfiguration & cfg):
+  ExecuteEEMove(ros::NodeHandle& handle, const std::string& name, const NodeConfiguration & cfg):
     RosActionNode<walker_movement::MoveToEePoseAction>(handle, name, cfg), name_(name) {}
 
   static PortsList providedPorts() {
     return {
       InputPort<Pose>("execute_pose"),
+      InputPort<std::string>("ref_frame")
       //OutputPort<int>("result_status")
     };
   }
@@ -162,56 +163,9 @@ public:
     Pose tgt_pre_grasp_pose{};
     getInput<Pose>("execute_pose", tgt_pre_grasp_pose);
     goal.pose.pose = tgt_pre_grasp_pose.toROS();
-    ros::spinOnce();
-    ROS_INFO("Brain: %s sending request", name_.c_str());
-    return true;
-  }
 
-  NodeStatus onResult(const ResultType& res) override {
-    ROS_INFO("Brain: %s result received", name_.c_str());
-    if (res.succeded) {
-      ROS_INFO("Brain: %s response SUCCEEDED.", name_.c_str());
-      return NodeStatus::SUCCESS;
-    } else {
-      ROS_INFO("Brain: %s response FAILURE.", name_.c_str());
-      return NodeStatus::FAILURE;
-    }
-  }
+    getInput<std::string>("ref_frame", goal.pose.header.frame_id);
 
-  virtual NodeStatus onFailedRequest(FailureCause failure) override {
-    ROS_ERROR("Brain: %s request failed %d", name_.c_str(), static_cast<int>(failure));
-    return NodeStatus::FAILURE;
-  }
-
-  void halt() override {
-    if(status() == NodeStatus::RUNNING) {
-      ROS_WARN("Brain: %s halted", name_.c_str());
-      BaseClass::halt();
-    }
-  }
-
-private:
-  std::string name_;
-};
-
-class ExecuteGrasp : public RosActionNode<walker_movement::MoveToEePoseAction>
-{
-public:
-  ExecuteGrasp(ros::NodeHandle& handle, const std::string& name, const NodeConfiguration & cfg):
-    RosActionNode<walker_movement::MoveToEePoseAction>(handle, name, cfg), name_(name) {}
-
-  static PortsList providedPorts() {
-    return {
-      InputPort<Pose>("tgt_grasp_pose"),
-      //OutputPort<int>("result_status")
-    };
-  }
-
-  bool onSendGoal(GoalType& goal) override {
-    Pose tgt_grasp_pose{};
-    getInput<Pose>("tgt_grasp_pose", tgt_grasp_pose);
-    goal.pose.pose = tgt_grasp_pose.toROS();
-    ros::spinOnce();
     ROS_INFO("Brain: %s sending request", name_.c_str());
     return true;
   }
@@ -313,10 +267,10 @@ int main(int argc, char **argv)
   RegisterRosService<SenseObjectPoses>(factory, "SenseObjectPoses", nh);
   RegisterRosService<EstimateTargetPose>(factory, "EstimateTargetPose", nh);
   RegisterRosService<ExecuteNavigation>(factory, "ExecuteNavigation", nh);
-  RegisterRosAction<ExecutePreGrasp>(factory, "ExecutePreGrasp", nh);
-  RegisterRosAction<ExecuteGrasp>(factory, "ExecuteGrasp", nh);
+  RegisterRosAction<ExecuteEEMove>(factory, "ExecutePreGrasp", nh);
+  RegisterRosAction<ExecuteEEMove>(factory, "ExecuteGrasp", nh);
   RegisterRosAction<ExecuteCloseHand>(factory, "ExecuteCloseHand", nh);
-  RegisterRosAction<ExecutePreGrasp>(factory, "ExecutePostGrasp", nh);
+  RegisterRosAction<ExecuteEEMove>(factory, "ExecutePostGrasp", nh);
 
   auto tree = factory.createTreeFromFile(tree_file);
 

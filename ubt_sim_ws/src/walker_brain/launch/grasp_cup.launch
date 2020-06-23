@@ -6,8 +6,10 @@
     <!-- roslaunch walker_movement helpers.launch    -->
     <param name="/use_sim_time" value="true" />
 
-    <arg name="task_id" default="0"/>
-    <arg name="cup_id" default="0"/>
+    <arg name="task_id" default="3"/>
+
+    <!-- cup_id range [1, 5] -->
+    <arg name="cup_id" default="1"/>
 
     <node pkg="walker_brain" type="grasp_cup_helper.py" name="grasp_cup_helper" output="screen">
         <param name="target_id" value="$(arg cup_id)" />
@@ -16,9 +18,9 @@
         <param name="z_offset" value="0.1" />
     </node>
 
-    <node pkg="walker_brain" type="grasp_cup_node" name="grasp_cup_node" output="screen">
-        <param name="tree_file" value="$(find walker_brain)/tree/grasp_cup_$(arg task_id).xml" />
-        <param name="task_id" value="$(arg task_id)" />
-    </node>
+<!--    <node pkg="walker_brain" type="grasp_cup_node" name="grasp_cup_node" output="screen">-->
+<!--        <param name="tree_file" value="$(find walker_brain)/tree/grasp_cup_$(arg task_id).xml" />-->
+<!--        <param name="task_id" value="$(arg task_id)" />-->
+<!--    </node>-->
 
 </launch>
