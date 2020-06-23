@@ -1,9 +1,7 @@
 <launch>
     <!-- Usage: roslaunch walker_brain grasp_cup.launch task_id:=2 cup_id:=1 -->
-    <!-- Before launching this: (in order) -->
-    <!-- roslaunch walker_nav rtabmap.launch  -->
-    <!-- roslaunch walker_brain process_pointcloud.launch  -->
-    <!-- roslaunch walker_movement helpers.launch    -->
+    <!-- Before launching this, launch prepare.launch -->
+
     <param name="/use_sim_time" value="true" />
 
     <arg name="task_id" default="3"/>
@@ -14,13 +12,13 @@
     <node pkg="walker_brain" type="grasp_cup_helper.py" name="grasp_cup_helper" output="screen">
         <param name="target_id" value="$(arg cup_id)" />
         <param name="x_offset" value="0.5" />
-        <param name="y_offset" value="0.5" />
+        <param name="y_offset" value="-0.3" />
         <param name="z_offset" value="0.1" />
     </node>
 
-<!--    <node pkg="walker_brain" type="grasp_cup_node" name="grasp_cup_node" output="screen">-->
-<!--        <param name="tree_file" value="$(find walker_brain)/tree/grasp_cup_$(arg task_id).xml" />-->
-<!--        <param name="task_id" value="$(arg task_id)" />-->
-<!--    </node>-->
+    <node pkg="walker_brain" type="grasp_cup_node" name="grasp_cup_node" output="screen">
+        <param name="tree_file" value="$(find walker_brain)/tree/grasp_cup_$(arg task_id).xml" />
+        <param name="task_id" value="$(arg task_id)" />
+    </node>
 
 </launch>

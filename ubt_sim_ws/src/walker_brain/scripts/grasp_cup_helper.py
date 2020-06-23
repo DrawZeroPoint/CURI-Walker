@@ -65,6 +65,11 @@ class MoveToPoseServer(object):
         self._x_fine_vel = 0.005
         self._y_fine_vel = 0.005
 
+    def on_stop(self):
+        vel = Twist()
+        self._vel_puber.publish(vel)
+        self.call("stop")
+
     def move_along_x(self, x_offset):
         if x_offset == 0:
             return
@@ -78,22 +83,21 @@ class MoveToPoseServer(object):
         step_num_x = int(abs(x_offset) / self._x_primary_vel)
         rospy.loginfo("Brain: Steps along x for {} steps in primary speed".format(step_num_x))
         rospy.sleep(step_num_x * 0.7)
+
         residual = abs(x_offset) - step_num_x * self._x_primary_vel
         if residual <= 0.005:
-            vel.linear.x = 0
-            self._vel_puber.publish(vel)
+            self.on_stop()
             return
 
         if x_offset > 0:
             vel.linear.x = self._x_fine_vel
         else:
             vel.linear.x = -self._x_fine_vel
+        self._vel_puber.publish(vel)
         step_num_x = int(abs(residual) / self._x_fine_vel)
         rospy.loginfo("Brain: Steps along x for {} steps in fine speed".format(step_num_x))
         rospy.sleep(step_num_x * 0.7)
-        vel.linear.x = 0
-        self._vel_puber.publish(vel)
-        rospy.sleep(0.7)  # give the robot some time to resettle the feet
+        self.on_stop()
 
     def move_along_y(self, y_offset):
         if y_offset == 0:
@@ -106,24 +110,23 @@ class MoveToPoseServer(object):
             vel.linear.y = -self._y_primary_vel
         self._vel_puber.publish(vel)
         step_num_y = int(abs(y_offset) / self._y_primary_vel) * 2
-
         rospy.loginfo("Brain: Steps along y for {} steps in primary speed".format(step_num_y))
         rospy.sleep(step_num_y * 0.7)
+
         residual = abs(y_offset) - step_num_y * self._y_primary_vel
         if residual <= 0.005:
-            vel.linear.y = 0
-            self._vel_puber.publish(vel)
+            self.on_stop()
             return
 
         if y_offset > 0:
             vel.linear.y = self._y_fine_vel
         else:
             vel.linear.y = -self._y_fine_vel
+        self._vel_puber.publish(vel)
         step_num_y = int(abs(residual) / self._y_fine_vel) * 2
         rospy.loginfo("Brain: Steps along y for {} steps in fine speed".format(step_num_y))
         rospy.sleep(step_num_y * 0.7)
-        vel.linear.y = 0
-        self._vel_puber.publish(vel)
+        self.on_stop()
 
     def handle(self, req):
         resp = MoveToPose2DResponse()

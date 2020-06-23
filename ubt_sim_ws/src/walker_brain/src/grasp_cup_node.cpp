@@ -10,7 +10,7 @@
 #include <walker_brain/EstimateTargetPose.h>
 #include <walker_brain/MoveToPose2D.h>
 #include <hope/ExtractObjectOnTop.h>
-#include <walker_nav/MoveToRelPos.h>
+//#include <walker_nav/MoveToRelPos.h>
 
 // Actions (customized)
 #include <walker_movement/MoveToEePoseAction.h>
@@ -71,7 +71,7 @@ public:
     return {
       BT::InputPort<PoseArray>("obj_poses"),
       BT::OutputPort<int>("result_status"),
-      BT::OutputPort<Pose>("tgt_nav_pose"),
+      BT::OutputPort<Pose2D>("tgt_nav_pose"),
       BT::OutputPort<Pose>("tgt_grasp_pose"),
       BT::OutputPort<Pose>("tgt_pre_grasp_pose")
     };
