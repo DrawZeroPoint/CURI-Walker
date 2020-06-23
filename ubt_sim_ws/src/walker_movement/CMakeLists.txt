@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(walker_movement)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
-# add_compile_options(-std=c++11 -wall)
+add_compile_options(-std=c++11 -Wall)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -103,7 +103,7 @@ generate_messages(
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-  INCLUDE_DIRS include
+  INCLUDE_DIRS
   CATKIN_DEPENDS
     roscpp
     rospy
@@ -134,7 +134,7 @@ include_directories(
 # include
   ${catkin_INCLUDE_DIRS}
 )
-include_directories(include  ${Boost_INCLUDE_DIR} ${EIGEN3_INCLUDE_DIRS})
+include_directories(${Boost_INCLUDE_DIR} ${EIGEN3_INCLUDE_DIRS})
 
 add_executable(move_helper src/move_helper.cpp)
 add_dependencies(move_helper ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})

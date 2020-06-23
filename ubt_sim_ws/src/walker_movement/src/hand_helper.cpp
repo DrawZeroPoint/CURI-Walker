@@ -39,7 +39,7 @@ void setHandPosition( double thumb1,
 void graspActionCallback(const walker_movement::GraspGoalConstPtr &goal)
 {
   ROS_INFO("Grasping...");
-  if(goal->grasp_type == walker_movement::GraspGoal::GRASP_TYPE_CUP)
+  if(goal->grasp_type == walker_movement::GraspGoal::GRASP_TYPE_CAN)
   {
     setHandPosition(0.1,0.5, 0.6,1, 0.6,1, 0.6,1, 0.6,1);
   }
