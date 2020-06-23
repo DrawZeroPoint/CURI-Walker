@@ -5,6 +5,7 @@
         <Sequence>
             <Action ID="SenseObjectPoses" goal_id="cylinder" obj_poses="{detected_obj_poses}" service_name="/head/extract_object_on_top"/>
             <Action ID="EstimateTargetPose" obj_poses="{detected_obj_poses}" service_name="estimate_target_pose" tgt_grasp_pose="{target_grasp_pose}" tgt_nav_pose="{target_nav_pose}" tgt_pre_grasp_pose="{target_pre_grasp_pose}"/>
+            <Action ID="ExecuteMoveBase" pose="{target_nav_pose}" service_name="/move_to_pose2d"/>
             <Action ID="ExecutePreGrasp" execute_pose="{target_pre_grasp_pose}" ref_frame="base_link" server_name="/walker/move_helper_left_arm/move_to_ee_pose"/>
             <Action ID="ExecuteGrasp" execute_pose="{target_grasp_pose}" ref_frame="bask_link" server_name="/walker/move_helper_left_arm/move_to_ee_pose"/>
             <Action ID="ExecuteCloseHand" server_name="/walker/hand_helper_left/grasp"/>
@@ -28,9 +29,9 @@
             <input_port default="bask_link" name="ref_frame"/>
             <input_port default="/walker/move_helper_left_arm/move_to_ee_pose" name="server_name"/>
         </Action>
-        <Action ID="ExecuteNavigation">
-            <input_port default="/move_base/move_to_rel_pos" name="service_name"/>
-            <input_port default="{target_nav_pose}" name="tgt_nav_pose"/>
+        <Action ID="ExecuteMoveBase">
+            <input_port default="{target_nav_pose}" name="pose"/>
+            <input_port default="/move_to_pose2d" name="service_name"/>
         </Action>
         <Action ID="ExecutePostGrasp">
             <input_port default="{target_pre_grasp_pose}" name="execute_pose"/>

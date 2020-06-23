@@ -4,8 +4,8 @@ from __future__ import print_function
 
 import rospy
 
-from geometry_msgs.msg import Twist
-from walker_brain.srv import EstimateTargetPose, EstimateTargetPoseResponse, MoveToPose2D, MoveToPose2DResponse, MoveToPose2DRequest
+from geometry_msgs.msg import Twist, Pose2D
+from walker_brain.srv import EstimateTargetPose, EstimateTargetPoseResponse, MoveToPose2D, MoveToPose2DResponse
 from walker_srvs.srv import leg_motion_MetaFuncCtrl, leg_motion_MetaFuncCtrlRequest
 
 
@@ -33,10 +33,10 @@ class EstimateServer(object):
             grasp_num = self._tgt_id + 1
             tgt_pose = req.obj_poses.poses[self._tgt_id]
             rospy.loginfo("Brain: Got pose of target {} \n {}\n".format(grasp_num, tgt_pose))
-            resp.tgt_nav_pose.position.x = tgt_pose.position.x - self._x_offset
-            resp.tgt_nav_pose.position.y = tgt_pose.position.y + self._y_offset
-            resp.tgt_nav_pose.position.z = tgt_pose.position.z
-            resp.tgt_nav_pose.orientation = tgt_pose.orientation
+            resp.tgt_nav_pose = Pose2D()
+            resp.tgt_nav_pose.x = tgt_pose.position.x - self._x_offset
+            resp.tgt_nav_pose.y = tgt_pose.position.y + self._y_offset
+            resp.tgt_nav_pose.theta = 0
 
             resp.tgt_grasp_pose.position.x = self._x_offset
             resp.tgt_grasp_pose.position.y = -self._y_offset
@@ -93,6 +93,7 @@ class MoveToPoseServer(object):
         rospy.sleep(step_num_x * 0.7)
         vel.linear.x = 0
         self._vel_puber.publish(vel)
+        rospy.sleep(0.7)  # give the robot some time to resettle the feet
 
     def move_along_y(self, y_offset):
         if y_offset == 0:
@@ -123,7 +124,6 @@ class MoveToPoseServer(object):
         rospy.sleep(step_num_y * 0.7)
         vel.linear.y = 0
         self._vel_puber.publish(vel)
-        rospy.sleep(0.7)  # give the robot some time to resettle the feet
 
     def handle(self, req):
         resp = MoveToPose2DResponse()
