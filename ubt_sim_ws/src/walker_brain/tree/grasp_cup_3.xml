@@ -43,6 +43,11 @@
             <input_port default="base_link" name="ref_frame"/>
             <input_port default="/walker/move_helper_left_arm/move_to_ee_pose" name="server_name"/>
         </Action>
+        <Action ID="ExecutePrePose">
+            <input_port default="{pre_pose}" name="execute_pose"/>
+            <input_port default="base_link" name="ref_frame"/>
+            <input_port default="/walker/move_helper_left_arm/move_to_ee_pose" name="server_name"/>
+        </Action>
         <Action ID="ExecuteToGraspPose">
             <input_port default="/walker/move_helper_left_arm/move_to_ee_pose" name="server_name"/>
             <input_port default="{target_grasp_pose}" name="tgt_grasp_pose"/>

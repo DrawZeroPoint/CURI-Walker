@@ -274,6 +274,7 @@ int main(int argc, char **argv)
   RegisterRosService<SenseObjectPoses>(factory, "SenseObjectPoses", nh);
   RegisterRosService<EstimateTargetPose>(factory, "EstimateTargetPose", nh);
   RegisterRosService<ExecuteMoveBase>(factory, "ExecuteMoveBase", nh);
+  RegisterRosAction<ExecuteEEMove>(factory, "ExecutePrePose", nh);
   RegisterRosAction<ExecuteEEMove>(factory, "ExecutePreGrasp", nh);
   RegisterRosAction<ExecuteEEMove>(factory, "ExecuteGrasp", nh);
   RegisterRosAction<ExecuteCloseHand>(factory, "ExecuteCloseHand", nh);
