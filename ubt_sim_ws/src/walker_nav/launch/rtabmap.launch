@@ -22,11 +22,11 @@
     </node>
 
     <include file="$(find leg_motion)/launch/walker2_leg.launch">
-      <arg name="account_file" value="/home/mfernandes/repos/Simucenas/CURI-Walker/user_account.json"/>
+      <arg name="account_file" value="/home/dzp/CURI-Walker/user_account.json"/>
     </include>
     
     <include file="$(find walker_webots_hardware_interface)/launch/moveit.launch">
-      <arg name="show_rviz" value="false"/>
+<!--      <arg name="show_rviz" value="false"/>-->
     </include>
     <!-- 0 0 -1.09 0 0 0 /base_link /base_link_foot 10 -->
     <node pkg="tf" type="static_transform_publisher" name="head_cam_tf" args="0 0 0 -3.14 0 -0.34 /head_l3 /head_camera 10"/> 
