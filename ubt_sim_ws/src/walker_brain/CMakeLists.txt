@@ -20,6 +20,7 @@ find_package(GTest)
 add_service_files(
   FILES
   Dummy.srv
+  EstimateTargetPose.srv
 )
 
 add_action_files(

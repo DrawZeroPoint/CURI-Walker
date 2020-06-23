@@ -5,6 +5,7 @@
         <Sequence>
             <Action ID="SenseObjectPoses" goal_id="cylinder" obj_poses="{detected_obj_poses}" service_name="/head/extract_object_on_top"/>
             <Action ID="EstimateTargetPose" obj_poses="{detected_obj_poses}" service_name="estimate_target_pose" tgt_grasp_pose="{target_grasp_pose}" tgt_nav_pose="{target_nav_pose}" tgt_pre_grasp_pose="{target_pre_grasp_pose}"/>
+            <Action ID="ExecuteNavigation" service_name="/move_base/move_to_rel_pos" tgt_nav_pose="{target_nav_pose}"/>
             <Action ID="ExecutePreGrasp" execute_pose="{target_pre_grasp_pose}" server_name="/walker/move_helper_left_arm/move_to_ee_pose"/>
             <Action ID="ExecuteGrasp" server_name="/walker/move_helper_left_arm/move_to_ee_pose" tgt_grasp_pose="{target_grasp_pose}"/>
             <Action ID="ExecuteCloseHand" server_name="/walker/hand_helper_left/grasp"/>
