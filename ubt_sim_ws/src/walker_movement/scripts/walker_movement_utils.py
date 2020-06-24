@@ -158,14 +158,16 @@ class WalkerMovementUtils:
         while self.gaitStepsPerfomed!=stepNumber:
             rospy.sleep(0.35) #half of the duration of a single step
 
-    def moveGait(self,mode, amount):
+    def moveGait(self,mode, amount, maxStep_constraint = None):
         if mode == "forward":
             maxStep = 0.32
         elif mode == "turn":
             maxStep = 0.35
+        if (maxStep_constraint is not None) and (maxStep>maxStep_constraint):
+            maxStep=maxStep_constraint
 
         stepsToDo = int(abs(amount) / maxStep) + 1 #0.35 is the maximum step length
-        stepLength = amount/stepsToDo
+        stepLength = float(amount)/stepsToDo
         headroom_sec = 0.1
         stepDuration_Sec = 0.7
 
@@ -189,8 +191,8 @@ class WalkerMovementUtils:
     def turnAround(self,angleZ):
         self.moveGait("turn",angleZ)
 
-    def walkForward(self,length):
-        self.moveGait("forward",length)
+    def walkForward(self,length, maxStep=None):
+        self.moveGait("forward",length, maxStep)
 
 
     def startGait(self):

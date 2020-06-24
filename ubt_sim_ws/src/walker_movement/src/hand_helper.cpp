@@ -49,7 +49,7 @@ void graspActionCallback(const walker_movement::GraspGoalConstPtr &goal)
   }
   else if(goal->grasp_type == walker_movement::GraspGoal::GRASP_TYPE_CART_HANDLE_CORNER)
   {
-    setHandPosition(0.2,0.9, 0.7,0.7, 1.3,0.8, 0.7,0.7, 0.3,0.5);
+    setHandPosition(0.2,0.9, 0.7,0.7, 1,0.8, 0.5,0.7, 0.3,0.3);
   }
   else
   {

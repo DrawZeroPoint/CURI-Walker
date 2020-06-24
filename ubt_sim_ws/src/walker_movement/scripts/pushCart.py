@@ -6,12 +6,12 @@ from walker_movement_utils import WalkerMovementUtils
 
 # graspPositionLeft = [-0.170, -0.310, 0.390]
 # graspOrientationLeft = [-0.295, -0.139, 0.560, 0.761]
-graspPositionLeft = [0.410, 0.174, -0.263]
+graspPositionLeft = [0.395, 0.174, -0.260]
 graspOrientationLeft = [0.258, 0.190, -0.514, 0.796]
 
 # graspPositionRight = [-0.167, 0.297, 0.392]
 # graspOrientationRight = [0.294, -0.136, -0.560, 0.763]
-graspPositionRight = [0.410, -0.174, -0.263]
+graspPositionRight = [0.395, -0.174, -0.260]
 graspOrientationRight = [-0.258, 0.190, 0.514, 0.796]
 
 
@@ -42,7 +42,7 @@ wmu.startGait()
 rospy.loginfo("Started gait")
 rospy.sleep(0.5)
 rospy.loginfo("Moving forward")
-wmu.walkForward(3)
+wmu.walkForward(1.5, 0.17)
 
 wmu.stopGait()
 rospy.loginfo("Stopped gait")
