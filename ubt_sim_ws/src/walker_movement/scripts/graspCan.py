@@ -93,7 +93,7 @@ rospy.loginfo("Action servers connected")
 moveToIntermediate()
 moveOverCan(requested_can)
 moveVertical(-0.1)
-rospy.sleep(0.5)
+rospy.sleep(0.25)
 
 
 graspCan()
@@ -104,7 +104,7 @@ for i in range(5):
     rospy.sleep(1)
     rospy.loginfo(str(i)+" seconds passed")
 moveVertical(-0.1)
-rospy.sleep(0.5)
+rospy.sleep(0.25)
 
 releaseCan()
 time.sleep(0.25)

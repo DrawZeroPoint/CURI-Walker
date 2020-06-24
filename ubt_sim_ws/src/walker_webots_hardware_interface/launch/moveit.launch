@@ -1,7 +1,8 @@
 <launch>
 
-    <arg name="show_rviz" default="true" />
-    <arg name="enable_legs" default="false" />
+  <arg name="show_rviz" default="true" />
+  <arg name="enable_legs" default="false" />
+
   <group ns="/walker">
 
 
