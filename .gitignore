@@ -12,3 +12,4 @@
 /ubt_sim_ws/src/walker_webots_hardware_interface/.idea/
 /ubt_sim_ws/src/walker_webots_hardware_interface/cmake-build-debug/
 *.gch
+*.pyc
