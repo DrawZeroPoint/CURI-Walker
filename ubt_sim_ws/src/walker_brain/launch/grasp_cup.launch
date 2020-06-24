@@ -11,13 +11,13 @@
 
     <node pkg="walker_brain" type="grasp_cup_helper.py" name="grasp_cup_helper" output="screen">
         <param name="target_id" value="$(arg cup_id)" />
-        <param name="x_offset" value="0.4" />
-        <param name="y_offset" value="0.44" />
+        <param name="x_offset" value="0.43" />
+        <param name="y_offset" value="0.28" />
         <param name="z_offset" value="0.15" />
     </node>
 
     <node pkg="walker_brain" type="grasp_cup_node" name="grasp_cup_node" output="screen">
-        <param name="tree_file" value="$(find walker_brain)/tree/grasp_cup_$(arg task_id).xml" />
+        <param name="tree_file" value="$(find walker_brain)/tree/grasp_cup_$(arg task_id)_f.xml" />
         <param name="task_id" value="$(arg task_id)" />
     </node>
 

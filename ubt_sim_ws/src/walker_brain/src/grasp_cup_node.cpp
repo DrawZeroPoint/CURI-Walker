@@ -169,11 +169,14 @@ public:
   }
 
   bool onSendGoal(GoalType& goal) override {
-    Pose tgt_pre_grasp_pose{};
-    getInput<Pose>("execute_pose", tgt_pre_grasp_pose);
-    goal.pose.pose = tgt_pre_grasp_pose.toROS();
-
+    Pose execute_pose{};
+    getInput<Pose>("execute_pose", execute_pose);
+    goal.pose.pose = execute_pose.toROS();
+    std::cerr << goal.pose.pose << std::endl;
     getInput<std::string>("ref_frame", goal.pose.header.frame_id);
+    ros::spinOnce();
+    goal.pose.header.stamp.sec = this->time_sec_;
+    goal.pose.header.stamp.nsec = this->time_nsec_;
     getInput<std::string>("ee_link", goal.end_effector_link);
 
     ROS_INFO("Brain: %s sending request", name_.c_str());
@@ -215,15 +218,15 @@ public:
 
   static PortsList providedPorts() {
     return {
-      InputPort<Pose>("execute_pose"),
+      InputPort<JointAngles>("execute_pose"),
       //OutputPort<int>("result_status")
     };
   }
 
   bool onSendGoal(GoalType& goal) override {
-    Doubles tgt_pre_grasp_pose{};
-    getInput<Doubles>("execute_pose", tgt_pre_grasp_pose);
-    goal.pose = tgt_pre_grasp_pose.toROS();
+    JointAngles execute_pose{};
+    getInput<JointAngles>("execute_pose", execute_pose);
+    goal.pose = execute_pose.toROS();
     ROS_INFO("Brain: %s sending request", name_.c_str());
     return true;
   }
@@ -266,7 +269,7 @@ public:
   }
 
   bool onSendGoal(GoalType& goal) override {
-    goal.grasp_type == goal.GRASP_TYPE_CAN;
+    goal.grasp_type = goal.GRASP_TYPE_CAN;
     ROS_INFO("Brain: %s sending request", name_.c_str());
     return true;
   }

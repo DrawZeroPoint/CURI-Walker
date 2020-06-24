@@ -29,6 +29,7 @@ protected:
   {
     const std::string server_name = getInput<std::string>("server_name").value();
     action_client_ = std::make_shared<ActionClientType>(node_, server_name, true);
+    clock_suber_ = node_.subscribe("/clock", 1, &RosActionNode::clockCb, this);
   }
 
 public:
@@ -125,6 +126,16 @@ protected:
       // FIXME: is there any other valid state we should consider?
       throw std::logic_error("Unexpected state in RosActionNode::tick()");
     }
+  }
+
+  int time_sec_;
+  int time_nsec_;
+  ros::Subscriber clock_suber_;
+
+private:
+  void clockCb(const rosgraph_msgs::ClockConstPtr &msg) {
+    time_sec_ = msg->clock.sec;
+    time_nsec_ = msg->clock.nsec;
   }
 };
 

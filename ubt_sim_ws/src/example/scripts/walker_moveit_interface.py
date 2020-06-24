@@ -106,6 +106,49 @@ def task_1_cb(data):
         left_arm_interface.go_through_poses([prepare_ros_pose, activate_ros_pose])
 
 
+def test_cb(data):
+    """The task cb is triggered by an external topic,
+    giving the moveit interface some time to start.
+
+    :param data: std_msgs.Int trigger signal
+    """
+    # cup grasp pose
+    # js = np.array([33, -3, -90, -61, 73, -5, 7])
+    '''
+      x: 0.36828722697854466
+  y: 0.2979822148191946
+  z: -0.15724824096994283
+orientation: 
+  x: 0.005145922472779526
+  y: 0.006825090408922284
+  z: -0.08060703109283703
+  w: 0.9967093078861334
+
+    '''
+    # js = np.array([16, -2, -94, -81, 76, -12, -14])
+    """
+    position: 
+  x: 0.3136307289785393
+  y: 0.3121220348016883
+  z: -0.1775264100179828
+orientation: 
+  x: 0.020139304123672253
+  y: 0.03364987560013018
+  z: 0.12164632495203309
+  w: 0.9917985008020709
+    """
+    # js_rad = js / 180. * np.pi
+    # pose = walker_left_arm_model.fk_to_base(js_rad)
+    # pose_ros = common.to_ros_pose(pose)
+    pose_ros = GeometryMsg.Pose()
+    pose_ros.position.x = 0.44
+    pose_ros.position.y = 0.32
+    pose_ros.position.z = -0.17
+    pose_ros.orientation.w = 1
+    print(pose_ros)
+    left_arm_interface.go_to_pose_goal(pose_ros)
+
+
 def moveit_js_cb(data):
     """Convert moveit planned joint states to ubt control msg
 
@@ -132,6 +175,7 @@ def walker_moveit_interface():
     sub_curr_js = rospy.Subscriber('/walker/leftLimb/joint_states',
                                    SensorMsg.JointState, wb_js_left_limb_cb)
     sub_task_1 = rospy.Subscriber('task_1', StdMsg.Int8, task_1_cb)
+    sub_test = rospy.Subscriber('test_ik', StdMsg.Int8, test_cb)
     sub_moveit_js = rospy.Subscriber('joint_states', SensorMsg.JointState, moveit_js_cb)
 
     print("Task 1 interface ready.\n")

@@ -4,6 +4,9 @@
     <!-- Comment this if using wall time -->
     <param name="/use_sim_time" value="true" />
 
+    <node pkg="tf2_ros" type="static_transform_publisher" name="head_to_camera"
+          args="0 0.071 0.0056 0. -0.1736  0.9848  0. head_l3 head_camera" />
+
     <arg name="ns" default="head"/>
     <arg name="base_frame" default="base_link"/>
     <arg name="camera_frame" default="head_camera"/>
@@ -36,8 +39,5 @@
         <param name="min_height_cfg" value="$(arg min_height_cfg)" />
         <param name="max_height_cfg" value="$(arg max_height_cfg)" />
     </node>
-
-    <node pkg="tf2_ros" type="static_transform_publisher" name="head_to_camera"
-          args="0 0.071 0.0056 0. -0.1736  0.9848  0. head_l3 head_camera" />
 
 </launch>

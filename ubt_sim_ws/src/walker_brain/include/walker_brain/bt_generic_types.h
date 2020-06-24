@@ -2,6 +2,7 @@
 #define SRC_BT_GENERIC_TYPES_H
 
 #include <ros/time.h>
+#include <cmath>
 
 #include <geometry_msgs/Pose.h>
 #include <geometry_msgs/Pose2D.h>
@@ -114,11 +115,15 @@ struct PoseArray {
 };
 
 // float64[]
-struct Doubles {
+struct JointAngles {
   std::vector<double> values;
 
   inline std::vector<double> toROS() const {
-    return this->values;
+    std::vector<double> output;
+    for (auto v : values) {
+      output.push_back(v / 180. * M_PI);
+    }
+    return output;
   }
 
   inline void fromROS(std::vector<double> v) {
@@ -190,11 +195,11 @@ namespace BT
     return output;
   }
 
-  template <> inline Doubles convertFromString(StringView str) {
+  template <> inline JointAngles convertFromString(StringView str) {
     // We expect real numbers separated by spaces
     auto parts = splitString(str, ' ');
 
-    Doubles output;
+    JointAngles output;
     for (auto p : parts) {
       output.values.push_back(convertFromString<double>(p));
     }
