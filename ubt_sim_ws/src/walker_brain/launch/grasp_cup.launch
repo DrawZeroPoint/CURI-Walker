@@ -11,9 +11,9 @@
 
     <node pkg="walker_brain" type="grasp_cup_helper.py" name="grasp_cup_helper" output="screen">
         <param name="target_id" value="$(arg cup_id)" />
-        <param name="x_offset" value="0.6" />
-        <param name="y_offset" value="-0.3" />
-        <param name="z_offset" value="0.1" />
+        <param name="x_offset" value="0.4" />
+        <param name="y_offset" value="0.44" />
+        <param name="z_offset" value="0.15" />
     </node>
 
     <node pkg="walker_brain" type="grasp_cup_node" name="grasp_cup_node" output="screen">

@@ -14,6 +14,7 @@
 
 // Actions (customized)
 #include <walker_movement/MoveToEePoseAction.h>
+#include <walker_movement/MoveToJointPoseAction.h>
 #include <walker_movement/GraspAction.h>
 
 
@@ -160,6 +161,7 @@ public:
 
   static PortsList providedPorts() {
     return {
+      InputPort<std::string>("ee_link"),
       InputPort<Pose>("execute_pose"),
       InputPort<std::string>("ref_frame")
       //OutputPort<int>("result_status")
@@ -172,7 +174,56 @@ public:
     goal.pose.pose = tgt_pre_grasp_pose.toROS();
 
     getInput<std::string>("ref_frame", goal.pose.header.frame_id);
+    getInput<std::string>("ee_link", goal.end_effector_link);
 
+    ROS_INFO("Brain: %s sending request", name_.c_str());
+    return true;
+  }
+
+  NodeStatus onResult(const ResultType& res) override {
+    ROS_INFO("Brain: %s result received", name_.c_str());
+    if (res.succeded) {
+      ROS_INFO("Brain: %s response SUCCEEDED.", name_.c_str());
+      return NodeStatus::SUCCESS;
+    } else {
+      ROS_INFO("Brain: %s response FAILURE.", name_.c_str());
+      return NodeStatus::FAILURE;
+    }
+  }
+
+  virtual NodeStatus onFailedRequest(FailureCause failure) override {
+    ROS_ERROR("Brain: %s request failed %d", name_.c_str(), static_cast<int>(failure));
+    return NodeStatus::FAILURE;
+  }
+
+  void halt() override {
+    if(status() == NodeStatus::RUNNING) {
+      ROS_WARN("Brain: %s halted", name_.c_str());
+      BaseClass::halt();
+    }
+  }
+
+private:
+  std::string name_;
+};
+
+class ExecuteFKMove : public RosActionNode<walker_movement::MoveToJointPoseAction>
+{
+public:
+  ExecuteFKMove(ros::NodeHandle& handle, const std::string& name, const NodeConfiguration & cfg):
+    RosActionNode<walker_movement::MoveToJointPoseAction>(handle, name, cfg), name_(name) {}
+
+  static PortsList providedPorts() {
+    return {
+      InputPort<Pose>("execute_pose"),
+      //OutputPort<int>("result_status")
+    };
+  }
+
+  bool onSendGoal(GoalType& goal) override {
+    Doubles tgt_pre_grasp_pose{};
+    getInput<Doubles>("execute_pose", tgt_pre_grasp_pose);
+    goal.pose = tgt_pre_grasp_pose.toROS();
     ROS_INFO("Brain: %s sending request", name_.c_str());
     return true;
   }
@@ -274,14 +325,14 @@ int main(int argc, char **argv)
   RegisterRosService<SenseObjectPoses>(factory, "SenseObjectPoses", nh);
   RegisterRosService<EstimateTargetPose>(factory, "EstimateTargetPose", nh);
   RegisterRosService<ExecuteMoveBase>(factory, "ExecuteMoveBase", nh);
-  RegisterRosAction<ExecuteEEMove>(factory, "ExecutePrePose", nh);
-  RegisterRosAction<ExecuteEEMove>(factory, "ExecutePreGrasp", nh);
+  RegisterRosAction<ExecuteFKMove>(factory, "ExecutePrePose", nh);
   RegisterRosAction<ExecuteEEMove>(factory, "ExecuteGrasp", nh);
   RegisterRosAction<ExecuteCloseHand>(factory, "ExecuteCloseHand", nh);
   RegisterRosAction<ExecuteEEMove>(factory, "ExecutePostGrasp", nh);
 
   auto tree = factory.createTreeFromFile(tree_file);
 
+  RosoutLogger logger(tree.rootNode());
   printTreeRecursively(tree.rootNode());
 
   BT::NodeStatus status = BT::NodeStatus::IDLE;

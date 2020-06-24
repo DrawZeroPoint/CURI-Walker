@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <launch>
 
     <!-- Comment this if using wall time -->
@@ -9,6 +10,8 @@
     <arg name="depth_topic" default="/walker/camera/headDepth"/>
     <arg name="rgb_topic" default="/walker/camera/headRGB"/>
     <arg name="cloud_topic" default="point_cloud"/>
+    <arg name="min_height_cfg" default="-0.4"/>
+    <arg name="max_height_cfg" default="0.2"/>
 
     <node ns="$(arg ns)" name="pub_cloud" pkg="hope" type="pub_cloud" respawn="false">
         <param name="camera_frame" value="$(arg camera_frame)" />
@@ -30,12 +33,11 @@
         <param name="cloud_topic" value="$(arg cloud_topic)" />
         <param name="xy_resolution" value="0.05" />
         <param name="z_resolution" value="0.02" />
+        <param name="min_height_cfg" value="$(arg min_height_cfg)" />
+        <param name="max_height_cfg" value="$(arg max_height_cfg)" />
     </node>
 
     <node pkg="tf2_ros" type="static_transform_publisher" name="head_to_camera"
           args="0 0.071 0.0056 0. -0.1736  0.9848  0. head_l3 head_camera" />
-
-<!--    <node pkg="tf2_ros" type="static_transform_publisher" name="base_to_head"-->
-<!--          args="0.084 0. 0.1918 0.5 0.5 0.5 0.5 base_link head_l3" />-->
 
 </launch>

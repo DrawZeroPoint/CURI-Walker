@@ -9,6 +9,8 @@
 
 #include <behaviortree_cpp_v3/bt_factory.h>
 
+#include <utility>
+
 
 // std_msgs/Header
 struct Header {
@@ -111,6 +113,19 @@ struct PoseArray {
   }
 };
 
+// float64[]
+struct Doubles {
+  std::vector<double> values;
+
+  inline std::vector<double> toROS() const {
+    return this->values;
+  }
+
+  inline void fromROS(std::vector<double> v) {
+    this->values = std::move(v);
+  }
+};
+
 /**
  * Note that BT::convertFromString() do not support template specialization of float,
  * so we use double for all the float values.
@@ -171,6 +186,17 @@ namespace BT
         p.ow = convertFromString<double>(parts[6]);
         output.poses.push_back(p);
       }
+    }
+    return output;
+  }
+
+  template <> inline Doubles convertFromString(StringView str) {
+    // We expect real numbers separated by spaces
+    auto parts = splitString(str, ' ');
+
+    Doubles output;
+    for (auto p : parts) {
+      output.values.push_back(convertFromString<double>(p));
     }
     return output;
   }

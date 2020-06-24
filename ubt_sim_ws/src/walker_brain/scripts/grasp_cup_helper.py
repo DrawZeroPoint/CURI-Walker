@@ -4,7 +4,7 @@ from __future__ import print_function
 
 import rospy
 
-from geometry_msgs.msg import Twist, Pose2D
+from geometry_msgs.msg import Twist, Pose2D, PoseArray
 from walker_brain.srv import EstimateTargetPose, EstimateTargetPoseResponse, MoveToPose2D, MoveToPose2DResponse
 from walker_srvs.srv import leg_motion_MetaFuncCtrl, leg_motion_MetaFuncCtrlRequest
 
@@ -21,6 +21,17 @@ class EstimateServer(object):
         self._y_offset = rospy.get_param('~y_offset')
         self._z_offset = rospy.get_param('~z_offset')
 
+    @staticmethod
+    def sort_poses(pose_array):
+        """Sort the given Pose list according to poses' y coordinates,
+        return pose list with y descending
+
+        :param pose_array: List[Pose] equal to PoseArray.poses
+        """
+        sorted_poses = PoseArray()
+        pose_array.sort(key=lambda p: p.position.y, reverse=True)
+        return pose_array
+
     def handle(self, req):
         resp = EstimateTargetPoseResponse()
 
@@ -31,20 +42,29 @@ class EstimateServer(object):
             return resp
         else:
             grasp_num = self._tgt_id + 1
-            tgt_pose = req.obj_poses.poses[self._tgt_id]
+            rospy.loginfo("Brain: Unsorted poses {}\n".format(req.obj_poses.poses))
+            sorted_poses = self.sort_poses(req.obj_poses.poses)
+            rospy.loginfo("Brain: Sorted poses {}\n".format(sorted_poses))
+
+            tgt_pose = sorted_poses[self._tgt_id]
             rospy.loginfo("Brain: Got pose of target {} \n {}\n".format(grasp_num, tgt_pose))
             resp.tgt_nav_pose = Pose2D()
             resp.tgt_nav_pose.x = tgt_pose.position.x - self._x_offset
-            resp.tgt_nav_pose.y = tgt_pose.position.y + self._y_offset
+            resp.tgt_nav_pose.y = tgt_pose.position.y - self._y_offset
             resp.tgt_nav_pose.theta = 0
 
             resp.tgt_grasp_pose.position.x = self._x_offset
-            resp.tgt_grasp_pose.position.y = -self._y_offset
+            resp.tgt_grasp_pose.position.y = self._y_offset
             resp.tgt_grasp_pose.position.z = tgt_pose.position.z
-            resp.tgt_grasp_pose.orientation = tgt_pose.orientation
+            resp.tgt_grasp_pose.orientation.x = -0.012
+            resp.tgt_grasp_pose.orientation.y = -0.010
+            resp.tgt_grasp_pose.orientation.z = 0.006
+            resp.tgt_grasp_pose.orientation.w = 1
+            rospy.loginfo("Brain: Planned grasp pose {}\n".format(resp.tgt_grasp_pose))
 
             resp.tgt_pre_grasp_pose = resp.tgt_grasp_pose
-            resp.tgt_pre_grasp_pose.position.z += self._z_offset
+            resp.tgt_pre_grasp_pose.position.z = 0
+            rospy.loginfo("Brain: Planned pre grasp pose {}\n".format(resp.tgt_pre_grasp_pose))
 
             resp.result_status = resp.SUCCEEDED
 
@@ -74,6 +94,7 @@ class MoveToPoseServer(object):
         if x_offset == 0:
             return
 
+        self.call("start")
         vel = Twist()
         if x_offset > 0:
             vel.linear.x = self._x_primary_vel
@@ -86,7 +107,6 @@ class MoveToPoseServer(object):
 
         residual = abs(x_offset) - step_num_x * self._x_primary_vel
         if residual <= 0.005:
-            self.on_stop()
             return
 
         if x_offset > 0:
@@ -97,7 +117,6 @@ class MoveToPoseServer(object):
         step_num_x = int(abs(residual) / self._x_fine_vel)
         rospy.loginfo("Brain: Steps along x for {} steps in fine speed".format(step_num_x))
         rospy.sleep(step_num_x * 0.7)
-        self.on_stop()
 
     def move_along_y(self, y_offset):
         if y_offset == 0:
@@ -115,7 +134,6 @@ class MoveToPoseServer(object):
 
         residual = abs(y_offset) - step_num_y * self._y_primary_vel
         if residual <= 0.005:
-            self.on_stop()
             return
 
         if y_offset > 0:
@@ -126,14 +144,14 @@ class MoveToPoseServer(object):
         step_num_y = int(abs(residual) / self._y_fine_vel) * 2
         rospy.loginfo("Brain: Steps along y for {} steps in fine speed".format(step_num_y))
         rospy.sleep(step_num_y * 0.7)
-        self.on_stop()
 
     def handle(self, req):
         resp = MoveToPose2DResponse()
+
         self.call("start")
         self.move_along_x(req.nav_pose.x)
         self.move_along_y(req.nav_pose.y)
-        self.call("stop")
+        self.on_stop()
         resp.result_status = resp.SUCCEEDED
         return resp
 
