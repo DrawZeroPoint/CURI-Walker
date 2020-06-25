@@ -69,6 +69,13 @@ target_link_libraries(grasp_cup_node
   ${PROJECT_NAME}
 )
 
+add_executable(open_fridge_node src/open_fridge_node.cpp)
+add_dependencies(open_fridge_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(open_fridge_node
+  ${catkin_LIBRARIES}
+  ${PROJECT_NAME}
+)
+
 add_executable(dummy_test_node src/dummy_test_node.cpp)
 add_dependencies(dummy_test_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(dummy_test_node

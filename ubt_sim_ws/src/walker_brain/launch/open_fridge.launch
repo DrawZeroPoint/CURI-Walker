@@ -1,0 +1,11 @@
+<launch>
+    <!-- Usage: roslaunch walker_brain open_fridge.launch -->
+    <!-- Before launching this, launch prepare.launch -->
+
+    <param name="/use_sim_time" value="true" />
+
+    <node pkg="walker_brain" type="open_fridge_node" name="open_fridge_node" output="screen">
+        <param name="tree_file" value="$(find walker_brain)/tree/open_fridge_$(arg task_id).xml" />
+    </node>
+
+</launch>
