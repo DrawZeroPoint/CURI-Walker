@@ -119,7 +119,7 @@ namespace BT
     manifest.ports = DerivedT::providedPorts();
     manifest.registration_ID = registration_ID;
     const auto& basic_ports = RosServiceNode< typename DerivedT::ServiceType>::providedPorts();
-    manifest.ports.insert( basic_ports.begin(), basic_ports.end() );
+    manifest.ports.insert(basic_ports.begin(), basic_ports.end());
 
     factory.registerBuilder(manifest, builder);
   }

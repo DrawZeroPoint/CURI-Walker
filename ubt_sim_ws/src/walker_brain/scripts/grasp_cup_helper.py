@@ -126,11 +126,12 @@ class MoveToPoseServer(object):
             pn = '-'
             vel.linear.y = -y_vel
         self._vel_puber.publish(vel)
-        step_num_y = int(abs(y_offset) / y_vel) * 2
+        step_num_y = int(abs(y_offset) / y_vel)
         rospy.loginfo("Brain: Steps along {}y for {} steps ({} m/step)".format(pn, step_num_y, y_vel))
-        rospy.sleep((step_num_y + 2) * 0.7)
+        # For Walker slides, each step takes twice the time, add 2 for stabling
+        rospy.sleep((step_num_y * 2 + 2) * 0.7)
 
-        residual = abs(y_offset) - step_num_y * self._y_primary_vel
+        residual = abs(y_offset) - step_num_y * y_vel
         return residual
 
     def handle(self, req):
@@ -139,13 +140,13 @@ class MoveToPoseServer(object):
 
         y_vel_init_ = self._y_primary_vel
         residual = req.nav_pose.y
-        while residual > self._y_min_step and y_vel_init_ >= self._y_min_step:
+        while abs(residual) > self._y_min_step and y_vel_init_ >= self._y_min_step:
             residual = self.move_along_y(residual, y_vel_init_)
             y_vel_init_ /= 2.0
 
         x_vel_init_ = self._x_primary_vel
         residual = req.nav_pose.x
-        while residual > self._x_min_step and x_vel_init_ >= self._x_min_step:
+        while abs(residual) > self._x_min_step and x_vel_init_ >= self._x_min_step:
             residual = self.move_along_x(residual, x_vel_init_)
             x_vel_init_ /= 2.0
 

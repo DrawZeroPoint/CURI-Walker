@@ -4,6 +4,18 @@
 
     <param name="/use_sim_time" value="true" />
 
+    <arg name="task_id" default="11"/>
+
+    <node pkg="walker_brain" type="walk_helper.py" name="walk_helper" output="screen">
+    </node>
+
+    <node pkg="walker_brain" type="open_fridge_helper.py" name="open_fridge_helper" output="screen">
+        <!-- In webots world frame -->
+        <!-- Fridge door surface center: x:-8.0, z:2.6; Robot: x:-7.62, z:3.03 -->
+        <param name="x_offset" value="0.38" />
+        <param name="y_offset" value="0.43" />
+    </node>
+
     <node pkg="walker_brain" type="open_fridge_node" name="open_fridge_node" output="screen">
         <param name="tree_file" value="$(find walker_brain)/tree/open_fridge_$(arg task_id).xml" />
     </node>

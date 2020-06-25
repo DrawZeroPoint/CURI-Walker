@@ -20,6 +20,54 @@
 
 using namespace BT;
 
+class ExecuteJointStates : public RosActionNode<walker_movement::MoveToJointPoseAction>
+{
+public:
+  ExecuteJointStates(ros::NodeHandle& handle, const std::string& name, const NodeConfiguration & cfg):
+    RosActionNode<walker_movement::MoveToJointPoseAction>(handle, name, cfg), name_(name) {}
+
+  static PortsList providedPorts() {
+    return {
+      InputPort<JointAngles>("execute_pose"),
+      //OutputPort<int>("result_status")
+    };
+  }
+
+  bool onSendGoal(GoalType& goal) override {
+    JointAngles execute_pose{};
+    getInput<JointAngles>("execute_pose", execute_pose);
+    goal.pose = execute_pose.toROS();
+    ROS_INFO("Brain: %s sending request", name_.c_str());
+    return true;
+  }
+
+  NodeStatus onResult(const ResultType& res) override {
+    ROS_INFO("Brain: %s result received", name_.c_str());
+    if (res.succeded) {
+      ROS_INFO("Brain: %s response SUCCEEDED.", name_.c_str());
+      return NodeStatus::SUCCESS;
+    } else {
+      ROS_INFO("Brain: %s response FAILURE.", name_.c_str());
+      return NodeStatus::FAILURE;
+    }
+  }
+
+  virtual NodeStatus onFailedRequest(FailureCause failure) override {
+    ROS_ERROR("Brain: %s request failed %d", name_.c_str(), static_cast<int>(failure));
+    return NodeStatus::FAILURE;
+  }
+
+  void halt() override {
+    if(status() == NodeStatus::RUNNING) {
+      ROS_WARN("Brain: %s halted", name_.c_str());
+      BaseClass::halt();
+    }
+  }
+
+private:
+  std::string name_;
+};
+
 class SenseObjectPoses : public RosServiceNode<hope::ExtractObjectOnTop>
 {
 public:
@@ -76,8 +124,6 @@ public:
       BT::InputPort<PoseArray>("obj_poses"),
       BT::OutputPort<int>("result_status"),
       BT::OutputPort<Pose2D>("tgt_nav_pose"),
-      BT::OutputPort<Pose>("tgt_grasp_pose"),
-      BT::OutputPort<Pose>("tgt_pre_grasp_pose")
     };
   }
 
@@ -95,14 +141,6 @@ public:
       Pose2D tgt_nav_pose{};
       tgt_nav_pose.fromROS(response.tgt_nav_pose);
       setOutput("tgt_nav_pose", tgt_nav_pose);
-
-      Pose tgt_grasp_pose{};
-      tgt_grasp_pose.fromROS(response.tgt_grasp_pose);
-      setOutput("tgt_grasp_pose", tgt_grasp_pose);
-
-      Pose tgt_pre_grasp_pose{};
-      tgt_pre_grasp_pose.fromROS(response.tgt_pre_grasp_pose);
-      setOutput("tgt_pre_grasp_pose", tgt_pre_grasp_pose);
 
       ROS_INFO("Brain: %s response SUCCEEDED.", name_.c_str());
       return BT::NodeStatus::SUCCESS;
@@ -321,9 +359,11 @@ int main(int argc, char **argv)
   BT::BehaviorTreeFactory factory;
 
   // The recommended way to create a Node is through inheritance.
+  RegisterRosAction<ExecuteJointStates>(factory, "ExecuteHeadMove", nh);
   RegisterRosService<SenseObjectPoses>(factory, "SenseObjectPoses", nh);
   RegisterRosService<EstimateTargetPose>(factory, "EstimateTargetPose", nh);
   RegisterRosService<ExecuteMoveBase>(factory, "ExecuteMoveBase", nh);
+  RegisterRosService<ExecuteMoveBase>(factory, "ExecuteAdjustBase", nh);
   RegisterRosAction<ExecuteFKMove>(factory, "ExecutePrePose", nh);
 
   auto tree = factory.createTreeFromFile(tree_file);
