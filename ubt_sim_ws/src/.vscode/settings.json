@@ -1,7 +1,0 @@
-{
-    "python.autoComplete.extraPaths": [
-        "/home/mfernandes/repos/Simucenas/CURI-Walker/ubt_sim_ws/devel/lib/python2.7/dist-packages",
-        "/home/mfernandes/repos/Simucenas/CURI-Walker/walker_install/lib/python2.7/dist-packages",
-        "/opt/ros/melodic/lib/python2.7/dist-packages"
-    ]
-}

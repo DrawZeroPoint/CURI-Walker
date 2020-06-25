@@ -10,7 +10,7 @@
     </include>
 
     <include file="$(find walker_brain)/launch/includes/process_pointcloud.launch.xml">
-        <arg name="min_height_cfg" default="-1.2"/>
+        <arg name="min_height_cfg" default="-1.1"/>
         <arg name="max_height_cfg" default="0.2"/>
     </include>
 
@@ -18,7 +18,7 @@
         <arg name="account_file" value="$(find leg_motion)/launch/user_account.json" />
     </include>
 
-    <node pkg="walker_brain" type="open_fridge_server.py" name="open_fridge_server" output="screen">
+    <node pkg="walker_brain" type="push_cart_server.py" name="push_cart_server" output="screen">
     </node>
 
 </launch>
