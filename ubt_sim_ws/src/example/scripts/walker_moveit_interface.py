@@ -103,7 +103,8 @@ def task_1_cb(data):
         left_arm_interface.go_home()
     else:
         # switch the light on
-        left_arm_interface.go_through_poses([prepare_ros_pose, activate_ros_pose])
+        left_arm_interface.go_through_joint_states([prepare_js_rad, activate_js_rad])
+        # left_arm_interface.go_through_poses([prepare_ros_pose, activate_ros_pose])
 
 
 def test_cb(data):

@@ -1,6 +1,6 @@
 <launch>
     <!-- Usage: roslaunch walker_brain grasp_cup.launch task_id:=2 cup_id:=1 -->
-    <!-- Before launching this, launch prepare.launch -->
+    <!-- Before launching this, launch prepare_grasp_cup.launch -->
 
     <param name="/use_sim_time" value="true" />
 
