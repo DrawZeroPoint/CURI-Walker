@@ -51,3 +51,8 @@ cmd: 'start'"
 2. Head rgbd + camera infos
 3. bottom rgbd + camera infos
 4. right and left fisheye cameras + camera info
+
+
+## Calling the movement service
+
+The mov.py file in the scripts folder presents an example of the service call and, at the same time, is the code used to execute the navigation tasks, including the poses.
