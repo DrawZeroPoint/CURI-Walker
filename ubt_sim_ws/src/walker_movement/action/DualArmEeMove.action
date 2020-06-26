@@ -1,0 +1,17 @@
+
+#goal definition
+
+# Target end effector pose, you can specify the frame of the pose in header.frame_id
+geometry_msgs/PoseStamped left_pose
+geometry_msgs/PoseStamped right_pose
+
+#You can specify here the name of the end effector to move. Leave empty to move to the default (which is the tcp pose)
+string left_end_effector_link
+string right_end_effector_link
+
+---
+#result definition
+bool succeded
+string error_message
+---
+#feedback
