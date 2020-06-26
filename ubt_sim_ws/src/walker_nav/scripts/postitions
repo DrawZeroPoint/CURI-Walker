@@ -1,0 +1,59 @@
+#Initial Non finetunned positions.
+#Trolley
+target_pose:
+  header:
+    seq: 0
+    stamp:
+      secs: 29
+      nsecs: 594000000
+    frame_id: "map"
+  pose:
+    position:
+      x: -1.90995034546
+      y: 3.34427422178
+      z: -0.0229520212063
+    orientation:
+      x: -0.00468332031371
+      y: -0.00216545852061
+      z: -0.644841606148
+      w: 0.764298816092
+
+
+#Can Table
+target_pose:
+  header:
+    seq: 0
+    stamp:
+      secs: 68
+      nsecs: 709000000
+    frame_id: "map"
+  pose:
+    position:
+      x: 3.32646675233
+      y: 1.21359697568
+      z: 0.000710504243298
+    orientation:
+      x: -0.00795002334806
+      y: 0.00127581680056
+      z: -0.0121379918341
+      w: 0.99989391366
+
+
+#Fridge
+target_pose:
+  header:
+    seq: 0
+    stamp:
+      secs: 126
+      nsecs: 439000000
+    frame_id: "map"
+  pose:
+    position:
+      x: -0.848114541904
+      y: 8.52213968322
+      z: 0.0267150481185
+    orientation:
+      x: -0.0110687064314
+      y: 0.0074370792366
+      z: 0.703028381245
+      w: 0.711036756262

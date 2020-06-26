@@ -14,6 +14,8 @@ def head_rgb_callback(msg):
     camera_info_msg = CameraInfo()
     camera_info_msg.width = 640
     camera_info_msg.height = 480
+    camera_info_msg.distortion_model = "plumb_bob"
+    camera_info_msg.D = list((0,0,0,0,0))
     camera_info_msg.K = list((521.1711084,0,320,0,547.7089685,240,0,0,1))
     camera_info_msg.R = list((0,0,0,0,0,0,0,0,0))
     camera_info_msg.P = list((521.1711084,0,320,0,0,547.7089685,240,0,0,0,1,0))
@@ -29,6 +31,8 @@ def head_depth_callback(msg):
     camera_info_msg = CameraInfo()
     camera_info_msg.width = 640
     camera_info_msg.height = 480
+    camera_info_msg.distortion_model = "plumb_bob"
+    camera_info_msg.D = list((0,0,0,0,0))
     camera_info_msg.K = list((521.1711084,0,320,0,547.7089685,240,0,0,1))
     camera_info_msg.R = list((0,0,0,0,0,0,0,0,0))
     camera_info_msg.P = list((521.1711084,0,320,0,0,547.7089685,240,0,0,0,1,0))
@@ -44,6 +48,8 @@ def bottom_rgb_callback(msg):
     camera_info_msg = CameraInfo()
     camera_info_msg.width = 640
     camera_info_msg.height = 480
+    camera_info_msg.distortion_model = "plumb_bob"
+    camera_info_msg.D = list((0,0,0,0,0))
     camera_info_msg.K = list((521.1711084,0,320,0,547.7089685,240,0,0,1))
     camera_info_msg.R = list((0,0,0,0,0,0,0,0,0))
     camera_info_msg.P = list((521.1711084,0,320,0,0,547.7089685,240,0,0,0,1,0))
@@ -59,6 +65,8 @@ def bottom_depth_callback(msg):
     camera_info_msg = CameraInfo()
     camera_info_msg.width = 640
     camera_info_msg.height = 480
+    camera_info_msg.distortion_model = "plumb_bob"
+    camera_info_msg.D = list((0,0,0,0,0))
     camera_info_msg.K = list((521.1711084,0,320,0,547.7089685,240,0,0,1))
     camera_info_msg.R = list((0,0,0,0,0,0,0,0,0))
     camera_info_msg.P = list((521.1711084,0,320,0,0,547.7089685,240,0,0,0,1,0))
@@ -75,6 +83,8 @@ def left_fish_rgb_callback(msg):
     camera_info_msg = CameraInfo()
     camera_info_msg.width = 640
     camera_info_msg.height = 480
+    camera_info_msg.distortion_model = "plumb_bob"
+    camera_info_msg.D = list((0,0,0,0,0))
     camera_info_msg.K = list((288.1292942,0,320,0,330.3316609,240,0,0,1))
     camera_info_msg.R = list((0,0,0,0,0,0,0,0,0))
     camera_info_msg.P = list((288.1292942,0,320,0,0,330.3316609,240,0,0,0,1,0))
@@ -90,6 +100,8 @@ def right_fish_rgb_callback(msg):
     camera_info_msg = CameraInfo()
     camera_info_msg.width = 640
     camera_info_msg.height = 480
+    camera_info_msg.distortion_model = "plumb_bob"
+    camera_info_msg.D = list((0,0,0,0,0))
     camera_info_msg.K = list((288.1292942,0,320,0,330.3316609,240,0,0,1))
     camera_info_msg.R = list((0,0,0,0,0,0,0,0,0))
     camera_info_msg.P = list((288.1292942,0,320,0,0,330.3316609,240,0,0,0,1,0))
