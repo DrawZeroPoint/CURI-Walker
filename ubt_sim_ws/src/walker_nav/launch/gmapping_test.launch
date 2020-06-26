@@ -1,0 +1,113 @@
+<launch>
+
+    <include file="$(find leg_motion)/launch/walker2_leg.launch">
+        <arg name="account_file" value="/home/mfernandes/repos/Simucenas/CURI-Walker/user_account.json"/>
+      </include>
+
+    <node name="camera_repub" pkg="walker_nav" type="camera_info.py" respawn="true" output="screen" />
+    <node pkg="nodelet" type="nodelet" args="manager" name="depth_conv_manager" output="screen"/>
+    <node pkg="nodelet" type="nodelet" name="cloudify" args="load depth_image_proc/point_cloud_xyz depth_conv_manager --no-bond">
+      <remap from="image_rect" to="/walker/camera/depth_framed/headDepth"/>
+      <remap from="camera_info" to="/walker/camera/depth_framed/camera_info"/>
+      <remap from="points" to="/walker/camera/headPointCloud"/>
+    </node>
+
+    <node pkg="rtabmap_ros" type="rgbd_odometry" name="rgbd_odom" args="">
+      <remap from="depth/image" to="/walker/camera/depth_framed/headDepth" />
+      <remap from="rgb/image" to="/walker/camera/rgb_framed/headRGB" />
+      <remap from="rgb/camera_info" to="/walker/camera/rgb_framed/camera_info" />
+      <!-- <remap from="odom" to="vis_odom"/> -->
+      </node>
+
+    <include file="$(find walker_webots_hardware_interface)/launch/moveit.launch">
+        <arg name="show_rviz" value="false"/>
+      </include>
+      <node pkg="tf" type="static_transform_publisher" name="head_cam_tf" args="0 0 0 -3.14 0 -0.34 /head_l3 /head_camera 10"/>
+    <node pkg="tf" type="static_transform_publisher" name="head_cam_tf_2" args="0 0 -0.10 0 -1.57 -1.57 /head_l3 /laser_scan 10"/> 
+
+    <node pkg="nodelet" type="nodelet" name="depthimage_to_laserscan" args="load depthimage_to_laserscan/DepthImageToLaserScanNodelet depth_conv_manager">
+        <param name="scan_height" value="10"/>
+        <param name="output_frame_id" value="/laser_scan"/>
+        <param name="range_min" value="0.45"/>
+        <param name="range_max" value="10.0"/>
+        <remap from="image" to="/walker/camera/depth_framed/headDepth"/>
+        <remap from="camera_info" to="/walker/camera/depth_framed/camera_info"/>
+        <remap from="scan" to="/walker/camera/depth_lscan"/>
+    </node>
+
+    <node pkg="nodelet" type="nodelet" name="pcl_to_laserscan" args="load pointcloud_to_laserscan/pointcloud_to_laserscan_nodelet depth_conv_manager">
+        <!-- <param name="angle_min" /> -->
+        <param name="min_height" value="-1.0"/>
+        <param name="max_height" value="2.0"/>
+        <param name="angle_min" value="-2.35619449019"/>
+        <param name="angle_max" value="2.35183116707"/>
+        <param name="angle_increment" value="0.00436332312"/>
+
+        <param name="range_min" value="0.45"/>
+        <param name="range_max" value="10.0"/>
+        <param name="target_frame" value="laser_scan"/>
+        <remap from="cloud_in" to="/walker/camera/headPointCloud"/>
+        <remap from="scan" to="/walker/camera/pcl_lscan"/>
+    </node>
+
+    <include file="$(find walker_nav)/launch/move_base.launch">
+    </include>
+    <node name="movebaseservices" pkg="walker_nav" type="movement_services_node.py" respawn="true" output="screen" />
+
+    <node name="map_server" pkg="map_server" type="map_server" args="$(find walker_nav)/map/bigmap/map.yaml" />
+     <!-- AMCL -->
+     <node pkg="amcl" type="amcl" name="amcl" output="screen">
+        <remap from="scan" to="/walker/camera/pcl_lscan" />   
+<!--         
+        <param name="update_min_d" value="-1"/>  
+        <param name="update_min_a" value="-1"/>  
+      -->
+      <param name="initial_pose_x" value="-0.192062139511"/>  
+      <param name="initial_pose_y" value="-6.26176309586"/>  
+      <param name="initial_cov_xx" value="2"/>  
+      <param name="initial_cov_yy" value="1"/>  
+      <param name="initial_cov_aa" value="6.28319"/>  
+
+    </node>
+
+<!-- 
+header:  Initial Area
+  seq: 6
+  stamp: 
+    secs: 24
+    nsecs: 450000000
+  frame_id: "map"
+point: 
+  x: -0.192062139511
+  y: -6.26176309586
+  z: 0.00713539123535
+ 
+header:  Cup table
+  seq: 7
+  stamp: 
+    secs: 25
+    nsecs: 341000000
+  frame_id: "map"
+point: 
+  x: 3.49605941772
+  y: 1.20013380051
+  z: 0.00183010101318
+
+
+
+ -->
+
+
+    <!-- <node pkg="slam_karto" name="karto" type="slam_karto">
+        <remap from="scan" to="/walker/camera/pcl_lscan"/>
+    </node> -->
+
+    <!-- <node pkg="gmapping" type="slam_gmapping" name="gmapping_thing" output="screen" >
+      <remap from="scan" to="/walker/camera/pcl_lscan" />
+      <param name="xmin" value="-10.0"/>
+      <param name="xmax" value="10.0"/>
+      <param name="ymin" value="-10.0"/>
+      <param name="ymax" value="10.0"/>
+    </node> -->
+
+</launch>

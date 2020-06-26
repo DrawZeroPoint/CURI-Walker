@@ -1,18 +1,19 @@
 TrajectoryPlannerROS:
   max_vel_x: 0.32
-  min_vel_x: -0.32
-  max_vel_y: 0.04
-  min_vel_y: -0.04
+  min_vel_x: 0.1
   max_rotational_vel: 0.35
   min_in_place_rotational_vel: 0.005
 
-  acc_lim_th: 2.
-  acc_lim_x: 1.5
-  acc_lim_y: 0.
-
+  backup_vel: -0.35
   holonomic_robot: false
+  y_vels: [-0.4, -0.1, 0.1, 0.4]
 
-  controller_frequency: 500
+  # acc_lim_th: 2.
+  # acc_lim_x: 1.5
+  # acc_lim_y: 0.
+
+
+  # controller_frequency: 0.07
 
 
 EBandPlannerROS:
@@ -22,9 +23,8 @@ EBandPlannerROS:
   min_vel_th: -0.35
   max_rotational_vel: 0.35
   min_in_place_rotational_vel: 0.005
-  xy_goal_tolerance: 0.2
-
-  holonomic_robot: false
-
-  Control_Rate: 500
+  xy_goal_tolerance: 0.20
+  yaw_goal_tolerance: 0.1
+  differential_drive: true
+  Ctrl_Rate: 0.07
 

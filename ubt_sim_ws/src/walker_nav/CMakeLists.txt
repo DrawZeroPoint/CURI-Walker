@@ -21,6 +21,7 @@ add_service_files(
   FILES
   MoveToAbsPos.srv
   MoveToRelPos.srv
+  SavePos.srv
 )
 
 ## Generate actions in the 'action' folder
