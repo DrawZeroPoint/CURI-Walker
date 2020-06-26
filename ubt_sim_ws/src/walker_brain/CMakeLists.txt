@@ -20,6 +20,8 @@ find_package(GTest)
 add_service_files(
   FILES
   Dummy.srv
+  EstimateTargetPose.srv
+  MoveToPose2D.srv
 )
 
 add_action_files(
@@ -40,6 +42,7 @@ add_message_files(
 generate_messages(
   DEPENDENCIES
   std_msgs
+  geometry_msgs
   actionlib_msgs
 )
 
@@ -51,7 +54,43 @@ catkin_package(
 
 include_directories(include ${catkin_INCLUDE_DIRS})
 
+# Declare a C++ library
+add_library(${PROJECT_NAME}
+  src/lib/rosout_logger.cpp
+)
+target_link_libraries(${PROJECT_NAME}
+  ${catkin_LIBRARIES}
+)
+
 add_executable(grasp_cup_node src/grasp_cup_node.cpp)
 add_dependencies(grasp_cup_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(grasp_cup_node ${catkin_LIBRARIES} )
+target_link_libraries(grasp_cup_node
+  ${catkin_LIBRARIES}
+  ${PROJECT_NAME}
+)
 
+add_executable(switch_light_node src/switch_light_node.cpp)
+add_dependencies(switch_light_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(switch_light_node
+  ${catkin_LIBRARIES}
+  ${PROJECT_NAME}
+)
+
+add_executable(open_fridge_node src/open_fridge_node.cpp)
+add_dependencies(open_fridge_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(open_fridge_node
+  ${catkin_LIBRARIES}
+  ${PROJECT_NAME}
+)
+
+add_executable(dummy_test_node src/dummy_test_node.cpp)
+add_dependencies(dummy_test_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(dummy_test_node
+  ${catkin_LIBRARIES}
+  ${PROJECT_NAME}
+)
+
+
+add_executable(dummy_server test/dummy_server.cpp)
+add_dependencies(dummy_server ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(dummy_server ${catkin_LIBRARIES})

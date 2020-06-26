@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<root main_tree_to_execute="BehaviorTree">
+    <!-- ////////// -->
+    <BehaviorTree ID="BehaviorTree">
+        <Sequence>
+            <Action ID="ExecutePrePose" execute_pose="23 -60 -95 -109 10 -11 -25" server_name="/walker/move_helper_left_arm/move_to_joint_pose"/>
+            <Action ID="ExecutePrePose" execute_pose="158 -52 77 -75 -56 1 8" server_name="/walker/move_helper_left_arm/move_to_joint_pose"/>
+        </Sequence>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <TreeNodesModel>
+        <Action ID="ExecutePrePose">
+            <input_port name="execute_pose"/>
+            <input_port default="/walker/move_helper_left_arm/move_to_joint_pose" name="server_name"/>
+        </Action>
+    </TreeNodesModel>
+    <!-- ////////// -->
+</root>
+

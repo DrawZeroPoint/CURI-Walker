@@ -1,0 +1,12 @@
+<launch>
+    <!-- Usage: roslaunch walker_brain dummy_test.launch -->
+    <param name="/use_sim_time" value="false" />
+
+    <node pkg="walker_brain" type="dummy_server" name="dummy_server" output="screen">
+    </node>
+
+    <node pkg="walker_brain" type="dummy_test_node" name="dummy_test_node" output="screen">
+        <param name="tree_file" value="$(find walker_brain)/tree/dummy_test.xml" />
+    </node>
+
+</launch>

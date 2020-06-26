@@ -1,0 +1,30 @@
+TrajectoryPlannerROS:
+  max_vel_x: 0.32
+  min_vel_x: -0.32
+  max_vel_y: 0.04
+  min_vel_y: -0.04
+  max_rotational_vel: 0.35
+  min_in_place_rotational_vel: 0.005
+
+  acc_lim_th: 2.
+  acc_lim_x: 1.5
+  acc_lim_y: 0.
+
+  holonomic_robot: false
+
+  controller_frequency: 500
+
+
+EBandPlannerROS:
+  max_vel_lin: 0.32
+  max_vel_th: 0.35
+  min_vel_lin: -0.32
+  min_vel_th: -0.35
+  max_rotational_vel: 0.35
+  min_in_place_rotational_vel: 0.005
+  xy_goal_tolerance: 0.2
+
+  holonomic_robot: false
+
+  Control_Rate: 500
+

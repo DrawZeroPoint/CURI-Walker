@@ -1,0 +1,18 @@
+<launch>
+    <param name="/use_sim_time" value="true" />
+
+
+    <include file="$(find walker_webots_hardware_interface)/launch/moveit.launch">
+        <arg name="show_rviz" value="true" />
+    </include>
+
+    <include file="$(find walker_movement)/launch/helpers.launch">
+    </include>
+
+    <include file="$(find walker_brain)/launch/includes/process_pointcloud.launch.xml">
+    </include>
+
+    <include file="$(find leg_motion)/launch/walker2_leg.launch">
+        <arg name="account_file" value="$(find leg_motion)/launch/user_account.json" />
+    </include>
+</launch>
