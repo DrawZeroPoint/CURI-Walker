@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<launch>
+
+    <param name="/use_sim_time" value="true" />
+
+    <node name="camera_repub" pkg="walker_nav" type="camera_info.py" respawn="true" output="screen" />
+
+    <node pkg="nodelet" type="nodelet" args="manager" name="depth_conv_manager" output="screen"/>
+
+    <node pkg="nodelet" type="nodelet" name="cloudify" args="load depth_image_proc/point_cloud_xyz depth_conv_manager --no-bond">
+        <remap from="image_rect" to="/walker/camera/depth_framed/headDepth"/>
+        <remap from="camera_info" to="/walker/camera/depth_framed/camera_info"/>
+        <remap from="points" to="/walker/camera/headPointCloud"/>
+    </node>
+
+    <node pkg="rtabmap_ros" type="rgbd_odometry" name="rgbd_odom" args="">
+        <remap from="depth/image" to="/walker/camera/depth_framed/headDepth" />
+        <remap from="rgb/image" to="/walker/camera/rgb_framed/headRGB" />
+        <remap from="rgb/camera_info" to="/walker/camera/rgb_framed/camera_info" />
+        <!-- <remap from="odom" to="vis_odom"/> -->
+    </node>
+
+    <node pkg="tf" type="static_transform_publisher" name="head_cam_tf" args="0 0 0 -3.14 0 -0.34 /head_l3 /head_camera 10"/>
+    <node pkg="tf" type="static_transform_publisher" name="head_cam_tf_2" args="0 0 -0.10 0 -1.57 -1.57 /head_l3 /laser_scan 10"/>
+
+    <node pkg="nodelet" type="nodelet" name="pcl_to_laserscan" args="load pointcloud_to_laserscan/pointcloud_to_laserscan_nodelet depth_conv_manager">
+        <!-- <param name="angle_min" /> -->
+        <param name="min_height" value="-1.0"/>
+        <param name="max_height" value="2.0"/>
+        <param name="angle_min" value="-2.35619449019"/>
+        <param name="angle_max" value="2.35183116707"/>
+        <param name="angle_increment" value="0.00436332312"/>
+
+        <param name="range_min" value="0.45"/>
+        <param name="range_max" value="10.0"/>
+        <param name="target_frame" value="laser_scan"/>
+        <remap from="cloud_in" to="/walker/camera/headPointCloud"/>
+        <remap from="scan" to="/walker/camera/pcl_lscan"/>
+    </node>
+
+    <include file="$(find walker_nav)/launch/move_base.launch">
+    </include>
+
+    <node name="movebaseservices" pkg="walker_nav" type="movement_services_node.py" respawn="true" output="screen" />
+
+    <node name="map_server" pkg="map_server" type="map_server" args="$(find walker_nav)/map/bigmap/map.yaml" />
+
+    <!-- AMCL -->
+    <node pkg="amcl" type="amcl" name="amcl" output="screen">
+        <remap from="scan" to="/walker/camera/pcl_lscan" />
+        <param name="initial_pose_x" value="-0.192062139511"/>
+        <param name="initial_pose_y" value="-6.26176309586"/>
+        <param name="initial_cov_xx" value="2"/>
+        <param name="initial_cov_yy" value="1"/>
+        <param name="initial_cov_aa" value="6.28319"/>
+    </node>
+
+    <arg name="rviz_config" default="$(find walker_brain)/config/nav.rviz" />
+    <arg     if="$(eval rviz_config=='')" name="command_args" value="" />
+    <arg unless="$(eval rviz_config=='')" name="command_args" value="-d $(arg rviz_config)" />
+
+    <node name="$(anon rviz)" pkg="rviz" type="rviz" respawn="false"
+          args="$(arg command_args)" output="screen">
+    </node>
+
+</launch>

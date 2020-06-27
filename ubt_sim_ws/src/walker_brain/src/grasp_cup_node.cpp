@@ -10,6 +10,7 @@
 #include <walker_brain/EstimateTargetPose.h>
 #include <walker_brain/MoveToPose2D.h>
 #include <hope/ExtractObjectOnTop.h>
+#include <walker_nav/MoveToAbsPos.h>
 //#include <walker_nav/MoveToRelPos.h>
 
 // Actions (customized)
@@ -19,6 +20,39 @@
 
 
 using namespace BT;
+
+class ExecuteMoveToAbsPos : public RosServiceNode<walker_nav::MoveToAbsPos>
+{
+public:
+  ExecuteMoveToAbsPos(ros::NodeHandle &nh, const std::string& name, const BT::NodeConfiguration & cfg) :
+    RosServiceNode<walker_nav::MoveToAbsPos>(nh, name, cfg), name_(name) {}
+
+  static BT::PortsList providedPorts() {
+    return {
+      BT::InputPort<Pose>("pose")
+    };
+  }
+
+  void onSendRequest(RequestType &request) override {
+    Pose tgt_pose{};
+    getInput("pose", tgt_pose);
+    request.pose = tgt_pose.toROS();
+    ROS_INFO("Brain: %s sending request.", name_.c_str());
+  }
+
+  BT::NodeStatus onResponse(const ResponseType &response) override {
+    // TODO specify response in the srv
+    return BT::NodeStatus::SUCCESS;
+  }
+
+  virtual BT::NodeStatus onFailedRequest(RosServiceNode::FailureCause failure) override {
+    ROS_ERROR("Brain: %s request failed %d.", name_.c_str(), static_cast<int>(failure));
+    return BT::NodeStatus::FAILURE;
+  }
+
+private:
+  std::string name_;
+};
 
 class SenseObjectPoses : public RosServiceNode<hope::ExtractObjectOnTop>
 {
@@ -325,6 +359,7 @@ int main(int argc, char **argv)
   BT::BehaviorTreeFactory factory;
 
   // The recommended way to create a Node is through inheritance.
+  RegisterRosService<ExecuteMoveToAbsPos>(factory, "ExecuteMoveToAbsPos", nh);
   RegisterRosService<SenseObjectPoses>(factory, "SenseObjectPoses", nh);
   RegisterRosService<EstimateTargetPose>(factory, "EstimateTargetPose", nh);
   RegisterRosService<ExecuteMoveBase>(factory, "ExecuteMoveBase", nh);

@@ -3,7 +3,7 @@
 from __future__ import print_function
 
 import math
-import numpy
+import numpy as np
 import rospy
 
 from geometry_msgs.msg import Pose2D
@@ -11,7 +11,7 @@ from walker_brain.srv import EstimateTargetPose, EstimateTargetPoseResponse
 
 
 # epsilon for testing whether a number is close to zero
-_EPS = numpy.finfo(float).eps * 4.0
+_EPS = np.finfo(float).eps * 4.0
 
 # axis sequences for Euler angles
 _NEXT_AXIS = [1, 2, 0, 1]
@@ -31,18 +31,18 @@ _TUPLE2AXES = dict((v, k) for k, v in _AXES2TUPLE.items())
 
 
 def quaternion_matrix(quaternion):
-    q = numpy.array(quaternion[:4], dtype=numpy.float64, copy=True)
-    nq = numpy.dot(q, q)
+    q = np.array(quaternion[:4], dtype=np.float64, copy=True)
+    nq = np.dot(q, q)
     if nq < _EPS:
-        return numpy.identity(4)
+        return np.identity(4)
     q *= math.sqrt(2.0 / nq)
-    q = numpy.outer(q, q)
-    return numpy.array((
+    q = np.outer(q, q)
+    return np.array((
         (1.0-q[1, 1]-q[2, 2],     q[0, 1]-q[2, 3],     q[0, 2]+q[1, 3], 0.0),
         (    q[0, 1]+q[2, 3], 1.0-q[0, 0]-q[2, 2],     q[1, 2]-q[0, 3], 0.0),
         (    q[0, 2]-q[1, 3],     q[1, 2]+q[0, 3], 1.0-q[0, 0]-q[1, 1], 0.0),
         (                0.0,                 0.0,                 0.0, 1.0)
-    ), dtype=numpy.float64)
+    ), dtype=np.float64)
 
 
 def euler_from_matrix(matrix, axes='sxyz'):
@@ -56,7 +56,7 @@ def euler_from_matrix(matrix, axes='sxyz'):
     j = _NEXT_AXIS[i+parity]
     k = _NEXT_AXIS[i-parity+1]
 
-    M = numpy.array(matrix, dtype=numpy.float64, copy=False)[:3, :3]
+    M = np.array(matrix, dtype=np.float64, copy=False)[:3, :3]
     if repetition:
         sy = math.sqrt(M[i, j]*M[i, j] + M[i, k]*M[i, k])
         if sy > _EPS:
@@ -94,6 +94,7 @@ class EstimateServer(object):
 
         self._x_offset = rospy.get_param('~x_offset')
         self._y_offset = rospy.get_param('~y_offset')
+        self._r_th = rospy.get_param('~rotation_tolerance')
 
     @staticmethod
     def sort_poses(pose_array):
@@ -108,29 +109,35 @@ class EstimateServer(object):
     def handle(self, req):
         resp = EstimateTargetPoseResponse()
 
-        rospy.loginfo("Brain: Unsorted poses {}\n".format(req.obj_poses.poses))
+        for p in req.obj_poses.poses:
+            rospy.loginfo("Brain: Unsorted pose {}\n".format(p))
         if not req.obj_poses.poses:
+            rospy.logerr("Brain: No valid pose")
             resp.result_status = resp.FAILED
             return resp
 
         sorted_poses = self.sort_poses(req.obj_poses.poses)
-        rospy.logdebug("Brain: Sorted poses {}\n".format(sorted_poses))
-
         tgt_pose = sorted_poses[0]
+        rospy.loginfo("Brain: Got target pose \n {}\n".format(tgt_pose))
+
         T = quaternion_matrix([tgt_pose.orientation.x, tgt_pose.orientation.y,
                                tgt_pose.orientation.z, tgt_pose.orientation.w])
         rotation_on_z = euler_from_matrix(T)[-1]
-        print(rotation_on_z)
-        if abs(rotation_on_z) > 0.1:
-            rospy.logwarn("Brain: Bad observing position, changing spot...")
+        if abs(rotation_on_z) > self._r_th:
+            rospy.logwarn("Brain: Bad observing position, rotation along z is {}".format(rotation_on_z * 180. / np.pi))
             resp.result_status = resp.FAILED
             return resp
+        else:
+            rospy.loginfo("Brain: Rotation {}".format(rotation_on_z * 180. / np.pi))
 
-        rospy.loginfo("Brain: Got target pose \n {}\n".format(tgt_pose))
+        canonical_xy = np.array([-self._x_offset, self._y_offset])
+        rotated_xy = np.dot(T[0:2, 0:2], canonical_xy)
+
+        rospy.loginfo("canonical xy {}, rotated {}\n, T\n {}".format(canonical_xy, rotated_xy, T))
         resp.tgt_nav_pose = Pose2D()
-        resp.tgt_nav_pose.x = tgt_pose.position.x - self._x_offset
-        resp.tgt_nav_pose.y = tgt_pose.position.y + self._y_offset
-        resp.tgt_nav_pose.theta = 0
+        resp.tgt_nav_pose.x = tgt_pose.position.x + rotated_xy[0]
+        resp.tgt_nav_pose.y = tgt_pose.position.y + rotated_xy[1]
+        resp.tgt_nav_pose.theta = rotation_on_z
 
         resp.result_status = resp.SUCCEEDED
         return resp

@@ -3,16 +3,18 @@
     <!-- ////////// -->
     <BehaviorTree ID="BehaviorTree">
         <Sequence>
-            <Action ID="ExecuteHeadMove" execute_pose="-20 30" server_name="/walker/move_helper_head/move_to_joint_pose"/>
+            <Action ID="ExecuteWalkCmd" cmd="start" service_name="walk_cmd"/>
+            <Action ID="ExecuteMoveToAbsPos" pose="-1.8 3.35 -0.02 0 0 -0.64 0.76" service_name="/move_base/move_to_abs_pos"/>
+            <Action ID="ExecuteWalkCmd" cmd="stop" service_name="walk_cmd"/>
+            <Action ID="ExecuteHeadMove" execute_pose="0 30" server_name="/walker/move_helper_head/move_to_joint_pose"/>
             <RetryUntilSuccesful num_attempts="3">
                 <Sequence>
-                    <Action ID="ExecuteMoveBase" pose="0 -0.12 0" service_name="move_to_pose2d"/>
                     <Action ID="SenseObjectPoses" goal_id="box" poses="{detected_poses}" service_name="/head/extract_object_on_top"/>
                     <Action ID="EstimateTargetPose" obj_poses="{detected_poses}" service_name="estimate_target_pose" tgt_nav_pose="{target_nav_pose}"/>
                 </Sequence>
             </RetryUntilSuccesful>
             <Action ID="ExecuteMoveBase" pose="{target_nav_pose}" service_name="move_to_pose2d"/>
-            <Action ID="ExecutePrePose" service_name="open_fridge"/>
+            <Action ID="ExecutePrePose" service_name="push_cart"/>
         </Sequence>
     </BehaviorTree>
     <!-- ////////// -->
@@ -22,6 +24,10 @@
             <input_port default="estimate_target_pose" name="service_name"/>
             <output_port default="{target_nav_pose}" name="tgt_nav_pose"/>
         </Action>
+        <Action ID="ExecuteAdjustBase">
+            <input_port default="0 -0.12 0" name="pose"/>
+            <input_port default="move_to_pose2d" name="service_name"/>
+        </Action>
         <Action ID="ExecuteHeadMove">
             <input_port default="0 30" name="execute_pose"/>
             <input_port default="/walker/move_helper_head/move_to_joint_pose" name="server_name"/>
@@ -30,8 +36,16 @@
             <input_port default="{target_nav_pose}" name="pose"/>
             <input_port default="move_to_pose2d" name="service_name"/>
         </Action>
+        <Action ID="ExecuteMoveToAbsPos">
+            <input_port name="pose"/>
+            <input_port default="/move_base/move_to_abs_pos" name="service_name"/>
+        </Action>
         <Action ID="ExecutePrePose">
             <input_port default="open_fridge" name="service_name"/>
+        </Action>
+        <Action ID="ExecuteWalkCmd">
+            <input_port default="start" name="cmd"/>
+            <input_port default="walk_cmd" name="service_name"/>
         </Action>
         <Action ID="SenseObjectPoses">
             <input_port default="box" name="goal_id"/>
