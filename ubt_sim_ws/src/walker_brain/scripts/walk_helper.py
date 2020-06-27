@@ -7,7 +7,7 @@ import math
 
 from std_msgs.msg import String
 from geometry_msgs.msg import Twist, Pose2D
-from walker_brain.srv import MoveToPose2D, MoveToPose2DResponse
+from walker_brain.srv import MoveToPose2D, MoveToPose2DResponse, Dummy, DummyResponse
 from walker_srvs.srv import leg_motion_MetaFuncCtrl, leg_motion_MetaFuncCtrlRequest
 
 
@@ -17,6 +17,7 @@ class MoveToPoseServer(object):
         super(MoveToPoseServer, self).__init__()
 
         self._server = rospy.Service('move_to_pose2d', MoveToPose2D, self.handle)
+        self._walk_cmd_server = rospy.Service('walk_cmd', Dummy, self.cmd_handle)
         self._remote = rospy.ServiceProxy('/Leg/TaskScheduler', leg_motion_MetaFuncCtrl)
         self._ls = rospy.Subscriber('/Leg/leg_status', String, self.status_cb)
         self._vel_puber = rospy.Publisher('/nav/cmd_vel_nav', Twist, queue_size=1)
@@ -32,6 +33,14 @@ class MoveToPoseServer(object):
 
     def status_cb(self, msg):
         self._status = msg.data
+
+    def on_start(self):
+        while True:
+            self.call("start")
+            if self._status == "dynamic":
+                break
+            else:
+                rospy.logwarn("Brain: Gait status is {} after calling start".format(self._status))
 
     def on_stop(self):
         vel = Twist()
@@ -97,14 +106,22 @@ class MoveToPoseServer(object):
         residual = abs(offset) - step_num_r * abs_vel
         return residual
 
+    def cmd_handle(self, req):
+        resp = DummyResponse()
+        if req.header.frame_id == 'start':
+            self.on_start()
+            resp.result_status = resp.SUCCEEDED
+        elif req.header.frame_id == 'stop':
+            self.on_stop()
+            resp.result_status = resp.SUCCEEDED
+        else:
+            rospy.logerr("Brain: Unknown walk cmd {}".format(req.header.frame_id))
+            resp.result_status = resp.FAILED
+        return resp
+
     def handle(self, req):
         resp = MoveToPose2DResponse()
-        while True:
-            self.call("start")
-            if self._status == "dynamic":
-                break
-            else:
-                rospy.logwarn("Brain: Gait status is {} after calling start".format(self._status))
+        self.on_start()
 
         y_vel_init_ = self._y_primary_vel
         residual = req.nav_pose.y

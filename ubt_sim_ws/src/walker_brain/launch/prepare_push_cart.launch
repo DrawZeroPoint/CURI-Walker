@@ -1,6 +1,7 @@
 <launch>
     <param name="/use_sim_time" value="true" />
 
+    <arg name="nav" />
 
     <include file="$(find walker_webots_hardware_interface)/launch/moveit.launch">
         <arg name="show_rviz" value="false" />
@@ -18,7 +19,16 @@
         <arg name="account_file" value="$(find leg_motion)/launch/user_account.json" />
     </include>
 
+    <!-- We use this server to directly invoke the push cart movements -->
     <node pkg="walker_brain" type="push_cart_server.py" name="push_cart_server" output="screen">
     </node>
+
+    <node pkg="walker_brain" type="walk_helper.py" name="walk_helper" output="screen">
+    </node>
+
+    <group if="$(arg nav)">
+        <include file="$(find walker_brain)/launch/includes/navigation.launch.xml">
+        </include>
+    </group>
 
 </launch>

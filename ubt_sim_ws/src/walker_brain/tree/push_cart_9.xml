@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<root main_tree_to_execute="BehaviorTree">
+    <!-- ////////// -->
+    <BehaviorTree ID="BehaviorTree">
+        <Sequence>
+            <Action ID="ExecuteWalkCmd" cmd="start" service_name="walk_cmd"/>
+            <Action ID="ExecuteMoveToAbsPos" pose="-1.8 3.35 -0.02 0 0 -0.64 0.76" service_name="/move_base/move_to_abs_pos"/>
+            <Action ID="ExecuteWalkCmd" cmd="stop" service_name="walk_cmd"/>
+        </Sequence>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <TreeNodesModel>
+        <Action ID="ExecuteMoveToAbsPos">
+            <input_port name="pose"/>
+            <input_port default="/move_base/move_to_abs_pos" name="service_name"/>
+        </Action>
+        <Action ID="ExecuteWalkCmd">
+            <input_port default="start" name="cmd"/>
+            <input_port default="walk_cmd" name="service_name"/>
+        </Action>
+    </TreeNodesModel>
+    <!-- ////////// -->
+</root>
+
