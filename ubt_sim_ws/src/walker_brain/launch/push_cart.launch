@@ -7,12 +7,16 @@
     <!-- Could be 6, 7, 8, 9 -->
     <arg name="task_id" />
 
+    <arg if="$(eval task_id==8)" name="rotation_tolerance" value="1" />
+    <arg unless="$(eval task_id==8)" name="rotation_tolerance" value="0.1" />
+
     <!-- Here we use the same helper as open fridge but with different parameters -->
     <node pkg="walker_brain" type="open_fridge_helper.py" name="open_fridge_helper" output="screen">
         <!-- In webots world frame -->
         <!-- cart vertical surface center: x:-0.89, z:3.5; Robot: x:-1.33495, z:3.5 -->
         <param name="x_offset" value="0.445" />
         <param name="y_offset" value="0" />
+        <param name="rotation_tolerance" value="$(arg rotation_tolerance)" />
     </node>
 
     <node pkg="walker_brain" type="open_fridge_node" name="open_fridge_node" output="screen">

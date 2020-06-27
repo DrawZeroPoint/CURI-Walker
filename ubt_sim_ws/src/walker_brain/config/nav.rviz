@@ -5,9 +5,9 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
-        - /Eband Local Planer1/Status1
+        - /Local Costmap1
       Splitter Ratio: 0.5
-    Tree Height: 874
+    Tree Height: 872
   - Class: rviz/Selection
     Name: Selection
   - Class: rviz/Tool Properties
@@ -133,7 +133,7 @@ Visualization Manager:
       Unreliable: false
       Use Timestamp: false
       Value: false
-    - Alpha: 0.699999988079071
+    - Alpha: 0.5
       Class: rviz/Map
       Color Scheme: costmap
       Draw Behind: false
@@ -212,13 +212,246 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: true
+        IMU:
+          Value: true
+        base_link:
+          Value: true
+        head_cam:
+          Value: true
+        head_camera:
+          Value: true
+        head_l1:
+          Value: true
+        head_l2:
+          Value: true
+        head_l3:
+          Value: true
+        lAnklePitch:
+          Value: true
+        lAnkleRoll:
+          Value: true
+        lHipPitch:
+          Value: true
+        lHipRoll:
+          Value: true
+        lHipYaw:
+          Value: true
+        lKneePitch:
+          Value: true
+        laser_scan:
+          Value: true
+        left_index_l1:
+          Value: true
+        left_index_l2:
+          Value: true
+        left_leg_l1:
+          Value: true
+        left_leg_l2:
+          Value: true
+        left_leg_l3:
+          Value: true
+        left_leg_l4:
+          Value: true
+        left_leg_l5:
+          Value: true
+        left_leg_l6:
+          Value: true
+        left_leg_link1:
+          Value: true
+        left_leg_link2:
+          Value: true
+        left_limb_l1:
+          Value: true
+        left_limb_l2:
+          Value: true
+        left_limb_l3:
+          Value: true
+        left_limb_l4:
+          Value: true
+        left_limb_l5:
+          Value: true
+        left_limb_l6:
+          Value: true
+        left_limb_l7:
+          Value: true
+        left_middle_l1:
+          Value: true
+        left_middle_l2:
+          Value: true
+        left_palm_link:
+          Value: true
+        left_pinky_l1:
+          Value: true
+        left_pinky_l2:
+          Value: true
+        left_ring_l1:
+          Value: true
+        left_ring_l2:
+          Value: true
+        left_tcp:
+          Value: true
+        left_thumb_l1:
+          Value: true
+        left_thumb_l2:
+          Value: true
+        map:
+          Value: true
+        odom:
+          Value: true
+        rAnklePitch:
+          Value: true
+        rAnkleRoll:
+          Value: true
+        rHipPitch:
+          Value: true
+        rHipRoll:
+          Value: true
+        rHipYaw:
+          Value: true
+        rKneePitch:
+          Value: true
+        right_index_l1:
+          Value: true
+        right_index_l2:
+          Value: true
+        right_leg_l1:
+          Value: true
+        right_leg_l2:
+          Value: true
+        right_leg_l3:
+          Value: true
+        right_leg_l4:
+          Value: true
+        right_leg_l5:
+          Value: true
+        right_leg_l6:
+          Value: true
+        right_leg_link1:
+          Value: true
+        right_leg_link2:
+          Value: true
+        right_limb_l1:
+          Value: true
+        right_limb_l2:
+          Value: true
+        right_limb_l3:
+          Value: true
+        right_limb_l4:
+          Value: true
+        right_limb_l5:
+          Value: true
+        right_limb_l6:
+          Value: true
+        right_limb_l7:
+          Value: true
+        right_middle_l1:
+          Value: true
+        right_middle_l2:
+          Value: true
+        right_palm_link:
+          Value: true
+        right_pinky_l1:
+          Value: true
+        right_pinky_l2:
+          Value: true
+        right_ring_l1:
+          Value: true
+        right_ring_l2:
+          Value: true
+        right_tcp:
+          Value: true
+        right_thumb_l1:
+          Value: true
+        right_thumb_l2:
+          Value: true
+        world:
+          Value: true
       Marker Scale: 1
       Name: TF
       Show Arrows: true
       Show Axes: false
       Show Names: false
       Tree:
-        {}
+        map:
+          odom:
+            base_link:
+              head_l1:
+                head_l2:
+                  head_l3:
+                    head_cam:
+                      {}
+                    head_camera:
+                      {}
+                    laser_scan:
+                      {}
+              left_leg_l1:
+                left_leg_l2:
+                  left_leg_l3:
+                    left_leg_link1:
+                      left_leg_l4:
+                        left_leg_l5:
+                          left_leg_l6:
+                            left_leg_link2:
+                              {}
+              left_limb_l1:
+                left_limb_l2:
+                  left_limb_l3:
+                    left_limb_l4:
+                      left_limb_l5:
+                        left_limb_l6:
+                          left_limb_l7:
+                            left_palm_link:
+                              left_index_l1:
+                                left_index_l2:
+                                  {}
+                              left_middle_l1:
+                                left_middle_l2:
+                                  {}
+                              left_pinky_l1:
+                                left_pinky_l2:
+                                  {}
+                              left_ring_l1:
+                                left_ring_l2:
+                                  {}
+                              left_tcp:
+                                {}
+                              left_thumb_l1:
+                                left_thumb_l2:
+                                  {}
+              right_leg_l1:
+                right_leg_l2:
+                  right_leg_l3:
+                    right_leg_link1:
+                      right_leg_l4:
+                        right_leg_l5:
+                          right_leg_l6:
+                            right_leg_link2:
+                              {}
+              right_limb_l1:
+                right_limb_l2:
+                  right_limb_l3:
+                    right_limb_l4:
+                      right_limb_l5:
+                        right_limb_l6:
+                          right_limb_l7:
+                            right_palm_link:
+                              right_index_l1:
+                                right_index_l2:
+                                  {}
+                              right_middle_l1:
+                                right_middle_l2:
+                                  {}
+                              right_pinky_l1:
+                                right_pinky_l2:
+                                  {}
+                              right_ring_l1:
+                                right_ring_l2:
+                                  {}
+                              right_tcp:
+                                {}
+                              right_thumb_l1:
+                                right_thumb_l2:
+                                  {}
       Update Interval: 0
       Value: true
   Enabled: true
@@ -249,7 +482,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 8.920905113220215
+      Distance: 14.037217140197754
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -264,18 +497,18 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.0047968626022339
+      Pitch: 0.9247969388961792
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 2.580679416656494
+      Yaw: 2.6656811237335205
     Saved: ~
 Window Geometry:
   Displays:
     collapsed: true
-  Height: 1025
+  Height: 1023
   Hide Left Dock: true
   Hide Right Dock: false
-  QMainWindow State: 000000ff00000000fd000000040000000000000156000003a7fc020000000dfb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073000000003d000003a7000000c900fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb000000280020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000000000000000fb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e0067000000014e000002300000000000000000fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000000000000000fb0000000a0049006d00610067006500000001780000007c0000000000000000fb0000000a0049006d00610067006500000001c9000000ee00000000000000000000000100000100000003a1fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000003d000003a1000000a400fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000039e00000039fc0100000002fb0000000800540069006d006500000000000000039e000002eb00fffffffb0000000800540069006d006501000000000000045000000000000000000000039f000003a700000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd000000040000000000000156000003a5fc020000000dfb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073000000003d000003a5000000c900fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb000000280020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000000000000000fb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e0067000000014e000002300000000000000000fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000000000000000fb0000000a0049006d00610067006500000001780000007c0000000000000000fb0000000a0049006d00610067006500000001c9000000ee00000000000000000000000100000100000003a1fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000003d000003a1000000a400fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000039e00000039fc0100000002fb0000000800540069006d006500000000000000039e000002eb00fffffffb0000000800540069006d006501000000000000045000000000000000000000039f000003a500000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Time:

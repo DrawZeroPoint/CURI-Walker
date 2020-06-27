@@ -5,16 +5,17 @@
     <param name="/use_sim_time" value="true" />
 
     <!-- Could be 10, 11, 12, 13   -->
-    <arg name="task_id" default="11"/>
+    <arg name="task_id" />
 
-    <node pkg="walker_brain" type="walk_helper.py" name="walk_helper" output="screen">
-    </node>
+    <arg if="$(eval task_id==12)" name="rotation_tolerance" value="1" />
+    <arg unless="$(eval task_id==12)" name="rotation_tolerance" value="1" />
 
     <node pkg="walker_brain" type="open_fridge_helper.py" name="open_fridge_helper" output="screen">
         <!-- In webots world frame -->
         <!-- Fridge door surface center: x:-8.0, z:2.6; Robot: x:-7.62, z:3.03 -->
         <param name="x_offset" value="0.37" />
-        <param name="y_offset" value="0.44" />
+        <param name="y_offset" value="0.48" />
+        <param name="rotation_tolerance" value="$(arg rotation_tolerance)" />
     </node>
 
     <node pkg="walker_brain" type="open_fridge_node" name="open_fridge_node" output="screen">

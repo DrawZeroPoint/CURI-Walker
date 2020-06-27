@@ -13,6 +13,9 @@ def return_str(msg=None):
 
 def pose_to_goal_abs(pose):
     pose_to_goal(pose,"map")
+    resp = walker_nav.srv.MoveToAbsPosResponse()
+    resp.response.data = "Success"
+    return resp
 
 def pose_to_goal_rel(pose):
     print(pose)

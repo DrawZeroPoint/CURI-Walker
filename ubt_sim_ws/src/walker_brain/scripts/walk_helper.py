@@ -88,22 +88,19 @@ class MoveToPoseServer(object):
         residual = abs(offset) - step_num_y * abs_vel
         return residual
 
-    def turn_left_right(self, offset, abs_vel):
-        if offset == 0:
-            return
-
-        vel = Twist()
-        if offset > 0:
+    def turn_left_right(self, offset, offset_vel):
+        if offset_vel > 0:
             info = 'Turn left'
-            vel.angular.z = abs_vel
         else:
             info = 'Turn right'
-            vel.angular.z = -abs_vel
+
+        vel = Twist()
+        vel.angular.z = offset_vel
         self._vel_puber.publish(vel)
-        step_num_r = math.floor(abs(offset) / abs_vel)
-        rospy.loginfo("Brain: {} for {} steps ({} rad/step)".format(info, int(step_num_r), abs_vel))
-        rospy.sleep(step_num_r * 0.7)
-        residual = abs(offset) - step_num_r * abs_vel
+        step_num_r = math.floor(offset / abs(offset_vel))
+        rospy.loginfo("Brain: {} for {} steps ({} rad/step)".format(info, int(step_num_r), offset_vel))
+        rospy.sleep(step_num_r * 2 * 0.7)
+        residual = offset - step_num_r * abs(offset_vel)
         return residual
 
     def cmd_handle(self, req):
@@ -135,11 +132,15 @@ class MoveToPoseServer(object):
             residual = self.move_forward_backward(residual, x_vel_init_)
             x_vel_init_ /= 2.0
 
-        r_vel_init_ = self._r_primary_vel
         residual = req.nav_pose.theta
-        while abs(residual) > self._r_min_step and r_vel_init_ >= self._r_min_step:
-            residual = self.turn_left_right(residual, r_vel_init_)
-            r_vel_init_ /= 2.0
+        if residual != 0:
+            if residual < 0:
+                r_vel_init_ = -self._r_primary_vel
+            else:
+                r_vel_init_ = self._r_primary_vel
+            while abs(residual) > self._r_min_step and r_vel_init_ >= self._r_min_step:
+                residual = self.turn_left_right(abs(residual), r_vel_init_)
+                r_vel_init_ /= 2.0
 
         self.on_stop()
         resp.result_status = resp.SUCCEEDED
