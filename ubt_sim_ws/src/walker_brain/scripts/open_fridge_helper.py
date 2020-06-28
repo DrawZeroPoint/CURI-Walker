@@ -7,6 +7,7 @@ import numpy as np
 import rospy
 
 from geometry_msgs.msg import Pose2D
+from sensor_msgs.msg import Range
 from walker_brain.srv import EstimateTargetPose, EstimateTargetPoseResponse
 
 
@@ -90,11 +91,27 @@ class EstimateServer(object):
     def __init__(self):
         super(EstimateServer, self).__init__()
 
+        self.lf_us_suber = rospy.Subscriber('/walker/ultrasound/leftFront', Range, self.lf_us_cb)
+        self.rf_us_suber = rospy.Subscriber('/walker/ultrasound/rightFront', Range, self.rf_us_cb)
+        self.lf_range = 0
+        self.rf_range = 0
+
         self._server = rospy.Service('estimate_target_pose', EstimateTargetPose, self.handle)
+        self._range_server = rospy.Service('estimate_adjust_pose', EstimateTargetPose, self.range_handle)
 
         self._x_offset = rospy.get_param('~x_offset')
         self._y_offset = rospy.get_param('~y_offset')
         self._r_th = rospy.get_param('~rotation_tolerance')
+        self._rotation_compensate = rospy.get_param('~rotation_compensate')
+
+        self._range_max_tolerance = 0.2
+        self._best_range = 1.1
+
+    def lf_us_cb(self, msg):
+        self.lf_range = msg.range
+
+    def rf_us_cb(self, msg):
+        self.rf_range = msg.range
 
     @staticmethod
     def sort_poses(pose_array):
@@ -110,7 +127,7 @@ class EstimateServer(object):
         resp = EstimateTargetPoseResponse()
 
         for p in req.obj_poses.poses:
-            rospy.loginfo("Brain: Unsorted pose {}\n".format(p))
+            rospy.logdebug("Brain: Unsorted pose {}\n".format(p))
         if not req.obj_poses.poses:
             rospy.logerr("Brain: No valid pose")
             resp.result_status = resp.FAILED
@@ -124,22 +141,36 @@ class EstimateServer(object):
                                tgt_pose.orientation.z, tgt_pose.orientation.w])
         rotation_on_z = euler_from_matrix(T)[-1]
         if abs(rotation_on_z) > self._r_th:
-            rospy.logwarn("Brain: Bad observing position, rotation along z is {}".format(rotation_on_z * 180. / np.pi))
+            rospy.logwarn("Brain: Bad observing position, rotation along z is %.3f", rotation_on_z * 180. / np.pi)
             resp.result_status = resp.FAILED
             return resp
         else:
-            rospy.loginfo("Brain: Rotation {}".format(rotation_on_z * 180. / np.pi))
+            rospy.loginfo("Brain: Base rotation in deg %.3f", rotation_on_z * 180. / np.pi)
 
-        canonical_xy = np.array([-self._x_offset, self._y_offset])
-        rotated_xy = np.dot(T[0:2, 0:2], canonical_xy)
-
-        rospy.loginfo("canonical xy {}, rotated {}\n, T\n {}".format(canonical_xy, rotated_xy, T))
         resp.tgt_nav_pose = Pose2D()
-        resp.tgt_nav_pose.x = tgt_pose.position.x + rotated_xy[0]
-        resp.tgt_nav_pose.y = tgt_pose.position.y + rotated_xy[1]
-        resp.tgt_nav_pose.theta = rotation_on_z
+        resp.tgt_nav_pose.x = tgt_pose.position.x - self._x_offset
+        resp.tgt_nav_pose.y = tgt_pose.position.y + self._y_offset
+        resp.tgt_nav_pose.theta = rotation_on_z if self._rotation_compensate else 0
 
         resp.result_status = resp.SUCCEEDED
+        return resp
+
+    def range_handle(self, req):
+        resp = EstimateTargetPoseResponse()
+
+        if self.lf_range and self.rf_range:
+            rospy.loginfo("Brain: Left front ultrasound range %.3f, "
+                          "right front ultrasound range %.3f", self.lf_range, self.rf_range)
+            min_range = min(self.lf_range, self.rf_range)
+            resp.tgt_nav_pose.x = min_range - self._best_range
+            if abs(self.lf_range - self.rf_range) <= self._range_max_tolerance:
+                resp.tgt_nav_pose.y -= min_range * 0.25
+            elif abs(self.lf_range - self.rf_range) > self._range_max_tolerance:
+                resp.tgt_nav_pose.y -= min_range * 0.5
+            resp.result_status = resp.SUCCEEDED
+        else:
+            rospy.logerr("Brain: No single from front ultrasound")
+            resp.result_status = resp.FAILED
         return resp
 
 

@@ -229,6 +229,45 @@ private:
   std::string name_;
 };
 
+class EstimateAdjustPose : public RosServiceNode<walker_brain::EstimateTargetPose>
+{
+public:
+  EstimateAdjustPose(ros::NodeHandle &nh, const std::string& name, const BT::NodeConfiguration & cfg) :
+    RosServiceNode<walker_brain::EstimateTargetPose>(nh, name, cfg), name_(name) {}
+
+  static BT::PortsList providedPorts() {
+    return {
+      BT::OutputPort<Pose2D>("tgt_nav_pose")
+    };
+  }
+
+  void onSendRequest(RequestType &request) override {
+    ROS_INFO("Brain: %s sending request.", name_.c_str());
+  }
+
+  BT::NodeStatus onResponse(const ResponseType &response) override {
+    if (response.result_status == response.SUCCEEDED) {
+      Pose2D tgt_nav_pose{};
+      tgt_nav_pose.fromROS(response.tgt_nav_pose);
+      setOutput("tgt_nav_pose", tgt_nav_pose);
+
+      ROS_INFO("Brain: %s response SUCCEEDED.", name_.c_str());
+      return BT::NodeStatus::SUCCESS;
+    } else {
+      ROS_INFO("Brain: %s response FAILURE.", name_.c_str());
+      return BT::NodeStatus::FAILURE;
+    }
+  }
+
+  virtual BT::NodeStatus onFailedRequest(RosServiceNode::FailureCause failure) override {
+    ROS_ERROR("Brain: %s request failed %d.", name_.c_str(), static_cast<int>(failure));
+    return BT::NodeStatus::FAILURE;
+  }
+
+private:
+  std::string name_;
+};
+
 class ExecuteMoveBase : public RosServiceNode<walker_brain::MoveToPose2D>
 {
 public:
@@ -317,7 +356,7 @@ int main(int argc, char **argv)
   RegisterRosService<SenseObjectPoses>(factory, "SenseObjectPoses", nh);
   RegisterRosService<EstimateTargetPose>(factory, "EstimateTargetPose", nh);
   RegisterRosService<ExecuteMoveBase>(factory, "ExecuteMoveBase", nh);
-  //RegisterRosService<ExecuteMoveBase>(factory, "ExecuteAdjustBase", nh);
+  RegisterRosService<EstimateAdjustPose>(factory, "EstimateAdjustPose", nh);
   RegisterRosService<ExecutePrePose>(factory, "ExecutePrePose", nh);
 
   auto tree = factory.createTreeFromFile(tree_file);

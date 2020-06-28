@@ -17,6 +17,7 @@ class MoveToPoseServer(object):
         super(MoveToPoseServer, self).__init__()
 
         self._server = rospy.Service('move_to_pose2d', MoveToPose2D, self.handle)
+        self._adjust_yaw_server = rospy.Service('rotate_to_pose2d', MoveToPose2D, self.adjust_yaw_handle)
         self._walk_cmd_server = rospy.Service('walk_cmd', Dummy, self.cmd_handle)
         self._remote = rospy.ServiceProxy('/Leg/TaskScheduler', leg_motion_MetaFuncCtrl)
         self._ls = rospy.Subscriber('/Leg/leg_status', String, self.status_cb)
@@ -105,6 +106,28 @@ class MoveToPoseServer(object):
         else:
             rospy.logerr("Brain: Unknown walk cmd {}".format(req.header.frame_id))
             resp.result_status = resp.FAILED
+        return resp
+
+    def adjust_yaw_handle(self, req):
+        resp = MoveToPose2DResponse()
+        self.on_start()
+
+        if req.nav_pose.theta != 0:
+            residual = abs(req.nav_pose.theta)
+            abs_vel = min(residual, self._r_primary_vel)
+            if abs_vel >= self._r_min_step:
+                is_negative = False
+                if req.nav_pose.theta < 0:
+                    is_negative = True
+                while residual >= self._r_min_step and abs(abs_vel) >= self._r_min_step:
+                    residual = self.turn_left_right(residual, abs_vel, is_negative)
+                    if self._r_min_step <= residual <= self._r_primary_vel:
+                        abs_vel = residual
+                    else:
+                        abs_vel /= 2.0
+
+        self.on_stop()
+        resp.result_status = resp.SUCCEEDED
         return resp
 
     def handle(self, req):
