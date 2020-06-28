@@ -24,7 +24,7 @@ class MoveToPoseServer(object):
 
         self._x_primary_vel = 0.2
         self._y_primary_vel = 0.04
-        self._r_primary_vel = 0.2
+        self._r_primary_vel = 0.2  # 0.1 0.05 0.025 0.0125 0.00625
         self._x_min_step = 0.005
         self._y_min_step = 0.005
         self._r_min_step = 0.005
@@ -39,68 +39,59 @@ class MoveToPoseServer(object):
             self.call("start")
             if self._status == "dynamic":
                 break
-            else:
-                rospy.logwarn("Brain: Gait status is {} after calling start".format(self._status))
 
     def on_stop(self):
         vel = Twist()
         self._vel_puber.publish(vel)
         self.call("stop")
-        rospy.sleep(1)
+        rospy.sleep(0.7)
 
-    def move_forward_backward(self, offset, abs_vel):
-        if offset == 0:
-            return
-
+    def move_forward_backward(self, offset, abs_vel, is_negative):
+        assert abs_vel > 0
         vel = Twist()
-        if offset > 0:
-            info = 'forward'
+        if not is_negative:
+            info = 'Move forward'
             vel.linear.x = abs_vel
         else:
-            info = 'backward'
+            info = 'Move backward'
             vel.linear.x = -abs_vel
         self._vel_puber.publish(vel)
-
-        step_num_x = math.floor(abs(offset) / abs_vel)
-        rospy.loginfo("Brain: {} for {} steps ({} m/step)".format(info, int(step_num_x), abs_vel))
-        rospy.sleep(step_num_x * 0.7)
-
-        residual = abs(offset) - step_num_x * abs_vel
+        step_num = math.floor(offset / abs_vel)
+        rospy.loginfo("Brain: {} for {} steps ({} m/step)".format(info, int(step_num), abs_vel))
+        rospy.sleep(step_num * 0.7)
+        residual = offset - step_num * abs_vel
         return residual
 
-    def move_left_right(self, offset, abs_vel):
-        if offset == 0:
-            return
-
+    def move_left_right(self, offset, abs_vel, is_negative):
+        assert abs_vel > 0
         vel = Twist()
-        if offset > 0:
+        if not is_negative:
             info = 'Move left'
             vel.linear.y = abs_vel
         else:
             info = 'Move right'
             vel.linear.y = -abs_vel
         self._vel_puber.publish(vel)
-        step_num_y = math.floor(abs(offset) / abs_vel)
-        rospy.loginfo("Brain: {} for {} steps ({} m/step)".format(info, int(step_num_y), abs_vel))
-        # For Walker slides, each step takes twice the time, add 2 for stabling
-        rospy.sleep(step_num_y * 2 * 0.7)
-
-        residual = abs(offset) - step_num_y * abs_vel
+        step_num = math.floor(offset / abs_vel)
+        rospy.loginfo("Brain: {} for {} steps ({} m/step)".format(info, int(step_num), abs_vel))
+        rospy.sleep(step_num * 2 * 0.7)
+        residual = offset - step_num * abs_vel
         return residual
 
-    def turn_left_right(self, offset, offset_vel):
-        if offset_vel > 0:
+    def turn_left_right(self, offset, abs_vel, is_negative):
+        assert abs_vel > 0
+        vel = Twist()
+        if not is_negative:
             info = 'Turn left'
+            vel.angular.z = abs_vel
         else:
             info = 'Turn right'
-
-        vel = Twist()
-        vel.angular.z = offset_vel
+            vel.angular.z = -abs_vel
         self._vel_puber.publish(vel)
-        step_num_r = math.floor(offset / abs(offset_vel))
-        rospy.loginfo("Brain: {} for {} steps ({} rad/step)".format(info, int(step_num_r), offset_vel))
-        rospy.sleep(step_num_r * 2 * 0.7)
-        residual = offset - step_num_r * abs(offset_vel)
+        step_num = math.floor(offset / abs_vel)
+        rospy.loginfo("Brain: {} for {} steps ({} rad/step)".format(info, int(step_num), abs_vel))
+        rospy.sleep(step_num * 0.7)
+        residual = offset - step_num * abs_vel
         return residual
 
     def cmd_handle(self, req):
@@ -120,27 +111,49 @@ class MoveToPoseServer(object):
         resp = MoveToPose2DResponse()
         self.on_start()
 
-        y_vel_init_ = self._y_primary_vel
-        residual = req.nav_pose.y
-        while abs(residual) > self._y_min_step and y_vel_init_ >= self._y_min_step:
-            residual = self.move_left_right(residual, y_vel_init_)
-            y_vel_init_ /= 2.0
+        rospy.loginfo("Brain: Walk helper received call: {}".format(req.nav_pose))
 
-        x_vel_init_ = self._x_primary_vel
-        residual = req.nav_pose.x
-        while abs(residual) > self._x_min_step and x_vel_init_ >= self._x_min_step:
-            residual = self.move_forward_backward(residual, x_vel_init_)
-            x_vel_init_ /= 2.0
+        if req.nav_pose.y != 0:
+            residual = abs(req.nav_pose.y)
+            abs_vel = min(residual, self._y_primary_vel)
+            if abs_vel >= self._y_min_step:
+                is_negative = False
+                if req.nav_pose.y < 0:
+                    is_negative = True
+                while residual >= self._y_min_step and abs(abs_vel) >= self._y_min_step:
+                    residual = self.move_left_right(residual, abs_vel, is_negative)
+                    if self._y_min_step <= residual <= self._y_primary_vel:
+                        abs_vel = residual
+                    else:
+                        abs_vel /= 2.0
 
-        residual = req.nav_pose.theta
-        if residual != 0:
-            if residual < 0:
-                r_vel_init_ = -self._r_primary_vel
-            else:
-                r_vel_init_ = self._r_primary_vel
-            while abs(residual) > self._r_min_step and r_vel_init_ >= self._r_min_step:
-                residual = self.turn_left_right(abs(residual), r_vel_init_)
-                r_vel_init_ /= 2.0
+        if req.nav_pose.x != 0:
+            residual = abs(req.nav_pose.x)
+            abs_vel = min(residual, self._x_primary_vel)
+            if abs_vel >= self._x_min_step:
+                is_negative = False
+                if req.nav_pose.x < 0:
+                    is_negative = True
+                while residual >= self._x_min_step and abs(abs_vel) >= self._x_min_step:
+                    residual = self.move_forward_backward(residual, abs_vel, is_negative)
+                    if self._x_min_step <= residual <= self._x_primary_vel:
+                        abs_vel = residual
+                    else:
+                        abs_vel /= 2.0
+
+        if req.nav_pose.theta != 0:
+            residual = abs(req.nav_pose.theta)
+            abs_vel = min(residual, self._r_primary_vel)
+            if abs_vel >= self._r_min_step:
+                is_negative = False
+                if req.nav_pose.theta < 0:
+                    is_negative = True
+                while residual >= self._r_min_step and abs(abs_vel) >= self._r_min_step:
+                    residual = self.turn_left_right(residual, abs_vel, is_negative)
+                    if self._r_min_step <= residual <= self._r_primary_vel:
+                        abs_vel = residual
+                    else:
+                        abs_vel /= 2.0
 
         self.on_stop()
         resp.result_status = resp.SUCCEEDED

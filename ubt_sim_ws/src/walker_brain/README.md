@@ -16,7 +16,10 @@ Start the Webots simulation and initialize the task setting by
 
 ```
 rosservice call /walker/sence ..(Tab to complete)
-``` 
+```
+
+**Note that for control or vision only tasks the launch file will automatically call this
+service for you**
 
 
 ## Run the solutions
@@ -34,6 +37,11 @@ Then, run the **execution** launch file like:
 ```
 roslaunch walker_brain switch_light.launch
 ```
+
+**It is suggested to wait for about 10 seconds after launching the prepare file and before launching
+the execution file.**
+
+## Launching parameters
 
 The preparation launch file of some tasks have a `nav` param that must be given,
 which could be `true` or `false`. Set it to be true if the task runs in navigation

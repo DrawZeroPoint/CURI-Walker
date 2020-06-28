@@ -10,6 +10,11 @@
     <arg if="$(eval task_id==12)" name="rotation_tolerance" value="1" />
     <arg unless="$(eval task_id==12)" name="rotation_tolerance" value="1" />
 
+    <group if="$(eval task_id==10)">
+        <node pkg="rosservice" type="rosservice" name="init_robot"
+              args='call --wait /walker/sence "{scene_name: OpenFridge, nav: false, vision: false}"' />
+    </group>
+
     <node pkg="walker_brain" type="open_fridge_helper.py" name="open_fridge_helper" output="screen">
         <!-- In webots world frame -->
         <!-- Fridge door surface center: x:-8.0, z:2.6; Robot: x:-7.62, z:3.03 -->

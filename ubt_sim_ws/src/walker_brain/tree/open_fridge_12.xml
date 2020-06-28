@@ -4,9 +4,9 @@
     <BehaviorTree ID="BehaviorTree">
         <Sequence>
             <Action ID="ExecuteWalkCmd" cmd="start" service_name="walk_cmd"/>
-            <Action ID="ExecuteMoveToAbsPos" pose="-0.7 8.4 0.02 -0.01 0.01 0.7 0.7" service_name="/move_base/move_to_abs_pos"/>
+            <Action ID="ExecuteMoveToAbsPos" pose="-0.7 8.4 0.02 0 0 0.7071 0.7071" service_name="/move_base/move_to_abs_pos"/>
             <Action ID="ExecuteWalkCmd" cmd="stop" service_name="walk_cmd"/>
-            <Action ID="ExecuteHeadMove" execute_pose="10 30" server_name="/walker/move_helper_head/move_to_joint_pose"/>
+            <Action ID="ExecuteHeadMove" execute_pose="0 30" server_name="/walker/move_helper_head/move_to_joint_pose"/>
             <RetryUntilSuccesful num_attempts="3">
                 <Sequence>
                     <Action ID="SenseObjectPoses" goal_id="box" poses="{detected_poses}" service_name="/head/extract_object_on_top"/>
