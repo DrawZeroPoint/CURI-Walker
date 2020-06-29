@@ -131,7 +131,7 @@ class WalkerMovementUtils(object):
         leftOrientationF = [0.125, -0.102, -0.664, 0.730]
 
         move_request = MoveToPose2DRequest()
-        move_request.nav_pose.theta = -0.785
+        move_request.nav_pose.theta = -0.3925
         self._walk_client.call(move_request)
         move_request = MoveToPose2DRequest()
         move_request.nav_pose.x = -0.1

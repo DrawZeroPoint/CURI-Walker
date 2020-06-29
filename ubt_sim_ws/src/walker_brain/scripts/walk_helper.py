@@ -23,9 +23,9 @@ class MoveToPoseServer(object):
         self._ls = rospy.Subscriber('/Leg/leg_status', String, self.status_cb)
         self._vel_puber = rospy.Publisher('/nav/cmd_vel_nav', Twist, queue_size=1)
 
-        self._x_primary_vel = 0.2
+        self._x_primary_vel = 0.32
         self._y_primary_vel = 0.04
-        self._r_primary_vel = 0.2  # 0.1 0.05 0.025 0.0125 0.00625
+        self._r_primary_vel = 0.35
         self._x_min_step = 0.005
         self._y_min_step = 0.005
         self._r_min_step = 0.005
@@ -36,16 +36,16 @@ class MoveToPoseServer(object):
         self._status = msg.data
 
     def on_start(self):
-        while True:
-            self.call("start")
-            if self._status == "dynamic":
-                break
+        clear_vel = Twist()
+        self._vel_puber.publish(clear_vel)
+        self.call("start")
+        rospy.sleep(0.35)
 
     def on_stop(self):
         vel = Twist()
         self._vel_puber.publish(vel)
         self.call("stop")
-        rospy.sleep(0.7)
+        rospy.sleep(0.35)
 
     def move_forward_backward(self, offset, abs_vel, is_negative):
         assert abs_vel > 0
@@ -59,7 +59,11 @@ class MoveToPoseServer(object):
         self._vel_puber.publish(vel)
         step_num = math.floor(offset / abs_vel)
         rospy.loginfo("Brain: {} for {} steps ({} m/step)".format(info, int(step_num), abs_vel))
-        rospy.sleep(step_num * 0.7)
+        # The compensate time is obtained by trial and error
+        if is_negative:
+            rospy.sleep(step_num * 0.7 + 0.2)
+        else:
+            rospy.sleep(step_num * 0.7 + 0.08)
         residual = offset - step_num * abs_vel
         return residual
 
@@ -88,6 +92,7 @@ class MoveToPoseServer(object):
         else:
             info = 'Turn right'
             vel.angular.z = -abs_vel
+        rospy.logwarn(vel)
         self._vel_puber.publish(vel)
         step_num = math.floor(offset / abs_vel)
         rospy.loginfo("Brain: {} for {} steps ({:.3f} rad/step)".format(info, int(step_num), abs_vel))
