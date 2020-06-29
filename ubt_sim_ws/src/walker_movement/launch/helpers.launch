@@ -1,5 +1,6 @@
 <launch>
 
+
   <group ns="/walker">
 
     <node name="move_helper_left_arm" pkg="walker_movement" type="move_helper" respawn="true" output="screen">
@@ -17,6 +18,10 @@
 
     <node name="hand_helper_right" pkg="walker_movement" type="hand_helper" respawn="true" output="screen">
       <param name="is_left" type="bool" value="false" />
+    </node>
+
+
+    <node name="dual_arm_control" pkg="walker_movement" type="dual_arm_control" respawn="true" output="screen">
     </node>
 
   </group>

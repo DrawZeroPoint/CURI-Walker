@@ -1,0 +1,13 @@
+
+#goal definition
+
+# Target end effector pose, you can specify the frame of the pose in header.frame_id
+float64[] left_pose
+float64[] right_pose
+
+---
+#result definition
+bool succeded
+string error_message
+---
+#feedback

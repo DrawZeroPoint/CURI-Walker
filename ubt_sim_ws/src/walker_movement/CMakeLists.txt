@@ -73,6 +73,7 @@ find_package(Boost REQUIRED COMPONENTS system)
 add_service_files(
  FILES
  GetJointState.srv
+ GetEePose.srv
 )
 
 ## Generate actions in the 'action' folder
@@ -83,6 +84,7 @@ add_action_files(
   MoveToJointPose.action
   Grasp.action
   DualArmEeMove.action
+  DualArmJointMove.action
 )
 
 ## Generate added messages and services with any dependencies listed here
