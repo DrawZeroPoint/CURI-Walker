@@ -194,6 +194,7 @@ public:
       BT::InputPort<PoseArray>("obj_poses"),
       BT::OutputPort<int>("result_status"),
       BT::OutputPort<Pose2D>("tgt_nav_pose"),
+      BT::OutputPort<Pose2D>("compensate_pose")
     };
   }
 
@@ -211,6 +212,10 @@ public:
       Pose2D tgt_nav_pose{};
       tgt_nav_pose.fromROS(response.tgt_nav_pose);
       setOutput("tgt_nav_pose", tgt_nav_pose);
+
+      Pose2D compensate_pose{};
+      compensate_pose.fromROS(response.compensate_pose);
+      setOutput("compensate_pose", compensate_pose);
 
       ROS_INFO("Brain: %s response SUCCEEDED.", name_.c_str());
       return BT::NodeStatus::SUCCESS;

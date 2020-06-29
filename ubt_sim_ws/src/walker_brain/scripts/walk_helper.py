@@ -74,7 +74,7 @@ class MoveToPoseServer(object):
             vel.linear.y = -abs_vel
         self._vel_puber.publish(vel)
         step_num = math.floor(offset / abs_vel)
-        rospy.loginfo("Brain: {} for {} steps ({} m/step)".format(info, int(step_num), abs_vel))
+        rospy.loginfo("Brain: {} for {} steps ({:.3f} m/step)".format(info, int(step_num), abs_vel))
         rospy.sleep(step_num * 2 * 0.7)
         residual = offset - step_num * abs_vel
         return residual
@@ -90,8 +90,8 @@ class MoveToPoseServer(object):
             vel.angular.z = -abs_vel
         self._vel_puber.publish(vel)
         step_num = math.floor(offset / abs_vel)
-        rospy.loginfo("Brain: {} for {} steps ({} rad/step)".format(info, int(step_num), abs_vel))
-        rospy.sleep(step_num * 0.7)
+        rospy.loginfo("Brain: {} for {} steps ({:.3f} rad/step)".format(info, int(step_num), abs_vel))
+        rospy.sleep(step_num * 2 * 0.7)
         residual = offset - step_num * abs_vel
         return residual
 
@@ -112,6 +112,7 @@ class MoveToPoseServer(object):
         resp = MoveToPose2DResponse()
         self.on_start()
 
+        rospy.loginfo("Brain: Received rotation adjusting request: {}".format(req.nav_pose))
         if req.nav_pose.theta != 0:
             residual = abs(req.nav_pose.theta)
             abs_vel = min(residual, self._r_primary_vel)

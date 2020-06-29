@@ -102,7 +102,6 @@ class EstimateServer(object):
         self._x_offset = rospy.get_param('~x_offset')
         self._y_offset = rospy.get_param('~y_offset')
         self._r_th = rospy.get_param('~rotation_tolerance')
-        self._rotation_compensate = rospy.get_param('~rotation_compensate')
 
         self._range_max_tolerance = 0.2
         self._best_range = 1.1
@@ -123,34 +122,41 @@ class EstimateServer(object):
         pose_array.sort(key=lambda p: p.position.x, reverse=False)
         return pose_array
 
+    @staticmethod
+    def get_rotation_along_z(pose):
+        T = quaternion_matrix([pose.orientation.x, pose.orientation.y,
+                               pose.orientation.z, pose.orientation.w])
+        return euler_from_matrix(T)[-1]
+
     def handle(self, req):
         resp = EstimateTargetPoseResponse()
 
+        valid_poses = []
         for p in req.obj_poses.poses:
+            rotation = self.get_rotation_along_z(p)
+            if abs(rotation) > self._r_th:
+                continue
+            valid_poses.append(p)
             rospy.logdebug("Brain: Unsorted pose {}\n".format(p))
-        if not req.obj_poses.poses:
+
+        if not valid_poses:
             rospy.logerr("Brain: No valid pose")
             resp.result_status = resp.FAILED
             return resp
 
-        sorted_poses = self.sort_poses(req.obj_poses.poses)
+        sorted_poses = self.sort_poses(valid_poses)
         tgt_pose = sorted_poses[0]
-        rospy.loginfo("Brain: Got target pose \n {}\n".format(tgt_pose))
 
-        T = quaternion_matrix([tgt_pose.orientation.x, tgt_pose.orientation.y,
-                               tgt_pose.orientation.z, tgt_pose.orientation.w])
-        rotation_on_z = euler_from_matrix(T)[-1]
-        if abs(rotation_on_z) > self._r_th:
-            rospy.logwarn("Brain: Bad observing position, rotation along z is %.3f", rotation_on_z * 180. / np.pi)
-            resp.result_status = resp.FAILED
-            return resp
-        else:
-            rospy.loginfo("Brain: Base rotation in deg %.3f", rotation_on_z * 180. / np.pi)
+        tgt_rotation = self.get_rotation_along_z(tgt_pose)
+        rospy.loginfo("Brain: Target rotation in deg %.3f", tgt_rotation * 180. / np.pi)
 
         resp.tgt_nav_pose = Pose2D()
         resp.tgt_nav_pose.x = tgt_pose.position.x - self._x_offset
         resp.tgt_nav_pose.y = tgt_pose.position.y + self._y_offset
-        resp.tgt_nav_pose.theta = rotation_on_z if self._rotation_compensate else 0
+        resp.tgt_nav_pose.theta = 0
+
+        resp.compensate_pose = Pose2D()
+        resp.compensate_pose.theta = tgt_rotation
 
         resp.result_status = resp.SUCCEEDED
         return resp
