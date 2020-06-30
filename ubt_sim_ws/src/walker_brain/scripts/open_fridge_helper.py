@@ -6,9 +6,10 @@ import math
 import numpy as np
 import rospy
 
+from geometry_msgs.msg import WrenchStamped
 from geometry_msgs.msg import Pose2D
 from sensor_msgs.msg import Range
-from walker_brain.srv import EstimateTargetPose, EstimateTargetPoseResponse
+from walker_brain.srv import EstimateTargetPose, EstimateTargetPoseResponse, Dummy, DummyResponse
 
 
 # epsilon for testing whether a number is close to zero
@@ -91,6 +92,9 @@ class EstimateServer(object):
     def __init__(self):
         super(EstimateServer, self).__init__()
 
+        self.l_arm_force_suber = rospy.Subscriber('/sensor/ft/lwrist', WrenchStamped, self.l_arm_force_cb)
+        self.r_arm_force_suber = rospy.Subscriber('/sensor/ft/rwrist', WrenchStamped, self.r_arm_force_cb)
+
         self.lf_us_suber = rospy.Subscriber('/walker/ultrasound/leftFront', Range, self.lf_us_cb)
         self.rf_us_suber = rospy.Subscriber('/walker/ultrasound/rightFront', Range, self.rf_us_cb)
         self.lf_range = 0
@@ -98,6 +102,7 @@ class EstimateServer(object):
 
         self._server = rospy.Service('estimate_target_pose', EstimateTargetPose, self.handle)
         self._range_server = rospy.Service('estimate_adjust_pose', EstimateTargetPose, self.range_handle)
+        self._force_server = rospy.Service('estimate_contact_force', Dummy, self.force_handle)
 
         self._x_offset = rospy.get_param('~x_offset')
         self._y_offset = rospy.get_param('~y_offset')
@@ -105,6 +110,15 @@ class EstimateServer(object):
 
         self._range_max_tolerance = 0.2
         self._best_range = 1.1
+
+        self._l_arm_force = None
+        self._r_arm_force = None
+
+    def l_arm_force_cb(self, msg):
+        self._l_arm_force = msg
+
+    def r_arm_force_cb(self, msg):
+        self._r_arm_force = msg
 
     def lf_us_cb(self, msg):
         self.lf_range = msg.range
@@ -176,6 +190,24 @@ class EstimateServer(object):
             resp.result_status = resp.SUCCEEDED
         else:
             rospy.logerr("Brain: No single from front ultrasound")
+            resp.result_status = resp.FAILED
+        return resp
+
+    def force_handle(self, req):
+        resp = DummyResponse()
+        if req.header.frame_id == "left_wrist":
+            f = self._l_arm_force
+        elif req.header.frame_id == "right_wrist":
+            f = self._r_arm_force
+        else:
+            rospy.logerr("Brain: Unknown force sensor type %s", req.header.frame_id)
+            resp.result_status = resp.FAILED
+            return resp
+
+        rospy.logwarn("Brain: Wrench {}".format(f.wrench.force))
+        if abs(f.wrench.force.x) > 10 or abs(f.wrench.force.y) > 10 or abs(f.wrench.force.z) > 10:
+            resp.result_status = resp.SUCCEEDED
+        else:
             resp.result_status = resp.FAILED
         return resp
 

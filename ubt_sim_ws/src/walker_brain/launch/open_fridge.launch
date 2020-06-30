@@ -10,9 +10,6 @@
     <arg if="$(eval task_id==12)" name="rotation_tolerance" value="1" />
     <arg unless="$(eval task_id==12)" name="rotation_tolerance" value="0.5" />
 
-    <arg if="$(eval task_id==12)" name="y_offset" value="0.46" />
-    <arg unless="$(eval task_id==12)" name="y_offset" value="0.48" />
-
     <group if="$(eval task_id==10)">
         <node pkg="rosservice" type="rosservice" name="init_robot"
               args='call --wait /walker/sence "{scene_name: OpenFridge, nav: false, vision: false}"' />
@@ -27,7 +24,7 @@
         <!-- In webots world frame -->
         <!-- Fridge door surface center: x:-8.0, z:2.6; Robot control only opening pose: x:-7.62, z:3.03 -->
         <param name="x_offset" value="0.38" />
-        <param name="y_offset" value="$(arg y_offset)" />
+        <param name="y_offset" value="0.48" />
         <param name="rotation_tolerance" value="$(arg rotation_tolerance)" />
     </node>
 

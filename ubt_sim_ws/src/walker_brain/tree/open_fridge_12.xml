@@ -6,7 +6,7 @@
             <Action ID="ExecuteWalkCmd" cmd="start" service_name="walk_cmd"/>
             <Action ID="ExecuteMoveToAbsPos" pose="-0.7 8.4 0.02 0 0 0.79335334 0.60876143" service_name="/move_base/move_to_abs_pos"/>
             <Action ID="ExecuteWalkCmd" cmd="stop" service_name="walk_cmd"/>
-            <Action ID="ExecuteHeadMove" execute_pose="0 30" server_name="/walker/move_helper_head/move_to_joint_pose"/>
+            <Action ID="ExecuteHeadJointStates" execute_pose="0 30" server_name="/walker/move_helper_head/move_to_joint_pose"/>
             <Sequence>
                 <Action ID="SenseObjectPoses" goal_id="box" poses="{detected_poses}" service_name="/head/extract_object_on_top"/>
                 <Action ID="EstimateTargetPose" compensate_pose="{rotation_compensate_pose}" obj_poses="{detected_poses}" service_name="estimate_target_pose" tgt_nav_pose="{target_nav_pose}"/>
@@ -32,7 +32,7 @@
             <input_port default="estimate_target_pose" name="service_name"/>
             <output_port default="{target_nav_pose}" name="tgt_nav_pose"/>
         </Action>
-        <Action ID="ExecuteHeadMove">
+        <Action ID="ExecuteHeadJointStates">
             <input_port default="0 30" name="execute_pose"/>
             <input_port default="/walker/move_helper_head/move_to_joint_pose" name="server_name"/>
         </Action>

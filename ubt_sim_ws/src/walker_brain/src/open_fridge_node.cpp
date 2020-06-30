@@ -90,10 +90,10 @@ private:
   std::string name_;
 };
 
-class ExecuteJointStates : public RosActionNode<walker_movement::MoveToJointPoseAction>
+class ExecuteLArmJointStates : public RosActionNode<walker_movement::MoveToJointPoseAction>
 {
 public:
-  ExecuteJointStates(ros::NodeHandle& handle, const std::string& name, const NodeConfiguration & cfg):
+  ExecuteLArmJointStates(ros::NodeHandle& handle, const std::string& name, const NodeConfiguration & cfg):
     RosActionNode<walker_movement::MoveToJointPoseAction>(handle, name, cfg), name_(name) {}
 
   static PortsList providedPorts() {
@@ -107,6 +107,298 @@ public:
     JointAngles execute_pose{};
     getInput<JointAngles>("execute_pose", execute_pose);
     goal.pose = execute_pose.toROS();
+    ROS_INFO("Brain: %s sending request", name_.c_str());
+    return true;
+  }
+
+  NodeStatus onResult(const ResultType& res) override {
+    ROS_INFO("Brain: %s result received", name_.c_str());
+    if (res.succeded) {
+      ROS_INFO("Brain: %s response SUCCEEDED.", name_.c_str());
+      return NodeStatus::SUCCESS;
+    } else {
+      ROS_INFO("Brain: %s response FAILURE.", name_.c_str());
+      return NodeStatus::FAILURE;
+    }
+  }
+
+  virtual NodeStatus onFailedRequest(FailureCause failure) override {
+    ROS_ERROR("Brain: %s request failed %d", name_.c_str(), static_cast<int>(failure));
+    return NodeStatus::FAILURE;
+  }
+
+  void halt() override {
+    if(status() == NodeStatus::RUNNING) {
+      ROS_WARN("Brain: %s halted", name_.c_str());
+      BaseClass::halt();
+    }
+  }
+
+private:
+  std::string name_;
+};
+
+class ExecuteRArmJointStates : public RosActionNode<walker_movement::MoveToJointPoseAction>
+{
+public:
+  ExecuteRArmJointStates(ros::NodeHandle& handle, const std::string& name, const NodeConfiguration & cfg):
+    RosActionNode<walker_movement::MoveToJointPoseAction>(handle, name, cfg), name_(name) {}
+
+  static PortsList providedPorts() {
+    return {
+      InputPort<JointAngles>("execute_pose"),
+      //OutputPort<int>("result_status")
+    };
+  }
+
+  bool onSendGoal(GoalType& goal) override {
+    JointAngles execute_pose{};
+    getInput<JointAngles>("execute_pose", execute_pose);
+    goal.pose = execute_pose.toROS();
+    ROS_INFO("Brain: %s sending request", name_.c_str());
+    return true;
+  }
+
+  NodeStatus onResult(const ResultType& res) override {
+    ROS_INFO("Brain: %s result received", name_.c_str());
+    if (res.succeded) {
+      ROS_INFO("Brain: %s response SUCCEEDED.", name_.c_str());
+      return NodeStatus::SUCCESS;
+    } else {
+      ROS_INFO("Brain: %s response FAILURE.", name_.c_str());
+      return NodeStatus::FAILURE;
+    }
+  }
+
+  virtual NodeStatus onFailedRequest(FailureCause failure) override {
+    ROS_ERROR("Brain: %s request failed %d", name_.c_str(), static_cast<int>(failure));
+    return NodeStatus::FAILURE;
+  }
+
+  void halt() override {
+    if(status() == NodeStatus::RUNNING) {
+      ROS_WARN("Brain: %s halted", name_.c_str());
+      BaseClass::halt();
+    }
+  }
+
+private:
+  std::string name_;
+};
+
+class ExecuteLArmMove : public RosActionNode<walker_movement::MoveToEePoseAction>
+{
+public:
+  ExecuteLArmMove(ros::NodeHandle& handle, const std::string& name, const NodeConfiguration & cfg):
+    RosActionNode<walker_movement::MoveToEePoseAction>(handle, name, cfg), name_(name) {}
+
+  static PortsList providedPorts() {
+    return {
+      InputPort<Pose>("pose"),
+      InputPort<std::string>("ee_link"),
+      InputPort<std::string>("ref_link")
+      //OutputPort<int>("result_status")
+    };
+  }
+
+  bool onSendGoal(GoalType& goal) override {
+    Pose execute_pose{};
+    getInput<Pose>("pose", execute_pose);
+    goal.pose.pose = execute_pose.toROS();
+    getInput<std::string>("ref_link", goal.pose.header.frame_id);
+    getInput<std::string>("ee_link", goal.end_effector_link);
+    ROS_INFO("Brain: %s sending request", name_.c_str());
+    return true;
+  }
+
+  NodeStatus onResult(const ResultType& res) override {
+    ROS_INFO("Brain: %s result received", name_.c_str());
+    if (res.succeded) {
+      ROS_INFO("Brain: %s response SUCCEEDED.", name_.c_str());
+      return NodeStatus::SUCCESS;
+    } else {
+      ROS_INFO("Brain: %s response FAILURE.", name_.c_str());
+      return NodeStatus::FAILURE;
+    }
+  }
+
+  virtual NodeStatus onFailedRequest(FailureCause failure) override {
+    ROS_ERROR("Brain: %s request failed %d", name_.c_str(), static_cast<int>(failure));
+    return NodeStatus::FAILURE;
+  }
+
+  void halt() override {
+    if(status() == NodeStatus::RUNNING) {
+      ROS_WARN("Brain: %s halted", name_.c_str());
+      BaseClass::halt();
+    }
+  }
+
+private:
+  std::string name_;
+};
+
+class ExecuteRArmMove : public RosActionNode<walker_movement::MoveToEePoseAction>
+{
+public:
+  ExecuteRArmMove(ros::NodeHandle& handle, const std::string& name, const NodeConfiguration & cfg):
+    RosActionNode<walker_movement::MoveToEePoseAction>(handle, name, cfg), name_(name) {}
+
+  static PortsList providedPorts() {
+    return {
+      InputPort<Pose>("pose"),
+      InputPort<std::string>("ee_link"),
+      InputPort<std::string>("ref_link")
+      //OutputPort<int>("result_status")
+    };
+  }
+
+  bool onSendGoal(GoalType& goal) override {
+    Pose execute_pose{};
+    getInput<Pose>("pose", execute_pose);
+    goal.pose.pose = execute_pose.toROS();
+    getInput<std::string>("ref_link", goal.pose.header.frame_id);
+    getInput<std::string>("ee_link", goal.end_effector_link);
+    ROS_INFO("Brain: %s sending request", name_.c_str());
+    return true;
+  }
+
+  NodeStatus onResult(const ResultType& res) override {
+    ROS_INFO("Brain: %s result received", name_.c_str());
+    if (res.succeded) {
+      ROS_INFO("Brain: %s response SUCCEEDED.", name_.c_str());
+      return NodeStatus::SUCCESS;
+    } else {
+      ROS_INFO("Brain: %s response FAILURE.", name_.c_str());
+      return NodeStatus::FAILURE;
+    }
+  }
+
+  virtual NodeStatus onFailedRequest(FailureCause failure) override {
+    ROS_ERROR("Brain: %s request failed %d", name_.c_str(), static_cast<int>(failure));
+    return NodeStatus::FAILURE;
+  }
+
+  void halt() override {
+    if(status() == NodeStatus::RUNNING) {
+      ROS_WARN("Brain: %s halted", name_.c_str());
+      BaseClass::halt();
+    }
+  }
+
+private:
+  std::string name_;
+};
+
+class ExecuteHeadJointStates : public RosActionNode<walker_movement::MoveToJointPoseAction>
+{
+public:
+  ExecuteHeadJointStates(ros::NodeHandle& handle, const std::string& name, const NodeConfiguration & cfg):
+    RosActionNode<walker_movement::MoveToJointPoseAction>(handle, name, cfg), name_(name) {}
+
+  static PortsList providedPorts() {
+    return {
+      InputPort<JointAngles>("execute_pose"),
+      //OutputPort<int>("result_status")
+    };
+  }
+
+  bool onSendGoal(GoalType& goal) override {
+    JointAngles execute_pose{};
+    getInput<JointAngles>("execute_pose", execute_pose);
+    goal.pose = execute_pose.toROS();
+    ROS_INFO("Brain: %s sending request", name_.c_str());
+    return true;
+  }
+
+  NodeStatus onResult(const ResultType& res) override {
+    ROS_INFO("Brain: %s result received", name_.c_str());
+    if (res.succeded) {
+      ROS_INFO("Brain: %s response SUCCEEDED.", name_.c_str());
+      return NodeStatus::SUCCESS;
+    } else {
+      ROS_INFO("Brain: %s response FAILURE.", name_.c_str());
+      return NodeStatus::FAILURE;
+    }
+  }
+
+  virtual NodeStatus onFailedRequest(FailureCause failure) override {
+    ROS_ERROR("Brain: %s request failed %d", name_.c_str(), static_cast<int>(failure));
+    return NodeStatus::FAILURE;
+  }
+
+  void halt() override {
+    if(status() == NodeStatus::RUNNING) {
+      ROS_WARN("Brain: %s halted", name_.c_str());
+      BaseClass::halt();
+    }
+  }
+
+private:
+  std::string name_;
+};
+
+class ExecuteLHandGrasp : public RosActionNode<walker_movement::GraspAction>
+{
+public:
+  ExecuteLHandGrasp(ros::NodeHandle& handle, const std::string& name, const NodeConfiguration & cfg):
+    RosActionNode<walker_movement::GraspAction>(handle, name, cfg), name_(name) {}
+
+  static PortsList providedPorts() {
+    return {
+      InputPort<int>("type"),
+      //OutputPort<int>("result_status")
+    };
+  }
+
+  bool onSendGoal(GoalType& goal) override {
+    getInput<int>("type", goal.grasp_type);
+    ROS_INFO("Brain: %s sending request", name_.c_str());
+    return true;
+  }
+
+  NodeStatus onResult(const ResultType& res) override {
+    ROS_INFO("Brain: %s result received", name_.c_str());
+    if (res.succeded) {
+      ROS_INFO("Brain: %s response SUCCEEDED.", name_.c_str());
+      return NodeStatus::SUCCESS;
+    } else {
+      ROS_INFO("Brain: %s response FAILURE.", name_.c_str());
+      return NodeStatus::FAILURE;
+    }
+  }
+
+  virtual NodeStatus onFailedRequest(FailureCause failure) override {
+    ROS_ERROR("Brain: %s request failed %d", name_.c_str(), static_cast<int>(failure));
+    return NodeStatus::FAILURE;
+  }
+
+  void halt() override {
+    if(status() == NodeStatus::RUNNING) {
+      ROS_WARN("Brain: %s halted", name_.c_str());
+      BaseClass::halt();
+    }
+  }
+
+private:
+  std::string name_;
+};
+
+class ExecuteRHandGrasp : public RosActionNode<walker_movement::GraspAction>
+{
+public:
+  ExecuteRHandGrasp(ros::NodeHandle& handle, const std::string& name, const NodeConfiguration & cfg):
+    RosActionNode<walker_movement::GraspAction>(handle, name, cfg), name_(name) {}
+
+  static PortsList providedPorts() {
+    return {
+      InputPort<int>("type"),
+      //OutputPort<int>("result_status")
+    };
+  }
+
+  bool onSendGoal(GoalType& goal) override {
+    getInput<int>("type", goal.grasp_type);
     ROS_INFO("Brain: %s sending request", name_.c_str());
     return true;
   }
@@ -273,6 +565,42 @@ private:
   std::string name_;
 };
 
+class EstimateContactForce : public RosServiceNode<walker_brain::Dummy>
+{
+public:
+  EstimateContactForce(ros::NodeHandle &nh, const std::string& name, const BT::NodeConfiguration & cfg) :
+    RosServiceNode<walker_brain::Dummy>(nh, name, cfg), name_(name) {}
+
+  static BT::PortsList providedPorts() {
+    return {
+      InputPort<std::string>("id")
+    };
+  }
+
+  void onSendRequest(RequestType &request) override {
+    getInput<std::string>("id", request.header.frame_id);
+    ROS_INFO("Brain: %s sending request.", name_.c_str());
+  }
+
+  BT::NodeStatus onResponse(const ResponseType &response) override {
+    if (response.result_status == response.SUCCEEDED) {
+      ROS_INFO("Brain: %s response SUCCEEDED.", name_.c_str());
+      return BT::NodeStatus::SUCCESS;
+    } else {
+      ROS_INFO("Brain: %s response FAILURE.", name_.c_str());
+      return BT::NodeStatus::FAILURE;
+    }
+  }
+
+  virtual BT::NodeStatus onFailedRequest(RosServiceNode::FailureCause failure) override {
+    ROS_ERROR("Brain: %s request failed %d.", name_.c_str(), static_cast<int>(failure));
+    return BT::NodeStatus::FAILURE;
+  }
+
+private:
+  std::string name_;
+};
+
 class ExecuteMoveBase : public RosServiceNode<walker_brain::MoveToPose2D>
 {
 public:
@@ -289,6 +617,36 @@ public:
     Pose2D pose{};
     getInput("pose", pose);
     request.nav_pose = pose.toROS();
+    ROS_INFO("Brain: %s sending request.", name_.c_str());
+  }
+
+  BT::NodeStatus onResponse(const ResponseType &response) override {
+    if (response.result_status == response.SUCCEEDED)
+      return BT::NodeStatus::SUCCESS;
+    else
+      return BT::NodeStatus::FAILURE;
+  }
+
+  virtual BT::NodeStatus onFailedRequest(RosServiceNode::FailureCause failure) override {
+    ROS_ERROR("Brain: %s request failed %d.", name_.c_str(), static_cast<int>(failure));
+    return BT::NodeStatus::FAILURE;
+  }
+
+private:
+  std::string name_;
+};
+
+class ExecuteStabilizeBase : public RosServiceNode<walker_brain::Dummy>
+{
+public:
+  ExecuteStabilizeBase(ros::NodeHandle &nh, const std::string& name, const BT::NodeConfiguration & cfg) :
+    RosServiceNode<walker_brain::Dummy>(nh, name, cfg), name_(name) {}
+
+  static BT::PortsList providedPorts() {
+    return {};
+  }
+
+  void onSendRequest(RequestType &request) override {
     ROS_INFO("Brain: %s sending request.", name_.c_str());
   }
 
@@ -340,7 +698,7 @@ private:
 
 int main(int argc, char **argv)
 {
-  ros::init(argc, argv, "open_fridge_node");
+  ros::init(argc, argv, "bt_port");
   ros::NodeHandle nh;
   ros::NodeHandle pnh("~");
 
@@ -354,14 +712,32 @@ int main(int argc, char **argv)
   // We use the BehaviorTreeFactory to register our custom nodes
   BT::BehaviorTreeFactory factory;
 
-  // The recommended way to create a Node is through inheritance.
+  // Base control
   RegisterRosService<ExecuteWalkCmd>(factory, "ExecuteWalkCmd", nh);
-  RegisterRosService<ExecuteMoveToAbsPos>(factory, "ExecuteMoveToAbsPos", nh);
-  RegisterRosAction<ExecuteJointStates>(factory, "ExecuteHeadMove", nh);
-  RegisterRosService<SenseObjectPoses>(factory, "SenseObjectPoses", nh);
-  RegisterRosService<EstimateTargetPose>(factory, "EstimateTargetPose", nh);
   RegisterRosService<ExecuteMoveBase>(factory, "ExecuteMoveBase", nh);
+  RegisterRosService<ExecuteStabilizeBase>(factory, "ExecuteStabilizeBase", nh);
+
+  // Navigation
+  RegisterRosService<ExecuteMoveToAbsPos>(factory, "ExecuteMoveToAbsPos", nh);
+
+  // Upper body control
+  RegisterRosAction<ExecuteHeadJointStates>(factory, "ExecuteHeadJointStates", nh);
+  RegisterRosAction<ExecuteLArmJointStates>(factory, "ExecuteLArmJointStates", nh);
+  RegisterRosAction<ExecuteRArmJointStates>(factory, "ExecuteRArmJointStates", nh);
+  RegisterRosAction<ExecuteLArmMove>(factory, "ExecuteLArmMove", nh);
+  RegisterRosAction<ExecuteRArmMove>(factory, "ExecuteRArmMove", nh);
+  RegisterRosAction<ExecuteLHandGrasp>(factory, "ExecuteLHandGrasp", nh);
+  RegisterRosAction<ExecuteRHandGrasp>(factory, "ExecuteRHandGrasp", nh);
+
+  // Vision & sensing
+  RegisterRosService<SenseObjectPoses>(factory, "SenseObjectPoses", nh);
+
+  // Estimators
+  RegisterRosService<EstimateTargetPose>(factory, "EstimateTargetPose", nh);
   RegisterRosService<EstimateAdjustPose>(factory, "EstimateAdjustPose", nh);
+  RegisterRosService<EstimateContactForce>(factory, "EstimateContactForce", nh);
+
+  // To be deprecated
   RegisterRosService<ExecutePrePose>(factory, "ExecutePrePose", nh);
 
   auto tree = factory.createTreeFromFile(tree_file);

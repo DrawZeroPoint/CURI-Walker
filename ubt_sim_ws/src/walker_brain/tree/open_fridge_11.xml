@@ -3,10 +3,11 @@
     <!-- ////////// -->
     <BehaviorTree ID="BehaviorTree">
         <Sequence>
-            <Action ID="ExecuteHeadMove" execute_pose="0 30" server_name="/walker/move_helper_head/move_to_joint_pose"/>
+            <Action ID="ExecuteHeadJointStates" execute_pose="0 30" server_name="/walker/move_helper_head/move_to_joint_pose"/>
             <Sequence>
                 <Action ID="EstimateAdjustPose" service_name="estimate_adjust_pose" tgt_nav_pose="{adjust_pose}"/>
                 <Action ID="ExecuteMoveBase" pose="{adjust_pose}" service_name="move_to_pose2d"/>
+                <Action ID="ExecuteStabilizeBase" service_name="stabilize_base"/>
             </Sequence>
             <RetryUntilSuccesful num_attempts="3">
                 <Fallback>
@@ -20,7 +21,20 @@
                 </Fallback>
             </RetryUntilSuccesful>
             <Action ID="ExecuteMoveBase" pose="{target_nav_pose}" service_name="move_to_pose2d"/>
-            <Action ID="ExecutePrePose" service_name="open_fridge"/>
+            <Sequence>
+                <Action ID="ExecuteMoveBase" pose="0 0 -0.5" service_name="move_to_pose2d"/>
+                <Action ID="ExecuteMoveBase" pose="-0.1 0 0" service_name="move_to_pose2d"/>
+                <Sequence>
+                    <Action ID="ExecuteJointStatesMove" execute_pose="25 -15 -52 -65 -129 -19 7" server_name="/walker/move_helper_left_arm/move_to_joint_pose"/>
+                    <RetryUntilSuccesful num_attempts="3">
+                        <Fallback>
+                            <Action ID="EstimateLHandContactForce" service_name="estimate_contact_force"/>
+                            <Action ID="ExecuteLArmMove" ee_link="left_tcp" execute_pose="0.02 0 0 0 0 0 1" server_name="/walker/move_helper_left_arm/move_to_ee_pose"/>
+                        </Fallback>
+                    </RetryUntilSuccesful>
+                    <Action ID="ExecuteLArmMove" ee_link="left_tcp" execute_pose="0 0.2 0 0 0 0 1" server_name="/walker/move_helper_left_arm/move_to_ee_pose"/>
+                </Sequence>
+            </Sequence>
         </Sequence>
     </BehaviorTree>
     <!-- ////////// -->
@@ -29,14 +43,26 @@
             <input_port default="estimate_adjust_pose" name="service_name"/>
             <output_port default="{adjust_pose}" name="tgt_nav_pose"/>
         </Action>
+        <Action ID="EstimateLHandContactForce">
+            <input_port default="estimate_contact_force" name="service_name"/>
+        </Action>
         <Action ID="EstimateTargetPose">
             <input_port default="{detected_poses}" name="obj_poses"/>
             <input_port default="estimate_target_pose" name="service_name"/>
             <output_port default="{target_nav_pose}" name="tgt_nav_pose"/>
         </Action>
-        <Action ID="ExecuteHeadMove">
+        <Action ID="ExecuteHeadJointStates">
+            <input_port name="execute_pose"/>
+            <input_port name="server_name"/>
+        </Action>
+        <Action ID="ExecuteJointStatesMove">
             <input_port default="0 30" name="execute_pose"/>
             <input_port default="/walker/move_helper_head/move_to_joint_pose" name="server_name"/>
+        </Action>
+        <Action ID="ExecuteLArmMove">
+            <input_port default="left_tcp" name="ee_link"/>
+            <input_port name="execute_pose"/>
+            <input_port default="/walker/move_helper_left_arm/move_to_ee_pose" name="server_name"/>
         </Action>
         <Action ID="ExecuteMoveBase">
             <input_port default="{target_nav_pose}" name="pose"/>
@@ -44,6 +70,9 @@
         </Action>
         <Action ID="ExecutePrePose">
             <input_port default="open_fridge" name="service_name"/>
+        </Action>
+        <Action ID="ExecuteStabilizeBase">
+            <input_port default="stabilize_base" name="service_name"/>
         </Action>
         <Action ID="SenseObjectPoses">
             <input_port default="box" name="goal_id"/>

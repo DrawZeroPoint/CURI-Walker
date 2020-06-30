@@ -3,7 +3,7 @@
     <!-- ////////// -->
     <BehaviorTree ID="BehaviorTree">
         <Sequence>
-            <Action ID="ExecuteHeadMove" execute_pose="0 30" server_name="/walker/move_helper_head/move_to_joint_pose"/>
+            <Action ID="ExecuteHeadJointStates" execute_pose="0 30" server_name="/walker/move_helper_head/move_to_joint_pose"/>
             <RetryUntilSuccesful num_attempts="3">
                 <Sequence>
                     <Action ID="SenseObjectPoses" goal_id="box" poses="{detected_poses}" service_name="/head/extract_object_on_top"/>
@@ -25,7 +25,7 @@
             <input_port default="0 -0.12 0" name="pose"/>
             <input_port default="move_to_pose2d" name="service_name"/>
         </Action>
-        <Action ID="ExecuteHeadMove">
+        <Action ID="ExecuteHeadJointStates">
             <input_port default="0 30" name="execute_pose"/>
             <input_port default="/walker/move_helper_head/move_to_joint_pose" name="server_name"/>
         </Action>

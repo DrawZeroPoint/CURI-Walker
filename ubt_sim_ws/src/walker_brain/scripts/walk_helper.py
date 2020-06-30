@@ -16,16 +16,17 @@ class MoveToPoseServer(object):
     def __init__(self):
         super(MoveToPoseServer, self).__init__()
 
-        self._server = rospy.Service('move_to_pose2d', MoveToPose2D, self.handle)
+        self._server = rospy.Service('execute_move_base', MoveToPose2D, self.handle)
         self._adjust_yaw_server = rospy.Service('rotate_to_pose2d', MoveToPose2D, self.adjust_yaw_handle)
         self._walk_cmd_server = rospy.Service('walk_cmd', Dummy, self.cmd_handle)
+        self._stabilize_server = rospy.Service('stabilize_base', Dummy, self.stabilize_handle)
         self._remote = rospy.ServiceProxy('/Leg/TaskScheduler', leg_motion_MetaFuncCtrl)
         self._ls = rospy.Subscriber('/Leg/leg_status', String, self.status_cb)
         self._vel_puber = rospy.Publisher('/nav/cmd_vel_nav', Twist, queue_size=1)
 
-        self._x_primary_vel = 0.32
+        self._x_primary_vel = 0.25
         self._y_primary_vel = 0.04
-        self._r_primary_vel = 0.35
+        self._r_primary_vel = 0.25
         self._x_min_step = 0.005
         self._y_min_step = 0.005
         self._r_min_step = 0.005
@@ -38,14 +39,19 @@ class MoveToPoseServer(object):
     def on_start(self):
         clear_vel = Twist()
         self._vel_puber.publish(clear_vel)
-        self.call("start")
-        rospy.sleep(0.35)
+        while True:
+            self.call("start")
+            rospy.sleep(0.35)
+            if self._status == 'dynamic':
+                break
+            else:
+                rospy.logwarn("Brain: Waiting for state change..")
 
     def on_stop(self):
         vel = Twist()
         self._vel_puber.publish(vel)
         self.call("stop")
-        rospy.sleep(0.35)
+        rospy.sleep(0.7)
 
     def move_forward_backward(self, offset, abs_vel, is_negative):
         assert abs_vel > 0
@@ -111,6 +117,14 @@ class MoveToPoseServer(object):
         else:
             rospy.logerr("Brain: Unknown walk cmd {}".format(req.header.frame_id))
             resp.result_status = resp.FAILED
+        return resp
+
+    @staticmethod
+    def stabilize_handle(req):
+        resp = DummyResponse()
+        rospy.logwarn("Brain: Stabilizing the base for 1 sec.")
+        rospy.sleep(1)
+        resp.result_status = resp.SUCCEEDED
         return resp
 
     def adjust_yaw_handle(self, req):

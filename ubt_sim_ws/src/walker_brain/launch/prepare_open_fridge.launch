@@ -4,7 +4,7 @@
     <arg name="nav" />
 
     <include file="$(find walker_webots_hardware_interface)/launch/moveit.launch">
-        <arg name="show_rviz" value="false" />
+        <arg name="show_rviz" value="true" />
     </include>
 
     <include file="$(find walker_movement)/launch/helpers.launch">
