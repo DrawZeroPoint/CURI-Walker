@@ -108,6 +108,17 @@ class WalkerMovementUtils:
         #print(c.get_result())
         rospy.loginfo("Grasped")
 
+    def graspFridge(self, isLeft):
+        rospy.loginfo("Grasping...")
+        if isLeft:
+            c = self.graspLeftClient
+        else:
+            c = self.graspRightClient
+        c.send_goal(walker_movement.msg.GraspGoal(walker_movement.msg.GraspGoal.GRASP_TYPE_FRIDGE_HANDLE))
+        c.wait_for_result()
+        #print(c.get_result())
+        rospy.loginfo("Grasped")
+
     def releaseGrasp(self, isLeft):
         rospy.loginfo("Opening hand...")
         if isLeft:

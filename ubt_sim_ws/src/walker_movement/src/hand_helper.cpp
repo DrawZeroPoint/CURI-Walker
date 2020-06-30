@@ -51,6 +51,10 @@ void graspActionCallback(const walker_movement::GraspGoalConstPtr &goal)
   {
     setHandPosition(0.2,0.9, 0.7,0.7, 1,0.8, 0.5,0.7, 0.3,0.3);
   }
+  else if(goal->grasp_type == walker_movement::GraspGoal::GRASP_TYPE_FRIDGE_HANDLE)
+  {
+    setHandPosition(0.3,0.5, 1.1,1.2, 1.1,1.2, 1.1,1.2, 1.1,1.2);
+  }
   else
   {
     ROS_ERROR("Invalid grasp type");
