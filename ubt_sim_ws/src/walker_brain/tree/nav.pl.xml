@@ -1,0 +1,13 @@
+<root>
+    <TreeNodesModel>
+        <Action ID="ExecuteMoveToAbsPos">
+            <input_port name="pose"/>
+            <input_port name="service_name" default="/move_base/move_to_abs_pos"/>
+        </Action>
+        <Action ID="ExecuteWalkCmd">
+            <input_port name="cmd" default="start"/>
+            <input_port name="service_name" default="walk_cmd"/>
+        </Action>
+    </TreeNodesModel>
+</root>
+

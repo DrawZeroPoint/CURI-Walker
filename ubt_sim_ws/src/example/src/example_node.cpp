@@ -46,7 +46,7 @@ void subWalkerStepNum(const std_msgs::Int64 &msgs) {
 
 int main(int argc, char **argv) {
   ros::init(argc, argv, "example_node", ros::init_options::AnonymousName);
-
+  ROS_INFO("Initialization!!!");
   ros::NodeHandle n;
 
   //pub left arm joints' data
@@ -64,6 +64,7 @@ int main(int argc, char **argv) {
       n.subscribe("/Leg/StepNum", 10, &subWalkerStepNum);
 
   //gait start and stop service
+  ROS_INFO("Gait client!!!");
   ros::ServiceClient client =
       n.serviceClient<walker_srvs::leg_motion_MetaFuncCtrl>(
           "/Leg/TaskScheduler");
@@ -86,17 +87,23 @@ int main(int argc, char **argv) {
   double time = 0.0;
   bool is_first = false;
   const size_t limb_joint_count = 7;
-  while (ros::ok()) {
+  ROS_INFO("Before while");
+
+  int i = 0;
+  while (i != 100) {
     time += 0.001;
+    i += 1;
 
     // control arm joints
-    left_arm_data.mode = 5;
-    for (size_t ll = 0; ll < limb_joint_count; ll++) {
-      left_arm_data.command[ll] = 0.5 * sin(time * 2 * PI / 1.0);
-    }
-    test_pub.publish(left_arm_data);
+    // left_arm_data.mode = 5;
+    // for (size_t ll = 0; ll < limb_joint_count; ll++) {
+    //   left_arm_data.command[ll] = 0.5 * sin(time * 2 * PI / 1.0);
+    // }
+    // test_pub.publish(left_arm_data);
 
     // call walker walking
+    //std::cout << leg_status << "\n";
+    // ROS_INFO(step_num);
     if (leg_status == "standing" && step_num == 0 && !is_first) {
       walker_walking.request.func_name = "dynamic";
       walker_walking.request.cmd = "start";
@@ -107,8 +114,8 @@ int main(int argc, char **argv) {
 
     // control walking velocity and direction
     if (leg_status == "dynamic") {
-      vel_ctrl.linear.x = 0.1;
-      vel_ctrl.angular.z = 0.5;
+      vel_ctrl.linear.x = 0.0;
+      vel_ctrl.angular.z = 0.0;
       walker_vel.publish(vel_ctrl);
     }
 
