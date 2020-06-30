@@ -85,6 +85,7 @@ add_action_files(
   Grasp.action
   DualArmEeMove.action
   DualArmJointMove.action
+  DualArmMirroredEeMove.action
 )
 
 ## Generate added messages and services with any dependencies listed here

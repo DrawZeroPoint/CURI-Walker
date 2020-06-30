@@ -20,7 +20,7 @@ class WalkerMovementUtils:
         self.moveEeRightClient = actionlib.SimpleActionClient('/walker/move_helper_right_arm/move_to_ee_pose', walker_movement.msg.MoveToEePoseAction)
         self.moveJointsRightClient = actionlib.SimpleActionClient('/walker/move_helper_right_arm/move_to_joint_pose', walker_movement.msg.MoveToJointPoseAction)
         self.graspRightClient = actionlib.SimpleActionClient('/walker/hand_helper_right/grasp', walker_movement.msg.GraspAction)
-        self.moveEeDualClient = actionlib.SimpleActionClient('/walker/dual_arm_control/move_to_ee_pose', walker_movement.msg.DualArmEeMoveAction)
+        self.moveEeDualClient = actionlib.SimpleActionClient('/walker/dual_arm_control/move_to_ee_pose_mirrored', walker_movement.msg.DualArmMirroredEeMoveAction)
         self.moveJointsDualClient = actionlib.SimpleActionClient('/walker/dual_arm_control/move_to_joint_pose', walker_movement.msg.DualArmJointMoveAction)
 
 
@@ -164,7 +164,7 @@ class WalkerMovementUtils:
         self.moveJointsDualClient.wait_for_result()
 
 
-    def moveToEeDualArm(self,leftPosition, leftOrientation, rightPosition, rightOrientation, isRelative=False, do_cartesian=False):
+    def moveToEeDualArm(self,leftPosition, leftOrientation, isRelative=False, do_cartesian=False):
         rospy.loginfo("Dual moving to ee pose")
 
         eel_left = "left_tcp"
@@ -178,8 +178,6 @@ class WalkerMovementUtils:
             frame_id_right = "base_link"
         goal.left_pose = self.buildPoseStamped(leftPosition,leftOrientation,frame_id_left)
         goal.left_end_effector_link = eel_left
-        goal.right_pose = self.buildPoseStamped(rightPosition,rightOrientation,frame_id_right)
-        goal.right_end_effector_link = eel_right
         goal.do_cartesian = do_cartesian
         self.moveEeDualClient.send_goal(goal)
         self.moveEeDualClient.wait_for_result()

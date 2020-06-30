@@ -58,16 +58,16 @@ wmu.releaseGrasp(False)
 
 addCollision()
 rospy.loginfo("Moving to pose 1")
-wmu.moveToEeDualArm(intermediate_left[0],intermediate_left[1],intermediate_right[0],intermediate_right[1],do_cartesian=False)
+wmu.moveToEeDualArm(intermediate_left[0],intermediate_left[1],do_cartesian=False)
 removeCollision()
 
 rospy.loginfo("Moving to pose 2")
 
-wmu.moveToEeDualArm(intermediate2_left[0],intermediate2_left[1],intermediate2_right[0],intermediate2_right[1],do_cartesian=False)
+wmu.moveToEeDualArm(intermediate2_left[0],intermediate2_left[1],do_cartesian=False)
 
 rospy.loginfo("Moving to grasp pose")
 
-wmu.moveToEeDualArm(grapPose_left[0],grapPose_left[1],grapPose_right[0],grapPose_right[1],do_cartesian=False)
+wmu.moveToEeDualArm(grapPose_left[0],grapPose_left[1],do_cartesian=False)
 
 
 wmu.graspCan(True)
@@ -80,4 +80,4 @@ leftPoseL  = [[leftPose.pose.position.x,leftPose.pose.position.y,leftPose.pose.p
 rightPoseL = [[rightPose.pose.position.x,rightPose.pose.position.y,rightPose.pose.position.z+0.05],[rightPose.pose.orientation.x,rightPose.pose.orientation.y,rightPose.pose.orientation.z,rightPose.pose.orientation.w]]
 
 rospy.loginfo("Moving up")
-wmu.moveToEeDualArm(leftPoseL[0],leftPoseL[1],rightPoseL[0],rightPoseL[1],do_cartesian=True)
+wmu.moveToEeDualArm(leftPoseL[0],leftPoseL[1],do_cartesian=True)
