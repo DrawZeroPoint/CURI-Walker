@@ -4,7 +4,7 @@
     <arg name="nav" />
 
     <include file="$(find walker_webots_hardware_interface)/launch/moveit.launch">
-        <arg name="show_rviz" value="false" />
+        <arg name="show_rviz" value="true" />
     </include>
 
     <include file="$(find walker_movement)/launch/helpers.launch">
@@ -19,10 +19,10 @@
         <arg name="account_file" value="$(find leg_motion)/launch/user_account.json" />
     </include>
 
-    <node pkg="walker_brain" type="open_fridge_server.py" name="open_fridge_server" output="screen">
+    <node pkg="walker_brain" type="walk_helper.py" name="walk_helper" output="screen">
     </node>
 
-    <node pkg="walker_brain" type="walk_helper.py" name="walk_helper" output="screen">
+    <node pkg="walker_brain" type="open_fridge_server.py" name="open_fridge_server" output="screen">
     </node>
 
     <group if="$(arg nav)">
