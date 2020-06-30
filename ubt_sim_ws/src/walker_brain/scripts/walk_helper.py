@@ -17,9 +17,10 @@ class MoveToPoseServer(object):
         super(MoveToPoseServer, self).__init__()
 
         self._server = rospy.Service('execute_move_base', MoveToPose2D, self.handle)
-        self._adjust_yaw_server = rospy.Service('rotate_to_pose2d', MoveToPose2D, self.adjust_yaw_handle)
-        self._walk_cmd_server = rospy.Service('walk_cmd', Dummy, self.cmd_handle)
+        # self._adjust_yaw_server = rospy.Service('execute_rotate_base', MoveToPose2D, self.adjust_yaw_handle)
+        self._walk_cmd_server = rospy.Service('execute_walk_cmd', Dummy, self.cmd_handle)
         self._stabilize_server = rospy.Service('stabilize_base', Dummy, self.stabilize_handle)
+
         self._remote = rospy.ServiceProxy('/Leg/TaskScheduler', leg_motion_MetaFuncCtrl)
         self._ls = rospy.Subscriber('/Leg/leg_status', String, self.status_cb)
         self._vel_puber = rospy.Publisher('/nav/cmd_vel_nav', Twist, queue_size=1)
@@ -123,7 +124,7 @@ class MoveToPoseServer(object):
     def stabilize_handle(req):
         resp = DummyResponse()
         rospy.logwarn("Brain: Stabilizing the base for 1 sec.")
-        rospy.sleep(1)
+        rospy.sleep(2)
         resp.result_status = resp.SUCCEEDED
         return resp
 

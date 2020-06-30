@@ -6,6 +6,8 @@
         </Action>
         <Action ID="EstimateContactForce">
             <input_port name="id">Could be left_wrist or right_wrist</input_port>
+            <input_port name="max_force" default="0"/>
+            <input_port name="min_force" default="0"/>
             <input_port name="service_name" default="estimate_contact_force"/>
         </Action>
         <Action ID="EstimateTargetPose">
@@ -13,13 +15,13 @@
             <input_port name="service_name" default="estimate_target_pose"/>
             <output_port name="tgt_nav_pose" default="{target_nav_pose}"/>
         </Action>
-        <Action ID="ExecuteAdjustBase">
-            <input_port name="pose" default="0 -0.12 0"/>
-            <input_port name="service_name" default="move_to_pose2d"/>
-        </Action>
         <Action ID="ExecuteHeadJointStates">
-            <input_port name="execute_pose"/>
-            <input_port name="server_name"/>
+            <input_port name="joint_states" default="0 0"/>
+            <input_port name="server_name" default="/walker/move_helper_head/move_to_joint_pose"/>
+        </Action>
+        <Action ID="ExecuteLArmJointStates">
+            <input_port name="joint_states" default="0 0 0 0 0 0 0"/>
+            <input_port name="server_name" default="/walker/move_helper_right_arm/move_to_joint_pose"/>
         </Action>
         <Action ID="ExecuteLArmMove">
             <input_port name="ee_link" default="left_tcp">The link to be controlled, default is left_tcp</input_port>
@@ -27,15 +29,20 @@
             <input_port name="ref_link" default="base_link">Could be base_link or left_tcp</input_port>
             <input_port name="server_name" default="/walker/move_helper_left_arm/move_to_ee_pose"/>
         </Action>
+        <Action ID="ExecuteLHandGrasp">
+            <input_port name="server_name" default="/walker/hand_helper_right/grasp"/>
+            <input_port name="type"/>
+        </Action>
         <Action ID="ExecuteMoveBase">
             <input_port name="pose" default="{target_nav_pose}"/>
             <input_port name="service_name" default="execute_move_base"/>
         </Action>
-        <Action ID="ExecutePrePose">
-            <input_port name="service_name" default="open_fridge"/>
+        <Action ID="ExecuteMoveToAbsPose">
+            <input_port name="pose"/>
+            <input_port name="service_name" default="/move_base/move_to_abs_pos"/>
         </Action>
         <Action ID="ExecuteRArmJointStates">
-            <input_port name="execute_pose" default="0 0 0 0 0 0 0"/>
+            <input_port name="joint_states" default="0 0 0 0 0 0 0"/>
             <input_port name="server_name" default="/walker/move_helper_right_arm/move_to_joint_pose"/>
         </Action>
         <Action ID="ExecuteRArmMove">
@@ -50,6 +57,10 @@
         </Action>
         <Action ID="ExecuteStabilizeBase">
             <input_port name="service_name" default="stabilize_base"/>
+        </Action>
+        <Action ID="ExecuteWalkCmd">
+            <input_port name="cmd">Could be start or stop</input_port>
+            <input_port name="service_name" default="execute_walk_cmd"/>
         </Action>
         <Action ID="SenseObjectPoses">
             <input_port name="goal_id" default="box"/>

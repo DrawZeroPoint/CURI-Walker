@@ -24,7 +24,7 @@
         <!-- In webots world frame -->
         <!-- Fridge door surface center: x:-8.0, z:2.6; Robot control only opening pose: x:-7.62, z:3.03 -->
         <param name="x_offset" value="0.38" />
-        <param name="y_offset" value="0.48" />
+        <param name="y_offset" value="0.44" />
         <param name="rotation_tolerance" value="$(arg rotation_tolerance)" />
     </node>
 

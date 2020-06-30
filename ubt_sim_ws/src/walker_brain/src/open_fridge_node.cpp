@@ -8,10 +8,12 @@
 
 // Services (customized)
 #include <walker_brain/EstimateTargetPose.h>
+#include <walker_brain/EstimateContactForce.h>
 #include <walker_brain/MoveToPose2D.h>
 #include <walker_brain/Dummy.h>
 #include <hope/ExtractObjectOnTop.h>
 #include <walker_nav/MoveToAbsPos.h>
+#include <walker_nav/MoveToRelPos.h>
 
 // Actions (customized)
 #include <walker_movement/MoveToEePoseAction.h>
@@ -90,6 +92,39 @@ private:
   std::string name_;
 };
 
+class ExecuteMoveToRelPos : public RosServiceNode<walker_nav::MoveToRelPos>
+{
+public:
+  ExecuteMoveToRelPos(ros::NodeHandle &nh, const std::string& name, const BT::NodeConfiguration & cfg) :
+    RosServiceNode<walker_nav::MoveToRelPos>(nh, name, cfg), name_(name) {}
+
+  static BT::PortsList providedPorts() {
+    return {
+      BT::InputPort<Pose>("pose")
+    };
+  }
+
+  void onSendRequest(RequestType &request) override {
+    Pose tgt_pose{};
+    getInput("pose", tgt_pose);
+    request.pose = tgt_pose.toROS();
+    ROS_INFO("Brain: %s sending request.", name_.c_str());
+  }
+
+  BT::NodeStatus onResponse(const ResponseType &response) override {
+    // TODO specify response in the srv
+    return BT::NodeStatus::SUCCESS;
+  }
+
+  virtual BT::NodeStatus onFailedRequest(RosServiceNode::FailureCause failure) override {
+    ROS_ERROR("Brain: %s request failed %d.", name_.c_str(), static_cast<int>(failure));
+    return BT::NodeStatus::FAILURE;
+  }
+
+private:
+  std::string name_;
+};
+
 class ExecuteLArmJointStates : public RosActionNode<walker_movement::MoveToJointPoseAction>
 {
 public:
@@ -98,15 +133,15 @@ public:
 
   static PortsList providedPorts() {
     return {
-      InputPort<JointAngles>("execute_pose"),
+      InputPort<JointAngles>("joint_states"),
       //OutputPort<int>("result_status")
     };
   }
 
   bool onSendGoal(GoalType& goal) override {
-    JointAngles execute_pose{};
-    getInput<JointAngles>("execute_pose", execute_pose);
-    goal.pose = execute_pose.toROS();
+    JointAngles joint_states{};
+    getInput<JointAngles>("joint_states", joint_states);
+    goal.pose = joint_states.toROS();
     ROS_INFO("Brain: %s sending request", name_.c_str());
     return true;
   }
@@ -146,15 +181,15 @@ public:
 
   static PortsList providedPorts() {
     return {
-      InputPort<JointAngles>("execute_pose"),
+      InputPort<JointAngles>("joint_states"),
       //OutputPort<int>("result_status")
     };
   }
 
   bool onSendGoal(GoalType& goal) override {
-    JointAngles execute_pose{};
-    getInput<JointAngles>("execute_pose", execute_pose);
-    goal.pose = execute_pose.toROS();
+    JointAngles joint_states{};
+    getInput<JointAngles>("joint_states", joint_states);
+    goal.pose = joint_states.toROS();
     ROS_INFO("Brain: %s sending request", name_.c_str());
     return true;
   }
@@ -298,15 +333,15 @@ public:
 
   static PortsList providedPorts() {
     return {
-      InputPort<JointAngles>("execute_pose"),
+      InputPort<JointAngles>("joint_states"),
       //OutputPort<int>("result_status")
     };
   }
 
   bool onSendGoal(GoalType& goal) override {
-    JointAngles execute_pose{};
-    getInput<JointAngles>("execute_pose", execute_pose);
-    goal.pose = execute_pose.toROS();
+    JointAngles joint_states{};
+    getInput<JointAngles>("joint_states", joint_states);
+    goal.pose = joint_states.toROS();
     ROS_INFO("Brain: %s sending request", name_.c_str());
     return true;
   }
@@ -565,25 +600,33 @@ private:
   std::string name_;
 };
 
-class EstimateContactForce : public RosServiceNode<walker_brain::Dummy>
+class EstimateContactForce : public RosServiceNode<walker_brain::EstimateContactForce>
 {
 public:
   EstimateContactForce(ros::NodeHandle &nh, const std::string& name, const BT::NodeConfiguration & cfg) :
-    RosServiceNode<walker_brain::Dummy>(nh, name, cfg), name_(name) {}
+    RosServiceNode<walker_brain::EstimateContactForce>(nh, name, cfg), name_(name) {}
 
   static BT::PortsList providedPorts() {
     return {
-      InputPort<std::string>("id")
+      InputPort<std::string>("id"),
+      InputPort<double>("max_force"),
+      InputPort<double>("min_force")
     };
   }
 
   void onSendRequest(RequestType &request) override {
     getInput<std::string>("id", request.header.frame_id);
+    // Note that BT don't support float conversion
+    double max_force, min_force;
+    getInput<double>("max_force", max_force);
+    getInput<double>("min_force", min_force);
+    request.max_force = float(max_force);
+    request.min_force = float(min_force);
     ROS_INFO("Brain: %s sending request.", name_.c_str());
   }
 
   BT::NodeStatus onResponse(const ResponseType &response) override {
-    if (response.result_status == response.SUCCEEDED) {
+    if (response.result_status == response.IN_RANGE) {
       ROS_INFO("Brain: %s response SUCCEEDED.", name_.c_str());
       return BT::NodeStatus::SUCCESS;
     } else {
@@ -719,6 +762,7 @@ int main(int argc, char **argv)
 
   // Navigation
   RegisterRosService<ExecuteMoveToAbsPos>(factory, "ExecuteMoveToAbsPos", nh);
+  RegisterRosService<ExecuteMoveToRelPos>(factory, "ExecuteMoveToRelPos", nh);
 
   // Upper body control
   RegisterRosAction<ExecuteHeadJointStates>(factory, "ExecuteHeadJointStates", nh);

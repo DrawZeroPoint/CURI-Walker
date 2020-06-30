@@ -21,6 +21,7 @@ add_service_files(
   FILES
   Dummy.srv
   EstimateTargetPose.srv
+  EstimateContactForce.srv
   MoveToPose2D.srv
 )
 
