@@ -1,0 +1,11 @@
+std_msgs/Header header
+float32 min_force
+float32 max_force
+---
+uint8 IN_RANGE=0
+uint8 LOWER_THAN_MIN_FORCE=1
+uint8 HIGHER_THAN_MAX_FORCE=2
+uint8 FAILED=9
+uint8 result_status
+
+geometry_msgs/WrenchStamped wrench

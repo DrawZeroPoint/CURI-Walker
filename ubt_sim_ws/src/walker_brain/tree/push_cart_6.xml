@@ -17,7 +17,7 @@
             <input_port default="0 -0.12 0" name="pose"/>
             <input_port default="move_to_pose2d" name="service_name"/>
         </Action>
-        <Action ID="ExecuteHeadMove">
+        <Action ID="ExecuteHeadJointStates">
             <input_port default="0 30" name="execute_pose"/>
             <input_port default="/walker/move_helper_head/move_to_joint_pose" name="server_name"/>
         </Action>
