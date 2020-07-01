@@ -3,7 +3,7 @@
     <!-- ////////// -->
     <BehaviorTree ID="BehaviorTree">
         <Sequence>
-            <Action ID="ExecuteMoveToAbsPos" pose="3.25 1.6 0 0 0 0 1" service_name="/move_base/move_to_abs_pos"/>
+            <Action ID="ExecuteMoveToAbsPose" pose="3.25 1.6 0 0 0 0 1" service_name="/move_base/move_to_abs_pos"/>
         </Sequence>
     </BehaviorTree>
     <!-- ////////// -->
@@ -25,7 +25,7 @@
             <input_port default="{target_nav_pose}" name="pose"/>
             <input_port default="move_to_pose2d" name="service_name"/>
         </Action>
-        <Action ID="ExecuteMoveToAbsPos">
+        <Action ID="ExecuteMoveToAbsPose">
             <input_port name="pose"/>
             <input_port default="/move_base/move_to_abs_pos" name="service_name"/>
         </Action>

@@ -17,7 +17,6 @@ class MoveToPoseServer(object):
         super(MoveToPoseServer, self).__init__()
 
         self._server = rospy.Service('execute_move_base', MoveToPose2D, self.handle)
-        # self._adjust_yaw_server = rospy.Service('execute_rotate_base', MoveToPose2D, self.adjust_yaw_handle)
         self._walk_cmd_server = rospy.Service('execute_walk_cmd', Dummy, self.cmd_handle)
         self._stabilize_server = rospy.Service('stabilize_base', Dummy, self.stabilize_handle)
 
@@ -40,13 +39,15 @@ class MoveToPoseServer(object):
     def on_start(self):
         clear_vel = Twist()
         self._vel_puber.publish(clear_vel)
-        while True:
+        cnt = 10
+        while cnt:
             self.call("start")
             rospy.sleep(0.35)
             if self._status == 'dynamic':
-                break
+                return True
             else:
                 rospy.logwarn("Brain: Waiting for state change..")
+        return False
 
     def on_stop(self):
         vel = Twist()
@@ -99,7 +100,7 @@ class MoveToPoseServer(object):
         else:
             info = 'Turn right'
             vel.angular.z = -abs_vel
-        rospy.logwarn(vel)
+
         self._vel_puber.publish(vel)
         step_num = math.floor(offset / abs_vel)
         rospy.loginfo("Brain: {} for {} steps ({:.3f} rad/step)".format(info, int(step_num), abs_vel))
@@ -110,8 +111,11 @@ class MoveToPoseServer(object):
     def cmd_handle(self, req):
         resp = DummyResponse()
         if req.header.frame_id == 'start':
-            self.on_start()
-            resp.result_status = resp.SUCCEEDED
+            ok = self.on_start()
+            if ok:
+                resp.result_status = resp.SUCCEEDED
+            else:
+                resp.result_status = resp.FAILED
         elif req.header.frame_id == 'stop':
             self.on_stop()
             resp.result_status = resp.SUCCEEDED
@@ -123,39 +127,19 @@ class MoveToPoseServer(object):
     @staticmethod
     def stabilize_handle(req):
         resp = DummyResponse()
-        rospy.logwarn("Brain: Stabilizing the base for 1 sec.")
+        rospy.logwarn("Brain: Stabilizing the base for 2 sec.")
         rospy.sleep(2)
-        resp.result_status = resp.SUCCEEDED
-        return resp
-
-    def adjust_yaw_handle(self, req):
-        resp = MoveToPose2DResponse()
-        self.on_start()
-
-        rospy.loginfo("Brain: Received rotation adjusting request: {}".format(req.nav_pose))
-        if req.nav_pose.theta != 0:
-            residual = abs(req.nav_pose.theta)
-            abs_vel = min(residual, self._r_primary_vel)
-            if abs_vel >= self._r_min_step:
-                is_negative = False
-                if req.nav_pose.theta < 0:
-                    is_negative = True
-                while residual >= self._r_min_step and abs(abs_vel) >= self._r_min_step:
-                    residual = self.turn_left_right(residual, abs_vel, is_negative)
-                    if self._r_min_step <= residual <= self._r_primary_vel:
-                        abs_vel = residual
-                    else:
-                        abs_vel /= 2.0
-
-        self.on_stop()
         resp.result_status = resp.SUCCEEDED
         return resp
 
     def handle(self, req):
         resp = MoveToPose2DResponse()
-        self.on_start()
+        ok = self.on_start()
+        if not ok:
+            resp.result_status = resp.FAILED
+            return resp
 
-        rospy.loginfo("Brain: Walk helper received call: {}".format(req.nav_pose))
+        rospy.loginfo("Brain: Walk helper received call: \n{}".format(req.nav_pose))
 
         if req.nav_pose.y != 0:
             residual = abs(req.nav_pose.y)

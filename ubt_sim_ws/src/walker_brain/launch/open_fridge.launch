@@ -28,7 +28,7 @@
         <param name="rotation_tolerance" value="$(arg rotation_tolerance)" />
     </node>
 
-    <node pkg="walker_brain" type="open_fridge_node" name="open_fridge_node" output="screen">
+    <node pkg="walker_brain" type="bt_port_node" name="bt_port_node" output="screen">
         <param name="tree_file" value="$(find walker_brain)/tree/open_fridge_$(arg task_id).xml" />
     </node>
 

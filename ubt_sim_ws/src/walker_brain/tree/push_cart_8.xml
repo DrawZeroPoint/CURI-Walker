@@ -4,7 +4,7 @@
     <BehaviorTree ID="BehaviorTree">
         <Sequence>
             <Action ID="ExecuteWalkCmd" cmd="start" service_name="walk_cmd"/>
-            <Action ID="ExecuteMoveToAbsPos" pose="-1.8 3.35 -0.02 0 0 -0.707 0.707" service_name="/move_base/move_to_abs_pos"/>
+            <Action ID="ExecuteMoveToAbsPose" pose="-1.8 3.35 -0.02 0 0 -0.7071 0.7071" service_name="/move_base/move_to_abs_pos"/>
             <Action ID="ExecuteWalkCmd" cmd="stop" service_name="walk_cmd"/>
             <Action ID="ExecuteHeadJointStates" execute_pose="0 30" server_name="/walker/move_helper_head/move_to_joint_pose"/>
             <RetryUntilSuccesful num_attempts="3">
@@ -36,7 +36,7 @@
             <input_port default="{target_nav_pose}" name="pose"/>
             <input_port default="move_to_pose2d" name="service_name"/>
         </Action>
-        <Action ID="ExecuteMoveToAbsPos">
+        <Action ID="ExecuteMoveToAbsPose">
             <input_port name="pose"/>
             <input_port default="/move_base/move_to_abs_pos" name="service_name"/>
         </Action>
@@ -55,3 +55,4 @@
     </TreeNodesModel>
     <!-- ////////// -->
 </root>
+

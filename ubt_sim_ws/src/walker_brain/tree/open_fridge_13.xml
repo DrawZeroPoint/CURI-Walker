@@ -2,21 +2,80 @@
 <root main_tree_to_execute="BehaviorTree">
     <!-- ////////// -->
     <BehaviorTree ID="BehaviorTree">
-        <Sequence>
-            <Action ID="ExecuteWalkCmd" cmd="start" service_name="walk_cmd"/>
-            <Action ID="ExecuteMoveToAbsPos" pose="-0.7 8.4 0.02 0 0 0.7071 0.7071" service_name="/move_base/move_to_abs_pos"/>
-            <Action ID="ExecuteWalkCmd" cmd="stop" service_name="walk_cmd"/>
+        <Sequence name="Open fridge 13">
+            <Action ID="ExecuteWalkCmd" cmd="start" name="Start walking" service_name="execute_walk_cmd"/>
+            <Action ID="ExecuteMoveToAbsPose" name="Navigate to fridge" pose="-0.7 8.4 0.02 0 0 0.7071 0.7071" service_name="/move_base/move_to_abs_pos"/>
+            <Action ID="ExecuteWalkCmd" cmd="stop" name="Stop walking" service_name="execute_walk_cmd"/>
         </Sequence>
     </BehaviorTree>
     <!-- ////////// -->
     <TreeNodesModel>
-        <Action ID="ExecuteMoveToAbsPos">
+        <Action ID="EstimateAdjustPose">
+            <input_port default="estimate_adjust_pose" name="service_name"/>
+            <output_port default="{adjust_pose}" name="tgt_nav_pose"/>
+        </Action>
+        <Action ID="EstimateContactForce">
+            <input_port name="id">Could be left_wrist or right_wrist</input_port>
+            <input_port default="0" name="max_force"/>
+            <input_port default="0" name="min_force"/>
+            <input_port default="estimate_contact_force" name="service_name"/>
+        </Action>
+        <Action ID="EstimateTargetPose">
+            <input_port default="{detected_poses}" name="obj_poses"/>
+            <input_port default="estimate_target_pose" name="service_name"/>
+            <output_port default="{target_nav_pose}" name="tgt_nav_pose"/>
+        </Action>
+        <Action ID="ExecuteHeadJointStates">
+            <input_port default="0 0" name="joint_states"/>
+            <input_port default="/walker/move_helper_head/move_to_joint_pose" name="server_name"/>
+        </Action>
+        <Action ID="ExecuteLArmJointStates">
+            <input_port default="0 0 0 0 0 0 0" name="joint_states"/>
+            <input_port default="/walker/move_helper_right_arm/move_to_joint_pose" name="server_name"/>
+        </Action>
+        <Action ID="ExecuteLArmMove">
+            <input_port default="left_tcp" name="ee_link">The link to be controlled, default is left_tcp</input_port>
+            <input_port name="pose"/>
+            <input_port default="base_link" name="ref_link">Could be base_link or left_tcp</input_port>
+            <input_port default="/walker/move_helper_left_arm/move_to_ee_pose" name="server_name"/>
+        </Action>
+        <Action ID="ExecuteLHandGrasp">
+            <input_port default="/walker/hand_helper_right/grasp" name="server_name"/>
+            <input_port name="type"/>
+        </Action>
+        <Action ID="ExecuteMoveBase">
+            <input_port default="{target_nav_pose}" name="pose"/>
+            <input_port default="execute_move_base" name="service_name"/>
+        </Action>
+        <Action ID="ExecuteMoveToAbsPose">
             <input_port name="pose"/>
             <input_port default="/move_base/move_to_abs_pos" name="service_name"/>
         </Action>
+        <Action ID="ExecuteRArmJointStates">
+            <input_port default="0 0 0 0 0 0 0" name="joint_states"/>
+            <input_port default="/walker/move_helper_right_arm/move_to_joint_pose" name="server_name"/>
+        </Action>
+        <Action ID="ExecuteRArmMove">
+            <input_port default="right_tcp" name="ee_link"/>
+            <input_port name="pose"/>
+            <input_port default="base_link" name="ref_link"/>
+            <input_port default="/walker/move_helper_right_arm/move_to_ee_pose" name="server_name"/>
+        </Action>
+        <Action ID="ExecuteRHandGrasp">
+            <input_port default="/walker/hand_helper_right/grasp" name="server_name"/>
+            <input_port default="1" name="type"/>
+        </Action>
+        <Action ID="ExecuteStabilizeBase">
+            <input_port default="stabilize_base" name="service_name"/>
+        </Action>
         <Action ID="ExecuteWalkCmd">
-            <input_port default="start" name="cmd"/>
-            <input_port default="walk_cmd" name="service_name"/>
+            <input_port name="cmd">Could be start or stop</input_port>
+            <input_port default="execute_walk_cmd" name="service_name"/>
+        </Action>
+        <Action ID="SenseObjectPoses">
+            <input_port default="box" name="goal_id"/>
+            <output_port default="{detected_poses}" name="poses"/>
+            <input_port default="/head/extract_object_on_top" name="service_name"/>
         </Action>
     </TreeNodesModel>
     <!-- ////////// -->
