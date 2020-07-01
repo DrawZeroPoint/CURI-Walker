@@ -9,12 +9,6 @@ from walker_movement_utils import WalkerMovementUtils
 graspPositionLeft = [0.395, 0.180, -0.259]
 graspOrientationLeft = [0.258, 0.190, -0.514, 0.796]
 
-# graspPositionRight = [-0.167, 0.297, 0.392]
-# graspOrientationRight = [0.294, -0.136, -0.560, 0.763]
-graspPositionRight = [0.395, -0.174, -0.260]
-graspOrientationRight = [-0.258, 0.190, 0.514, 0.796]
-
-
 
 rospy.init_node('push_cart_py')
 
