@@ -7,5 +7,7 @@ uint8 result_status
 
 geometry_msgs/Pose2D compensate_pose
 geometry_msgs/Pose2D tgt_nav_pose
-geometry_msgs/Pose tgt_pre_grasp_pose
-geometry_msgs/Pose tgt_grasp_pose
+
+float64[] tgt_hover_pose
+float64[] tgt_pre_grasp_pose
+float64[] tgt_grasp_pose

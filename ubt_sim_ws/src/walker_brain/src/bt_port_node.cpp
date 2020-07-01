@@ -518,10 +518,13 @@ public:
 
   static BT::PortsList providedPorts() {
     return {
-      BT::InputPort<PoseArray>("obj_poses"),
-      BT::OutputPort<int>("result_status"),
-      BT::OutputPort<Pose2D>("tgt_nav_pose"),
-      BT::OutputPort<Pose2D>("compensate_pose")
+      InputPort<PoseArray>("obj_poses"),
+      OutputPort<int>("result_status"),
+      OutputPort<Pose2D>("tgt_nav_pose"),
+      OutputPort<Pose2D>("compensate_pose"),
+      OutputPort<JointAngles>("tgt_hover_pose"),
+      OutputPort<JointAngles>("tgt_pre_grasp_pose"),
+      OutputPort<JointAngles>("tgt_grasp_pose")
     };
   }
 
@@ -543,6 +546,18 @@ public:
       Pose2D compensate_pose{};
       compensate_pose.fromROS(response.compensate_pose);
       setOutput("compensate_pose", compensate_pose);
+
+      JointAngles tgt_hover_pose{};
+      tgt_hover_pose.fromROS(response.tgt_hover_pose);
+      setOutput("tgt_hover_pose", tgt_hover_pose);
+
+      JointAngles tgt_pre_grasp_pose{};
+      tgt_pre_grasp_pose.fromROS(response.tgt_pre_grasp_pose);
+      setOutput("tgt_pre_grasp_pose", tgt_pre_grasp_pose);
+
+      JointAngles tgt_grasp_pose{};
+      tgt_grasp_pose.fromROS(response.tgt_grasp_pose);
+      setOutput("tgt_grasp_pose", tgt_grasp_pose);
 
       ROS_INFO("Brain: %s response SUCCEEDED.", name_.c_str());
       return BT::NodeStatus::SUCCESS;

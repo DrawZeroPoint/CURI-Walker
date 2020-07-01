@@ -63,13 +63,6 @@ target_link_libraries(${PROJECT_NAME}
   ${catkin_LIBRARIES}
 )
 
-add_executable(grasp_cup_node src/grasp_cup_node.cpp)
-add_dependencies(grasp_cup_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(grasp_cup_node
-  ${catkin_LIBRARIES}
-  ${PROJECT_NAME}
-)
-
 add_executable(switch_light_node src/switch_light_node.cpp)
 add_dependencies(switch_light_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(switch_light_node
@@ -77,9 +70,9 @@ target_link_libraries(switch_light_node
   ${PROJECT_NAME}
 )
 
-add_executable(open_fridge_node src/open_fridge_node.cpp)
-add_dependencies(open_fridge_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(open_fridge_node
+add_executable(bt_port_node src/bt_port_node.cpp)
+add_dependencies(bt_port_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(bt_port_node
   ${catkin_LIBRARIES}
   ${PROJECT_NAME}
 )
