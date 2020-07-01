@@ -11,6 +11,7 @@
             <input_port name="service_name" default="estimate_contact_force"/>
         </Action>
         <Action ID="EstimateTargetPose">
+            <output_port name="compensate_pose" default="{rotation_compensate_pose}"/>
             <input_port name="obj_poses" default="{detected_poses}"/>
             <input_port name="service_name" default="estimate_target_pose"/>
             <output_port name="tgt_nav_pose" default="{target_nav_pose}"/>
@@ -59,7 +60,7 @@
             <input_port name="service_name" default="stabilize_base"/>
         </Action>
         <Action ID="ExecuteWalkCmd">
-            <input_port name="cmd">Could be start or stop</input_port>
+            <input_port name="cmd" default="start"/>
             <input_port name="service_name" default="execute_walk_cmd"/>
         </Action>
         <Action ID="SenseObjectPoses">

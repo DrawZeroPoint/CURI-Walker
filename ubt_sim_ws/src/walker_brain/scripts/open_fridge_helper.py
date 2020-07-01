@@ -103,7 +103,7 @@ class EstimateServer(object):
         self.rf_dis = 0
 
         self._server = rospy.Service('estimate_target_pose', EstimateTargetPose, self.handle)
-        self._range_server = rospy.Service('estimate_adjust_pose', EstimateTargetPose, self.range_handle)
+        self._adjust_server = rospy.Service('estimate_adjust_pose', EstimateTargetPose, self.range_handle)
         self._force_server = rospy.Service('estimate_contact_force', EstimateContactForce, self.force_handle)
 
         self._x_offset = rospy.get_param('~x_offset')
@@ -164,7 +164,7 @@ class EstimateServer(object):
         tgt_pose = sorted_poses[0]
 
         tgt_rotation = self.get_rotation_along_z(tgt_pose)
-        rospy.logwarn("Brain: Target rotation in deg %.3f", tgt_rotation * 180. / np.pi)
+        rospy.logwarn("Brain: Target rotation wrt base_link %.3f (deg)", tgt_rotation * 180. / np.pi)
 
         resp.tgt_nav_pose = Pose2D()
         resp.tgt_nav_pose.x = tgt_pose.position.x - self._x_offset

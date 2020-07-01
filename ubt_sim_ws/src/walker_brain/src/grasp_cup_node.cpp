@@ -21,10 +21,10 @@
 
 using namespace BT;
 
-class ExecuteMoveToAbsPos : public RosServiceNode<walker_nav::MoveToAbsPos>
+class ExecuteMoveToAbsPose : public RosServiceNode<walker_nav::MoveToAbsPos>
 {
 public:
-  ExecuteMoveToAbsPos(ros::NodeHandle &nh, const std::string& name, const BT::NodeConfiguration & cfg) :
+  ExecuteMoveToAbsPose(ros::NodeHandle &nh, const std::string& name, const BT::NodeConfiguration & cfg) :
     RosServiceNode<walker_nav::MoveToAbsPos>(nh, name, cfg), name_(name) {}
 
   static BT::PortsList providedPorts() {
@@ -359,7 +359,7 @@ int main(int argc, char **argv)
   BT::BehaviorTreeFactory factory;
 
   // The recommended way to create a Node is through inheritance.
-  RegisterRosService<ExecuteMoveToAbsPos>(factory, "ExecuteMoveToAbsPos", nh);
+  RegisterRosService<ExecuteMoveToAbsPose>(factory, "ExecuteMoveToAbsPose", nh);
   RegisterRosService<SenseObjectPoses>(factory, "SenseObjectPoses", nh);
   RegisterRosService<EstimateTargetPose>(factory, "EstimateTargetPose", nh);
   RegisterRosService<ExecuteMoveBase>(factory, "ExecuteMoveBase", nh);

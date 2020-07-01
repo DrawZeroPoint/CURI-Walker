@@ -2,22 +2,65 @@
 <root main_tree_to_execute="BehaviorTree">
     <!-- ////////// -->
     <BehaviorTree ID="BehaviorTree">
-        <Sequence>
-            <Action ID="ExecuteWalkCmd" cmd="start" service_name="walk_cmd"/>
-            <Action ID="ExecuteMoveToAbsPos" pose="-0.7 8.4 0.02 0 0 0.79335334 0.60876143" service_name="/move_base/move_to_abs_pos"/>
-            <Action ID="ExecuteWalkCmd" cmd="stop" service_name="walk_cmd"/>
-            <Action ID="ExecuteHeadJointStates" execute_pose="0 30" server_name="/walker/move_helper_head/move_to_joint_pose"/>
-            <Sequence>
-                <Action ID="SenseObjectPoses" goal_id="box" poses="{detected_poses}" service_name="/head/extract_object_on_top"/>
-                <Action ID="EstimateTargetPose" compensate_pose="{rotation_compensate_pose}" obj_poses="{detected_poses}" service_name="estimate_target_pose" tgt_nav_pose="{target_nav_pose}"/>
-                <Action ID="ExecuteMoveBase" pose="{rotation_compensate_pose}" service_name="rotate_to_pose2d"/>
+        <Sequence name="Open Fridge 12">
+            <Action ID="ExecuteWalkCmd" cmd="start" name="Start walking" service_name="execute_walk_cmd"/>
+            <Action ID="ExecuteMoveToAbsPose" name="Navigate to fridge" pose="-0.7 8.6 0.02 0 0 0.7071 0.7071" service_name="/move_base/move_to_abs_pos"/>
+            <Action ID="ExecuteWalkCmd" cmd="stop" name="Stop walking" service_name="execute_walk_cmd"/>
+            <Action ID="ExecuteHeadJointStates" joint_states="0 30" name="Look downside" server_name="/walker/move_helper_head/move_to_joint_pose"/>
+            <ForceSuccess>
+                <Sequence>
+                    <Action ID="SenseObjectPoses" goal_id="box" name="Get fridge pose" poses="{detected_poses}" service_name="/head/extract_object_on_top"/>
+                    <Action ID="EstimateTargetPose" compensate_pose="{rotation_compensate_pose}" name="Estimate rotation compensate pose" obj_poses="{detected_poses}" service_name="estimate_target_pose" tgt_nav_pose=""/>
+                    <Action ID="ExecuteMoveBase" name="Compensate rotation" pose="{rotation_compensate_pose}" service_name="execute_move_base"/>
+                </Sequence>
+            </ForceSuccess>
+            <RetryUntilSuccesful num_attempts="2">
+                <Sequence>
+                    <Action ID="ExecuteStabilizeBase" service_name="stabilize_base"/>
+                    <Action ID="SenseObjectPoses" goal_id="box" name="Get fridge pose" poses="{detected_poses}" service_name="/head/extract_object_on_top"/>
+                    <Action ID="EstimateTargetPose" compensate_pose="" name="Estimate open fridge pose" obj_poses="{detected_poses}" service_name="estimate_target_pose" tgt_nav_pose="{target_nav_pose}"/>
+                    <Action ID="ExecuteMoveBase" name="Move to open fridge pose" pose="{target_nav_pose}" service_name="execute_move_base"/>
+                </Sequence>
+            </RetryUntilSuccesful>
+            <Sequence name="Open fridge actions">
+                <Action ID="ExecuteMoveBase" name="Turn right" pose="0 0 -0.38" service_name="execute_move_base"/>
+                <Action ID="ExecuteMoveBase" name="Move backward" pose="-0.1 0 0" service_name="execute_move_base"/>
+                <Sequence name="Right arm actions">
+                    <Action ID="ExecuteRArmMove" ee_link="right_tcp" name="Lift right arm" pose="0.419 -0.061 -0.008 0.02 0.049 0.704 0.708" ref_link="base_link" server_name="/walker/move_helper_right_arm/move_to_ee_pose"/>
+                    <RetryUntilSuccesful num_attempts="2">
+                        <Fallback>
+                            <Action ID="ExecuteRArmMove" ee_link="right_tcp" name="Approach to handle" pose="0.428 -0.002 0.002 0.02 0.052 0.69 0.722" ref_link="base_link" server_name="/walker/move_helper_right_arm/move_to_ee_pose"/>
+                            <ForceFailure>
+                                <Action ID="ExecuteMoveBase" pose="0.02 -0.02 0" service_name="execute_move_base"/>
+                            </ForceFailure>
+                            <ForceFailure>
+                                <Action ID="ExecuteStabilizeBase" service_name="stabilize_base"/>
+                            </ForceFailure>
+                        </Fallback>
+                    </RetryUntilSuccesful>
+                    <Action ID="ExecuteRHandGrasp" name="Grasp the handle" server_name="/walker/hand_helper_right/grasp" type="1"/>
+                    <Fallback name="Check contact force">
+                        <Action ID="EstimateContactForce" id="right_wrist" max_force="300" min_force="30" name="Check contact force on right hand" service_name="estimate_contact_force"/>
+                        <Sequence>
+                            <Timeout msec="400">
+                                <Action ID="ExecuteMoveBase" name="Adjust base" pose="0 0.01 0.35" service_name="execute_move_base"/>
+                            </Timeout>
+                            <Action ID="ExecuteStabilizeBase" service_name="stabilize_base"/>
+                            <ForceSuccess>
+                                <Action ID="ExecuteRArmMove" ee_link="right_tcp" pose="0.02 0 0 0 0 0 1" ref_link="right_tcp" server_name="/walker/move_helper_right_arm/move_to_ee_pose"/>
+                            </ForceSuccess>
+                        </Sequence>
+                    </Fallback>
+                    <Action ID="ExecuteRArmMove" ee_link="right_tcp" name="Open the door" pose="-0.15 0.15 0 0 0 0 1" ref_link="right_tcp" server_name="/walker/move_helper_right_arm/move_to_ee_pose"/>
+                    <Action ID="ExecuteRArmMove" ee_link="right_tcp" name="Adjust right hand pose" pose="-0.01 -0.01 0 0 0 0.087 0.996" ref_link="right_tcp" server_name="/walker/move_helper_right_arm/move_to_ee_pose"/>
+                </Sequence>
+                <Action ID="ExecuteLArmMove" ee_link="left_tcp" name="Lift left arm" pose="0.368 0.074 -0.09 0.095 -0.138 -0.451 0.877" ref_link="base_link" server_name="/walker/move_helper_left_arm/move_to_ee_pose"/>
+                <Action ID="ExecuteRHandGrasp" name="Release right hand" server_name="/walker/hand_helper_right/grasp" type="0"/>
+                <Action ID="ExecuteRArmJointStates" joint_states="0 0 0 0 0 0 0" name="Lay down right arm" server_name="/walker/move_helper_right_arm/move_to_joint_pose"/>
+                <Action ID="ExecuteLArmMove" ee_link="left_tcp" name="Left arm reach to the door" pose="0.1 0.05 0 0 0 0 1" ref_link="left_tcp" server_name="/walker/move_helper_left_arm/move_to_ee_pose"/>
+                <Action ID="ExecuteLArmMove" ee_link="left_tcp" name="Pull the door" pose="0.332 -0.055 -0.114 0.125 -0.102 -0.664 0.73" ref_link="base_link" server_name="/walker/move_helper_left_arm/move_to_ee_pose"/>
+                <Action ID="ExecuteMoveBase" name="Turn right" pose="0 0 -0.6" service_name="execute_move_base"/>
             </Sequence>
-            <Sequence>
-                <Action ID="SenseObjectPoses" goal_id="box" poses="{detected_poses}" service_name="/head/extract_object_on_top"/>
-                <Action ID="EstimateTargetPose" compensate_pose="" obj_poses="{detected_poses}" service_name="estimate_target_pose" tgt_nav_pose="{target_nav_pose}"/>
-                <Action ID="ExecuteMoveBase" pose="{target_nav_pose}" service_name="move_to_pose2d"/>
-            </Sequence>
-            <Action ID="ExecutePrePose" service_name="open_fridge"/>
         </Sequence>
     </BehaviorTree>
     <!-- ////////// -->
@@ -26,6 +69,12 @@
             <input_port default="estimate_adjust_pose" name="service_name"/>
             <output_port default="{adjust_pose}" name="tgt_nav_pose"/>
         </Action>
+        <Action ID="EstimateContactForce">
+            <input_port name="id">Could be left_wrist or right_wrist</input_port>
+            <input_port default="0" name="max_force"/>
+            <input_port default="0" name="min_force"/>
+            <input_port default="estimate_contact_force" name="service_name"/>
+        </Action>
         <Action ID="EstimateTargetPose">
             <output_port default="{rotation_compensate_pose}" name="compensate_pose"/>
             <input_port default="{detected_poses}" name="obj_poses"/>
@@ -33,23 +82,51 @@
             <output_port default="{target_nav_pose}" name="tgt_nav_pose"/>
         </Action>
         <Action ID="ExecuteHeadJointStates">
-            <input_port default="0 30" name="execute_pose"/>
+            <input_port default="0 0" name="joint_states"/>
             <input_port default="/walker/move_helper_head/move_to_joint_pose" name="server_name"/>
+        </Action>
+        <Action ID="ExecuteLArmJointStates">
+            <input_port default="0 0 0 0 0 0 0" name="joint_states"/>
+            <input_port default="/walker/move_helper_right_arm/move_to_joint_pose" name="server_name"/>
+        </Action>
+        <Action ID="ExecuteLArmMove">
+            <input_port default="left_tcp" name="ee_link">The link to be controlled, default is left_tcp</input_port>
+            <input_port name="pose"/>
+            <input_port default="base_link" name="ref_link">Could be base_link or left_tcp</input_port>
+            <input_port default="/walker/move_helper_left_arm/move_to_ee_pose" name="server_name"/>
+        </Action>
+        <Action ID="ExecuteLHandGrasp">
+            <input_port default="/walker/hand_helper_right/grasp" name="server_name"/>
+            <input_port name="type"/>
         </Action>
         <Action ID="ExecuteMoveBase">
             <input_port default="{target_nav_pose}" name="pose"/>
-            <input_port default="move_to_pose2d" name="service_name"/>
+            <input_port default="execute_move_base" name="service_name"/>
         </Action>
-        <Action ID="ExecuteMoveToAbsPos">
+        <Action ID="ExecuteMoveToAbsPose">
             <input_port name="pose"/>
             <input_port default="/move_base/move_to_abs_pos" name="service_name"/>
         </Action>
-        <Action ID="ExecutePrePose">
-            <input_port default="open_fridge" name="service_name"/>
+        <Action ID="ExecuteRArmJointStates">
+            <input_port default="0 0 0 0 0 0 0" name="joint_states"/>
+            <input_port default="/walker/move_helper_right_arm/move_to_joint_pose" name="server_name"/>
+        </Action>
+        <Action ID="ExecuteRArmMove">
+            <input_port default="right_tcp" name="ee_link"/>
+            <input_port name="pose"/>
+            <input_port default="base_link" name="ref_link"/>
+            <input_port default="/walker/move_helper_right_arm/move_to_ee_pose" name="server_name"/>
+        </Action>
+        <Action ID="ExecuteRHandGrasp">
+            <input_port default="/walker/hand_helper_right/grasp" name="server_name"/>
+            <input_port default="1" name="type"/>
+        </Action>
+        <Action ID="ExecuteStabilizeBase">
+            <input_port default="stabilize_base" name="service_name"/>
         </Action>
         <Action ID="ExecuteWalkCmd">
             <input_port default="start" name="cmd"/>
-            <input_port default="walk_cmd" name="service_name"/>
+            <input_port default="execute_walk_cmd" name="service_name"/>
         </Action>
         <Action ID="SenseObjectPoses">
             <input_port default="box" name="goal_id"/>

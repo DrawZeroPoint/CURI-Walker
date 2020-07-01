@@ -59,10 +59,10 @@ private:
   std::string name_;
 };
 
-class ExecuteMoveToAbsPos : public RosServiceNode<walker_nav::MoveToAbsPos>
+class ExecuteMoveToAbsPose : public RosServiceNode<walker_nav::MoveToAbsPos>
 {
 public:
-  ExecuteMoveToAbsPos(ros::NodeHandle &nh, const std::string& name, const BT::NodeConfiguration & cfg) :
+  ExecuteMoveToAbsPose(ros::NodeHandle &nh, const std::string& name, const BT::NodeConfiguration & cfg) :
     RosServiceNode<walker_nav::MoveToAbsPos>(nh, name, cfg), name_(name) {}
 
   static BT::PortsList providedPorts() {
@@ -92,10 +92,10 @@ private:
   std::string name_;
 };
 
-class ExecuteMoveToRelPos : public RosServiceNode<walker_nav::MoveToRelPos>
+class ExecuteMoveToRelPose : public RosServiceNode<walker_nav::MoveToRelPos>
 {
 public:
-  ExecuteMoveToRelPos(ros::NodeHandle &nh, const std::string& name, const BT::NodeConfiguration & cfg) :
+  ExecuteMoveToRelPose(ros::NodeHandle &nh, const std::string& name, const BT::NodeConfiguration & cfg) :
     RosServiceNode<walker_nav::MoveToRelPos>(nh, name, cfg), name_(name) {}
 
   static BT::PortsList providedPorts() {
@@ -761,8 +761,8 @@ int main(int argc, char **argv)
   RegisterRosService<ExecuteStabilizeBase>(factory, "ExecuteStabilizeBase", nh);
 
   // Navigation
-  RegisterRosService<ExecuteMoveToAbsPos>(factory, "ExecuteMoveToAbsPos", nh);
-  RegisterRosService<ExecuteMoveToRelPos>(factory, "ExecuteMoveToRelPos", nh);
+  RegisterRosService<ExecuteMoveToAbsPose>(factory, "ExecuteMoveToAbsPose", nh);
+  RegisterRosService<ExecuteMoveToRelPose>(factory, "ExecuteMoveToRelPose", nh);
 
   // Upper body control
   RegisterRosAction<ExecuteHeadJointStates>(factory, "ExecuteHeadJointStates", nh);
