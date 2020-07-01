@@ -4,15 +4,15 @@
 import rospy
 import actionlib
 import walker_movement.msg
-import time
 from walker_srvs.srv import leg_motion_MetaFuncCtrl
-from geometry_msgs.msg import Twist, Vector3
+from geometry_msgs.msg import Twist, Vector3, PoseStamped
 from std_msgs.msg import Int64
 from nav_msgs.msg import Odometry
+from walker_movement.srv import GetEePose
 
 class WalkerMovementUtils:
 
-    def __init__(self):
+    def __init__(self, disable_gait=False):
 
         self.moveEeLeftClient = actionlib.SimpleActionClient('/walker/move_helper_left_arm/move_to_ee_pose', walker_movement.msg.MoveToEePoseAction)
         self.moveJointsLeftClient = actionlib.SimpleActionClient('/walker/move_helper_left_arm/move_to_joint_pose', walker_movement.msg.MoveToJointPoseAction)
@@ -20,6 +20,8 @@ class WalkerMovementUtils:
         self.moveEeRightClient = actionlib.SimpleActionClient('/walker/move_helper_right_arm/move_to_ee_pose', walker_movement.msg.MoveToEePoseAction)
         self.moveJointsRightClient = actionlib.SimpleActionClient('/walker/move_helper_right_arm/move_to_joint_pose', walker_movement.msg.MoveToJointPoseAction)
         self.graspRightClient = actionlib.SimpleActionClient('/walker/hand_helper_right/grasp', walker_movement.msg.GraspAction)
+        self.moveEeDualClient = actionlib.SimpleActionClient('/walker/dual_arm_control/move_to_ee_pose', walker_movement.msg.DualArmEeMoveAction)
+        self.moveJointsDualClient = actionlib.SimpleActionClient('/walker/dual_arm_control/move_to_joint_pose', walker_movement.msg.DualArmJointMoveAction)
 
 
         rospy.loginfo("Waiting for action servers...")
@@ -29,22 +31,52 @@ class WalkerMovementUtils:
         self.moveEeRightClient.wait_for_server()
         self.moveJointsRightClient.wait_for_server()
         self.graspRightClient.wait_for_server()
+        self.moveEeDualClient.wait_for_server()
+        self.moveJointsDualClient.wait_for_server()
         rospy.loginfo("Action servers connected")
 
+        if not disable_gait:
+            rospy.wait_for_service('/Leg/TaskScheduler')
+            self.legCommandService = rospy.ServiceProxy('/Leg/TaskScheduler', leg_motion_MetaFuncCtrl)
+            rospy.loginfo("Leg service connected")
+            self.nav_publisher = rospy.Publisher('/nav/cmd_vel_nav', Twist, queue_size=1)
+            rospy.Subscriber("/Leg/walking_odom", Odometry, self.odomCallback)
+            rospy.Subscriber("/Leg/StepNum", Int64, self.stepNumCallback)
 
-        rospy.wait_for_service('/Leg/TaskScheduler')
-        self.legCommandService = rospy.ServiceProxy('/Leg/TaskScheduler', leg_motion_MetaFuncCtrl)
-        rospy.loginfo("Leg service connected")
-        self.nav_publisher = rospy.Publisher('/nav/cmd_vel_nav', Twist, queue_size=1)
+        rospy.wait_for_service('/walker/move_helper_left_arm/get_ee_pose')
+        self.getEePoseLeftService = rospy.ServiceProxy('/walker/move_helper_left_arm/get_ee_pose', GetEePose)
+        rospy.wait_for_service('/walker/move_helper_right_arm/get_ee_pose')
+        self.getEePoseRightService = rospy.ServiceProxy('/walker/move_helper_right_arm/get_ee_pose', GetEePose)
 
-
-        rospy.Subscriber("/Leg/walking_odom", Odometry, self.odomCallback)
-        rospy.Subscriber("/Leg/StepNum", Int64, self.stepNumCallback)
         rospy.loginfo("Subscibed to topics")
 
         self.lastOdomMsg=None
         self.gaitStepsPerfomed = 0
 
+
+
+    def buildPoseStamped(self,position_xyz, orientation_xyzw, frame_id):
+        pose = PoseStamped()
+        pose.header.frame_id = frame_id
+        pose.pose.position.x = position_xyz[0]
+        pose.pose.position.y = position_xyz[1]
+        pose.pose.position.z = position_xyz[2]
+        pose.pose.orientation.x = orientation_xyzw[0]
+        pose.pose.orientation.y = orientation_xyzw[1]
+        pose.pose.orientation.z = orientation_xyzw[2]
+        pose.pose.orientation.w = orientation_xyzw[3]
+        return pose
+
+
+    def getEePose(self, isLeft):
+        if isLeft:
+            s = self.getEePoseLeftService
+            eel = "left_tcp"
+        else:
+            s = self.getEePoseRightService
+            eel = "right_tcp"
+        res = s(eel)
+        return res.pose
 
     def moveToEePose(self,isLeft, position_xyz, orientation_xyzw, isRelative=False):
         rospy.loginfo("Moving to ee pose")
@@ -56,16 +88,10 @@ class WalkerMovementUtils:
             eel = "right_tcp"
         goal = walker_movement.msg.MoveToEePoseGoal()
         if isRelative:
-            goal.pose.header.frame_id = eel
+            frame_id = eel
         else:
-            goal.pose.header.frame_id = "base_link"
-        goal.pose.pose.position.x = position_xyz[0]
-        goal.pose.pose.position.y = position_xyz[1]
-        goal.pose.pose.position.z = position_xyz[2]
-        goal.pose.pose.orientation.x = orientation_xyzw[0]
-        goal.pose.pose.orientation.y = orientation_xyzw[1]
-        goal.pose.pose.orientation.z = orientation_xyzw[2]
-        goal.pose.pose.orientation.w = orientation_xyzw[3]
+            frame_id = "base_link"
+        goal.pose = self.buildPoseStamped(position_xyz,orientation_xyzw,frame_id)
         goal.end_effector_link = eel
         c.send_goal(goal)
         c.wait_for_result()
@@ -78,6 +104,17 @@ class WalkerMovementUtils:
         else:
             c = self.graspRightClient
         c.send_goal(walker_movement.msg.GraspGoal(walker_movement.msg.GraspGoal.GRASP_TYPE_CART_HANDLE_CORNER))
+        c.wait_for_result()
+        #print(c.get_result())
+        rospy.loginfo("Grasped")
+
+    def graspFridge(self, isLeft):
+        rospy.loginfo("Grasping...")
+        if isLeft:
+            c = self.graspLeftClient
+        else:
+            c = self.graspRightClient
+        c.send_goal(walker_movement.msg.GraspGoal(walker_movement.msg.GraspGoal.GRASP_TYPE_FRIDGE_HANDLE))
         c.wait_for_result()
         #print(c.get_result())
         rospy.loginfo("Grasped")
@@ -116,19 +153,37 @@ class WalkerMovementUtils:
         rospy.loginfo("Grasped")
 
 
-# def moveToJoint(isLeft, jointIfItWereLeft):
-#     if isLeft:
-#         c = moveJointsLeftClient
-#         goal = jointIfItWereLeft
-#     else:
-#         c = moveJointsRightClient
-#         t = [-1,1,-1,1,-1,-1,1]
-#         g = [t[i]*jointIfItWereLeft[i] for i in range(len(jointIfItWereLeft))]
-#         goal = g
-#     c.send_goal(walker_movement.msg.MoveToJointPoseGoal(goal))
-#     c.wait_for_result()
-#     #print(c.get_result())
+    def moveToJointDualArmSimmetrical(self,jointPoseLeft):
+        t = [-1,1,-1,1,-1,-1,1]
+        jointPoseRight = [t[i]*jointPoseLeft[i] for i in range(len(jointPoseLeft))]
 
+        goal = walker_movement.msg.DualArmJointMoveGoal()
+        goal.left_pose = jointPoseLeft
+        goal.right_pose = jointPoseRight
+        self.moveJointsDualClient.send_goal(goal)
+        self.moveJointsDualClient.wait_for_result()
+
+
+    def moveToEeDualArm(self,leftPosition, leftOrientation, rightPosition, rightOrientation, isRelative=False, do_cartesian=False):
+        rospy.loginfo("Dual moving to ee pose")
+
+        eel_left = "left_tcp"
+        eel_right = "right_tcp"
+        goal = walker_movement.msg.DualArmEeMoveGoal()
+        if isRelative:
+            frame_id_left = eel_left
+            frame_id_right = eel_right
+        else:
+            frame_id_left = "base_link"
+            frame_id_right = "base_link"
+        goal.left_pose = self.buildPoseStamped(leftPosition,leftOrientation,frame_id_left)
+        goal.left_end_effector_link = eel_left
+        goal.right_pose = self.buildPoseStamped(rightPosition,rightOrientation,frame_id_right)
+        goal.right_end_effector_link = eel_right
+        goal.do_cartesian = do_cartesian
+        self.moveEeDualClient.send_goal(goal)
+        self.moveEeDualClient.wait_for_result()
+        rospy.loginfo("Moved")
 
 
     def odomCallback(self,msg):

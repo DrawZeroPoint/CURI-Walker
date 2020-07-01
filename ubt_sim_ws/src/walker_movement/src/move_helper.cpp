@@ -16,6 +16,7 @@
 #include <walker_movement/MoveToEePoseAction.h>
 #include <walker_movement/MoveToJointPoseAction.h>
 #include <walker_movement/GetJointState.h>
+#include <walker_movement/GetEePose.h>
 
 std::shared_ptr<actionlib::SimpleActionServer<walker_movement::MoveToEePoseAction>> moveToEePoseActionServer;
 std::shared_ptr<actionlib::SimpleActionServer<walker_movement::MoveToJointPoseAction>> moveToJointPoseActionServer;
@@ -194,9 +195,17 @@ void moveToJointPoseActionCallback(const walker_movement::MoveToJointPoseGoalCon
 
 bool getJointStateServiceCallback(walker_movement::GetJointState::Request& req, walker_movement::GetJointState::Response& res)
 {
-  ROS_INFO("Getting state...");
+  ROS_INFO("Getting joint state...");
   moveGroupInt->getCurrentState(10)->copyJointGroupPositions(joint_model_group, res.joint_poses);
-  ROS_INFO("Got state.");
+  ROS_INFO("Got joint state.");
+  return true;
+}
+
+bool getEePoseServiceCallback(walker_movement::GetEePose::Request& req, walker_movement::GetEePose::Response& res)
+{
+  ROS_INFO("Getting end effector pose...");
+  res.pose = moveGroupInt->getCurrentPose(req.end_effector_link_name);
+  ROS_INFO("Got end effector pose...");
   return true;
 }
 
@@ -247,6 +256,7 @@ int main(int argc, char** argv)
   moveToJointPoseActionServer->start();
 
   ros::ServiceServer service = node_handle.advertiseService("get_joint_state", getJointStateServiceCallback);
+  ros::ServiceServer getEePoseService = node_handle.advertiseService("get_ee_pose", getEePoseServiceCallback);
 
   ROS_INFO("Action and service servers started");
   //moveToJointPose(*moveGroupInt,std::vector<double>({0,0,0,0,0,0,0}));
