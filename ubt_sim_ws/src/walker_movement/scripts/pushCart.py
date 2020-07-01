@@ -6,7 +6,7 @@ from walker_movement_utils import WalkerMovementUtils
 
 # graspPositionLeft = [-0.170, -0.310, 0.390]
 # graspOrientationLeft = [-0.295, -0.139, 0.560, 0.761]
-graspPositionLeft = [0.395, 0.174, -0.260]
+graspPositionLeft = [0.395, 0.180, -0.259]
 graspOrientationLeft = [0.258, 0.190, -0.514, 0.796]
 
 # graspPositionRight = [-0.167, 0.297, 0.392]
@@ -21,16 +21,14 @@ rospy.init_node('push_cart_py')
 wmu = WalkerMovementUtils()
 
 
-#ensure hands are open
+#ensure initial state
+wmu.moveToJointDualArmSimmetrical([0,0,0,0,0,0,0])
 wmu.releaseGrasp(True)
 wmu.releaseGrasp(False)
 
-intermediatePosR = [graspPositionRight[0],graspPositionRight[1]-0.1,graspPositionRight[2]+0.1]
-wmu.moveToEePose(False,intermediatePosR,graspOrientationRight)
-wmu.moveToEePose(False,graspPositionRight,graspOrientationRight)
-intermediatePosL = [graspPositionLeft[0],graspPositionLeft[1]+0.1,graspPositionLeft[2]+0.1]
-wmu.moveToEePose(True,intermediatePosL,graspOrientationLeft)
-wmu.moveToEePose(True,graspPositionLeft,graspOrientationLeft)
+intermediatePosL = [graspPositionLeft[0],graspPositionLeft[1]+0.1,graspPositionLeft[2]+0.05]
+wmu.moveToEeDualArmMirrored(intermediatePosL,graspOrientationLeft,do_cartesian=False)
+wmu.moveToEeDualArmMirrored(graspPositionLeft,graspOrientationLeft,do_cartesian=False)
 rospy.sleep(0.25)
 
 wmu.graspCart(True)

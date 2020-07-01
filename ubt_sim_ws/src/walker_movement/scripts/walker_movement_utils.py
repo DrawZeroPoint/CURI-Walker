@@ -164,7 +164,7 @@ class WalkerMovementUtils:
         self.moveJointsDualClient.wait_for_result()
 
 
-    def moveToEeDualArm(self,leftPosition, leftOrientation, isRelative=False, do_cartesian=False):
+    def moveToEeDualArmMirrored(self,leftPosition, leftOrientation, isRelative=False, do_cartesian=False):
         rospy.loginfo("Dual moving to ee pose")
 
         eel_left = "left_tcp"
