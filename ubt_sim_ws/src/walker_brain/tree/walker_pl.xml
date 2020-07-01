@@ -35,7 +35,7 @@
         </Action>
         <Action ID="ExecuteLHandGrasp">
             <input_port default="/walker/hand_helper_left/grasp" name="server_name"/>
-            <input_port name="type"/>
+            <input_port name="type">0: Open hand, 1: Grasp can, 2: Grasp cart handle, 3: Grasp fridge handle</input_port>
         </Action>
         <Action ID="ExecuteMoveBase">
             <input_port default="{target_nav_pose}" name="pose"/>
@@ -57,7 +57,7 @@
         </Action>
         <Action ID="ExecuteRHandGrasp">
             <input_port default="/walker/hand_helper_right/grasp" name="server_name"/>
-            <input_port default="1" name="type"/>
+            <input_port name="type">0: Open hand, 1: Grasp can, 2: Grasp cart handle, 3: Grasp fridge handle</input_port>
         </Action>
         <Action ID="ExecuteStabilizeBase">
             <input_port default="stabilize_base" name="service_name"/>

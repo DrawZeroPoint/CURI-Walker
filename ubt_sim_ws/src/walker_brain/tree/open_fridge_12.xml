@@ -38,7 +38,7 @@
                             </ForceFailure>
                         </Fallback>
                     </RetryUntilSuccesful>
-                    <Action ID="ExecuteRHandGrasp" name="Grasp the handle" server_name="/walker/hand_helper_right/grasp" type="1"/>
+                    <Action ID="ExecuteRHandGrasp" name="Grasp the handle" server_name="/walker/hand_helper_right/grasp" type="3"/>
                     <Fallback name="Check contact force">
                         <Action ID="EstimateContactForce" id="right_wrist" max_force="300" min_force="30" name="Check contact force on right hand" service_name="estimate_contact_force"/>
                         <Sequence>
@@ -79,7 +79,10 @@
             <output_port default="{rotation_compensate_pose}" name="compensate_pose"/>
             <input_port default="{detected_poses}" name="obj_poses"/>
             <input_port default="estimate_target_pose" name="service_name"/>
+            <output_port default="{target_grasp_pose}" name="tgt_grasp_pose"/>
+            <input_port default="{target_hover_pose}" name="tgt_hover_pose"/>
             <output_port default="{target_nav_pose}" name="tgt_nav_pose"/>
+            <output_port default="{target_pre_grasp_pose}" name="tgt_pre_grasp_pose"/>
         </Action>
         <Action ID="ExecuteHeadJointStates">
             <input_port default="0 0" name="joint_states"/>
@@ -87,7 +90,7 @@
         </Action>
         <Action ID="ExecuteLArmJointStates">
             <input_port default="0 0 0 0 0 0 0" name="joint_states"/>
-            <input_port default="/walker/move_helper_right_arm/move_to_joint_pose" name="server_name"/>
+            <input_port default="/walker/move_helper_left_arm/move_to_joint_pose" name="server_name"/>
         </Action>
         <Action ID="ExecuteLArmMove">
             <input_port default="left_tcp" name="ee_link">The link to be controlled, default is left_tcp</input_port>
@@ -96,7 +99,7 @@
             <input_port default="/walker/move_helper_left_arm/move_to_ee_pose" name="server_name"/>
         </Action>
         <Action ID="ExecuteLHandGrasp">
-            <input_port default="/walker/hand_helper_right/grasp" name="server_name"/>
+            <input_port default="/walker/hand_helper_left/grasp" name="server_name"/>
             <input_port name="type"/>
         </Action>
         <Action ID="ExecuteMoveBase">
