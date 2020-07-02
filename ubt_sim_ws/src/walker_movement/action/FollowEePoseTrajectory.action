@@ -1,0 +1,17 @@
+
+#goal definition
+
+# Poses to pass through
+geometry_msgs/PoseStamped[] poses
+
+# Times at which each poses is reached
+duration[] times_from_start
+
+string end_effector_link
+
+---
+#result definition
+bool succeded
+string error_message
+---
+#feedback

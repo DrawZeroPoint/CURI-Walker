@@ -22,6 +22,8 @@
 #include <walker_movement/DualArmJointMoveAction.h>
 #include <walker_movement/DualArmMirroredEeMoveAction.h>
 
+#include "control_utils.hpp"
+
 std::shared_ptr<actionlib::SimpleActionServer<walker_movement::DualArmEeMoveAction>> dualArmEeMoveActionServer;
 std::shared_ptr<actionlib::SimpleActionServer<walker_movement::DualArmJointMoveAction>> dualArmJointMoveActionServer;
 std::shared_ptr<actionlib::SimpleActionServer<walker_movement::DualArmMirroredEeMoveAction>> dualArmMirroredEeMoveActionServer;
@@ -36,24 +38,6 @@ std::shared_ptr<actionlib::SimpleActionClient<control_msgs::FollowJointTrajector
 std::shared_ptr<actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>> leftControllerActionClient;
 
 
-std::vector<control_msgs::JointTolerance> buildTolerance(double position, double velocity, double acceleration, int jointNum)
-{
-  control_msgs::JointTolerance gjt;
-  gjt.position = position;
-  gjt.velocity = velocity;
-  gjt.acceleration = acceleration;
-  return std::vector<control_msgs::JointTolerance>(jointNum,gjt);
-}
-
-control_msgs::FollowJointTrajectoryGoal buildControllerGoal(const trajectory_msgs::JointTrajectory& trajectory)
-{
-  control_msgs::FollowJointTrajectoryGoal goal;
-  goal.goal_time_tolerance = ros::Duration(1);
-  goal.goal_tolerance = buildTolerance(0.01,0,0,7);
-  goal.path_tolerance = buildTolerance(0.02,0,0,7);
-  goal.trajectory = trajectory;
-  return goal;
-}
 
 
 

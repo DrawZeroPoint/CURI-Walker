@@ -1,3 +1,6 @@
+#include <stdexcept>
+#include <chrono>
+
 #include <moveit/move_group_interface/move_group_interface.h>
 #include <moveit/planning_scene_interface/planning_scene_interface.h>
 
@@ -15,15 +18,22 @@
 
 #include <walker_movement/MoveToEePoseAction.h>
 #include <walker_movement/MoveToJointPoseAction.h>
+#include <walker_movement/FollowEePoseTrajectoryAction.h>
 #include <walker_movement/GetJointState.h>
 #include <walker_movement/GetEePose.h>
 
+#include "control_utils.hpp"
+
 std::shared_ptr<actionlib::SimpleActionServer<walker_movement::MoveToEePoseAction>> moveToEePoseActionServer;
 std::shared_ptr<actionlib::SimpleActionServer<walker_movement::MoveToJointPoseAction>> moveToJointPoseActionServer;
+std::shared_ptr<actionlib::SimpleActionServer<walker_movement::FollowEePoseTrajectoryAction>> followEePoseTrajectoryActionServer;
 std::shared_ptr<moveit::planning_interface::MoveGroupInterface> moveGroupInt;
 std::shared_ptr<tf2_ros::Buffer> tfBuffer;
 std::string defaultEeLink = "";
 const robot_state::JointModelGroup* joint_model_group;
+std::string planning_group_name;
+std::shared_ptr<actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>> controllerActionClient;
+
 
 int waitActionCompletion(moveit::planning_interface::MoveGroupInterface& move_group)
 {
@@ -209,12 +219,79 @@ bool getEePoseServiceCallback(walker_movement::GetEePose::Request& req, walker_m
   return true;
 }
 
+void followEePoseTrajectory(const std::vector<geometry_msgs::PoseStamped>& poses, const std::vector<ros::Duration>& times_from_start, std::string eeLink)
+{
+  if(poses.size()!=times_from_start.size())
+    throw std::invalid_argument("followEePoseTrajectory: poses and times_from_start should have the same size (they are respectively "+std::to_string(poses.size())+" and "+std::to_string(times_from_start.size())+")");
+  std::vector<geometry_msgs::Pose> posesBaseLink;
+  for(const geometry_msgs::PoseStamped& p : poses)
+    posesBaseLink.push_back(tfBuffer->transform(p, "base_link", ros::Duration(1)).pose);
+
+  if(eeLink == "")
+    eeLink = defaultEeLink;
+
+  std::vector<std::vector<double>> jointPoses;
+  moveit::core::RobotStatePtr robotState = moveGroupInt->getCurrentState();
+  const moveit::core::JointModelGroup* jointModelGroup = moveGroupInt->getCurrentState()->getJointModelGroup(planning_group_name);
+
+  std::chrono::steady_clock::time_point timePreIK = std::chrono::steady_clock::now();
+  for(unsigned int i=0;i<posesBaseLink.size();i++)
+  {
+    const geometry_msgs::Pose& p = posesBaseLink[i];
+    std::vector<double> jointPose;
+    bool foundIk = robotState->setFromIK(jointModelGroup,p,eeLink,1.0); //TODO: choose sensible parameters (Attempts and solver timeout)
+    if(!foundIk)
+      throw std::runtime_error("followEePoseTrajectory failed, IK solution not found for pose "+std::to_string(i));
+    robotState->copyJointGroupPositions(jointModelGroup,jointPose);
+    jointPoses.push_back(jointPose);
+  }
+  auto timePostIK = std::chrono::steady_clock::now();
+  std::chrono::duration<double> duration = timePostIK-timePreIK;
+  ROS_INFO_STREAM("followEePoseTrajectory: IK took "<<duration.count()*1000<<"ms");
+
+  trajectory_msgs::JointTrajectory trajectory;
+  trajectory.joint_names = jointModelGroup->getActiveJointModelNames();
+  for(unsigned int i=0;i<jointPoses.size();i++)
+  {
+    trajectory_msgs::JointTrajectoryPoint point;
+    point.positions = jointPoses.at(i);
+    point.time_from_start = times_from_start.at(i);
+    trajectory.points.push_back(point);
+  }
+
+  executeTrajectoryDirect(trajectory,controllerActionClient);
+}
+
+void followEePoseTrajectoryActionCallback(const walker_movement::FollowEePoseTrajectoryGoalConstPtr& goal)
+{
+  try
+  {
+    followEePoseTrajectory(goal->poses, goal->times_from_start, goal->end_effector_link);
+  }
+  catch(std::runtime_error& e)
+  {
+    std::string error_message = "Follow ee pose trajectory failed: "+std::string(e.what());
+    ROS_WARN_STREAM(error_message);
+    walker_movement::FollowEePoseTrajectoryResult result;
+    result.succeded = false;
+    result.error_message = error_message;
+    followEePoseTrajectoryActionServer->setAborted(result);
+    return;
+  }
+
+  ROS_INFO_STREAM("Follow ee pose trajectory completed.");
+  walker_movement::FollowEePoseTrajectoryResult result;
+  result.succeded = true;
+  result.error_message = "No error";
+  followEePoseTrajectoryActionServer->setSucceeded(result);
+}
+
+
 int main(int argc, char** argv)
 {
   ros::init(argc, argv, "move_helper");
   ros::NodeHandle node_handle("~");
 
-  std::string planning_group_name;
   node_handle.getParam("planning_group", planning_group_name);
   ros::AsyncSpinner spinner(2);
   spinner.start();
@@ -224,13 +301,22 @@ int main(int argc, char** argv)
   ROS_INFO("MoveGroupInterface created.");
   joint_model_group = moveGroupInt->getCurrentState()->getJointModelGroup(planning_group_name);
 
-
+  std::string controllerActionNAme;
   if(planning_group_name=="walker_left_arm")
+  {
     defaultEeLink = "left_tcp";
+    controllerActionNAme = "walker_left_arm_controller/follow_joint_trajectory";
+  }
   else if(planning_group_name=="walker_right_arm")
+  {
     defaultEeLink = "right_tcp";
+    controllerActionNAme = "walker_right_arm_controller/follow_joint_trajectory";
+  }
   else if(planning_group_name=="walker_head")
+  {
     defaultEeLink = "head_l3";
+    controllerActionNAme = "walker_head_controller/follow_joint_trajectory";
+  }
   else
   {
     ROS_ERROR_STREAM("Invalid planning group name");
@@ -241,6 +327,11 @@ int main(int argc, char** argv)
   tf2_ros::TransformListener tfListener(*tfBuffer);
 
 
+  controllerActionClient = std::make_shared<actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>>(controllerActionNAme, true);
+
+  ROS_INFO("Waiting for controller action server...");
+  controllerActionClient->waitForServer();
+  ROS_INFO("Controllers connected.");
 
 
   moveToEePoseActionServer = std::make_shared<actionlib::SimpleActionServer<walker_movement::MoveToEePoseAction>>(node_handle,
@@ -254,6 +345,12 @@ int main(int argc, char** argv)
                                                                                                                         moveToJointPoseActionCallback,
                                                                                                                         false);
   moveToJointPoseActionServer->start();
+
+  followEePoseTrajectoryActionServer = std::make_shared<actionlib::SimpleActionServer<walker_movement::FollowEePoseTrajectoryAction>>(node_handle,
+                                                                                                                                "follow_ee_pose_trajectory",
+                                                                                                                                followEePoseTrajectoryActionCallback,
+                                                                                                                                false);
+  followEePoseTrajectoryActionServer->start();
 
   ros::ServiceServer service = node_handle.advertiseService("get_joint_state", getJointStateServiceCallback);
   ros::ServiceServer getEePoseService = node_handle.advertiseService("get_ee_pose", getEePoseServiceCallback);
