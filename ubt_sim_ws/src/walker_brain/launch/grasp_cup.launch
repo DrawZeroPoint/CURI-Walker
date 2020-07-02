@@ -10,17 +10,18 @@
     <!-- cup_id range [1, 5] -->
     <arg name="cup_id" />
 
-    <group if="$(eval task_id==2)">
-        <node pkg="rosservice" type="rosservice" name="init_robot"
-              args='call --wait /walker/sence "{scene_name: GraspCup, nav: false, vision: false}"'>
-        </node>
-    </group>
+    <!-- For quick debug  -->
+    <!--    <group if="$(eval task_id==2)">-->
+    <!--        <node pkg="rosservice" type="rosservice" name="init_robot"-->
+    <!--              args='call &#45;&#45;wait /walker/sence "{scene_name: GraspCup, nav: false, vision: false}"'>-->
+    <!--        </node>-->
+    <!--    </group>-->
 
-    <group if="$(eval task_id==3)">
-        <node pkg="rosservice" type="rosservice" name="init_robot"
-              args='call --wait /walker/sence "{scene_name: GraspCup, nav: false, vision: true}"'>
-        </node>
-    </group>
+    <!--    <group if="$(eval task_id==3)">-->
+    <!--        <node pkg="rosservice" type="rosservice" name="init_robot"-->
+    <!--              args='call &#45;&#45;wait /walker/sence "{scene_name: GraspCup, nav: false, vision: true}"'>-->
+    <!--        </node>-->
+    <!--    </group>-->
 
     <arg if="$(eval task_id == 2)" name="fixed_pose" value="true" />
     <arg unless="$(eval task_id == 2)" name="fixed_pose" value="false" />
@@ -32,10 +33,10 @@
     <arg if="$(eval cup_id == 5)" name="arm_used" value="right" />
 
     <node pkg="walker_brain" type="grasp_cup_helper.py" name="grasp_cup_helper" output="screen">
+        <!-- Robot pose in control mode: x 0, z -2; cup 3 pose: x 0.07 z: -2.41      -->
         <param name="target_id" value="$(arg cup_id)" />
-        <param name="x_offset" value="0.43" />
-        <param name="y_offset" value="0.28" />
-        <param name="z_offset" value="0.15" />
+        <param name="x_offset" value="0.41" />
+        <param name="y_offset" value="0.07" />
         <param name="fixed_pose" value="$(arg fixed_pose)" />
     </node>
 

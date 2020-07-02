@@ -2,14 +2,33 @@
 <root main_tree_to_execute="BehaviorTree">
     <!-- ////////// -->
     <BehaviorTree ID="BehaviorTree">
-        <Sequence name="Grasp cup 2">
-            <Action ID="EstimateTargetPose" compensate_pose="" name="Estimate grasp cup pose" obj_poses="" service_name="estimate_target_pose" tgt_grasp_pose="{target_grasp_pose}" tgt_hover_pose="{target_hover_pose}" tgt_nav_pose="" tgt_pre_grasp_pose="{target_pre_grasp_pose}"/>
-            <Action ID="ExecuteLArmJointStates" joint_states="0 -68 -93 0 0 0 0" name="Lift up left arm" server_name="/walker/move_helper_left_arm/move_to_joint_pose"/>
-            <Action ID="ExecuteLArmJointStates" joint_states="{target_hover_pose}" name="Move left arm over cup" server_name="/walker/move_helper_left_arm/move_to_joint_pose"/>
-            <Action ID="ExecuteLArmJointStates" joint_states="{target_pre_grasp_pose}" name="Move to pre grasp pose" server_name="/walker/move_helper_left_arm/move_to_joint_pose"/>
-            <Action ID="ExecuteLArmJointStates" joint_states="{target_grasp_pose}" name="Move to grasp pose" server_name="/walker/move_helper_left_arm/move_to_joint_pose"/>
-            <Action ID="ExecuteLHandGrasp" name="Grasp cup" server_name="/walker/hand_helper_left/grasp" type="1"/>
-            <Action ID="ExecuteLArmMove" ee_link="left_tcp" pose="0 0 0.1 0 0 0 1" ref_link="left_tcp" server_name="/walker/move_helper_left_arm/move_to_ee_pose"/>
+        <Sequence name="Grasp cup 3">
+            <Action ID="ExecuteHeadJointStates" joint_states="0 5" name="Look down side" server_name="/walker/move_helper_head/move_to_joint_pose"/>
+            <RetryUntilSuccesful num_attempts="2">
+                <Action ID="EstimateAdjustPose" name="Estimate observe pose" service_name="estimate_adjust_pose" tgt_nav_pose="{adjust_pose}"/>
+            </RetryUntilSuccesful>
+            <Action ID="ExecuteMoveBase" name="Move to observe pose" pose="{adjust_pose}" service_name="execute_move_base"/>
+            <Action ID="ExecuteStabilizeBase" service_name="stabilize_base"/>
+            <RetryUntilSuccesful num_attempts="2">
+                <Fallback>
+                    <Action ID="SenseObjectPoses" goal_id="cylinder" name="Get cup poses" poses="{detected_poses}" service_name="/head/extract_object_on_top"/>
+                    <ForceFailure>
+                        <Action ID="ExecuteHeadJointStates" joint_states="0 6" server_name="/walker/move_helper_head/move_to_joint_pose"/>
+                    </ForceFailure>
+                </Fallback>
+            </RetryUntilSuccesful>
+            <Action ID="EstimateTargetPose" compensate_pose="{rotation_compensate_pose}" name="Estimate target pose" obj_poses="{detected_poses}" service_name="estimate_target_pose" tgt_grasp_pose="{target_grasp_pose}" tgt_hover_pose="{target_hover_pose}" tgt_nav_pose="{target_nav_pose}" tgt_pre_grasp_pose="{target_pre_grasp_pose}"/>
+            <Action ID="ExecuteMoveBase" pose="{target_nav_pose}" service_name="execute_move_base"/>
+            <Action ID="ExecuteStabilizeBase" service_name="stabilize_base"/>
+            <Action ID="ExecuteMoveBase" pose="0 0 -0.02" service_name="execute_move_base"/>
+            <Sequence name="Execute grasp">
+                <Action ID="ExecuteRArmJointStates" joint_states="0 -68 93 0 0 0 0" name="Lift up right arm" server_name="/walker/move_helper_right_arm/move_to_joint_pose"/>
+                <Action ID="ExecuteRArmJointStates" joint_states="{target_hover_pose}" name="Move to hover pose" server_name="/walker/move_helper_right_arm/move_to_joint_pose"/>
+                <Action ID="ExecuteRArmJointStates" joint_states="{target_pre_grasp_pose}" name="Move to pre grasp pose" server_name="/walker/move_helper_right_arm/move_to_joint_pose"/>
+                <Action ID="ExecuteRArmJointStates" joint_states="{target_grasp_pose}" name="Move to grasp pose" server_name="/walker/move_helper_right_arm/move_to_joint_pose"/>
+                <Action ID="ExecuteRHandGrasp" name="Grasp the cup" server_name="/walker/hand_helper_right/grasp" type="1"/>
+                <Action ID="ExecuteRArmMove" ee_link="right_tcp" name="Lift up" pose="0 0 0.1 0 0 0 1" ref_link="right_tcp" server_name="/walker/move_helper_right_arm/move_to_ee_pose"/>
+            </Sequence>
         </Sequence>
     </BehaviorTree>
     <!-- ////////// -->
