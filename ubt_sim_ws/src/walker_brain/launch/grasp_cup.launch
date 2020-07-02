@@ -8,7 +8,7 @@
     <arg name="task_id" />
 
     <!-- cup_id range [1, 5] -->
-    <arg name="cup_id" />
+    <arg name="cup_id" default="0"/>
 
     <!-- For quick debug  -->
     <!--    <group if="$(eval task_id==2)">-->
@@ -26,6 +26,12 @@
     <arg if="$(eval task_id == 2)" name="fixed_pose" value="true" />
     <arg unless="$(eval task_id == 2)" name="fixed_pose" value="false" />
 
+    <arg if="$(eval task_id == 4)" name="x_offset" value="0.43" />
+    <arg unless="$(eval task_id == 4)" name="x_offset" value="0.41" />
+    <arg if="$(eval task_id == 4)" name="y_offset" value="0.09" />
+    <arg unless="$(eval task_id == 4)" name="y_offset" value="0.07" />
+
+    <arg if="$(eval cup_id == 0)" name="arm_used" value="none" />
     <arg if="$(eval cup_id == 1)" name="arm_used" value="left" />
     <arg if="$(eval cup_id == 2)" name="arm_used" value="left" />
     <arg if="$(eval cup_id == 3)" name="arm_used" value="right" />
@@ -35,8 +41,8 @@
     <node pkg="walker_brain" type="grasp_cup_helper.py" name="grasp_cup_helper" output="screen">
         <!-- Robot pose in control mode: x 0, z -2; cup 3 pose: x 0.07 z: -2.41      -->
         <param name="target_id" value="$(arg cup_id)" />
-        <param name="x_offset" value="0.41" />
-        <param name="y_offset" value="0.07" />
+        <param name="x_offset" value="$(arg x_offset)" />
+        <param name="y_offset" value="$(arg y_offset)" />
         <param name="fixed_pose" value="$(arg fixed_pose)" />
     </node>
 

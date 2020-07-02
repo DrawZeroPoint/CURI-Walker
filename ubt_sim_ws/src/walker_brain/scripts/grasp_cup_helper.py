@@ -6,14 +6,18 @@ import math
 import rospy
 
 from sensor_msgs.msg import Range
-from geometry_msgs.msg import Twist, Pose2D, PoseArray
-from walker_brain.srv import EstimateTargetPose, EstimateTargetPoseResponse
+from geometry_msgs.msg import Twist, Pose2D, PoseArray, WrenchStamped
+from walker_brain.srv import EstimateTargetPose, EstimateTargetPoseResponse, \
+                             EstimateContactForce, EstimateContactForceResponse
 
 
 class EstimateServer(object):
 
     def __init__(self):
         super(EstimateServer, self).__init__()
+
+        self.l_arm_force_suber = rospy.Subscriber('/sensor/ft/lwrist', WrenchStamped, self.l_arm_force_cb)
+        self.r_arm_force_suber = rospy.Subscriber('/sensor/ft/rwrist', WrenchStamped, self.r_arm_force_cb)
 
         self.lb_us_suber = rospy.Subscriber('/walker/ultrasound/leftBack', Range, self.lb_us_cb)
         self.mb_us_suber = rospy.Subscriber('/walker/ultrasound/middleBack', Range, self.mb_us_cb)
@@ -25,6 +29,7 @@ class EstimateServer(object):
         self._tgt_id = rospy.get_param('~target_id') - 1  # cup number start from 1
         self._server = rospy.Service('estimate_target_pose', EstimateTargetPose, self.handle)
         self._adjust_server = rospy.Service('estimate_adjust_pose', EstimateTargetPose, self.range_handle)
+        self._force_server = rospy.Service('estimate_contact_force', EstimateContactForce, self.force_handle)
 
         self._x_offset = rospy.get_param('~x_offset')
         self._y_offset = rospy.get_param('~y_offset')
@@ -32,6 +37,43 @@ class EstimateServer(object):
         self._fixed_pose = rospy.get_param('~fixed_pose')
 
         self._best_distance = 1.21
+
+        self._l_arm_force = None
+        self._r_arm_force = None
+
+    def l_arm_force_cb(self, msg):
+        self._l_arm_force = msg
+
+    def r_arm_force_cb(self, msg):
+        self._r_arm_force = msg
+
+    def force_handle(self, req):
+        resp = EstimateContactForceResponse()
+        if req.header.frame_id == "left_wrist":
+            f = self._l_arm_force
+        elif req.header.frame_id == "right_wrist":
+            f = self._r_arm_force
+        else:
+            rospy.logerr("Brain: Unknown force sensor type %s", req.header.frame_id)
+            resp.result_status = resp.FAILED
+            return resp
+
+        rospy.logwarn("Brain: Wrench {}".format(f.wrench.force))
+        if req.max_force and req.min_force and req.max_force > req.min_force:
+            max_force = req.max_force
+            min_force = req.min_force
+        else:
+            rospy.logerr("Brain: Contact force range not given")
+            max_force = 1000
+            min_force = 10
+        if abs(f.wrench.force.x) > min_force or abs(f.wrench.force.y) > min_force or abs(f.wrench.force.z) > min_force:
+            if abs(f.wrench.force.x) < max_force and abs(f.wrench.force.y) < max_force and abs(f.wrench.force.z) < max_force:
+                resp.result_status = resp.IN_RANGE
+            else:
+                resp.result_status = resp.HIGHER_THAN_MAX_FORCE
+        else:
+            resp.result_status = resp.LOWER_THAN_MIN_FORCE
+        return resp
 
     def lb_us_cb(self, msg):
         self.lb_dis = msg.range
@@ -58,7 +100,7 @@ class EstimateServer(object):
             else:
                 # The distance between lb and rb ultrasound sensors is 0.184 mm
                 resp.compensate_pose.theta = math.atan2(self.lb_dis - self.rb_dis, 0.184)
-                rospy.logwarn("Brain: Rotation compensate %.3f", resp.compensate_pose.theta)
+                # rospy.logwarn("Brain: Rotation compensate %.3f", resp.compensate_pose.theta)
             resp.result_status = resp.SUCCEEDED
         else:
             rospy.logerr("Brain: No single from back ultrasound sensors")
@@ -121,7 +163,7 @@ class EstimateServer(object):
         resp = EstimateTargetPoseResponse()
 
         pose_num = len(req.obj_poses.poses)
-        rospy.logwarn("Brain: Detected pose # {}".format(pose_num))
+        rospy.logdebug("Brain: Detected pose # {}".format(pose_num))
 
         sorted_poses = self.sort_poses(req.obj_poses.poses)
         rospy.logdebug("Brain: Sorted poses \n{}".format(sorted_poses))
@@ -129,18 +171,22 @@ class EstimateServer(object):
         ok, rotation = self.calculate_compensation(sorted_poses)
         if ok:
             resp.compensate_pose.theta = rotation
+        else:
+            resp.result_status = resp.FAILED
+            return resp
 
-        tgt_pose = sorted_poses[2]  # use the 3rd cup as reference
-        rospy.logwarn("Brain: Got target pose \n{}".format(tgt_pose))
-        resp.tgt_nav_pose = Pose2D()
-        resp.tgt_nav_pose.x = tgt_pose.position.x - self._x_offset
-        resp.tgt_nav_pose.y = tgt_pose.position.y + self._y_offset
-        resp.tgt_nav_pose.theta = 0
+        if pose_num >= 3:
+            tgt_pose = sorted_poses[2]  # use the 3rd cup as reference
+            rospy.logdebug("Brain: Got target pose \n{}".format(tgt_pose))
+            resp.tgt_nav_pose = Pose2D()
+            resp.tgt_nav_pose.x = tgt_pose.position.x - self._x_offset
+            resp.tgt_nav_pose.y = tgt_pose.position.y + self._y_offset
+            resp.tgt_nav_pose.theta = 0
 
-        hover_pose, pre_pose, grasp_pose = self.get_tgt_pose(self._tgt_id)
-        resp.tgt_hover_pose = hover_pose
-        resp.tgt_pre_grasp_pose = pre_pose
-        resp.tgt_grasp_pose = grasp_pose
+            hover_pose, pre_pose, grasp_pose = self.get_tgt_pose(self._tgt_id)
+            resp.tgt_hover_pose = hover_pose
+            resp.tgt_pre_grasp_pose = pre_pose
+            resp.tgt_grasp_pose = grasp_pose
 
         resp.result_status = resp.SUCCEEDED
         return resp
@@ -149,14 +195,14 @@ class EstimateServer(object):
     def calculate_compensation(poses):
         num_pose = len(poses)
         if num_pose < 2:
-            rospy.logerr("Brain: Not enough poses for compensate calculation")
+            rospy.logerr("Brain: Not enough target for compensate calculation")
             return False, None
 
         head_pose = poses[0]
         tail_pose = poses[-1]
         delta_x = tail_pose.position.x - head_pose.position.x
         delta_y = tail_pose.position.y - head_pose.position.y
-        rotation = math.pi + math.atan2(delta_x, delta_y)
+        rotation = math.atan2(delta_y, delta_x) + math.pi * 0.5
         rospy.logwarn("Brain: Rotation compensation is %.3f deg", rotation / math.pi * 180.)
         return True, rotation
 

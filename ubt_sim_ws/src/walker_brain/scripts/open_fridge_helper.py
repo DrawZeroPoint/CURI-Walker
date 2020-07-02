@@ -6,8 +6,7 @@ import math
 import numpy as np
 import rospy
 
-from geometry_msgs.msg import WrenchStamped
-from geometry_msgs.msg import Pose2D
+from geometry_msgs.msg import Pose2D, WrenchStamped
 from sensor_msgs.msg import Range
 from walker_brain.srv import EstimateTargetPose, EstimateTargetPoseResponse, \
                              EstimateContactForce, EstimateContactForceResponse, \
