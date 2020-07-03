@@ -24,7 +24,7 @@ EBandPlannerROS:
   max_rotational_vel: 0.35
   min_in_place_rotational_vel: 0.01
   xy_goal_tolerance: 0.20
-  yaw_goal_tolerance: 0.01
+  yaw_goal_tolerance: 0.1
   differential_drive: true
   Ctrl_Rate: 0.07
 

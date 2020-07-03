@@ -624,6 +624,7 @@ public:
   static BT::PortsList providedPorts() {
     return {
       InputPort<std::string>("id"),
+      InputPort<std::string>("direction"),
       InputPort<double>("max_force"),
       InputPort<double>("min_force")
     };
@@ -631,6 +632,7 @@ public:
 
   void onSendRequest(RequestType &request) override {
     getInput<std::string>("id", request.header.frame_id);
+    getInput<std::string>("direction", request.direction);
     // Note that BT don't support float conversion
     double max_force, min_force;
     getInput<double>("max_force", max_force);

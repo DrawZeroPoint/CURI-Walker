@@ -1,4 +1,5 @@
 std_msgs/Header header
+string direction
 float32 min_force
 float32 max_force
 ---

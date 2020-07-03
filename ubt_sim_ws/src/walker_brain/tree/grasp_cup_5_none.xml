@@ -2,14 +2,10 @@
 <root main_tree_to_execute="BehaviorTree">
     <!-- ////////// -->
     <BehaviorTree ID="BehaviorTree">
-        <Sequence name="Grasp cup 2">
-            <Action ID="EstimateTargetPose" compensate_pose="" name="Estimate grasp cup pose" obj_poses="" service_name="estimate_target_pose" tgt_grasp_pose="{target_grasp_pose}" tgt_hover_pose="{target_hover_pose}" tgt_nav_pose="" tgt_pre_grasp_pose="{target_pre_grasp_pose}"/>
-            <Action ID="ExecuteLArmJointStates" joint_states="0 -68 -93 0 0 0 0" name="Lift up left arm" server_name="/walker/move_helper_left_arm/move_to_joint_pose"/>
-            <Action ID="ExecuteLArmJointStates" joint_states="{target_hover_pose}" name="Move left arm over cup" server_name="/walker/move_helper_left_arm/move_to_joint_pose"/>
-            <Action ID="ExecuteLArmJointStates" joint_states="{target_pre_grasp_pose}" name="Move to pre grasp pose" server_name="/walker/move_helper_left_arm/move_to_joint_pose"/>
-            <Action ID="ExecuteLArmJointStates" joint_states="{target_grasp_pose}" name="Move to grasp pose" server_name="/walker/move_helper_left_arm/move_to_joint_pose"/>
-            <Action ID="ExecuteLHandGrasp" name="Grasp cup" server_name="/walker/hand_helper_left/grasp" type="1"/>
-            <Action ID="ExecuteLArmMove" ee_link="left_tcp" pose="0 0 0.1 0 0 0 1" ref_link="left_tcp" server_name="/walker/move_helper_left_arm/move_to_ee_pose"/>
+        <Sequence name="Grasp cup 5">
+            <Action ID="ExecuteWalkCmd" cmd="start" name="Start walking" service_name="execute_walk_cmd"/>
+            <Action ID="ExecuteMoveToAbsPose" name="Navigate to grasp cup" pose="3.2 1.48 0 0 0 0 1" service_name="/move_base/move_to_abs_pos"/>
+            <Action ID="ExecuteWalkCmd" cmd="stop" name="Stop walking" service_name="execute_walk_cmd"/>
         </Sequence>
     </BehaviorTree>
     <!-- ////////// -->
@@ -19,6 +15,7 @@
             <output_port default="{adjust_pose}" name="tgt_nav_pose"/>
         </Action>
         <Action ID="EstimateContactForce">
+            <input_port default="x" name="direction">Could be x or z, x points to the hand back, z along lower arm</input_port>
             <input_port name="id">Could be left_wrist or right_wrist</input_port>
             <input_port default="0" name="max_force"/>
             <input_port default="0" name="min_force"/>
