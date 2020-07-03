@@ -151,8 +151,8 @@ class EstimateServer(object):
             tgt_grasp_pose = [39, -35, -30, -79, 25, 20, -4]
         elif tgt_id == 2:
             tgt_hover_pose = [-70, -53, 29, -112, -1, -2, -24]
-            tgt_pre_grasp_pose = [-52, -25, 12, -76, -23, -23, -15]
-            tgt_grasp_pose = [-52, -22, 14, -75, -19, -22, -14]
+            tgt_pre_grasp_pose = [-52, -25, 14, -72, -19, -24, -8]
+            tgt_grasp_pose = [-55, -14, 13, -64, -19, -22, -12]
         elif tgt_id == 3:
             tgt_hover_pose = [-18, -67, 58, -97, -8, -21, -2]
             tgt_pre_grasp_pose = [-14, -40, 57, -69, -28, -24, 10]

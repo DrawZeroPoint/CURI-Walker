@@ -4,7 +4,7 @@
     <BehaviorTree ID="BehaviorTree">
         <Sequence name="Grasp cup 4 right">
             <Action ID="ExecuteWalkCmd" cmd="start" name="Start walking" service_name="execute_walk_cmd"/>
-            <Action ID="ExecuteMoveToAbsPose" name="Navigate to grasp cup" pose="3.2 1.5 0 0 0 0 1" service_name="/move_base/move_to_abs_pos"/>
+            <Action ID="ExecuteMoveToAbsPose" name="Navigate to grasp cup" pose="3.2 1.48 0 0 0 0 1" service_name="/move_base/move_to_abs_pos"/>
             <Action ID="ExecuteWalkCmd" cmd="stop" name="Stop walking" service_name="execute_walk_cmd"/>
             <Sequence name="Compensate rotation">
                 <Action ID="ExecuteHeadJointStates" joint_states="0 5" server_name="/walker/move_helper_head/move_to_joint_pose"/>
