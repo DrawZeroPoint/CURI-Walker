@@ -5,10 +5,10 @@ from __future__ import print_function
 import math
 import rospy
 
-from sensor_msgs.msg import Range
+from sensor_msgs.msg import Range, JointState
 from geometry_msgs.msg import Twist, Pose2D, PoseArray, WrenchStamped
 from walker_brain.srv import EstimateTargetPose, EstimateTargetPoseResponse, \
-                             EstimateContactForce, EstimateContactForceResponse
+    EstimateContactForce, EstimateContactForceResponse
 
 
 class EstimateServer(object):
@@ -58,7 +58,7 @@ class EstimateServer(object):
             resp.result_status = resp.FAILED
             return resp
 
-        rospy.logwarn("Brain: Wrench {}".format(f.wrench.force))
+        rospy.logwarn("Brain: Wrench \n{}".format(f.wrench.force))
         if req.max_force and req.min_force and req.max_force > req.min_force:
             max_force = req.max_force
             min_force = req.min_force
@@ -66,13 +66,35 @@ class EstimateServer(object):
             rospy.logerr("Brain: Contact force range not given")
             max_force = 1000
             min_force = 10
-        if abs(f.wrench.force.x) > min_force or abs(f.wrench.force.y) > min_force or abs(f.wrench.force.z) > min_force:
-            if abs(f.wrench.force.x) < max_force and abs(f.wrench.force.y) < max_force and abs(f.wrench.force.z) < max_force:
-                resp.result_status = resp.IN_RANGE
+
+        if req.direction == "x":
+            rospy.logwarn("Brain: Contact force in x direction %.3f", f.wrench.force.x)
+            if abs(f.wrench.force.x) > min_force:
+                if abs(f.wrench.force.x) < max_force:
+                    resp.result_status = resp.IN_RANGE
+                else:
+                    resp.result_status = resp.HIGHER_THAN_MAX_FORCE
             else:
-                resp.result_status = resp.HIGHER_THAN_MAX_FORCE
+                resp.result_status = resp.LOWER_THAN_MIN_FORCE
+        elif req.direction == "z":
+            rospy.logwarn("Brain: Contact force in z direction %.3f", f.wrench.force.z)
+            if abs(f.wrench.force.z) > min_force:
+                if abs(f.wrench.force.z) < max_force:
+                    resp.result_status = resp.IN_RANGE
+                else:
+                    resp.result_status = resp.HIGHER_THAN_MAX_FORCE
+            else:
+                resp.result_status = resp.LOWER_THAN_MIN_FORCE
         else:
-            resp.result_status = resp.LOWER_THAN_MIN_FORCE
+            if abs(f.wrench.force.x) > min_force or abs(f.wrench.force.y) > min_force \
+                    or abs(f.wrench.force.z) > min_force:
+                if abs(f.wrench.force.x) < max_force and abs(f.wrench.force.y) < max_force \
+                        and abs(f.wrench.force.z) < max_force:
+                    resp.result_status = resp.IN_RANGE
+                else:
+                    resp.result_status = resp.HIGHER_THAN_MAX_FORCE
+            else:
+                resp.result_status = resp.LOWER_THAN_MIN_FORCE
         return resp
 
     def lb_us_cb(self, msg):
@@ -121,11 +143,11 @@ class EstimateServer(object):
     def get_tgt_pose(tgt_id):
         if tgt_id == 0:
             tgt_hover_pose = [-5, -71, -95, -86, -1, 3, 5]
-            tgt_pre_grasp_pose = [11, -38, -77, -55, 25, 19, 20]
+            tgt_pre_grasp_pose = [10, -47, -69, -59, 26, 21, 14]
             tgt_grasp_pose = [17, -35, -74, -55, 29, 17, 15]
         elif tgt_id == 1:
             tgt_hover_pose = [50, -62, -35, -102, 9, 15, -6]
-            tgt_pre_grasp_pose = [38, -38, -30, -80, 25, 21, -3]
+            tgt_pre_grasp_pose = [35, -42, -31, -82, 24, 23, -1]
             tgt_grasp_pose = [39, -35, -30, -79, 25, 20, -4]
         elif tgt_id == 2:
             tgt_hover_pose = [-70, -53, 29, -112, -1, -2, -24]

@@ -9,7 +9,7 @@
             </RetryUntilSuccesful>
             <Action ID="ExecuteMoveBase" name="Move to observe pose" pose="{adjust_pose}" service_name="execute_move_base"/>
             <Action ID="ExecuteStabilizeBase" service_name="stabilize_base"/>
-            <RetryUntilSuccesful num_attempts="2">
+            <RetryUntilSuccesful num_attempts="10">
                 <Fallback>
                     <Action ID="SenseObjectPoses" goal_id="cylinder" name="Get cup poses" poses="{detected_poses}" service_name="/head/extract_object_on_top"/>
                     <ForceFailure>
