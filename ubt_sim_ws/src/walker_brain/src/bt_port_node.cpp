@@ -59,10 +59,10 @@ private:
   std::string name_;
 };
 
-class ExecuteMoveToAbsPos : public RosServiceNode<walker_nav::MoveToAbsPos>
+class ExecuteMoveToAbsPose : public RosServiceNode<walker_nav::MoveToAbsPos>
 {
 public:
-  ExecuteMoveToAbsPos(ros::NodeHandle &nh, const std::string& name, const BT::NodeConfiguration & cfg) :
+  ExecuteMoveToAbsPose(ros::NodeHandle &nh, const std::string& name, const BT::NodeConfiguration & cfg) :
     RosServiceNode<walker_nav::MoveToAbsPos>(nh, name, cfg), name_(name) {}
 
   static BT::PortsList providedPorts() {
@@ -92,10 +92,10 @@ private:
   std::string name_;
 };
 
-class ExecuteMoveToRelPos : public RosServiceNode<walker_nav::MoveToRelPos>
+class ExecuteMoveToRelPose : public RosServiceNode<walker_nav::MoveToRelPos>
 {
 public:
-  ExecuteMoveToRelPos(ros::NodeHandle &nh, const std::string& name, const BT::NodeConfiguration & cfg) :
+  ExecuteMoveToRelPose(ros::NodeHandle &nh, const std::string& name, const BT::NodeConfiguration & cfg) :
     RosServiceNode<walker_nav::MoveToRelPos>(nh, name, cfg), name_(name) {}
 
   static BT::PortsList providedPorts() {
@@ -518,10 +518,13 @@ public:
 
   static BT::PortsList providedPorts() {
     return {
-      BT::InputPort<PoseArray>("obj_poses"),
-      BT::OutputPort<int>("result_status"),
-      BT::OutputPort<Pose2D>("tgt_nav_pose"),
-      BT::OutputPort<Pose2D>("compensate_pose")
+      InputPort<PoseArray>("obj_poses"),
+      OutputPort<int>("result_status"),
+      OutputPort<Pose2D>("tgt_nav_pose"),
+      OutputPort<Pose2D>("compensate_pose"),
+      OutputPort<JointAngles>("tgt_hover_pose"),
+      OutputPort<JointAngles>("tgt_pre_grasp_pose"),
+      OutputPort<JointAngles>("tgt_grasp_pose")
     };
   }
 
@@ -543,6 +546,18 @@ public:
       Pose2D compensate_pose{};
       compensate_pose.fromROS(response.compensate_pose);
       setOutput("compensate_pose", compensate_pose);
+
+      JointAngles tgt_hover_pose{};
+      tgt_hover_pose.fromROS(response.tgt_hover_pose);
+      setOutput("tgt_hover_pose", tgt_hover_pose);
+
+      JointAngles tgt_pre_grasp_pose{};
+      tgt_pre_grasp_pose.fromROS(response.tgt_pre_grasp_pose);
+      setOutput("tgt_pre_grasp_pose", tgt_pre_grasp_pose);
+
+      JointAngles tgt_grasp_pose{};
+      tgt_grasp_pose.fromROS(response.tgt_grasp_pose);
+      setOutput("tgt_grasp_pose", tgt_grasp_pose);
 
       ROS_INFO("Brain: %s response SUCCEEDED.", name_.c_str());
       return BT::NodeStatus::SUCCESS;
@@ -761,8 +776,8 @@ int main(int argc, char **argv)
   RegisterRosService<ExecuteStabilizeBase>(factory, "ExecuteStabilizeBase", nh);
 
   // Navigation
-  RegisterRosService<ExecuteMoveToAbsPos>(factory, "ExecuteMoveToAbsPos", nh);
-  RegisterRosService<ExecuteMoveToRelPos>(factory, "ExecuteMoveToRelPos", nh);
+  RegisterRosService<ExecuteMoveToAbsPose>(factory, "ExecuteMoveToAbsPose", nh);
+  RegisterRosService<ExecuteMoveToRelPose>(factory, "ExecuteMoveToRelPose", nh);
 
   // Upper body control
   RegisterRosAction<ExecuteHeadJointStates>(factory, "ExecuteHeadJointStates", nh);

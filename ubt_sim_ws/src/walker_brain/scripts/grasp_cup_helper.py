@@ -21,6 +21,8 @@ class EstimateServer(object):
         self._y_offset = rospy.get_param('~y_offset')
         self._z_offset = rospy.get_param('~z_offset')
 
+        self._fixed_pose = rospy.get_param('~fixed_pose')
+
     @staticmethod
     def sort_poses(pose_array):
         """Sort the given Pose list according to poses' y coordinates,
@@ -31,7 +33,41 @@ class EstimateServer(object):
         pose_array.sort(key=lambda p: p.position.y, reverse=True)
         return pose_array
 
+    def fixed_handle(self):
+        resp = EstimateTargetPoseResponse()
+        if self._tgt_id < 0 or self._tgt_id > 4:
+            rospy.logerr("Brain: Invalid target id: {}".format(self._tgt_id))
+            resp.result_status = resp.FAILED
+            return resp
+
+        if self._tgt_id == 0:
+            resp.tgt_hover_pose = [-5, -71, -95, -86, -1, 3, 5]
+            resp.tgt_pre_grasp_pose = [11, -38, -77, -55, 25, 19, 20]
+            resp.tgt_grasp_pose = [16, -36, -74, -55, 28, 17, 16]
+        elif self._tgt_id == 1:
+            resp.tgt_hover_pose = [49, -52, -41, -101, 15, 7, -11]
+            resp.tgt_pre_grasp_pose = [38, -38, -30, -80, 25, 21, -3]
+            resp.tgt_grasp_pose = [39, -35, -30, -79, 25, 20, -4]
+        elif self._tgt_id == 2:
+            resp.tgt_hover_pose = [-72, -48, 28, -108, -2, -1, -25]
+            resp.tgt_pre_grasp_pose = [-52, -25, 12, -76, -23, -23, -15]
+            resp.tgt_grasp_pose = [-52, -22, 14, -75, -19, -22, -14]
+        elif self._tgt_id == 3:
+            resp.tgt_hover_pose = [-18, -67, 58, -97, -8, -21, -2]
+            resp.tgt_pre_grasp_pose = [-14, -40, 57, -69, -28, -24, 10]
+            resp.tgt_grasp_pose = [-25, -31, 53, -66, -34, -18, 2]
+        else:
+            resp.tgt_hover_pose = [-5, -74, 85, -76, -2, -1, -21]
+            resp.tgt_pre_grasp_pose = [-21, -42, 68, -38, -22, -23, -3]
+            resp.tgt_grasp_pose = [-30, -36, 67, -26, -20, -23, 0]
+
+        resp.result_status = resp.SUCCEEDED
+        return resp
+
     def handle(self, req):
+        if self._fixed_pose:
+            return self.fixed_handle()
+
         resp = EstimateTargetPoseResponse()
 
         pose_num = len(req.obj_poses.poses)

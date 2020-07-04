@@ -5,21 +5,42 @@
     <param name="/use_sim_time" value="true" />
 
     <!-- Could be 2, 3, 4, 5 -->
-    <arg name="task_id" default="3"/>
+    <arg name="task_id" />
 
     <!-- cup_id range [1, 5] -->
-    <arg name="cup_id" default="1"/>
+    <arg name="cup_id" />
+
+    <group if="$(eval task_id==2)">
+        <node pkg="rosservice" type="rosservice" name="init_robot"
+              args='call --wait /walker/sence "{scene_name: GraspCup, nav: false, vision: false}"'>
+        </node>
+    </group>
+
+    <group if="$(eval task_id==3)">
+        <node pkg="rosservice" type="rosservice" name="init_robot"
+              args='call --wait /walker/sence "{scene_name: GraspCup, nav: false, vision: true}"'>
+        </node>
+    </group>
+
+    <arg if="$(eval task_id == 2)" name="fixed_pose" value="true" />
+    <arg unless="$(eval task_id == 2)" name="fixed_pose" value="false" />
+
+    <arg if="$(eval cup_id == 1)" name="arm_used" value="left" />
+    <arg if="$(eval cup_id == 2)" name="arm_used" value="left" />
+    <arg if="$(eval cup_id == 3)" name="arm_used" value="right" />
+    <arg if="$(eval cup_id == 4)" name="arm_used" value="right" />
+    <arg if="$(eval cup_id == 5)" name="arm_used" value="right" />
 
     <node pkg="walker_brain" type="grasp_cup_helper.py" name="grasp_cup_helper" output="screen">
         <param name="target_id" value="$(arg cup_id)" />
         <param name="x_offset" value="0.43" />
         <param name="y_offset" value="0.28" />
         <param name="z_offset" value="0.15" />
+        <param name="fixed_pose" value="$(arg fixed_pose)" />
     </node>
 
-    <node pkg="walker_brain" type="grasp_cup_node" name="grasp_cup_node" output="screen">
-        <param name="tree_file" value="$(find walker_brain)/tree/grasp_cup_$(arg task_id)_f.xml" />
-        <param name="task_id" value="$(arg task_id)" />
+    <node pkg="walker_brain" type="bt_port_node" name="bt_port_node" output="screen">
+        <param name="tree_file" value="$(find walker_brain)/tree/grasp_cup_$(arg task_id)_$(arg arm_used).xml" />
     </node>
 
 </launch>

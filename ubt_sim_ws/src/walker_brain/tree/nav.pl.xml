@@ -1,6 +1,6 @@
 <root>
     <TreeNodesModel>
-        <Action ID="ExecuteMoveToAbsPos">
+        <Action ID="ExecuteMoveToAbsPose">
             <input_port name="pose"/>
             <input_port name="service_name" default="/move_base/move_to_abs_pos"/>
         </Action>
