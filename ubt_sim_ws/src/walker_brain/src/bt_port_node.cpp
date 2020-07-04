@@ -403,6 +403,7 @@ public:
     return {
       InputPort<JointAngles>("left_pose"),
       InputPort<JointAngles>("right_pose"),
+      InputPort<int>("mirror")
     };
   }
 
@@ -414,6 +415,10 @@ public:
     JointAngles right_pose{};
     getInput<JointAngles>("right_pose", right_pose);
     goal.right_pose = right_pose.toROS();
+
+    int mirror;
+    getInput<int>("mirror", mirror);
+    goal.mirror = bool(mirror);
 
     ROS_INFO("Brain: %s sending request", name_.c_str());
     return true;
