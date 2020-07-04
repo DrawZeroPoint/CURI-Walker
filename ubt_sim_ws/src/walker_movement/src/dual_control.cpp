@@ -18,25 +18,27 @@
 #include <control_msgs/FollowJointTrajectoryAction.h>
 #include <trajectory_msgs/JointTrajectory.h>
 
-#include <walker_movement/DualArmEeMoveAction.h>
-#include <walker_movement/DualArmJointMoveAction.h>
+#include <walker_movement/DualEeMoveAction.h>
+#include <walker_movement/DualJointMoveAction.h>
 #include <walker_movement/DualArmMirroredEeMoveAction.h>
+#include <walker_movement/DualFollowEePoseTrajectoryAction.h>
 
 #include "control_utils.hpp"
 
-std::shared_ptr<actionlib::SimpleActionServer<walker_movement::DualArmEeMoveAction>> dualArmEeMoveActionServer;
-std::shared_ptr<actionlib::SimpleActionServer<walker_movement::DualArmJointMoveAction>> dualArmJointMoveActionServer;
+std::shared_ptr<actionlib::SimpleActionServer<walker_movement::DualEeMoveAction>> dualEeMoveActionServer;
+std::shared_ptr<actionlib::SimpleActionServer<walker_movement::DualJointMoveAction>> dualJointMoveActionServer;
 std::shared_ptr<actionlib::SimpleActionServer<walker_movement::DualArmMirroredEeMoveAction>> dualArmMirroredEeMoveActionServer;
+std::shared_ptr<actionlib::SimpleActionServer<walker_movement::DualFollowEePoseTrajectoryAction>> dualFollowEePoseTrajectoryActionServer;
 std::shared_ptr<moveit::planning_interface::MoveGroupInterface> moveGroupInt_left;
 std::shared_ptr<moveit::planning_interface::MoveGroupInterface> moveGroupInt_right;
 std::shared_ptr<tf2_ros::Buffer> tfBuffer;
-std::string defaultLeftEeLink = "left_tcp";
-std::string defaultRightEeLink = "right_tcp";
-std::string leftPlanningGroupName = "walker_left_arm";
-std::string rightPlanningGroupName = "walker_right_arm";
+std::string defaultLeftEeLink = "";
+std::string defaultRightEeLink = "";
+std::string leftPlanningGroupName = "";
+std::string rightPlanningGroupName = "";
 std::shared_ptr<actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>> rightControllerActionClient;
 std::shared_ptr<actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>> leftControllerActionClient;
-
+bool use_legs = false;
 
 
 
@@ -82,13 +84,24 @@ std::vector<double> multiplyElementWise(std::vector<double> a, std::vector<doubl
 trajectory_msgs::JointTrajectory mirrorTrajectory(const trajectory_msgs::JointTrajectory& trajectory)
 {
   std::vector<double> transformation;
-  std::vector<std::string> possibleNames({"left_limb_j1","left_limb_j2","left_limb_j3","left_limb_j4","left_limb_j5","left_limb_j6","left_limb_j7"});
-  std::vector<std::string> rightNames({"right_limb_j1","right_limb_j2","right_limb_j3","right_limb_j4","right_limb_j5","right_limb_j6","right_limb_j7"});
-  std::vector<double>               flip({-1.0,          1.0,          -1.0,           1.0,          -1.0,          -1.0,           1.0});
+  std::vector<std::string> possibleNames;
+  std::vector<std::string> rightNames;
+  std::vector<double>               flip;
 
-  ROS_WARN_STREAM("(trajectory.joint_names.size() = "<<trajectory.joint_names.size());
-  ROS_WARN_STREAM("(trajectory.points.size() = "<<trajectory.points.size());
-  ROS_WARN_STREAM("(trajectory.points[0].positions.size() = "<<trajectory.points[0].positions.size());
+  if(!use_legs)
+  {
+    possibleNames = {"left_limb_j1","left_limb_j2","left_limb_j3","left_limb_j4","left_limb_j5","left_limb_j6","left_limb_j7"};
+    rightNames = {"right_limb_j1","right_limb_j2","right_limb_j3","right_limb_j4","right_limb_j5","right_limb_j6","right_limb_j7"};
+    flip = {-1.0,          1.0,          -1.0,           1.0,          -1.0,          -1.0,           1.0};
+  }
+  else
+  {
+    throw std::runtime_error("mirrorTrajectory does not support legs. Yet");
+  }
+
+  // ROS_WARN_STREAM("(trajectory.joint_names.size() = "<<trajectory.joint_names.size());
+  // ROS_WARN_STREAM("(trajectory.points.size() = "<<trajectory.points.size());
+  // ROS_WARN_STREAM("(trajectory.points[0].positions.size() = "<<trajectory.points[0].positions.size());
   if(trajectory.joint_names.size()!=possibleNames.size())
     throw std::runtime_error("Incompatible trajectory, different number of joints "+std::to_string(trajectory.joint_names.size())+" instead of "+std::to_string(possibleNames.size()));
 
@@ -126,23 +139,6 @@ trajectory_msgs::JointTrajectory mirrorTrajectory(const trajectory_msgs::JointTr
 }
 
 
-void executeDualTraj(const trajectory_msgs::JointTrajectory& trajectory_left, const trajectory_msgs::JointTrajectory& trajectory_right)
-{
-  control_msgs::FollowJointTrajectoryGoal leftGoal = buildControllerGoal(trajectory_left);
-  control_msgs::FollowJointTrajectoryGoal rightGoal = buildControllerGoal(trajectory_right);
-
-  leftControllerActionClient->sendGoal(leftGoal);
-  rightControllerActionClient->sendGoal(rightGoal);
-  bool completed = leftControllerActionClient->waitForResult(ros::Duration(120.0));
-  if(!completed)
-    throw std::runtime_error("Dual arm move failed: left execution timed out");
-  completed = rightControllerActionClient->waitForResult(ros::Duration(120.0));
-  if(!completed)
-    throw std::runtime_error("Dual arm move failed: right execution timed out");
-}
-
-
-
 void dualArmMirroredEeMove(const walker_movement::DualArmMirroredEeMoveGoalConstPtr &goal)
 {
   // Transform the two poses to base_link
@@ -161,8 +157,8 @@ void dualArmMirroredEeMove(const walker_movement::DualArmMirroredEeMoveGoalConst
   trajectory_msgs::JointTrajectory trajectory_right = mirrorTrajectory(trajectory_left.joint_trajectory);
 
   //Execute both trajecctories simultaneously
-  ROS_INFO_STREAM("Executing on both arms...");
-  executeDualTraj(trajectory_left.joint_trajectory, trajectory_right);
+  ROS_INFO_STREAM("Executing on both limbs...");
+  executeDualTrajectoryDirect(trajectory_left.joint_trajectory, trajectory_right, leftControllerActionClient, rightControllerActionClient);
 }
 
 
@@ -191,7 +187,7 @@ void dualArmMirroredEeMoveActionCallback(const walker_movement::DualArmMirroredE
 }
 
 
-void dualArmEeMove(const walker_movement::DualArmEeMoveGoalConstPtr &goal)
+void dualEeMove(const walker_movement::DualEeMoveGoalConstPtr &goal)
 {
   // Transform the two poses to base_link
   std::string referenceFrame = "base_link";
@@ -216,32 +212,32 @@ void dualArmEeMove(const walker_movement::DualArmEeMoveGoalConstPtr &goal)
                   trajectory_right);
 
   //Execute both trajecctories simultaneously
-  ROS_INFO_STREAM("Executing on both arms...");
-  executeDualTraj(trajectory_left.joint_trajectory, trajectory_right.joint_trajectory);
+  ROS_INFO_STREAM("Executing on both limbs...");
+  executeDualTrajectoryDirect(trajectory_left.joint_trajectory, trajectory_right.joint_trajectory, leftControllerActionClient, rightControllerActionClient);
 }
 
-void dualArmEeMoveActionCallback(const walker_movement::DualArmEeMoveGoalConstPtr &goal)
+void dualEeMoveActionCallback(const walker_movement::DualEeMoveGoalConstPtr &goal)
 {
   try
   {
-    dualArmEeMove(goal);
+    dualEeMove(goal);
   }
   catch(std::runtime_error& e)
   {
-    std::string error_message = "Dual arm end effector move failed: "+std::string(e.what());
+    std::string error_message = "Dual end effector move failed: "+std::string(e.what());
     ROS_WARN_STREAM(error_message);
-    walker_movement::DualArmEeMoveResult result;
+    walker_movement::DualEeMoveResult result;
     result.succeded = false;
     result.error_message = error_message;
-    dualArmEeMoveActionServer->setAborted(result);
+    dualEeMoveActionServer->setAborted(result);
     return;
   }
 
-  ROS_INFO_STREAM("Dual arm end effector move completed.");
-  walker_movement::DualArmEeMoveResult result;
+  ROS_INFO_STREAM("Dual end effector move completed.");
+  walker_movement::DualEeMoveResult result;
   result.succeded = true;
   result.error_message = "No error";
-  dualArmEeMoveActionServer->setSucceeded(result);
+  dualEeMoveActionServer->setSucceeded(result);
 }
 
 
@@ -249,7 +245,7 @@ void dualArmEeMoveActionCallback(const walker_movement::DualArmEeMoveGoalConstPt
 
 
 
-void dualArmJointMove(const walker_movement::DualArmJointMoveGoalConstPtr &goal)
+void dualJointMove(const walker_movement::DualJointMoveGoalConstPtr &goal)
 {
   if(moveGroupInt_left->getVariableCount()!=goal->left_pose.size())
     throw std::invalid_argument("Provided left joint pose has wrong size. Should be "+std::to_string(moveGroupInt_left->getVariableCount())+" it's "+std::to_string(goal->left_pose.size()));
@@ -269,41 +265,114 @@ void dualArmJointMove(const walker_movement::DualArmJointMoveGoalConstPtr &goal)
     throw std::runtime_error("planning for left arm failed with MoveItErrorCode "+std::to_string(r.val));
 
   //Execute both trajecctories simultaneously
-  ROS_INFO_STREAM("Executing on both arms...");
-  executeDualTraj(planLeft.trajectory_.joint_trajectory, planRight.trajectory_.joint_trajectory);
+  ROS_INFO_STREAM("Executing on both limbs...");
+  executeDualTrajectoryDirect(planLeft.trajectory_.joint_trajectory, planRight.trajectory_.joint_trajectory, leftControllerActionClient, rightControllerActionClient);
 
 }
 
-void dualArmJointMoveActionCallback(const walker_movement::DualArmJointMoveGoalConstPtr &goal)
+void dualJointMoveActionCallback(const walker_movement::DualJointMoveGoalConstPtr &goal)
 {
   try
   {
-    dualArmJointMove(goal);
+    dualJointMove(goal);
   }
   catch(std::runtime_error& e)
   {
-    std::string error_message = "Dual Arm joint move failed: "+std::string(e.what());
+    std::string error_message = "Dual joint move failed: "+std::string(e.what());
     ROS_WARN_STREAM(error_message);
-    walker_movement::DualArmJointMoveResult result;
+    walker_movement::DualJointMoveResult result;
     result.succeded = false;
     result.error_message = error_message;
-    dualArmJointMoveActionServer->setAborted(result);
+    dualJointMoveActionServer->setAborted(result);
   }
 
-  ROS_INFO_STREAM("Dual arm movement completed.");
-  walker_movement::DualArmJointMoveResult result;
+  ROS_INFO_STREAM("Dual movement completed.");
+  walker_movement::DualJointMoveResult result;
   result.succeded = true;
   result.error_message = "No error";
-  dualArmJointMoveActionServer->setSucceeded(result);
+  dualJointMoveActionServer->setSucceeded(result);
 }
+
+
+void followDualEePoseTrajectory(const std::vector<geometry_msgs::PoseStamped>& poses_left, const std::vector<ros::Duration>& times_from_start_left, std::string eeLink_left,
+                                const std::vector<geometry_msgs::PoseStamped>& poses_right, const std::vector<ros::Duration>& times_from_start_right, std::string eeLink_right)
+{
+  executeDualTrajectoryDirect(buildTrajectory(poses_left,
+                                              times_from_start_left,
+                                              eeLink_left == ""? defaultLeftEeLink : eeLink_left,
+                                              tfBuffer,
+                                              moveGroupInt_left,
+                                              leftPlanningGroupName),
+                              buildTrajectory(poses_right,
+                                              times_from_start_right,
+                                              eeLink_right == ""? defaultRightEeLink : eeLink_right,
+                                              tfBuffer,
+                                              moveGroupInt_right,
+                                              rightPlanningGroupName),
+  leftControllerActionClient,
+  rightControllerActionClient);
+}
+
+
+void dualFollowEePoseTrajectoryActionCallback(const walker_movement::DualFollowEePoseTrajectoryGoalConstPtr &goal)
+{
+  try
+  {
+    followDualEePoseTrajectory( goal->poses_left, goal->times_from_start_left, goal->end_effector_link_left,
+                                goal->poses_right, goal->times_from_start_right, goal->end_effector_link_right);
+  }
+  catch(std::runtime_error& e)
+  {
+    std::string error_message = "Dual Ee trajectory following failed: "+std::string(e.what());
+    ROS_WARN_STREAM(error_message);
+    walker_movement::DualFollowEePoseTrajectoryResult result;
+    result.succeded = false;
+    result.error_message = error_message;
+    dualFollowEePoseTrajectoryActionServer->setAborted(result);
+  }
+
+  ROS_INFO_STREAM("Dual Ee trajectory following completed.");
+  walker_movement::DualFollowEePoseTrajectoryResult result;
+  result.succeded = true;
+  result.error_message = "No error";
+  dualFollowEePoseTrajectoryActionServer->setSucceeded(result);
+}
+
+
+
+
 
 int main(int argc, char** argv)
 {
   ros::init(argc, argv, "dual_arm_control");
   ros::NodeHandle node_handle("~");
 
+  node_handle.getParam("use_legs", use_legs);
+
   ros::AsyncSpinner spinner(2);
   spinner.start();
+
+  std::string rightControllerActionName;
+  std::string leftControllerActionName;
+
+  if(use_legs)
+  {
+    leftPlanningGroupName = "walker_left_leg";
+    rightPlanningGroupName = "walker_right_leg";
+    rightControllerActionName = "walker_right_leg_controller/follow_joint_trajectory";
+    leftControllerActionName = "walker_left_leg_controller/follow_joint_trajectory";
+    defaultLeftEeLink = "left_foot_sole";
+    defaultRightEeLink = "right_foot_sole";
+  }
+  else
+  {
+    leftPlanningGroupName = "walker_left_arm";
+    rightPlanningGroupName = "walker_right_arm";
+    rightControllerActionName = "walker_right_arm_controller/follow_joint_trajectory";
+    leftControllerActionName = "walker_left_arm_controller/follow_joint_trajectory";
+    defaultLeftEeLink = "left_tcp";
+    defaultRightEeLink = "right_tcp";
+  }
 
   ROS_INFO("Creating MoveGroupInterface...");
   moveGroupInt_left  = std::make_shared<moveit::planning_interface::MoveGroupInterface>(leftPlanningGroupName,std::shared_ptr<tf2_ros::Buffer>(),ros::WallDuration(30));
@@ -311,8 +380,8 @@ int main(int argc, char** argv)
   ROS_INFO("MoveGroupInterface created.");
 
 
-  rightControllerActionClient = std::make_shared<actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>>("walker_right_arm_controller/follow_joint_trajectory", true);
-  leftControllerActionClient = std::make_shared<actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>>("walker_left_arm_controller/follow_joint_trajectory", true);
+  rightControllerActionClient = std::make_shared<actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>>(rightControllerActionName, true);
+  leftControllerActionClient = std::make_shared<actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>>(leftControllerActionName, true);
 
   ROS_INFO("Waiting for controller action servers...");
   rightControllerActionClient->waitForServer();
@@ -323,14 +392,14 @@ int main(int argc, char** argv)
   tfBuffer = std::make_shared<tf2_ros::Buffer>();
   tf2_ros::TransformListener tfListener(*tfBuffer);
 
-  dualArmEeMoveActionServer = std::make_shared<actionlib::SimpleActionServer<walker_movement::DualArmEeMoveAction>>(node_handle,
+  dualEeMoveActionServer = std::make_shared<actionlib::SimpleActionServer<walker_movement::DualEeMoveAction>>(node_handle,
                                                                                                                 "move_to_ee_pose",
-                                                                                                                dualArmEeMoveActionCallback,
+                                                                                                                dualEeMoveActionCallback,
                                                                                                                 false);
 
-  dualArmJointMoveActionServer = std::make_shared<actionlib::SimpleActionServer<walker_movement::DualArmJointMoveAction>>(node_handle,
+  dualJointMoveActionServer = std::make_shared<actionlib::SimpleActionServer<walker_movement::DualJointMoveAction>>(node_handle,
                                                                                                                 "move_to_joint_pose",
-                                                                                                                dualArmJointMoveActionCallback,
+                                                                                                                dualJointMoveActionCallback,
                                                                                                                 false);
 
 
@@ -338,8 +407,15 @@ int main(int argc, char** argv)
                                                                                                                             "move_to_ee_pose_mirrored",
                                                                                                                             dualArmMirroredEeMoveActionCallback,
                                                                                                                             false);
-  dualArmEeMoveActionServer->start();
-  dualArmJointMoveActionServer->start();
+
+  dualFollowEePoseTrajectoryActionServer = std::make_shared<actionlib::SimpleActionServer<walker_movement::DualFollowEePoseTrajectoryAction>>(node_handle,
+                                                                                                                              "follow_ee_pose_trajectory",
+                                                                                                                              dualFollowEePoseTrajectoryActionCallback,
+                                                                                                                              false);
+  dualFollowEePoseTrajectoryActionServer->start();
+
+  dualEeMoveActionServer->start();
+  dualJointMoveActionServer->start();
   dualArmMirroredEeMoveActionServer->start();
   ROS_INFO("Action server started");
 

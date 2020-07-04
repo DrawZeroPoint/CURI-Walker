@@ -2715,6 +2715,20 @@
     <axis
       xyz="0 0 0" />
   </joint>
+  <link name="right_foot_sole"/>
+  <joint
+    name="right_foot_sole"
+    type="fixed">
+    <origin
+      xyz="0 -0.064652 0"
+      rpy="0 -1.5707 -1.5707" />
+    <parent
+      link="right_leg_link2" />
+    <child
+      link="right_foot_sole" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
   <link
     name="left_leg_l1">
     <inertial>
@@ -3166,6 +3180,21 @@
       link="left_leg_l6" />
     <child
       link="left_leg_link2" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+
+  <link name="left_foot_sole"/>
+  <joint
+    name="left_foot_sole"
+    type="fixed">
+    <origin
+      xyz="0 -0.064652 0"
+      rpy="0 -1.5707 -1.5707" />
+    <parent
+      link="left_leg_link2" />
+    <child
+      link="left_foot_sole" />
     <axis
       xyz="0 0 0" />
   </joint>

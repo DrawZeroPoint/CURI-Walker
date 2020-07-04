@@ -1,5 +1,7 @@
 <launch>
 
+  <arg name="legs_control" default="false" />
+
 
   <group ns="/walker">
 
@@ -24,8 +26,23 @@
     </node>
 
 
-    <node name="dual_arm_control" pkg="walker_movement" type="dual_arm_control" respawn="true" output="screen">
+    <node name="dual_arm_control" pkg="walker_movement" type="dual_control" respawn="true" output="screen">
+      <param name="use_legs" type="bool" value="false" />
     </node>
+
+    <group if="$(arg legs_control)">
+      <node name="move_helper_left_leg" pkg="walker_movement" type="move_helper" respawn="true" output="screen">
+        <param name="planning_group" type="string" value="walker_left_leg" />
+      </node>
+
+      <node name="move_helper_right_leg" pkg="walker_movement" type="move_helper" respawn="true" output="screen">
+        <param name="planning_group" type="string" value="walker_right_leg" />
+      </node>
+
+      <node name="dual_leg_control" pkg="walker_movement" type="dual_control" respawn="true" output="screen">
+        <param name="use_legs" type="bool" value="true" />
+      </node>
+    </group>
 
   </group>
 </launch>

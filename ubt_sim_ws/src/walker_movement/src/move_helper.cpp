@@ -219,48 +219,19 @@ bool getEePoseServiceCallback(walker_movement::GetEePose::Request& req, walker_m
   return true;
 }
 
+
 void followEePoseTrajectory(const std::vector<geometry_msgs::PoseStamped>& poses, const std::vector<ros::Duration>& times_from_start, std::string eeLink)
 {
-  if(poses.size()!=times_from_start.size())
-    throw std::invalid_argument("followEePoseTrajectory: poses and times_from_start should have the same size (they are respectively "+std::to_string(poses.size())+" and "+std::to_string(times_from_start.size())+")");
-  std::vector<geometry_msgs::Pose> posesBaseLink;
-  for(const geometry_msgs::PoseStamped& p : poses)
-    posesBaseLink.push_back(tfBuffer->transform(p, "base_link", ros::Duration(1)).pose);
-
-  if(eeLink == "")
-    eeLink = defaultEeLink;
-
-  std::vector<std::vector<double>> jointPoses;
-  moveit::core::RobotStatePtr robotState = moveGroupInt->getCurrentState();
-  const moveit::core::JointModelGroup* jointModelGroup = moveGroupInt->getCurrentState()->getJointModelGroup(planning_group_name);
-
-  std::chrono::steady_clock::time_point timePreIK = std::chrono::steady_clock::now();
-  for(unsigned int i=0;i<posesBaseLink.size();i++)
-  {
-    const geometry_msgs::Pose& p = posesBaseLink[i];
-    std::vector<double> jointPose;
-    bool foundIk = robotState->setFromIK(jointModelGroup,p,eeLink,1.0); //TODO: choose sensible parameters (Attempts and solver timeout)
-    if(!foundIk)
-      throw std::runtime_error("followEePoseTrajectory failed, IK solution not found for pose "+std::to_string(i));
-    robotState->copyJointGroupPositions(jointModelGroup,jointPose);
-    jointPoses.push_back(jointPose);
-  }
-  auto timePostIK = std::chrono::steady_clock::now();
-  std::chrono::duration<double> duration = timePostIK-timePreIK;
-  ROS_INFO_STREAM("followEePoseTrajectory: IK took "<<duration.count()*1000<<"ms");
-
-  trajectory_msgs::JointTrajectory trajectory;
-  trajectory.joint_names = jointModelGroup->getActiveJointModelNames();
-  for(unsigned int i=0;i<jointPoses.size();i++)
-  {
-    trajectory_msgs::JointTrajectoryPoint point;
-    point.positions = jointPoses.at(i);
-    point.time_from_start = times_from_start.at(i);
-    trajectory.points.push_back(point);
-  }
-
-  executeTrajectoryDirect(trajectory,controllerActionClient);
+  executeTrajectoryDirect(buildTrajectory(poses,
+                                          times_from_start,
+                                          eeLink == ""? defaultEeLink : eeLink,tfBuffer,
+                                          moveGroupInt,
+                                          planning_group_name),
+                          controllerActionClient);
 }
+
+
+
 
 void followEePoseTrajectoryActionCallback(const walker_movement::FollowEePoseTrajectoryGoalConstPtr& goal)
 {
@@ -317,6 +288,16 @@ int main(int argc, char** argv)
     defaultEeLink = "head_l3";
     controllerActionNAme = "walker_head_controller/follow_joint_trajectory";
   }
+  else if(planning_group_name=="walker_left_leg")
+  {
+    defaultEeLink = "left_foot_sole";
+    controllerActionNAme = "walker_left_leg_controller/follow_joint_trajectory";
+  }
+  else if(planning_group_name=="walker_right_leg")
+  {
+    defaultEeLink = "right_foot_sole";
+    controllerActionNAme = "walker_right_leg_controller/follow_joint_trajectory";
+  }
   else
   {
     ROS_ERROR_STREAM("Invalid planning group name");
@@ -356,32 +337,6 @@ int main(int argc, char** argv)
   ros::ServiceServer getEePoseService = node_handle.advertiseService("get_ee_pose", getEePoseServiceCallback);
 
   ROS_INFO("Action and service servers started");
-  //moveToJointPose(*moveGroupInt,std::vector<double>({0,0,0,0,0,0,0}));
-  /*
-  geometry_msgs::PoseStamped pose;
-  pose.header.frame_id = "base_link";
-  pose.header.stamp = ros::Time::now();
-  pose.pose.position.x =  0.32;
-  pose.pose.position.y =  -0.51;
-  pose.pose.position.z = -0.10;
-  pose.pose.orientation.x = 0;
-  pose.pose.orientation.y = 0;
-  pose.pose.orientation.z = 0;
-  pose.pose.orientation.w = 1;
-  moveToEePose(*mv_interfaces.at("walker_right_arm"),pose,"right_tcp");
-
-  pose.header.frame_id = "base_link";
-  pose.header.stamp = ros::Time::now();
-  pose.pose.position.x =  0.32;
-  pose.pose.position.y =  0.51;
-  pose.pose.position.z = -0.10;
-  pose.pose.orientation.x = 0;
-  pose.pose.orientation.y = 0;
-  pose.pose.orientation.z = 0;
-  pose.pose.orientation.w = 1;
-  moveToEePose(*mv_interfaces.at("walker_left_arm"),pose,"left_tcp");*/
-
-
   ros::waitForShutdown();
   return 0;
 }

@@ -83,10 +83,11 @@ add_action_files(
   MoveToEePose.action
   MoveToJointPose.action
   Grasp.action
-  DualArmEeMove.action
-  DualArmJointMove.action
+  DualEeMove.action
+  DualJointMove.action
   DualArmMirroredEeMove.action
   FollowEePoseTrajectory.action
+  DualFollowEePoseTrajectory.action
 )
 
 ## Generate added messages and services with any dependencies listed here
@@ -151,6 +152,6 @@ add_dependencies(hand_helper ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORT
 target_link_libraries(hand_helper ${catkin_LIBRARIES} ${Boost_LIBRARIES})
 
 
-add_executable(dual_arm_control src/dual_arm_control.cpp src/control_utils.cpp)
-add_dependencies(dual_arm_control ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(dual_arm_control ${catkin_LIBRARIES} ${Boost_LIBRARIES})
+add_executable(dual_control src/dual_control.cpp src/control_utils.cpp)
+add_dependencies(dual_control ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(dual_control ${catkin_LIBRARIES} ${Boost_LIBRARIES})

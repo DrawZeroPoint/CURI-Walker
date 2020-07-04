@@ -1,0 +1,25 @@
+
+# Poses to pass through
+geometry_msgs/PoseStamped[] poses_left
+
+# Times at which each poses is reached
+duration[] times_from_start_left
+
+# End effector to use
+string end_effector_link_left
+
+# Poses to pass through
+geometry_msgs/PoseStamped[] poses_right
+
+# Times at which each poses is reached
+duration[] times_from_start_right
+
+# End effector to use
+string end_effector_link_right
+
+---
+#result definition
+bool succeded
+string error_message
+---
+#feedback

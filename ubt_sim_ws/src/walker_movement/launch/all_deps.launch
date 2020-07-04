@@ -1,10 +1,15 @@
 <launch>
 
   <arg name="enable_gait" default="true" />
+  <arg name="legs_control" default="false" />
+  <arg name="show_rviz" default="false" />
 
-  <include file="$(find walker_movement)/launch/helpers.launch"/>
+  <include file="$(find walker_movement)/launch/helpers.launch">
+    <arg name="legs_control" value="$(arg legs_control)"/>
+  </include>    
   <include file="$(find walker_webots_hardware_interface)/launch/moveit.launch">
-    <arg name="show_rviz" value="false"/>
+    <arg name="show_rviz" value="$(arg show_rviz)"/>
+    <arg name="enable_legs" value="$(arg legs_control)"/>
   </include>
   <group if="$(arg enable_gait)">
 

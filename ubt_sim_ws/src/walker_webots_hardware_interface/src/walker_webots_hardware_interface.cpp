@@ -299,7 +299,8 @@ namespace walker_webots_hardware_interface
                                           rightHipRoll,
                                           rightHipPitch,
                                           rightKneePitch,
-                                          rightAnklePitch});
+                                          rightAnklePitch,
+                                          rightAnkleRoll});
       legsCommandPublisher.publish(msg);
     }
 
