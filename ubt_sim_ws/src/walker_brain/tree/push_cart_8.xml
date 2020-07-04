@@ -2,11 +2,18 @@
 <root main_tree_to_execute="BehaviorTree">
     <!-- ////////// -->
     <BehaviorTree ID="BehaviorTree">
-        <Sequence>
+        <Sequence name="Push cart 8">
             <Action ID="ExecuteWalkCmd" cmd="start" service_name="execute_walk_cmd"/>
-            <Action ID="ExecuteMoveToAbsPose" pose="-1.8 3.35 0 0 -0.7071 0.7071" service_name="/move_base/move_to_abs_pos"/>
+            <Action ID="ExecuteMoveToAbsPose" pose="-1.8 3.35 0 0 0 -0.7071 0.7071" service_name="/move_base/move_to_abs_pos"/>
             <Action ID="ExecuteWalkCmd" cmd="stop" service_name="execute_walk_cmd"/>
             <Action ID="ExecuteHeadJointStates" joint_states="0 30" name="Look downside" server_name="/walker/move_helper_head/move_to_joint_pose"/>
+            <RetryUntilSuccesful num_attempts="10">
+                <Sequence name="Rotation compensation">
+                    <Action ID="SenseObjectPoses" goal_id="box" name="Get cart pose" poses="{detected_poses}" service_name="/head/extract_object_on_top"/>
+                    <Action ID="EstimateTargetPose" compensate_pose="{rotation_compensate_pose}" name="Estimate rotation compensate pose" obj_poses="{detected_poses}" service_name="estimate_target_pose" tgt_grasp_pose="" tgt_hover_pose="" tgt_nav_pose="" tgt_pre_grasp_pose=""/>
+                    <Action ID="ExecuteMoveBase" name="Compensate rotation" pose="{rotation_compensate_pose}" service_name="execute_move_base"/>
+                </Sequence>
+            </RetryUntilSuccesful>
             <RetryUntilSuccesful num_attempts="10">
                 <Sequence>
                     <Action ID="SenseObjectPoses" goal_id="box" name="Sense cart" poses="{detected_poses}" service_name="/head/extract_object_on_top"/>
@@ -39,7 +46,6 @@
             <output_port default="{adjust_pose}" name="tgt_nav_pose"/>
         </Action>
         <Action ID="EstimateContactForce">
-            <input_port default="x" name="direction">Could be x or z, x points to the hand back, z along lower arm</input_port>
             <input_port name="id">Could be left_wrist or right_wrist</input_port>
             <input_port default="0" name="max_force"/>
             <input_port default="0" name="min_force"/>
@@ -86,7 +92,7 @@
         </Action>
         <Action ID="ExecuteLHandGrasp">
             <input_port default="/walker/hand_helper_left/grasp" name="server_name"/>
-            <input_port name="type">0: Open hand, 1: Grasp can, 2: Grasp cart handle, 3: Grasp fridge handle</input_port>
+            <input_port name="type"/>
         </Action>
         <Action ID="ExecuteMoveBase">
             <input_port default="{target_nav_pose}" name="pose"/>
@@ -108,7 +114,7 @@
         </Action>
         <Action ID="ExecuteRHandGrasp">
             <input_port default="/walker/hand_helper_right/grasp" name="server_name"/>
-            <input_port name="type">0: Open hand, 1: Grasp can, 2: Grasp cart handle, 3: Grasp fridge handle</input_port>
+            <input_port default="1" name="type"/>
         </Action>
         <Action ID="ExecuteStabilizeBase">
             <input_port default="stabilize_base" name="service_name"/>

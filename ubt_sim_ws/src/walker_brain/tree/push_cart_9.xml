@@ -4,7 +4,7 @@
     <BehaviorTree ID="BehaviorTree">
         <Sequence name="Push cart 9">
             <Action ID="ExecuteWalkCmd" cmd="start" service_name="execute_walk_cmd"/>
-            <Action ID="ExecuteMoveToAbsPose" pose="-1.8 3.35 0 0 -0.7071 0.7071" service_name="/move_base/move_to_abs_pos"/>
+            <Action ID="ExecuteMoveToAbsPose" pose="-1.8 3.35 0 0 0 -0.7071 0.7071" service_name="/move_base/move_to_abs_pos"/>
             <Action ID="ExecuteWalkCmd" cmd="stop" service_name="execute_walk_cmd"/>
         </Sequence>
     </BehaviorTree>

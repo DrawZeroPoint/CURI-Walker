@@ -8,9 +8,9 @@
             <Action ID="ExecuteWalkCmd" cmd="stop" name="Stop walking" service_name="execute_walk_cmd"/>
             <Action ID="ExecuteHeadJointStates" joint_states="0 30" name="Look downside" server_name="/walker/move_helper_head/move_to_joint_pose"/>
             <ForceSuccess>
-                <Sequence>
+                <Sequence name="Rotation compensation">
                     <Action ID="SenseObjectPoses" goal_id="box" name="Get fridge pose" poses="{detected_poses}" service_name="/head/extract_object_on_top"/>
-                    <Action ID="EstimateTargetPose" compensate_pose="{rotation_compensate_pose}" name="Estimate rotation compensate pose" obj_poses="{detected_poses}" service_name="estimate_target_pose" tgt_nav_pose=""/>
+                    <Action ID="EstimateTargetPose" compensate_pose="{rotation_compensate_pose}" name="Estimate rotation compensate pose" obj_poses="{detected_poses}" service_name="estimate_target_pose" tgt_grasp_pose="{target_grasp_pose}" tgt_hover_pose="{target_hover_pose}" tgt_nav_pose="" tgt_pre_grasp_pose="{target_pre_grasp_pose}"/>
                     <Action ID="ExecuteMoveBase" name="Compensate rotation" pose="{rotation_compensate_pose}" service_name="execute_move_base"/>
                 </Sequence>
             </ForceSuccess>
@@ -18,7 +18,7 @@
                 <Sequence>
                     <Action ID="ExecuteStabilizeBase" service_name="stabilize_base"/>
                     <Action ID="SenseObjectPoses" goal_id="box" name="Get fridge pose" poses="{detected_poses}" service_name="/head/extract_object_on_top"/>
-                    <Action ID="EstimateTargetPose" compensate_pose="" name="Estimate open fridge pose" obj_poses="{detected_poses}" service_name="estimate_target_pose" tgt_nav_pose="{target_nav_pose}"/>
+                    <Action ID="EstimateTargetPose" compensate_pose="" name="Estimate open fridge pose" obj_poses="{detected_poses}" service_name="estimate_target_pose" tgt_grasp_pose="{target_grasp_pose}" tgt_hover_pose="{target_hover_pose}" tgt_nav_pose="{target_nav_pose}" tgt_pre_grasp_pose="{target_pre_grasp_pose}"/>
                     <Action ID="ExecuteMoveBase" name="Move to open fridge pose" pose="{target_nav_pose}" service_name="execute_move_base"/>
                 </Sequence>
             </RetryUntilSuccesful>
