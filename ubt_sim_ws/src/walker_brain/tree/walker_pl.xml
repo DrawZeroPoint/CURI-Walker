@@ -5,6 +5,7 @@
             <output_port default="{adjust_pose}" name="tgt_nav_pose"/>
         </Action>
         <Action ID="EstimateContactForce">
+            <input_port default="x" name="direction">Could be x or z, x points to the hand back, z along lower arm</input_port>
             <input_port name="id">Could be left_wrist or right_wrist</input_port>
             <input_port default="0" name="max_force"/>
             <input_port default="0" name="min_force"/>
@@ -18,6 +19,22 @@
             <input_port default="{target_hover_pose}" name="tgt_hover_pose"/>
             <output_port default="{target_nav_pose}" name="tgt_nav_pose"/>
             <output_port default="{target_pre_grasp_pose}" name="tgt_pre_grasp_pose"/>
+        </Action>
+        <Action ID="ExecuteDualArmJointStates">
+            <input_port default="0 0 0 0 0 0 0" name="left_pose">Left arm joint states in degree</input_port>
+            <input_port default="0" name="mirror">If mirror left arm joint trajectory to the right arm</input_port>
+            <input_port default="0 0 0 0 0 0 0" name="right_pose">Right arm joint states in degree</input_port>
+            <input_port default="/walker/dual_arm_control/move_to_joint_pose" name="server_name"/>
+        </Action>
+        <Action ID="ExecuteDualArmMove">
+            <input_port default="0" name="do_cartesian">1: force the paths to follow straight lines</input_port>
+            <input_port default="left_tcp" name="left_ee_link"/>
+            <input_port name="left_pose">Left arm pose in position and orientation</input_port>
+            <input_port default="base_link" name="left_ref_link">Could be base_link (absolute) or left_tcp (relative mode)</input_port>
+            <input_port default="right_tcp" name="right_ee_link"/>
+            <input_port name="right_pose">Right arm pose in position and orientation</input_port>
+            <input_port default="base_link" name="right_ref_link">Could be base_link (absolute) or right_tcp (relative mode)</input_port>
+            <input_port default="/walker/dual_arm_control/move_to_ee_pose" name="server_name"/>
         </Action>
         <Action ID="ExecuteHeadJointStates">
             <input_port default="0 0" name="joint_states"/>

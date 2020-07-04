@@ -19,9 +19,6 @@
         <arg name="account_file" value="$(find leg_motion)/launch/user_account.json" />
     </include>
 
-    <node pkg="walker_brain" type="push_cart_server.py" name="push_cart_server" output="screen">
-    </node>
-
     <node pkg="walker_brain" type="walk_helper.py" name="walk_helper" output="screen">
     </node>
 

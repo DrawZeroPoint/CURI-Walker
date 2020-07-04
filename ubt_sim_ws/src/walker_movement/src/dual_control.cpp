@@ -18,15 +18,16 @@
 #include <control_msgs/FollowJointTrajectoryAction.h>
 #include <trajectory_msgs/JointTrajectory.h>
 
-#include <walker_movement/DualEeMoveAction.h>
-#include <walker_movement/DualJointMoveAction.h>
+#include <walker_movement/DualArmEeMoveAction.h>
+#include <walker_movement/DualArmJointMoveAction.h>
 #include <walker_movement/DualArmMirroredEeMoveAction.h>
+#include <walker_movement/DualMirroredJointMoveAction.h>
 #include <walker_movement/DualFollowEePoseTrajectoryAction.h>
 
 #include "control_utils.hpp"
 
-std::shared_ptr<actionlib::SimpleActionServer<walker_movement::DualEeMoveAction>> dualEeMoveActionServer;
-std::shared_ptr<actionlib::SimpleActionServer<walker_movement::DualJointMoveAction>> dualJointMoveActionServer;
+std::shared_ptr<actionlib::SimpleActionServer<walker_movement::DualArmEeMoveAction>> dualEeMoveActionServer;
+std::shared_ptr<actionlib::SimpleActionServer<walker_movement::DualArmJointMoveAction>> dualJointMoveActionServer;
 std::shared_ptr<actionlib::SimpleActionServer<walker_movement::DualArmMirroredEeMoveAction>> dualArmMirroredEeMoveActionServer;
 std::shared_ptr<actionlib::SimpleActionServer<walker_movement::DualFollowEePoseTrajectoryAction>> dualFollowEePoseTrajectoryActionServer;
 std::shared_ptr<moveit::planning_interface::MoveGroupInterface> moveGroupInt_left;
@@ -187,7 +188,7 @@ void dualArmMirroredEeMoveActionCallback(const walker_movement::DualArmMirroredE
 }
 
 
-void dualEeMove(const walker_movement::DualEeMoveGoalConstPtr &goal)
+void dualEeMove(const walker_movement::DualArmEeMoveGoalConstPtr &goal)
 {
   // Transform the two poses to base_link
   std::string referenceFrame = "base_link";
@@ -216,7 +217,7 @@ void dualEeMove(const walker_movement::DualEeMoveGoalConstPtr &goal)
   executeDualTrajectoryDirect(trajectory_left.joint_trajectory, trajectory_right.joint_trajectory, leftControllerActionClient, rightControllerActionClient);
 }
 
-void dualEeMoveActionCallback(const walker_movement::DualEeMoveGoalConstPtr &goal)
+void dualEeMoveActionCallback(const walker_movement::DualArmEeMoveGoalConstPtr &goal)
 {
   try
   {
@@ -226,7 +227,7 @@ void dualEeMoveActionCallback(const walker_movement::DualEeMoveGoalConstPtr &goa
   {
     std::string error_message = "Dual end effector move failed: "+std::string(e.what());
     ROS_WARN_STREAM(error_message);
-    walker_movement::DualEeMoveResult result;
+    walker_movement::DualArmEeMoveResult result;
     result.succeded = false;
     result.error_message = error_message;
     dualEeMoveActionServer->setAborted(result);
@@ -234,7 +235,7 @@ void dualEeMoveActionCallback(const walker_movement::DualEeMoveGoalConstPtr &goa
   }
 
   ROS_INFO_STREAM("Dual end effector move completed.");
-  walker_movement::DualEeMoveResult result;
+  walker_movement::DualArmEeMoveResult result;
   result.succeded = true;
   result.error_message = "No error";
   dualEeMoveActionServer->setSucceeded(result);
@@ -245,7 +246,7 @@ void dualEeMoveActionCallback(const walker_movement::DualEeMoveGoalConstPtr &goa
 
 
 
-void dualJointMove(const walker_movement::DualJointMoveGoalConstPtr &goal)
+void dualJointMove(const walker_movement::DualArmJointMoveGoalConstPtr &goal)
 {
   if(moveGroupInt_left->getVariableCount()!=goal->left_pose.size())
     throw std::invalid_argument("Provided left joint pose has wrong size. Should be "+std::to_string(moveGroupInt_left->getVariableCount())+" it's "+std::to_string(goal->left_pose.size()));
@@ -258,11 +259,11 @@ void dualJointMove(const walker_movement::DualJointMoveGoalConstPtr &goal)
   moveit::planning_interface::MoveGroupInterface::Plan planLeft;
   auto r = moveGroupInt_left->plan(planLeft);
   if(r != moveit::planning_interface::MoveItErrorCode::SUCCESS)
-    throw std::runtime_error("planning for right arm failed with MoveItErrorCode "+std::to_string(r.val));
+    throw std::runtime_error("planning for left arm failed with MoveItErrorCode "+std::to_string(r.val));
   moveit::planning_interface::MoveGroupInterface::Plan planRight;
   r = moveGroupInt_right->plan(planRight);
   if(r != moveit::planning_interface::MoveItErrorCode::SUCCESS)
-    throw std::runtime_error("planning for left arm failed with MoveItErrorCode "+std::to_string(r.val));
+    throw std::runtime_error("planning for right arm failed with MoveItErrorCode "+std::to_string(r.val));
 
   //Execute both trajecctories simultaneously
   ROS_INFO_STREAM("Executing on both limbs...");
@@ -270,28 +271,59 @@ void dualJointMove(const walker_movement::DualJointMoveGoalConstPtr &goal)
 
 }
 
-void dualJointMoveActionCallback(const walker_movement::DualJointMoveGoalConstPtr &goal)
+void dualArmMirroredJointMove(const walker_movement::DualMirroredJointMoveGoal* goal) //This should be converted to be a constptr, and then mad it its own action
+{
+  // Transform the two poses to base_link
+  std::string referenceFrame = "base_link";
+  geometry_msgs::PoseStamped leftPose_baseLink;
+
+  //plan
+  moveGroupInt_left->setJointValueTarget(goal->left_pose);
+  moveit::planning_interface::MoveGroupInterface::Plan planLeft;
+  auto r = moveGroupInt_left->plan(planLeft);
+  if(r != moveit::planning_interface::MoveItErrorCode::SUCCESS)
+    throw std::runtime_error("planning for left arm failed with MoveItErrorCode "+std::to_string(r.val));
+  trajectory_msgs::JointTrajectory trajectory_left = planLeft.trajectory_.joint_trajectory;
+  trajectory_msgs::JointTrajectory trajectory_right = mirrorTrajectory(trajectory_left);
+
+  //Execute both trajecctories simultaneously
+  ROS_INFO_STREAM("Executing on both limbs...");
+  executeDualTrajectoryDirect(trajectory_left, trajectory_right, leftControllerActionClient, rightControllerActionClient);
+}
+
+
+void dualJointMoveActionCallback(const walker_movement::DualArmJointMoveGoalConstPtr &goal)
 {
   try
   {
-    dualJointMove(goal);
+    if(!goal->mirror)
+    {
+      walker_movement::DualMirroredJointMoveGoal goalMirrored;
+      goalMirrored.left_pose = goal->left_pose;
+      dualArmMirroredJointMove(&goalMirrored);
+    }
+    else
+    {
+      dualJointMove(goal);
+    }
   }
   catch(std::runtime_error& e)
   {
     std::string error_message = "Dual joint move failed: "+std::string(e.what());
     ROS_WARN_STREAM(error_message);
-    walker_movement::DualJointMoveResult result;
+    walker_movement::DualArmJointMoveResult result;
     result.succeded = false;
     result.error_message = error_message;
     dualJointMoveActionServer->setAborted(result);
   }
 
   ROS_INFO_STREAM("Dual movement completed.");
-  walker_movement::DualJointMoveResult result;
+  walker_movement::DualArmJointMoveResult result;
   result.succeded = true;
   result.error_message = "No error";
   dualJointMoveActionServer->setSucceeded(result);
 }
+
 
 
 void followDualEePoseTrajectory(const std::vector<geometry_msgs::PoseStamped>& poses_left, const std::vector<ros::Duration>& times_from_start_left, std::string eeLink_left,
@@ -392,12 +424,12 @@ int main(int argc, char** argv)
   tfBuffer = std::make_shared<tf2_ros::Buffer>();
   tf2_ros::TransformListener tfListener(*tfBuffer);
 
-  dualEeMoveActionServer = std::make_shared<actionlib::SimpleActionServer<walker_movement::DualEeMoveAction>>(node_handle,
+  dualEeMoveActionServer = std::make_shared<actionlib::SimpleActionServer<walker_movement::DualArmEeMoveAction>>(node_handle,
                                                                                                                 "move_to_ee_pose",
                                                                                                                 dualEeMoveActionCallback,
                                                                                                                 false);
 
-  dualJointMoveActionServer = std::make_shared<actionlib::SimpleActionServer<walker_movement::DualJointMoveAction>>(node_handle,
+  dualJointMoveActionServer = std::make_shared<actionlib::SimpleActionServer<walker_movement::DualArmJointMoveAction>>(node_handle,
                                                                                                                 "move_to_joint_pose",
                                                                                                                 dualJointMoveActionCallback,
                                                                                                                 false);

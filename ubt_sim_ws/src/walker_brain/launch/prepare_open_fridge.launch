@@ -22,9 +22,6 @@
     <node pkg="walker_brain" type="walk_helper.py" name="walk_helper" output="screen">
     </node>
 
-    <node pkg="walker_brain" type="open_fridge_server.py" name="open_fridge_server" output="screen">
-    </node>
-
     <group if="$(arg nav)">
         <include file="$(find walker_brain)/launch/includes/navigation.launch.xml">
         </include>

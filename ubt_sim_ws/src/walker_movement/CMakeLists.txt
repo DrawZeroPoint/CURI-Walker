@@ -83,8 +83,9 @@ add_action_files(
   MoveToEePose.action
   MoveToJointPose.action
   Grasp.action
-  DualEeMove.action
-  DualJointMove.action
+  DualArmEeMove.action
+  DualArmJointMove.action
+  DualMirroredJointMove.action
   DualArmMirroredEeMove.action
   FollowEePoseTrajectory.action
   DualFollowEePoseTrajectory.action

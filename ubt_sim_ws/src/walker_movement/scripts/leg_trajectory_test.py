@@ -20,8 +20,8 @@ def buildPoseStamped(position_xyz, orientation_xyzw, frame_id):
 rospy.init_node('leg_trajectory_test', anonymous=True)
 
 followEeTrajClient = actionlib.SimpleActionClient('/walker/move_helper_left_leg/follow_ee_pose_trajectory', walker_movement.msg.FollowEePoseTrajectoryAction)
-moveEeDualClient = actionlib.SimpleActionClient('/walker/dual_leg_control/move_to_ee_pose', walker_movement.msg.DualEeMoveAction)
-moveJointDualClient = actionlib.SimpleActionClient('/walker/dual_leg_control/move_to_joint_pose', walker_movement.msg.DualJointMoveAction)
+moveEeDualClient = actionlib.SimpleActionClient('/walker/dual_leg_control/move_to_ee_pose', walker_movement.msg.DualArmEeMoveAction)
+moveJointDualClient = actionlib.SimpleActionClient('/walker/dual_leg_control/move_to_joint_pose', walker_movement.msg.DualArmJointMoveAction)
 
 rospy.loginfo("Connecting to action servers")
 followEeTrajClient.wait_for_server()
@@ -30,7 +30,7 @@ moveJointDualClient.wait_for_server()
 rospy.loginfo("Action clients connected")
 
 
-goal = walker_movement.msg.DualJointMoveGoal()
+goal = walker_movement.msg.DualArmJointMoveGoal()
 goal.left_pose = [0,0,0,0,0,0]
 goal.right_pose = [0,0,0,0,0,0]
 moveJointDualClient.send_goal(goal)
@@ -40,7 +40,7 @@ if not moveJointDualClient.get_result().succeded:
     exit(1)
 
 
-goal = walker_movement.msg.DualEeMoveGoal()
+goal = walker_movement.msg.DualArmEeMoveGoal()
 goal.left_pose = buildPoseStamped([0,0.0,0.10],[0,0,0,1],"left_foot_sole")
 goal.left_end_effector_link = "left_foot_sole"
 goal.right_pose = buildPoseStamped([0,0.0,0.10],[0,0,0,1],"right_foot_sole")
@@ -55,7 +55,7 @@ if not moveEeDualClient.get_result().succeded:
 rospy.sleep(0.5)
 
 for i in range(3): #The whole movement plan fails because of collisions (moveit doesn't know both legs are moving)
-    goal = walker_movement.msg.DualEeMoveGoal()
+    goal = walker_movement.msg.DualArmEeMoveGoal()
     goal.left_pose = buildPoseStamped([0,0.025,0.0],[0,0,0,1],"left_foot_sole")
     goal.left_end_effector_link = "left_foot_sole"
     goal.right_pose = buildPoseStamped([0,0.025,0.0],[0,0,0,1],"right_foot_sole")

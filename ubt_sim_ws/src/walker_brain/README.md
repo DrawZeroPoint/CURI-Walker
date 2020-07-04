@@ -18,8 +18,9 @@ Start the Webots simulation and initialize the task setting by
 rosservice call /walker/sence ..(Tab to complete)
 ```
 
-**Note that for control or vision only tasks the launch file will automatically call this
-service for you**
+**Note that for task SwitchLight, OpenFridge, PushCart (in control or vision only mode), 
+the launch file will automatically call this service for you. However, you need to manually 
+call the service for all the GraspCup tasks, since the cup id needs initialization.**
 
 
 ## Run the solutions
@@ -38,8 +39,8 @@ Then, run the **execution** launch file like:
 roslaunch walker_brain switch_light.launch
 ```
 
-**It is suggested to wait for about 10 seconds after launching the prepare file and before launching
-the execution file.**
+**It is suggested to wait for about 10 seconds after launching the prepare file, giving some time 
+for the loading of the MoveIt planning interface.**
 
 ## Launching parameters
 
@@ -62,7 +63,7 @@ roslaunch walker_brain push_cart.launch task_id:=7
 or otherwise errors would be raised.
 
 Particularly, for the grasp_cup task, you need also specify the id of the cup
-to grasp:
+to grasp if you are performing task 2, 3, or 4. For task 5, no cup_id should be given:
 
 ```
 roslaunch walker_brain grasp_cup.launch task_id:=3 cup_id:=1
