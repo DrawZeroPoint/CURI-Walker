@@ -1,5 +1,5 @@
 <launch>
-    <!-- Usage: roslaunch walker_brain open_fridge.launch -->
+    <!-- Usage: roslaunch walker_brain push_cart.launch -->
     <!-- Before launching this, launch prepare_push_cart.launch -->
 
     <param name="/use_sim_time" value="true" />
@@ -8,7 +8,20 @@
     <arg name="task_id" />
 
     <arg if="$(eval task_id==8)" name="rotation_tolerance" value="1" />
-    <arg unless="$(eval task_id==8)" name="rotation_tolerance" value="0.1" />
+    <arg unless="$(eval task_id==8)" name="rotation_tolerance" value="0.5" />
+
+    <!-- For quick debug  -->
+    <group if="$(eval task_id==6)">
+        <node pkg="rosservice" type="rosservice" name="init_robot"
+              args='call --wait /walker/sence "{scene_name: PushCart, nav: false, vision: false}"'>
+        </node>
+    </group>
+
+    <group if="$(eval task_id==7)">
+        <node pkg="rosservice" type="rosservice" name="init_robot"
+              args='call --wait /walker/sence "{scene_name: PushCart, nav: false, vision: true}"'>
+        </node>
+    </group>
 
     <!-- Here we use the same helper as open fridge but with different parameters -->
     <node pkg="walker_brain" type="open_fridge_helper.py" name="open_fridge_helper" output="screen">
@@ -19,7 +32,7 @@
         <param name="rotation_tolerance" value="$(arg rotation_tolerance)" />
     </node>
 
-    <node pkg="walker_brain" type="open_fridge_node" name="open_fridge_node" output="screen">
+    <node pkg="walker_brain" type="bt_port_node" name="bt_port_node" output="screen">
         <param name="tree_file" value="$(find walker_brain)/tree/push_cart_$(arg task_id).xml" />
     </node>
 

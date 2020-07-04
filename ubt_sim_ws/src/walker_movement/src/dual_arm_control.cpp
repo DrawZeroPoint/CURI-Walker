@@ -92,40 +92,22 @@ std::vector<double> multiplyElementWise(std::vector<double> a, std::vector<doubl
   return ret;
 }
 
-trajectory_msgs::JointTrajectory mirrorTrajectory(const trajectory_msgs::JointTrajectory& trajectory)
+void mirrorLeftTrajectoryToRight(const trajectory_msgs::JointTrajectory& left_traj,
+                                 trajectory_msgs::JointTrajectory &right_traj)
 {
-  std::vector<double> transformation;
-  std::vector<std::string> possibleNames = {"left_limb_j1","left_limb_j2","left_limb_j3","left_limb_j4","left_limb_j5","left_limb_j6","left_limb_j7"};
-  std::vector<double> flip               = {1.0,           1.0,           1.0,           1.0,           1.0,           1.0,           1.0};
+  std::vector<double> flip = {-1.0, 1.0, -1.0, 1.0, -1.0, -1.0, 1.0};
 
-  if(trajectory.joint_names.size()!=possibleNames.size())
-    throw std::runtime_error("Incompatible trajectory, different number of joints "+std::to_string(trajectory.joint_names.size())+" instead of "+std::to_string(possibleNames.size()));
-
-
-  for(std::string jointName : trajectory.joint_names)
-  {
-    for(unsigned int i=0;i<possibleNames.size();i++)
-    {
-      if(jointName==possibleNames[i])
-        transformation.push_back(flip[i]);
-    }
-  }
-  //at this point transformation tells if each joint has to be flipped or not
-
-  trajectory_msgs::JointTrajectory result;
-  result.header = trajectory.header;
-  result.joint_names = trajectory.joint_names;
-  for(const trajectory_msgs::JointTrajectoryPoint& point : trajectory.points)
-  {
+  right_traj.points.clear();
+  for (const auto& point : left_traj.points) {
     trajectory_msgs::JointTrajectoryPoint transformedPoint;
     transformedPoint.time_from_start = point.time_from_start;
-    transformedPoint.positions     = multiplyElementWise(point.positions,transformation);
-    transformedPoint.velocities    = multiplyElementWise(point.velocities,transformation);
-    transformedPoint.accelerations = multiplyElementWise(point.accelerations,transformation);
-    transformedPoint.effort       = multiplyElementWise(point.effort,transformation);
-    result.points.push_back(transformedPoint);
+    transformedPoint.positions = multiplyElementWise(point.positions, flip);
+    transformedPoint.velocities = multiplyElementWise(point.velocities, flip);
+    transformedPoint.accelerations = multiplyElementWise(point.accelerations, flip);
+    // Do not flip effort since that does not exist
+    // transformedPoint.effort = multiplyElementWise(point.effort, flip);
+    right_traj.points.push_back(transformedPoint);
   }
-  return result;
 }
 
 
@@ -160,17 +142,17 @@ void dualArmEeMove(const walker_movement::DualArmEeMoveGoalConstPtr &goal)
   moveit_msgs::RobotTrajectory trajectory_left;
   planEeMoveTraj( *moveGroupInt_left,
                   leftPose_baseLink,
-                  goal->left_end_effector_link==""? defaultLeftEeLink : goal->left_end_effector_link,
+                  goal->left_end_effector_link.empty()? defaultLeftEeLink : goal->left_end_effector_link,
                   goal->do_cartesian,
                   trajectory_left);
   moveit_msgs::RobotTrajectory trajectory_right;
   planEeMoveTraj( *moveGroupInt_right,
                   rightPose_baseLink,
-                  goal->right_end_effector_link==""? defaultRightEeLink : goal->right_end_effector_link,
+                  goal->right_end_effector_link.empty()? defaultRightEeLink : goal->right_end_effector_link,
                   goal->do_cartesian,
                   trajectory_right);
 
-  //Execute both trajecctories simultaneously
+  //Execute both trajectories simultaneously
   ROS_INFO_STREAM("Executing on both arms...");
   executeDualTraj(trajectory_left, trajectory_right);
 }
@@ -223,10 +205,16 @@ void dualArmJointMove(const walker_movement::DualArmJointMoveGoalConstPtr &goal)
   if(r != moveit::planning_interface::MoveItErrorCode::SUCCESS)
     throw std::runtime_error("planning for left arm failed with MoveItErrorCode "+std::to_string(r.val));
 
-  //Execute both trajecctories simultaneously
+  //Execute both trajectories simultaneously
   ROS_INFO_STREAM("Executing on both arms...");
-  executeDualTraj(planLeft.trajectory_, planRight.trajectory_);
 
+  if (goal->mirror) {
+    //std::cerr << planLeft.trajectory_.joint_trajectory << std::endl;
+    mirrorLeftTrajectoryToRight(planLeft.trajectory_.joint_trajectory, planRight.trajectory_.joint_trajectory);
+    //std::cerr << planRight.trajectory_.joint_trajectory << std::endl;
+  }
+
+  executeDualTraj(planLeft.trajectory_, planRight.trajectory_);
 }
 
 void dualArmJointMoveActionCallback(const walker_movement::DualArmJointMoveGoalConstPtr &goal)
@@ -279,14 +267,14 @@ int main(int argc, char** argv)
   tf2_ros::TransformListener tfListener(*tfBuffer);
 
   dualArmEeMoveActionServer = std::make_shared<actionlib::SimpleActionServer<walker_movement::DualArmEeMoveAction>>(node_handle,
-                                                                                                                "move_to_ee_pose",
-                                                                                                                dualArmEeMoveActionCallback,
-                                                                                                                false);
+                                                                                                                    "move_to_ee_pose",
+                                                                                                                    dualArmEeMoveActionCallback,
+                                                                                                                    false);
 
   dualArmJointMoveActionServer = std::make_shared<actionlib::SimpleActionServer<walker_movement::DualArmJointMoveAction>>(node_handle,
-                                                                                                                "move_to_joint_pose",
-                                                                                                                dualArmJointMoveActionCallback,
-                                                                                                                false);
+                                                                                                                          "move_to_joint_pose",
+                                                                                                                          dualArmJointMoveActionCallback,
+                                                                                                                          false);
 
   dualArmEeMoveActionServer->start();
   dualArmJointMoveActionServer->start();

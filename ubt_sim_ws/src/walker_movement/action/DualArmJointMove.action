@@ -5,6 +5,8 @@
 float64[] left_pose
 float64[] right_pose
 
+bool mirror
+
 ---
 #result definition
 bool succeded

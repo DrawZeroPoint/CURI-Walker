@@ -2,50 +2,126 @@
 <root main_tree_to_execute="BehaviorTree">
     <!-- ////////// -->
     <BehaviorTree ID="BehaviorTree">
-        <Sequence>
-            <Action ID="ExecuteWalkCmd" cmd="start" service_name="walk_cmd"/>
-            <Action ID="ExecuteMoveToAbsPose" pose="-1.8 3.35 -0.02 0 0 -0.7071 0.7071" service_name="/move_base/move_to_abs_pos"/>
-            <Action ID="ExecuteWalkCmd" cmd="stop" service_name="walk_cmd"/>
-            <Action ID="ExecuteHeadJointStates" execute_pose="0 30" server_name="/walker/move_helper_head/move_to_joint_pose"/>
-            <RetryUntilSuccesful num_attempts="3">
-                <Sequence>
-                    <Action ID="SenseObjectPoses" goal_id="box" poses="{detected_poses}" service_name="/head/extract_object_on_top"/>
-                    <Action ID="EstimateTargetPose" obj_poses="{detected_poses}" service_name="estimate_target_pose" tgt_nav_pose="{target_nav_pose}"/>
+        <Sequence name="Push cart 8">
+            <Action ID="ExecuteWalkCmd" cmd="start" service_name="execute_walk_cmd"/>
+            <Action ID="ExecuteMoveToAbsPose" pose="-1.8 3.35 0 0 0 -0.7071 0.7071" service_name="/move_base/move_to_abs_pos"/>
+            <Action ID="ExecuteWalkCmd" cmd="stop" service_name="execute_walk_cmd"/>
+            <Action ID="ExecuteHeadJointStates" joint_states="0 30" name="Look downside" server_name="/walker/move_helper_head/move_to_joint_pose"/>
+            <RetryUntilSuccesful num_attempts="10">
+                <Sequence name="Rotation compensation">
+                    <Action ID="SenseObjectPoses" goal_id="box" name="Get cart pose" poses="{detected_poses}" service_name="/head/extract_object_on_top"/>
+                    <Action ID="EstimateTargetPose" compensate_pose="{rotation_compensate_pose}" name="Estimate rotation compensate pose" obj_poses="{detected_poses}" service_name="estimate_target_pose" tgt_grasp_pose="" tgt_hover_pose="" tgt_nav_pose="" tgt_pre_grasp_pose=""/>
+                    <Action ID="ExecuteMoveBase" name="Compensate rotation" pose="{rotation_compensate_pose}" service_name="execute_move_base"/>
                 </Sequence>
             </RetryUntilSuccesful>
-            <Action ID="ExecuteMoveBase" pose="{target_nav_pose}" service_name="move_to_pose2d"/>
-            <Action ID="ExecutePrePose" service_name="push_cart"/>
+            <RetryUntilSuccesful num_attempts="10">
+                <Sequence>
+                    <Action ID="SenseObjectPoses" goal_id="box" name="Sense cart" poses="{detected_poses}" service_name="/head/extract_object_on_top"/>
+                    <Action ID="EstimateTargetPose" compensate_pose="" name="Get push cart pose" obj_poses="{detected_poses}" service_name="estimate_target_pose" tgt_grasp_pose="" tgt_hover_pose="" tgt_nav_pose="{target_nav_pose}" tgt_pre_grasp_pose=""/>
+                </Sequence>
+            </RetryUntilSuccesful>
+            <Sequence name="Prepare push the cart">
+                <Action ID="ExecuteLHandGrasp" name="Open left hand" server_name="/walker/hand_helper_left/grasp" type="0"/>
+                <Action ID="ExecuteRHandGrasp" name="Open right hand" server_name="/walker/hand_helper_right/grasp" type="0"/>
+                <Action ID="ExecuteDualArmJointStates" left_pose="-7 -2 -58 -68 -2 -2 32" mirror="1" name="Hands approach to handle" right_pose="7 -2 58 -68 2 2 32" server_name="/walker/dual_arm_control/move_to_joint_pose"/>
+            </Sequence>
+            <Action ID="ExecuteMoveBase" name="Move towards cart" pose="{target_nav_pose}" service_name="execute_move_base"/>
+            <Sequence name="Hands on">
+                <Action ID="ExecuteDualArmJointStates" left_pose="21 4 -49 -64 -29 23 13" mirror="1" name="Hands under handle" right_pose="-21 4 49 -64 29 -23 13" server_name="/walker/dual_arm_control/move_to_joint_pose"/>
+                <Sequence name="Grasp handle">
+                    <Action ID="ExecuteRHandGrasp" server_name="/walker/hand_helper_right/grasp" type="1"/>
+                    <Action ID="ExecuteLHandGrasp" server_name="/walker/hand_helper_left/grasp" type="1"/>
+                </Sequence>
+                <Action ID="ExecuteDualArmMove" do_cartesian="0" left_ee_link="left_tcp" left_pose="0 -0.1 0 0 0 0 1" left_ref_link="left_tcp" right_ee_link="right_tcp" right_pose="0 0.1 0 0 0 0 1" right_ref_link="right_tcp" server_name="/walker/dual_arm_control/move_to_ee_pose"/>
+            </Sequence>
+            <Sequence name="Move forward">
+                <Action ID="ExecuteMoveBase" pose="2.5 0 0" service_name="execute_move_base"/>
+            </Sequence>
         </Sequence>
     </BehaviorTree>
     <!-- ////////// -->
     <TreeNodesModel>
+        <Action ID="EstimateAdjustPose">
+            <input_port default="estimate_adjust_pose" name="service_name"/>
+            <output_port default="{adjust_pose}" name="tgt_nav_pose"/>
+        </Action>
+        <Action ID="EstimateContactForce">
+            <input_port name="id">Could be left_wrist or right_wrist</input_port>
+            <input_port default="0" name="max_force"/>
+            <input_port default="0" name="min_force"/>
+            <input_port default="estimate_contact_force" name="service_name"/>
+        </Action>
         <Action ID="EstimateTargetPose">
+            <output_port default="{rotation_compensate_pose}" name="compensate_pose"/>
             <input_port default="{detected_poses}" name="obj_poses"/>
             <input_port default="estimate_target_pose" name="service_name"/>
+            <output_port default="{target_grasp_pose}" name="tgt_grasp_pose"/>
+            <input_port default="{target_hover_pose}" name="tgt_hover_pose"/>
             <output_port default="{target_nav_pose}" name="tgt_nav_pose"/>
+            <output_port default="{target_pre_grasp_pose}" name="tgt_pre_grasp_pose"/>
         </Action>
-        <Action ID="ExecuteAdjustBase">
-            <input_port default="0 -0.12 0" name="pose"/>
-            <input_port default="move_to_pose2d" name="service_name"/>
+        <Action ID="ExecuteDualArmJointStates">
+            <input_port default="0 0 0 0 0 0 0" name="left_pose">Left arm joint states in degree</input_port>
+            <input_port default="0" name="mirror">If mirror left arm joint trajectory to the right arm</input_port>
+            <input_port default="0 0 0 0 0 0 0" name="right_pose">Right arm joint states in degree</input_port>
+            <input_port default="/walker/dual_arm_control/move_to_joint_pose" name="server_name"/>
+        </Action>
+        <Action ID="ExecuteDualArmMove">
+            <input_port default="0" name="do_cartesian">1: force the paths to follow straight lines</input_port>
+            <input_port default="left_tcp" name="left_ee_link"/>
+            <input_port name="left_pose">Left arm pose in position and orientation</input_port>
+            <input_port default="base_link" name="left_ref_link">Could be base_link (absolute) or left_tcp (relative mode)</input_port>
+            <input_port default="right_tcp" name="right_ee_link"/>
+            <input_port name="right_pose">Right arm pose in position and orientation</input_port>
+            <input_port default="base_link" name="right_ref_link">Could be base_link (absolute) or right_tcp (relative mode)</input_port>
+            <input_port default="/walker/dual_arm_control/move_to_ee_pose" name="server_name"/>
         </Action>
         <Action ID="ExecuteHeadJointStates">
-            <input_port default="0 30" name="execute_pose"/>
+            <input_port default="0 0" name="joint_states"/>
             <input_port default="/walker/move_helper_head/move_to_joint_pose" name="server_name"/>
+        </Action>
+        <Action ID="ExecuteLArmJointStates">
+            <input_port default="0 0 0 0 0 0 0" name="joint_states"/>
+            <input_port default="/walker/move_helper_left_arm/move_to_joint_pose" name="server_name"/>
+        </Action>
+        <Action ID="ExecuteLArmMove">
+            <input_port default="left_tcp" name="ee_link">The link to be controlled, default is left_tcp</input_port>
+            <input_port name="pose"/>
+            <input_port default="base_link" name="ref_link">Could be base_link or left_tcp</input_port>
+            <input_port default="/walker/move_helper_left_arm/move_to_ee_pose" name="server_name"/>
+        </Action>
+        <Action ID="ExecuteLHandGrasp">
+            <input_port default="/walker/hand_helper_left/grasp" name="server_name"/>
+            <input_port name="type"/>
         </Action>
         <Action ID="ExecuteMoveBase">
             <input_port default="{target_nav_pose}" name="pose"/>
-            <input_port default="move_to_pose2d" name="service_name"/>
+            <input_port default="execute_move_base" name="service_name"/>
         </Action>
         <Action ID="ExecuteMoveToAbsPose">
             <input_port name="pose"/>
             <input_port default="/move_base/move_to_abs_pos" name="service_name"/>
         </Action>
-        <Action ID="ExecutePrePose">
-            <input_port default="open_fridge" name="service_name"/>
+        <Action ID="ExecuteRArmJointStates">
+            <input_port default="0 0 0 0 0 0 0" name="joint_states"/>
+            <input_port default="/walker/move_helper_right_arm/move_to_joint_pose" name="server_name"/>
+        </Action>
+        <Action ID="ExecuteRArmMove">
+            <input_port default="right_tcp" name="ee_link"/>
+            <input_port name="pose"/>
+            <input_port default="base_link" name="ref_link"/>
+            <input_port default="/walker/move_helper_right_arm/move_to_ee_pose" name="server_name"/>
+        </Action>
+        <Action ID="ExecuteRHandGrasp">
+            <input_port default="/walker/hand_helper_right/grasp" name="server_name"/>
+            <input_port default="1" name="type"/>
+        </Action>
+        <Action ID="ExecuteStabilizeBase">
+            <input_port default="stabilize_base" name="service_name"/>
         </Action>
         <Action ID="ExecuteWalkCmd">
             <input_port default="start" name="cmd"/>
-            <input_port default="walk_cmd" name="service_name"/>
+            <input_port default="execute_walk_cmd" name="service_name"/>
         </Action>
         <Action ID="SenseObjectPoses">
             <input_port default="box" name="goal_id"/>

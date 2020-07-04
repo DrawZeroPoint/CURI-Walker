@@ -19,6 +19,8 @@
 #include <walker_movement/MoveToEePoseAction.h>
 #include <walker_movement/MoveToJointPoseAction.h>
 #include <walker_movement/GraspAction.h>
+#include <walker_movement/DualArmEeMoveAction.h>
+#include <walker_movement/DualArmJointMoveAction.h>
 
 
 using namespace BT;
@@ -294,6 +296,130 @@ public:
     goal.pose.pose = execute_pose.toROS();
     getInput<std::string>("ref_link", goal.pose.header.frame_id);
     getInput<std::string>("ee_link", goal.end_effector_link);
+    ROS_INFO("Brain: %s sending request", name_.c_str());
+    return true;
+  }
+
+  NodeStatus onResult(const ResultType& res) override {
+    ROS_INFO("Brain: %s result received", name_.c_str());
+    if (res.succeded) {
+      ROS_INFO("Brain: %s response SUCCEEDED.", name_.c_str());
+      return NodeStatus::SUCCESS;
+    } else {
+      ROS_INFO("Brain: %s response FAILURE.", name_.c_str());
+      return NodeStatus::FAILURE;
+    }
+  }
+
+  virtual NodeStatus onFailedRequest(FailureCause failure) override {
+    ROS_ERROR("Brain: %s request failed %d", name_.c_str(), static_cast<int>(failure));
+    return NodeStatus::FAILURE;
+  }
+
+  void halt() override {
+    if(status() == NodeStatus::RUNNING) {
+      ROS_WARN("Brain: %s halted", name_.c_str());
+      BaseClass::halt();
+    }
+  }
+
+private:
+  std::string name_;
+};
+
+class ExecuteDualArmMove : public RosActionNode<walker_movement::DualArmEeMoveAction>
+{
+public:
+  ExecuteDualArmMove(ros::NodeHandle& handle, const std::string& name, const NodeConfiguration & cfg):
+    RosActionNode<walker_movement::DualArmEeMoveAction>(handle, name, cfg), name_(name) {}
+
+  static PortsList providedPorts() {
+    return {
+      InputPort<Pose>("left_pose"),
+      InputPort<Pose>("right_pose"),
+      InputPort<std::string>("left_ee_link"),
+      InputPort<std::string>("right_ee_link"),
+      InputPort<std::string>("left_ref_link"),
+      InputPort<std::string>("right_ref_link"),
+      InputPort<int>("do_cartesian")
+    };
+  }
+
+  bool onSendGoal(GoalType& goal) override {
+    Pose left_pose{};
+    getInput<Pose>("left_pose", left_pose);
+    goal.left_pose.pose = left_pose.toROS();
+    getInput<std::string>("left_ref_link", goal.left_pose.header.frame_id);
+    getInput<std::string>("left_ee_link", goal.left_end_effector_link);
+
+    Pose right_pose{};
+    getInput<Pose>("right_pose", right_pose);
+    goal.right_pose.pose = right_pose.toROS();
+    getInput<std::string>("right_ref_link", goal.right_pose.header.frame_id);
+    getInput<std::string>("right_ee_link", goal.right_end_effector_link);
+
+    int do_cartesian = 0;
+    getInput<int>("do_cartesian", do_cartesian);
+    goal.do_cartesian = bool(do_cartesian);
+
+    ROS_INFO("Brain: %s sending request", name_.c_str());
+    return true;
+  }
+
+  NodeStatus onResult(const ResultType& res) override {
+    ROS_INFO("Brain: %s result received", name_.c_str());
+    if (res.succeded) {
+      ROS_INFO("Brain: %s response SUCCEEDED.", name_.c_str());
+      return NodeStatus::SUCCESS;
+    } else {
+      ROS_INFO("Brain: %s response FAILURE.", name_.c_str());
+      return NodeStatus::FAILURE;
+    }
+  }
+
+  virtual NodeStatus onFailedRequest(FailureCause failure) override {
+    ROS_ERROR("Brain: %s request failed %d", name_.c_str(), static_cast<int>(failure));
+    return NodeStatus::FAILURE;
+  }
+
+  void halt() override {
+    if(status() == NodeStatus::RUNNING) {
+      ROS_WARN("Brain: %s halted", name_.c_str());
+      BaseClass::halt();
+    }
+  }
+
+private:
+  std::string name_;
+};
+
+class ExecuteDualArmJointStates : public RosActionNode<walker_movement::DualArmJointMoveAction>
+{
+public:
+  ExecuteDualArmJointStates(ros::NodeHandle& handle, const std::string& name, const NodeConfiguration & cfg):
+    RosActionNode<walker_movement::DualArmJointMoveAction>(handle, name, cfg), name_(name) {}
+
+  static PortsList providedPorts() {
+    return {
+      InputPort<JointAngles>("left_pose"),
+      InputPort<JointAngles>("right_pose"),
+      InputPort<int>("mirror")
+    };
+  }
+
+  bool onSendGoal(GoalType& goal) override {
+    JointAngles left_pose{};
+    getInput<JointAngles>("left_pose", left_pose);
+    goal.left_pose = left_pose.toROS();
+
+    JointAngles right_pose{};
+    getInput<JointAngles>("right_pose", right_pose);
+    goal.right_pose = right_pose.toROS();
+
+    int mirror;
+    getInput<int>("mirror", mirror);
+    goal.mirror = bool(mirror);
+
     ROS_INFO("Brain: %s sending request", name_.c_str());
     return true;
   }
@@ -785,8 +911,10 @@ int main(int argc, char **argv)
   RegisterRosAction<ExecuteHeadJointStates>(factory, "ExecuteHeadJointStates", nh);
   RegisterRosAction<ExecuteLArmJointStates>(factory, "ExecuteLArmJointStates", nh);
   RegisterRosAction<ExecuteRArmJointStates>(factory, "ExecuteRArmJointStates", nh);
+  RegisterRosAction<ExecuteDualArmJointStates>(factory, "ExecuteDualArmJointStates", nh);
   RegisterRosAction<ExecuteLArmMove>(factory, "ExecuteLArmMove", nh);
   RegisterRosAction<ExecuteRArmMove>(factory, "ExecuteRArmMove", nh);
+  RegisterRosAction<ExecuteDualArmMove>(factory, "ExecuteDualArmMove", nh);
   RegisterRosAction<ExecuteLHandGrasp>(factory, "ExecuteLHandGrasp", nh);
   RegisterRosAction<ExecuteRHandGrasp>(factory, "ExecuteRHandGrasp", nh);
 
