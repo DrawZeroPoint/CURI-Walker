@@ -8,8 +8,4 @@
     <include file="$(find walker_movement)/launch/helpers.launch">
     </include>
 
-    <include file="$(find leg_motion)/launch/walker2_leg.launch">
-        <arg name="account_file" value="$(find leg_motion)/launch/user_account.json" />
-    </include>
-
 </launch>

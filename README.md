@@ -12,10 +12,30 @@ Ubuntu 18.04, ROS Melodic, Webots R2020a
 ## ubt_sim_ws
 
 The catkin workspace for development. Two official packages named `example` and
-`ubt_core_msgs` are exist in `src/`. At the end of this match, we may establish
-a single package that is self contained to fulfill all tasks required.
-However before the deadline, we could develop in individual package and leverage
-external resources.
+`ubt_core_msgs` exist in `src/`. Besides that, we have a series of packages started
+with `walker_` prefix that are tailored for this contest, with the exception of
+the `hope` package, which is based on a prior work of our team.
+
+A comprehensive introduction of the customized packages is as follows:
+
+**hope**: The object detection package that could detect horizontal planes and 
+objects on the plane given the point cloud of the scene. We use this in GraspCup,
+PushCart, and OpenFridge tasks, which helps for locating the cup to grasp, the
+cart, or the fridge.
+
+**walker_brain**: The primary entrance for solving the tasks. Refer its README
+for details.
+
+**walker_description**: URDF and meshes for the Walker robot.
+
+**walker_moveit_config**: MoveIt! configure files generated from walker description.
+
+**walker_movement**: Primary control functionalists.
+
+**walker_nav**: Primary navigation stack.
+
+**walker_webots_hardware_interface**: Interface for interacting with the Webots
+simulator.
 
 ## walker_install
 
@@ -28,7 +48,7 @@ in this part**.
 
 # Installation
 
-1. In `~`, `git clone https://github.com/DrawZeroPoint/CURI-Walker.git`. You could manually re-create the ubt_sim_ws
+1. In `~`, `git clone --recrusive https://github.com/DrawZeroPoint/CURI-Walker.git`. You could manually re-create the ubt_sim_ws
    following this [ROS] instruction, and then move the contents back.
 
 2. In new terminal, `source /opt/ros/molodic/setup.bash`, and then
@@ -43,9 +63,9 @@ in this part**.
 
 2. Start Webots, open `WAIC.wbt` in `walker_model/worlds/WAIC.wbt`
 
-3. Launch gait node, MoveIt node, recognition node, etc.
+3. Refer README in walker_brain for usage guide.
 
-4. Prepare to record the videos. [kazam] is preferred by the sponsors.
+4. Prepare to record the videos with [kazam].
 
 
 ## Launching MoveIt
@@ -75,45 +95,7 @@ Three different packages have been defined to handle the robot control.
 * walker_webots_hardware_interface provides the hardware_interface that connects the simulated robot to MoveIt.
 
 
-# Dev Guide
-
-## Branch
-
-All developers should maintain their code in individual branch
-distinguishable by some ubiquitous prefix, like `dzp-`, and also highlight the
-task # afterwards, hence the branch name could be like `dzp-task1`, meaning
-that this branch is tailored for solving 1st task.
-
-The `master` branch should serve as a final archive of the development, and
-any in-dev branch mush be reviewed by the team leader or the whole team
-before it could be merged into `master`.
-
-## Dev language
-
-The developers may either using C++ or Python, or even both for
-coding the ROS package.
-
-## Code style
-
-
-
 # Cheat sheet
-
-## Launch Packages
-
-### Launch official gait package
-
-```
-# change USER accordingly
-
-roslaunch leg_motion walker2_leg.launch account_file:=/home/USER/CURI-Walker/user_account.json
-```
-
-### Launch moveit_walker_config
-
-```
-
-```
 
 ## Webots API
 
