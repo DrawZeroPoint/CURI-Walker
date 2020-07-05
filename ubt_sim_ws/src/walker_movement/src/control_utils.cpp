@@ -78,7 +78,10 @@ trajectory_msgs::JointTrajectory buildTrajectory(const std::vector<geometry_msgs
     std::vector<double> jointPose;
     bool foundIk = robotState->setFromIK(jointModelGroup,p,eeLink,1.0); //TODO: choose sensible parameters (Attempts and solver timeout)
     if(!foundIk)
-      throw std::runtime_error("followEePoseTrajectory failed, IK solution not found for pose "+std::to_string(i));
+      throw std::runtime_error("followEePoseTrajectory failed, IK solution not found for pose "+std::to_string(i)+
+                    " ( requested pose is ("+
+                    std::to_string(p.position.x)+", "+std::to_string(p.position.y)+", "+std::to_string(p.position.z)+") ("+
+                    std::to_string(p.orientation.x)+", "+std::to_string(p.orientation.y)+", "+std::to_string(p.orientation.z)+", "+std::to_string(p.orientation.w)+") in frame base_link, transformed from "+poses.at(i).header.frame_id+")");
     robotState->copyJointGroupPositions(jointModelGroup,jointPose);
     jointPoses.push_back(jointPose);
   }
