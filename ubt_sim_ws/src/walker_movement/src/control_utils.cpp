@@ -44,17 +44,22 @@ void executeDualTrajectoryDirect(const trajectory_msgs::JointTrajectory& traject
   std::shared_ptr<actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>> controllerClientLeft,
   std::shared_ptr<actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>> controllerClientRight)
 {
+  ROS_INFO_STREAM("executeDualTrajectoryDirect: building controller goals");
   control_msgs::FollowJointTrajectoryGoal leftGoal = buildControllerGoal(trajectory_left);
   control_msgs::FollowJointTrajectoryGoal rightGoal = buildControllerGoal(trajectory_right);
+    ROS_INFO_STREAM("executeDualTrajectoryDirect: built");
 
   controllerClientLeft->sendGoal(leftGoal);
   controllerClientRight->sendGoal(rightGoal);
+  ROS_INFO_STREAM("executeDualTrajectoryDirect: Sent controller goals");
   bool completed = controllerClientLeft->waitForResult(ros::Duration(120.0));
   if(!completed)
     throw std::runtime_error("Dual trajectory execution failed: left execution timed out");
+  ROS_INFO_STREAM("executeDualTrajectoryDirect: left action completed");
   completed = controllerClientRight->waitForResult(ros::Duration(120.0));
   if(!completed)
     throw std::runtime_error("Dual trajectory execution failed: right execution timed out");
+  ROS_INFO_STREAM("executeDualTrajectoryDirect: Actions completed");
 }
 
 
