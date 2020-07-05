@@ -33,59 +33,59 @@ dualFollowEeTrajClient.wait_for_server()
 rospy.loginfo("Action clients connected")
 
 
-x = loadmat('outie.mat')["footinfos"]
+x = loadmat('outie3.mat')["footinfos"]
 y = x[0]
 for elem in y:
     time_vector =elem["timevec"][0][0][0]
 
     decimate_val = 100
-    time_vector = time_vector[-1]
+    time_vector = time_vector#[-1]
 
     foot_left = elem["footleft"][0][0]
     foot_right = elem["footright"][0][0]
 
-    foot_left_x     = foot_left[0][-1] 
-    foot_left_x_vel = foot_left[1][-1]
-    foot_left_y     = foot_left[2][-1]
-    foot_left_y_vel = foot_left[3][-1]
-    foot_left_z     = foot_left[4][-1]
-    foot_left_z_vel = foot_left[5][-1]
+    foot_left_x     = foot_left[0] #[-1] 
+    foot_left_x_vel = foot_left[1] #[-1]
+    foot_left_y     = foot_left[2] #[-1]
+    foot_left_y_vel = foot_left[3] #[-1]
+    foot_left_z     = foot_left[4] #[-1]
+    foot_left_z_vel = foot_left[5] #[-1]
 
-    foot_right_x     = foot_right[0][-1]
-    foot_right_x_vel = foot_right[1][-1]
-    foot_right_y     = foot_right[2][-1]
-    foot_right_y_vel = foot_right[3][-1]
-    foot_right_z     = foot_right[4][-1]
-    foot_right_z_vel = foot_right[5][-1]
+    foot_right_x     = foot_right[0] #[-1]
+    foot_right_x_vel = foot_right[1] #[-1]
+    foot_right_y     = foot_right[2] #[-1]
+    foot_right_y_vel = foot_right[3] #[-1]
+    foot_right_z     = foot_right[4] #[-1]
+    foot_right_z_vel = foot_right[5] #[-1]
 
-    goal = walker_movement.msg.FollowEePoseTrajectoryGoal()
+    goal = walker_movement.msg.DualFollowEePoseTrajectoryGoal()
 
     duration = []
-    # for time_elem in time_vector:
-    #     duration.append(rospy.Duration.from_sec(time_elem))
-    duration.append(rospy.Duration.from_sec(time_vector))
+    for time_elem in time_vector:
+        duration.append(rospy.Duration.from_sec(time_elem))
+    # duration.append(rospy.Duration.from_sec(time_vector))
 
     poses_left = []
     poses_right = []
-    # for x,y,z in zip(foot_left_x,foot_left_y,foot_left_z):
-    #     poses_left.append(buildPoseStamped([x,y,z],[0,0,0,1],"center_of_mass"))
+    for x,y,z in zip(foot_left_x,foot_left_y,foot_left_z):
+        poses_left.append(buildPoseStamped([x,y,z],[0,0,0.707,0.707],"center_of_mass"))
     
-    # for x,y,z in zip(foot_right_x,foot_right_y,foot_right_z):
-    #     poses_right.append(buildPoseStamped([x,y,z],[0,0,0,1],"center_of_mass"))
-    #     pass
+    for x,y,z in zip(foot_right_x,foot_right_y,foot_right_z):
+        poses_right.append(buildPoseStamped([x,y,z],[0,0,0.707,0.707],"center_of_mass"))
+        pass
 
-    goal.times_from_start = duration
-    # goal.times_from_start  = duration
-    # goal.poses = [buildPoseStamped([foot_left_x,foot_left_y,foot_left_z],[0,0,0,1],"center_of_mass")]
-    goal.poses = [buildPoseStamped([foot_right_x,foot_right_y,foot_right_z],[0,0,0,1],"center_of_mass")]
-    print(goal)
-    followEeTrajClient.send_goal(goal)
-    followEeTrajClient.wait_for_result()
-
-    if not followEeTrajClient.get_result().succeded:
+    goal.times_from_start_left = duration
+    goal.times_from_start_right  = duration
+    goal.poses_left = poses_left #[buildPoseStamped([foot_left_x,foot_left_y,foot_left_z],[0,0,0.707,0.707],"center_of_mass")]
+    goal.poses_right = poses_right #[buildPoseStamped([foot_right_x,foot_right_y,foot_right_z],[0,0,0.707,0.707],"center_of_mass")]
+    # print(goal)
+    rospy.loginfo("Before goal")
+    dualFollowEeTrajClient.send_goal(goal)
+    dualFollowEeTrajClient.wait_for_result()
+    if not dualFollowEeTrajClient.get_result().succeded:
         rospy.logerr("Failed to steps :(")
-        print(followEeTrajClient.get_result())
+        print(dualFollowEeTrajClient.get_result())
         exit(1)
-    exit(1)
+    rospy.loginfo("Step Completed")
 
 
