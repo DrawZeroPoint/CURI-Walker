@@ -33,7 +33,7 @@ dualFollowEeTrajClient.wait_for_server()
 rospy.loginfo("Action clients connected")
 
 
-x = loadmat('outie3.mat')["footinfos"]
+x = loadmat('outie2.mat')["footinfos"]
 y = x[0]
 for elem in y:
     time_vector =elem["timevec"][0][0][0]
