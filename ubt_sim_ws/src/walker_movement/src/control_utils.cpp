@@ -61,11 +61,27 @@ void executeDualTrajectoryDirect(const trajectory_msgs::JointTrajectory& traject
 trajectory_msgs::JointTrajectory buildTrajectory(const std::vector<geometry_msgs::PoseStamped>& poses, const std::vector<ros::Duration>& times_from_start, std::string eeLink, std::shared_ptr<tf2_ros::Buffer> tfBuffer, std::shared_ptr<moveit::planning_interface::MoveGroupInterface> moveGroupInt, std::string planning_group_name)
 {
   if(poses.size()!=times_from_start.size())
-    throw std::invalid_argument("followEePoseTrajectory: poses and times_from_start should have the same size (they are respectively "+std::to_string(poses.size())+" and "+std::to_string(times_from_start.size())+")");
+    throw std::invalid_argument("buildTrajectory: poses and times_from_start should have the same size (they are respectively "+std::to_string(poses.size())+" and "+std::to_string(times_from_start.size())+")");
   std::vector<geometry_msgs::Pose> posesBaseLink;
-  for(const geometry_msgs::PoseStamped& p : poses)
-    posesBaseLink.push_back(tfBuffer->transform(p, "base_link", ros::Duration(1)).pose);
+  if(poses.size()==0)
+    throw std::invalid_argument("buildTrajectory: received empty poses vector");
 
+  std::string posesFrame = poses.at(1).header.frame_id;
+
+  for(const geometry_msgs::PoseStamped& p : poses)
+  {
+    if(p.header.frame_id!=posesFrame)
+      throw std::invalid_argument("buildTrajectory: poses must all have the same frame");
+  }
+
+
+  geometry_msgs::TransformStamped frameToBaseLink = tfBuffer->lookupTransform("base_link", posesFrame,poses.at(1).header.stamp);
+  for(const geometry_msgs::PoseStamped& p : poses)
+  {
+    geometry_msgs::PoseStamped tp;
+    tf2::doTransform(p, tp, frameToBaseLink);
+    posesBaseLink.push_back(tp.pose);
+  }
 
   std::vector<std::vector<double>> jointPoses;
   moveit::core::RobotStatePtr robotState = moveGroupInt->getCurrentState();
