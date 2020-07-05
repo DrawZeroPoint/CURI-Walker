@@ -9,6 +9,8 @@ from geometry_msgs.msg import Twist, Vector3, PoseStamped
 from std_msgs.msg import Int64
 from nav_msgs.msg import Odometry
 from walker_movement.srv import GetEePose
+import moveit_commander
+import sys
 
 class WalkerMovementUtils:
 
@@ -52,7 +54,11 @@ class WalkerMovementUtils:
 
         self.lastOdomMsg=None
         self.gaitStepsPerfomed = 0
+        self.collisionObjCounter = 0
 
+
+        moveit_commander.roscpp_initialize(sys.argv)
+        self.planningScene = moveit_commander.PlanningSceneInterface(ns="/walker")
 
 
     def buildPoseStamped(self,position_xyz, orientation_xyzw, frame_id):
@@ -254,3 +260,24 @@ class WalkerMovementUtils:
     def stopGait(self):
         self.legCommandService("dynamic","","stop")
         rospy.sleep(1.4)
+
+
+    def addCollisionBox(self, poseStamped, boxSize_xyz):
+        box_pose = poseStamped
+        objId = str(self.collisionObjCounter)
+        self.collisionObjCounter+=1
+        box_name = objId
+        self.planningScene.add_box(box_name, box_pose, size=boxSize_xyz)
+
+        start = rospy.get_time()
+        while (rospy.get_time() - start < 10) and not rospy.is_shutdown():
+            if box_name in self.planningScene.get_known_object_names():
+                rospy.loginfo("Added CollisionObject")
+                return objId #added
+            rospy.sleep(0.1)
+
+        rospy.loginfo("Failed to add CollisionObject")
+        return None #failed
+
+    def removeCollision(self, objectId):
+        self.planningScene.remove_world_object(objectId)
