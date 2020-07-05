@@ -63,13 +63,6 @@ target_link_libraries(${PROJECT_NAME}
   ${catkin_LIBRARIES}
 )
 
-add_executable(switch_light_node src/switch_light_node.cpp)
-add_dependencies(switch_light_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(switch_light_node
-  ${catkin_LIBRARIES}
-  ${PROJECT_NAME}
-)
-
 add_executable(bt_port_node src/bt_port_node.cpp)
 add_dependencies(bt_port_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(bt_port_node
@@ -83,7 +76,6 @@ target_link_libraries(dummy_test_node
   ${catkin_LIBRARIES}
   ${PROJECT_NAME}
 )
-
 
 add_executable(dummy_server test/dummy_server.cpp)
 add_dependencies(dummy_server ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
