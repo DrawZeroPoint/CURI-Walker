@@ -33,54 +33,93 @@ dualFollowEeTrajClient.wait_for_server()
 rospy.loginfo("Action clients connected")
 
 
-x = loadmat('outie2.mat')["footinfos"]
+x = loadmat('backwards_lowvel_lowheight.mat')["footinfos"]
 y = x[0]
+
+full_time= []
+full_foot_left_x = []
+full_foot_left_y = []
+full_foot_left_z = []
+full_foot_right_x = []
+full_foot_right_y = []
+full_foot_right_z = []
+
+time_dilat = 0
+
 for elem in y:
-    time_vector =elem["timevec"][0][0][0]
+    time_vector =elem["timevec"][0][0][0][1:]
 
     decimate_val = 100
     time_vector = time_vector#[-1]
-
+    for aux in time_vector:
+        full_time.append(aux)
+    time_dilat=time_dilat+1
     foot_left = elem["footleft"][0][0]
     foot_right = elem["footright"][0][0]
 
-    foot_left_x     = foot_left[0] #[-1]
-    foot_left_x_vel = foot_left[1] #[-1]
-    foot_left_y     = foot_left[2] #[-1]
-    foot_left_y_vel = foot_left[3] #[-1]
-    foot_left_z     = foot_left[4] #[-1]
-    foot_left_z_vel = foot_left[5] #[-1]
+    foot_left_x     = foot_left[0][1:] #[-1]
+    foot_left_x_vel = foot_left[1][1:] #[-1]
+    foot_left_y     = foot_left[2][1:] #[-1]
+    foot_left_y_vel = foot_left[3][1:] #[-1]
+    foot_left_z     = foot_left[4][1:] #[-1]
+    foot_left_z_vel = foot_left[5][1:] #[-1]
 
-    foot_right_x     = foot_right[0] #[-1]
-    foot_right_x_vel = foot_right[1] #[-1]
-    foot_right_y     = foot_right[2] #[-1]
-    foot_right_y_vel = foot_right[3] #[-1]
-    foot_right_z     = foot_right[4] #[-1]
-    foot_right_z_vel = foot_right[5] #[-1]
+    for aux in foot_left_x:
+        full_foot_left_x.append(aux)
+    for aux in foot_left_y:
+        full_foot_left_y.append(aux)
+    for aux in foot_left_z:
+        full_foot_left_z.append(aux)
 
+    foot_right_x     = foot_right[0][1:] #[-1]
+    foot_right_x_vel = foot_right[1][1:] #[-1]
+    foot_right_y     = foot_right[2][1:] #[-1]
+    foot_right_y_vel = foot_right[3][1:] #[-1]
+    foot_right_z     = foot_right[4][1:] #[-1]
+    foot_right_z_vel = foot_right[5][1:] #[-1]
+
+    for aux in foot_right_x:
+        full_foot_right_x.append(aux)
+    for aux in foot_right_y:
+        full_foot_right_y.append(aux)
+    for aux in foot_right_z:
+        full_foot_right_z.append(aux)
+
+    
+
+
+
+def rand_functio():
     goal = walker_movement.msg.DualFollowEePoseTrajectoryGoal()
 
     startTime = time_vector[0]
     duration = []
-    for time_elem in time_vector:
-        duration.append(rospy.Duration.from_sec(time_elem - startTime))
-    # duration.append(rospy.Duration.from_sec(time_vector))
+    prev_elem = full_time[0]
+    # for time_elem in full_time[1:]:
+        # if prev_elem >= time_elem:
+        #     print(prev_elem,time_elem)
+        # else:
+        #     prev_elem = time_elem
+        # duration.append(rospy.Duration.from_sec(time_elem - startTime))
+        # duration.append(rospy.Duration.from_sec(time_elem))
+    for time_elem in full_time:
+        duration.append(rospy.Duration.from_sec(time_elem))
 
     poses_left = []
     poses_right = []
-    for x,y,z in zip(foot_left_x,foot_left_y,foot_left_z):
-        poses_left.append(buildPoseStamped([x,y,z],[0,0,0.707,0.707],"center_of_mass"))
+    for x,y,z in zip(full_foot_left_x,full_foot_left_y,full_foot_left_z):
+        poses_left.append(buildPoseStamped([x,y,z],[0,0,0.793,0.609],"center_of_mass"))
 
-    for x,y,z in zip(foot_right_x,foot_right_y,foot_right_z):
-        poses_right.append(buildPoseStamped([x,y,z],[0,0,0.707,0.707],"center_of_mass"))
+    for x,y,z in zip(full_foot_right_x,full_foot_right_y,full_foot_right_z):
+        poses_right.append(buildPoseStamped([x,y,z],[0,0,0.609,0.793],"center_of_mass"))
         pass
 
     goal.times_from_start_left = duration
     goal.times_from_start_right  = duration
     goal.poses_left = poses_left #[buildPoseStamped([foot_left_x,foot_left_y,foot_left_z],[0,0,0.707,0.707],"center_of_mass")]
     goal.poses_right = poses_right #[buildPoseStamped([foot_right_x,foot_right_y,foot_right_z],[0,0,0.707,0.707],"center_of_mass")]
-    # print(goal)
-
+    print(goal)
+    # exit(1)
     rospy.loginfo("times_from_start_left[0]="+str(goal.times_from_start_left[0]))
     rospy.loginfo("times_from_start_right[0]="+str(goal.times_from_start_right[0]))
 
@@ -92,3 +131,6 @@ for elem in y:
         print(dualFollowEeTrajClient.get_result())
         exit(1)
     rospy.loginfo("Step Completed")
+
+
+rand_functio()

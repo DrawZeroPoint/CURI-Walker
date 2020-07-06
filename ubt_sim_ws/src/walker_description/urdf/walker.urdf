@@ -45,7 +45,7 @@
     name="center_of_mass"
     type="fixed">
     <origin
-      xyz="0 0 -0.26"
+      xyz="0 0 -0.470128"
       rpy="0 0 -1.570795" />
     <parent
       link="base_link" />
