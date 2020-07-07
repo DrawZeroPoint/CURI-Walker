@@ -11,6 +11,7 @@
 #include <walker_brain/EstimateContactForce.h>
 #include <walker_brain/MoveToPose2D.h>
 #include <walker_brain/Dummy.h>
+#include <walker_brain/MoveLeg.h>
 #include <hope/ExtractObjectOnTop.h>
 #include <walker_nav/MoveToAbsPos.h>
 #include <walker_nav/MoveToRelPos.h>
@@ -39,6 +40,44 @@ public:
 
   void onSendRequest(RequestType &request) override {
     getInput<std::string>("cmd", request.header.frame_id);
+    ROS_INFO("Brain: %s sending request.", name_.c_str());
+  }
+
+  BT::NodeStatus onResponse(const ResponseType &response) override {
+    if (response.result_status == response.SUCCEEDED) {
+      ROS_INFO("Brain: %s response SUCCEEDED.", name_.c_str());
+      return NodeStatus::SUCCESS;
+    } else {
+      ROS_INFO("Brain: %s response FAILURE.", name_.c_str());
+      return NodeStatus::FAILURE;
+    }
+  }
+
+  virtual BT::NodeStatus onFailedRequest(RosServiceNode::FailureCause failure) override {
+    ROS_ERROR("Brain: %s request failed %d.", name_.c_str(), static_cast<int>(failure));
+    return BT::NodeStatus::FAILURE;
+  }
+
+private:
+  std::string name_;
+};
+
+class ExecuteLegMotion : public RosServiceNode<walker_brain::MoveLeg>
+{
+public:
+  ExecuteLegMotion(ros::NodeHandle &nh, const std::string& name, const BT::NodeConfiguration & cfg) :
+    RosServiceNode<walker_brain::MoveLeg>(nh, name, cfg), name_(name) {}
+
+  static BT::PortsList providedPorts() {
+    return {
+      BT::InputPort<JointAngles>("joint_states")
+    };
+  }
+
+  void onSendRequest(RequestType &request) override {
+    JointAngles joint_states{};
+    getInput<JointAngles>("joint_states", joint_states);
+    request.joint_states = joint_states.toROS();
     ROS_INFO("Brain: %s sending request.", name_.c_str());
   }
 
@@ -928,6 +967,7 @@ int main(int argc, char **argv)
 
   // To be deprecated
   RegisterRosService<ExecutePrePose>(factory, "ExecutePrePose", nh);
+  RegisterRosService<ExecuteLegMotion>(factory, "ExecuteLegMotion", nh);
 
   auto tree = factory.createTreeFromFile(tree_file);
 

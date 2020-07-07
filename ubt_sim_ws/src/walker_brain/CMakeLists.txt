@@ -23,6 +23,7 @@ add_service_files(
   EstimateTargetPose.srv
   EstimateContactForce.srv
   MoveToPose2D.srv
+  MoveLeg.srv
 )
 
 add_action_files(

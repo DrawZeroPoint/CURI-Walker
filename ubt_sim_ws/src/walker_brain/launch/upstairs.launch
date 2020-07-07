@@ -1,0 +1,19 @@
+<launch>
+    <!-- Usage: roslaunch walker_brain push_cart.launch -->
+    <!-- Before launching this, launch prepare_push_cart.launch -->
+
+    <param name="/use_sim_time" value="true" />
+
+    <!-- Could be 6, 7, 8, 9 -->
+    <arg name="task_id" default="15"/>
+
+    <!-- For quick debug  -->
+    <node pkg="rosservice" type="rosservice" name="init_robot"
+          args='call --wait /walker/sence "{scene_name: Upstairs, nav: false, vision: false}"'>
+    </node>
+
+    <node pkg="walker_brain" type="bt_port_node" name="bt_port_node" output="screen">
+        <param name="tree_file" value="$(find walker_brain)/tree/upstairs_15.xml" />
+    </node>
+
+</launch>

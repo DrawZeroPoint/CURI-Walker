@@ -6,8 +6,9 @@ import rospy
 import math
 
 from std_msgs.msg import String
+from sensor_msgs.msg import JointState
 from geometry_msgs.msg import Twist, Pose2D
-from walker_brain.srv import MoveToPose2D, MoveToPose2DResponse, Dummy, DummyResponse
+from walker_brain.srv import MoveToPose2D, MoveToPose2DResponse, Dummy, DummyResponse, MoveLeg, MoveLegResponse
 from walker_srvs.srv import leg_motion_MetaFuncCtrl, leg_motion_MetaFuncCtrlRequest
 
 
@@ -19,10 +20,12 @@ class MoveToPoseServer(object):
         self._server = rospy.Service('execute_move_base', MoveToPose2D, self.handle)
         self._walk_cmd_server = rospy.Service('execute_walk_cmd', Dummy, self.cmd_handle)
         self._stabilize_server = rospy.Service('stabilize_base', Dummy, self.stabilize_handle)
+        #self._leg_motion_server = rospy.Service('execute_leg_motion', MoveLeg, self.leg_motion_handle)
 
         self._remote = rospy.ServiceProxy('/Leg/TaskScheduler', leg_motion_MetaFuncCtrl)
         self._ls = rospy.Subscriber('/Leg/leg_status', String, self.status_cb)
         self._vel_puber = rospy.Publisher('/nav/cmd_vel_nav', Twist, queue_size=1)
+        #self._leg_puber = rospy.Publisher('/Leg/DesiredJoint', JointState, queue_size=1)
 
         self._x_primary_vel = 0.25
         self._y_primary_vel = 0.04
@@ -197,11 +200,25 @@ class MoveToPoseServer(object):
         except rospy.ServiceException as e:
             print("Service call failed: %s" % e)
 
+    def leg_motion_handle(self, req):
+        resp = MoveLegResponse()
+        msg = JointState()
+        if len(req.joint_states) != 12:
+            rospy.logerr("Brain: Leg motion joints number is wrong")
+            resp.result_status = resp.FAILED
+            return resp
+
+        msg.position.extend(req.joint_states)
+        self._leg_puber.publish(msg)
+        resp.result_status = resp.SUCCEEDED
+        return resp
+
 
 if __name__ == "__main__":
     try:
         rospy.init_node('walk_helper')
         rospy.wait_for_service('/Leg/TaskScheduler')
+        rospy.logwarn("Walk service ready.")
         mtp = MoveToPoseServer()
         rospy.spin()
     except rospy.ROSInterruptException as e:

@@ -78,30 +78,23 @@ class GaitConverter(object):
         if not self.l_hip_y:
             self.l_hip_y = msg.position[8]
 
+        if not self.l_hip_y:
+            self.l_hip_y = msg.position[8]
 
         if not self.l_hip_y:
             self.l_hip_y = msg.position[8]
 
+        if not self.l_hip_y:
+            self.l_hip_y = msg.position[8]
 
         if not self.l_hip_y:
             self.l_hip_y = msg.position[8]
 
-
         if not self.l_hip_y:
             self.l_hip_y = msg.position[8]
 
-
         if not self.l_hip_y:
             self.l_hip_y = msg.position[8]
-
-
-        if not self.l_hip_y:
-            self.l_hip_y = msg.position[8]
-
-
-        if not self.l_hip_y:
-            self.l_hip_y = msg.position[8]
-
 
         if not self.l_hip_y:
             self.l_hip_y = msg.position[8]
@@ -124,7 +117,7 @@ class GaitConverter(object):
         # msg_to_send.position.extend([0, 0, 0, 0, 0, 0.5, 0.5, 0, 0, 0, 0, 0])
 
         self.leg_puber.publish(msg_to_send)
-        rospy.sleep(0.001)
+        # rospy.sleep(0.001)
 
 
 if __name__ == "__main__":
