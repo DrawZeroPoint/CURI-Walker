@@ -296,7 +296,7 @@ void dualJointMoveActionCallback(const walker_movement::DualArmJointMoveGoalCons
 {
   try
   {
-    if(!goal->mirror)
+    if(goal->mirror)
     {
       walker_movement::DualMirroredJointMoveGoal goalMirrored;
       goalMirrored.left_pose = goal->left_pose;
@@ -315,6 +315,7 @@ void dualJointMoveActionCallback(const walker_movement::DualArmJointMoveGoalCons
     result.succeded = false;
     result.error_message = error_message;
     dualJointMoveActionServer->setAborted(result);
+    return;
   }
 
   ROS_INFO_STREAM("Dual movement completed.");
@@ -341,8 +342,8 @@ void followDualEePoseTrajectory(const std::vector<geometry_msgs::PoseStamped>& p
                                               tfBuffer,
                                               moveGroupInt_right,
                                               rightPlanningGroupName),
-  leftControllerActionClient,
-  rightControllerActionClient);
+                              leftControllerActionClient,
+                              rightControllerActionClient);
 }
 
 
@@ -361,6 +362,7 @@ void dualFollowEePoseTrajectoryActionCallback(const walker_movement::DualFollowE
     result.succeded = false;
     result.error_message = error_message;
     dualFollowEePoseTrajectoryActionServer->setAborted(result);
+    return;
   }
 
   ROS_INFO_STREAM("Dual Ee trajectory following completed.");

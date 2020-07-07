@@ -9,20 +9,37 @@ It provides services and actions for controlling the arms and the hands of the r
 You can launch the helpers by launching helpers.launch
 
 It will launch the actions:
-/walker/move_helper_left_arm/move_to_joint_pose
-/walker/move_helper_right_arm/move_to_joint_pose
-/walker/move_helper_left_arm/move_to_ee_pose
-/walker/move_helper_right_arm/move_to_ee_pose
-/walker/hand_helper_left/grasp
-/walker/hand_helper_right/grasp
+* /walker/move_helper_left_arm/move_to_joint_pose
+* /walker/move_helper_right_arm/move_to_joint_pose
+* /walker/move_helper_left_arm/move_to_ee_pose
+* /walker/move_helper_right_arm/move_to_ee_pose
+* /walker/hand_helper_left/grasp
+* /walker/hand_helper_right/grasp
+* /walker/move_helper_left_arm/follow_ee_pose_trajectory
+* /walker/move_helper_right_arm/follow_ee_pose_trajectory
+* /walker/dual_arm_control/follow_ee_pose_trajectory
+* /walker/dual_arm_control/move_to_ee_pose
+* /walker/dual_arm_control/move_to_ee_pose_mirrored
+* /walker/dual_arm_control/move_to_joint_pose
+
+
 
 And the services:
 /walker/move_helper_left_arm/get_joint_state
 /walker/move_helper_right_arm/get_joint_state
 
-## Arms
+By specifying enable_legs:=true the same services will also be available for the
+two legs, under /walker/move_helper_left_leg, /walker/move_helper_right_leg and /walker/dual_leg_control
 
-The package provides two actions and a service for controlling each arm.
+You can also use the all_deps.launch launcher to start the helpers together with
+dependencies such as the robot controllers or the gait module.
+
+## Arms and Legs
+
+The package provides actions and a service for controlling arms and legs. To enable
+the control of the legs on the all_deps.launch and helpers.launch files you must
+specify legs_control:=true. Note that the leg control should not be run while the
+gait module is running.
 
 ### get_joint_state service
 
@@ -38,6 +55,72 @@ The action allows to move the arm to a joint pose.
 The action allows to move the arm end effector to a cartesian pose.
 The end effector link can be selected using the end_effector_link parameter
 You can specify the frame of the goal pose using the header of the PoseStamped
+
+### follow_ee_pose_trajectory
+
+This action commands the arm end effector to follow a cartesian-space trajectory.
+The poses the end effector has to pass through are specified in the poses parameter.
+You can use the frame_id to perform relative movements.
+All frame conversions are performed before the trajectory execution.
+
+The times at which each pose has to be reached are specified in the times_from_start parameter.
+YOu can specify the end effector frame to use in the end_effector_link parameter, leaving this
+empty will result in the use of the default end effector (see .action file for details).
+
+An example of the use of this action can be seen in scripts/leg_trajectory_test.py
+
+### dual_arm_control/move_to_ee_pose
+
+This action allows to perform the move_to_ee_pose task on both arms simultaneously.
+You parameters are the same as move_to_ee_pose, just repeated for left and right.
+
+**NOTE:** the planner is not aware of the simulatenous movement of the two arms. Consequently
+when planning for one arm it will consider the other one to be at its original position.
+This means it may generate two plans for the arms that collide with each other. At the same time,
+it will not be aware of the fact the other arm has moved from its original location,
+meaning it may report false collisions and fail to generate a plan.
+
+### dual_arm_control/move_to_ee_pose_mirrored
+
+This action performs the same task as dual_arm_control/move_to_ee_pose, but the
+planning is only performed for the left arm, and then it is mirrored to generate
+a plan for the right one. This ensures the two arms follow simmetrical paths.
+
+**NOTE:** The same considerations about collisions as in dual_arm_control/move_to_ee_pose apply here as well
+
+### dual_arm_control/move_to_joint_pose
+
+This performs the same task as move_to_joint_pose, but on the two arms at the same time.
+You can generate mirrored plans as in move_to_ee_pose_mirrored by setting the mirror parameter.
+
+**NOTE:** The same considerations about collisions as in dual_arm_control/move_to_ee_pose apply here as well
+
+
+### dual_arm_control/follow_ee_pose_trajectory
+
+This action performs the same task as the regular follow_ee_pose_trajectory, but on two limbs at the same time.
+
+**NOTE:** no planning is performed in this action. Therefore not collision checking is performed.
+
+
+### Legs control
+
+As specified before, to control the legs you can use the legs_control parameter in the launch files.
+The same services a for the arms will be made available for the legs. The will appear as the action and services:
+
+* /walker/move_helper_left_leg/move_to_joint_pose
+* /walker/move_helper_right_leg/move_to_joint_pose
+* /walker/move_helper_left_leg/move_to_ee_pose
+* /walker/move_helper_right_leg/move_to_ee_pose
+* /walker/move_helper_left_leg/follow_ee_pose_trajectory
+* /walker/move_helper_right_leg/follow_ee_pose_trajectory
+* /walker/dual_leg_control/follow_ee_pose_trajectory
+* /walker/dual_leg_control/move_to_ee_pose
+* /walker/dual_leg_control/move_to_ee_pose_mirrored
+* /walker/dual_leg_control/move_to_joint_pose
+* /walker/move_helper_left_leg/get_joint_state
+* /walker/move_helper_right_leg/get_joint_state
+
 
 ## Hands: grasp action
 

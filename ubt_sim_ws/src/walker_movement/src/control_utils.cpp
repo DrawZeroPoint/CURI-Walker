@@ -44,28 +44,55 @@ void executeDualTrajectoryDirect(const trajectory_msgs::JointTrajectory& traject
   std::shared_ptr<actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>> controllerClientLeft,
   std::shared_ptr<actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>> controllerClientRight)
 {
+  ROS_INFO_STREAM("executeDualTrajectoryDirect: building controller goals");
   control_msgs::FollowJointTrajectoryGoal leftGoal = buildControllerGoal(trajectory_left);
   control_msgs::FollowJointTrajectoryGoal rightGoal = buildControllerGoal(trajectory_right);
+    ROS_INFO_STREAM("executeDualTrajectoryDirect: built");
 
   controllerClientLeft->sendGoal(leftGoal);
   controllerClientRight->sendGoal(rightGoal);
+  ROS_INFO_STREAM("executeDualTrajectoryDirect: Sent controller goals");
   bool completed = controllerClientLeft->waitForResult(ros::Duration(120.0));
   if(!completed)
     throw std::runtime_error("Dual trajectory execution failed: left execution timed out");
+  ROS_INFO_STREAM("executeDualTrajectoryDirect: left action completed");
   completed = controllerClientRight->waitForResult(ros::Duration(120.0));
   if(!completed)
     throw std::runtime_error("Dual trajectory execution failed: right execution timed out");
+  ROS_INFO_STREAM("executeDualTrajectoryDirect: Actions completed");
 }
 
 
 trajectory_msgs::JointTrajectory buildTrajectory(const std::vector<geometry_msgs::PoseStamped>& poses, const std::vector<ros::Duration>& times_from_start, std::string eeLink, std::shared_ptr<tf2_ros::Buffer> tfBuffer, std::shared_ptr<moveit::planning_interface::MoveGroupInterface> moveGroupInt, std::string planning_group_name)
 {
   if(poses.size()!=times_from_start.size())
-    throw std::invalid_argument("followEePoseTrajectory: poses and times_from_start should have the same size (they are respectively "+std::to_string(poses.size())+" and "+std::to_string(times_from_start.size())+")");
+    throw std::invalid_argument("buildTrajectory: poses and times_from_start should have the same size (they are respectively "+std::to_string(poses.size())+" and "+std::to_string(times_from_start.size())+")");
   std::vector<geometry_msgs::Pose> posesBaseLink;
-  for(const geometry_msgs::PoseStamped& p : poses)
-    posesBaseLink.push_back(tfBuffer->transform(p, "base_link", ros::Duration(1)).pose);
+  if(poses.size()==0)
+    throw std::invalid_argument("buildTrajectory: received empty poses vector");
 
+  std::string posesFrame = poses.at(1).header.frame_id;
+
+  ROS_INFO_STREAM("buildTrajectory: Building trajectory...");
+  for(const geometry_msgs::PoseStamped& p : poses)
+  {
+    if(p.header.frame_id!=posesFrame)
+      throw std::invalid_argument("buildTrajectory: poses must all have the same frame");
+  }
+
+  std::chrono::steady_clock::time_point timePreTf = std::chrono::steady_clock::now();
+  ROS_INFO_STREAM("buildTrajectory: Fetching transformation...");
+  geometry_msgs::TransformStamped frameToBaseLink = tfBuffer->lookupTransform("base_link", posesFrame,poses.at(1).header.stamp);
+  ROS_INFO_STREAM("buildTrajectory: Converting pose frames");
+  for(const geometry_msgs::PoseStamped& p : poses)
+  {
+    geometry_msgs::PoseStamped tp;
+    tf2::doTransform(p, tp, frameToBaseLink);
+    posesBaseLink.push_back(tp.pose);
+  }
+  auto timePostTf = std::chrono::steady_clock::now();
+  std::chrono::duration<double> duration = timePostTf-timePreTf;
+  ROS_INFO_STREAM("buildTrajectory: Convertion took "<<duration.count()*1000<<"ms");
 
   std::vector<std::vector<double>> jointPoses;
   moveit::core::RobotStatePtr robotState = moveGroupInt->getCurrentState();
@@ -78,14 +105,18 @@ trajectory_msgs::JointTrajectory buildTrajectory(const std::vector<geometry_msgs
     std::vector<double> jointPose;
     bool foundIk = robotState->setFromIK(jointModelGroup,p,eeLink,1.0); //TODO: choose sensible parameters (Attempts and solver timeout)
     if(!foundIk)
-      throw std::runtime_error("followEePoseTrajectory failed, IK solution not found for pose "+std::to_string(i));
+      throw std::runtime_error("followEePoseTrajectory failed, IK solution not found for pose "+std::to_string(i)+
+                    " ( requested pose is ("+
+                    std::to_string(p.position.x)+", "+std::to_string(p.position.y)+", "+std::to_string(p.position.z)+") ("+
+                    std::to_string(p.orientation.x)+", "+std::to_string(p.orientation.y)+", "+std::to_string(p.orientation.z)+", "+std::to_string(p.orientation.w)+") in frame base_link, transformed from "+poses.at(i).header.frame_id+")");
     robotState->copyJointGroupPositions(jointModelGroup,jointPose);
     jointPoses.push_back(jointPose);
   }
   auto timePostIK = std::chrono::steady_clock::now();
-  std::chrono::duration<double> duration = timePostIK-timePreIK;
+  duration = timePostIK-timePreIK;
   ROS_INFO_STREAM("followEePoseTrajectory: IK took "<<duration.count()*1000<<"ms");
 
+  ROS_INFO("buildTrajectory: Building trajectory message");
   trajectory_msgs::JointTrajectory trajectory;
   trajectory.joint_names = jointModelGroup->getActiveJointModelNames();
   for(unsigned int i=0;i<jointPoses.size();i++)
@@ -95,6 +126,7 @@ trajectory_msgs::JointTrajectory buildTrajectory(const std::vector<geometry_msgs
     point.time_from_start = times_from_start.at(i);
     trajectory.points.push_back(point);
   }
+  ROS_INFO("buildTrajectory: finished.");
 
   return trajectory;
 }

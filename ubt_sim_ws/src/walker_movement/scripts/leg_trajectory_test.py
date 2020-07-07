@@ -33,6 +33,7 @@ rospy.loginfo("Action clients connected")
 goal = walker_movement.msg.DualArmJointMoveGoal()
 goal.left_pose = [0,0,0,0,0,0]
 goal.right_pose = [0,0,0,0,0,0]
+goal.mirror = False
 moveJointDualClient.send_goal(goal)
 moveJointDualClient.wait_for_result()
 if not moveJointDualClient.get_result().succeded:
@@ -54,11 +55,11 @@ if not moveEeDualClient.get_result().succeded:
 
 rospy.sleep(0.5)
 
-for i in range(3): #The whole movement plan fails because of collisions (moveit doesn't know both legs are moving)
+for i in range(12): #The whole movement plan fails because of collisions (moveit doesn't know both legs are moving)
     goal = walker_movement.msg.DualArmEeMoveGoal()
-    goal.left_pose = buildPoseStamped([0,0.025,0.0],[0,0,0,1],"left_foot_sole")
+    goal.left_pose = buildPoseStamped([0,0.01,0.0],[0,0,0,1],"left_foot_sole")
     goal.left_end_effector_link = "left_foot_sole"
-    goal.right_pose = buildPoseStamped([0,0.025,0.0],[0,0,0,1],"right_foot_sole")
+    goal.right_pose = buildPoseStamped([0,0.01,0.0],[0,0,0,1],"right_foot_sole")
     goal.right_end_effector_link = "right_foot_sole"
     goal.do_cartesian = False
     moveEeDualClient.send_goal(goal)
@@ -66,6 +67,7 @@ for i in range(3): #The whole movement plan fails because of collisions (moveit 
     if not moveEeDualClient.get_result().succeded:
         rospy.logerr("Failed to move sideways")
         exit(1)
+    rospy.loginfo("Moved sideways "+str(i)+"cm")
 
 
 goal = walker_movement.msg.FollowEePoseTrajectoryGoal()

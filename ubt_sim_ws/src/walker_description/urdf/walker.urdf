@@ -40,6 +40,20 @@
       </geometry>
     </collision>
   </link>
+  <link name="center_of_mass"/>
+  <joint
+    name="center_of_mass"
+    type="fixed">
+    <origin
+      xyz="0 0 -0.470128"
+      rpy="0 0 -1.570795" />
+    <parent
+      link="base_link" />
+    <child
+      link="center_of_mass" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
   <link
     name="right_limb_l1">
     <inertial>
