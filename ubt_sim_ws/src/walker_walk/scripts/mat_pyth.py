@@ -1,8 +1,11 @@
+#!/usr/bin/env python
+
 from scipy.io import loadmat
 import rospy
 import actionlib
 import walker_movement.msg
 from geometry_msgs.msg import PoseStamped
+import rospkg
 
 def buildPoseStamped(position_xyz, orientation_xyzw, frame_id):
     pose = PoseStamped()
@@ -16,8 +19,8 @@ def buildPoseStamped(position_xyz, orientation_xyzw, frame_id):
     pose.pose.orientation.w = orientation_xyzw[3]
     return pose
 
-
 rospy.init_node('matlab_to_python_leg_node', anonymous=True)
+
 
 followEeTrajClient = actionlib.SimpleActionClient('/walker/move_helper_left_leg/follow_ee_pose_trajectory', walker_movement.msg.FollowEePoseTrajectoryAction)
 moveEeDualClient = actionlib.SimpleActionClient('/walker/dual_leg_control/move_to_ee_pose', walker_movement.msg.DualArmEeMoveAction)
@@ -33,7 +36,10 @@ dualFollowEeTrajClient.wait_for_server()
 rospy.loginfo("Action clients connected")
 
 
-x = loadmat('backwards_lowvel_lowheight.mat')["footinfos"]
+
+inputFile = rospkg.RosPack().get_path('walker_walk')+"/data/backwards_lowvel_lowheight.mat"
+x = loadmat(inputFile)["footinfos"]
+rospy.loginfo("Loaded Matlab data from "+inputFile)
 y = x[0]
 
 full_time= []
@@ -85,7 +91,7 @@ for elem in y:
     for aux in foot_right_z:
         full_foot_right_z.append(aux)
 
-    
+
 
 
 

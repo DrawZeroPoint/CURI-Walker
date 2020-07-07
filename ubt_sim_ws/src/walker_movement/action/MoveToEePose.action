@@ -4,7 +4,7 @@
 # Pose, you can specify the frame of the pose in header.frame_id
 geometry_msgs/PoseStamped pose
 
-#You can specify here the name of the end effector to move. Leave empty to move to the default (which is the tcp pose for the arms)
+#You can specify here the name of the end effector to move. Leave empty to move to the default (which is the tcp pose for the arms and the sole pose for the legs)
 string end_effector_link
 
 ---
