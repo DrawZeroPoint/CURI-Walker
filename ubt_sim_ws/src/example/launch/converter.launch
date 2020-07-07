@@ -1,0 +1,6 @@
+<launch>
+    <param name="/use_sim_time" value="true" />
+    <node pkg="example" type="converter.py" name="converter" respawn="false" respawn_delay="1" output="screen">
+    </node>
+
+</launch>
