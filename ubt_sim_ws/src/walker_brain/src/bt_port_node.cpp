@@ -22,6 +22,7 @@
 #include <walker_movement/GraspAction.h>
 #include <walker_movement/DualArmEeMoveAction.h>
 #include <walker_movement/DualArmJointMoveAction.h>
+#include <walker_movement/FollowEePoseTrajectoryAction.h>
 
 
 using namespace BT;
@@ -335,6 +336,158 @@ public:
     goal.pose.pose = execute_pose.toROS();
 
     getInput<std::string>("ref_link", goal.pose.header.frame_id);
+    getInput<std::string>("ee_link", goal.end_effector_link);
+
+    ROS_INFO("Brain: %s sending request", name_.c_str());
+    return true;
+  }
+
+  NodeStatus onResult(const ResultType& res) override {
+    ROS_INFO("Brain: %s result received", name_.c_str());
+    if (res.succeded) {
+      ROS_INFO("Brain: %s response SUCCEEDED.", name_.c_str());
+      return NodeStatus::SUCCESS;
+    } else {
+      ROS_INFO("Brain: %s response FAILURE.", name_.c_str());
+      return NodeStatus::FAILURE;
+    }
+  }
+
+  virtual NodeStatus onFailedRequest(FailureCause failure) override {
+    ROS_ERROR("Brain: %s request failed %d", name_.c_str(), static_cast<int>(failure));
+    return NodeStatus::FAILURE;
+  }
+
+  void halt() override {
+    if(status() == NodeStatus::RUNNING) {
+      ROS_WARN("Brain: %s halted", name_.c_str());
+      BaseClass::halt();
+    }
+  }
+
+private:
+  std::string name_;
+};
+
+class ExecuteLLegFollowMove : public RosActionNode<walker_movement::FollowEePoseTrajectoryAction>
+{
+public:
+  ExecuteLLegFollowMove(ros::NodeHandle& handle, const std::string& name, const NodeConfiguration & cfg):
+    RosActionNode<walker_movement::FollowEePoseTrajectoryAction>(handle, name, cfg), name_(name) {}
+
+  static PortsList providedPorts() {
+    return {
+      InputPort<Pose>("pose1"),
+      InputPort<Pose>("pose2"),
+      InputPort<double>("duration1"),
+      InputPort<double>("duration2"),
+      InputPort<std::string>("ee_link"),
+      InputPort<std::string>("ref_link"),
+      //OutputPort<int>("result_status")
+    };
+  }
+
+  bool onSendGoal(GoalType& goal) override {
+    Pose pose1{};
+    getInput<Pose>("pose1", pose1);
+    geometry_msgs::PoseStamped ros_pose_1;
+    ros_pose_1.pose = pose1.toROS();
+    getInput<std::string>("ref_link", ros_pose_1.header.frame_id);
+    goal.poses.push_back(ros_pose_1);
+
+    Pose pose2{};
+    getInput<Pose>("pose2", pose2);
+    geometry_msgs::PoseStamped ros_pose_2;
+    ros_pose_2.pose = pose2.toROS();
+    getInput<std::string>("ref_link", ros_pose_2.header.frame_id);
+    goal.poses.push_back(ros_pose_2);
+
+    double ts_1;
+    getInput<double>("duration1", ts_1);
+    ros::Duration td_1(ts_1);
+    goal.times_from_start.push_back(td_1);
+
+    double ts_2;
+    getInput<double>("duration1", ts_2);
+    ros::Duration td_2(ts_2);
+    goal.times_from_start.push_back(td_2);
+
+    getInput<std::string>("ee_link", goal.end_effector_link);
+
+    ROS_INFO("Brain: %s sending request", name_.c_str());
+    return true;
+  }
+
+  NodeStatus onResult(const ResultType& res) override {
+    ROS_INFO("Brain: %s result received", name_.c_str());
+    if (res.succeded) {
+      ROS_INFO("Brain: %s response SUCCEEDED.", name_.c_str());
+      return NodeStatus::SUCCESS;
+    } else {
+      ROS_INFO("Brain: %s response FAILURE.", name_.c_str());
+      return NodeStatus::FAILURE;
+    }
+  }
+
+  virtual NodeStatus onFailedRequest(FailureCause failure) override {
+    ROS_ERROR("Brain: %s request failed %d", name_.c_str(), static_cast<int>(failure));
+    return NodeStatus::FAILURE;
+  }
+
+  void halt() override {
+    if(status() == NodeStatus::RUNNING) {
+      ROS_WARN("Brain: %s halted", name_.c_str());
+      BaseClass::halt();
+    }
+  }
+
+private:
+  std::string name_;
+};
+
+class ExecuteRLegFollowMove : public RosActionNode<walker_movement::FollowEePoseTrajectoryAction>
+{
+public:
+  ExecuteRLegFollowMove(ros::NodeHandle& handle, const std::string& name, const NodeConfiguration & cfg):
+    RosActionNode<walker_movement::FollowEePoseTrajectoryAction>(handle, name, cfg), name_(name) {}
+
+  static PortsList providedPorts() {
+    return {
+      InputPort<Pose>("pose1"),
+      InputPort<Pose>("pose2"),
+      InputPort<double>("duration1"),
+      InputPort<double>("duration2"),
+      InputPort<std::string>("ee_link"),
+      InputPort<std::string>("ref_link"),
+      //OutputPort<int>("result_status")
+    };
+  }
+
+  bool onSendGoal(GoalType& goal) override {
+    Pose pose1{};
+    getInput<Pose>("pose1", pose1);
+    geometry_msgs::PoseStamped ros_pose_1;
+    ros_pose_1.pose = pose1.toROS();
+    getInput<std::string>("ref_link", ros_pose_1.header.frame_id);
+    goal.poses.push_back(ros_pose_1);
+
+    Pose pose2{};
+    getInput<Pose>("pose2", pose2);
+    geometry_msgs::PoseStamped ros_pose_2;
+    ros_pose_2.pose = pose2.toROS();
+    getInput<std::string>("ref_link", ros_pose_2.header.frame_id);
+    goal.poses.push_back(ros_pose_2);
+
+    double ts_1;
+    getInput<double>("duration1", ts_1);
+    ros::Duration td_1(ts_1);
+    goal.times_from_start.push_back(td_1);
+
+    double ts_2;
+    getInput<double>("duration1", ts_2);
+    ros::Duration td_2(ts_2);
+    goal.times_from_start.push_back(td_2);
+
     getInput<std::string>("ee_link", goal.end_effector_link);
 
     ROS_INFO("Brain: %s sending request", name_.c_str());
@@ -1223,7 +1376,8 @@ int main(int argc, char **argv)
   RegisterRosAction<ExecuteLLegMove>(factory, "ExecuteLLegMove", nh);
   RegisterRosAction<ExecuteRLegMove>(factory, "ExecuteRLegMove", nh);
   RegisterRosAction<ExecuteDualLegMove>(factory, "ExecuteDualLegMove", nh);
-
+  RegisterRosAction<ExecuteLLegFollowMove>(factory, "ExecuteLLegFollowMove", nh);
+  RegisterRosAction<ExecuteRLegFollowMove>(factory, "ExecuteRLegFollowMove", nh);
 
   // Vision & sensing
   RegisterRosService<SenseObjectPoses>(factory, "SenseObjectPoses", nh);

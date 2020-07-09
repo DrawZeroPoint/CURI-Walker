@@ -39,23 +39,30 @@ class UpstairsHelperServer(object):
 
     def balance_handle(self, req):
         resp = DummyResponse()
-        left_js_resp = self._get_left_js.call()
-        right_js_resp = self._get_right_js.call()
+        # left_js_resp = self._get_left_js.call()
+        # right_js_resp = self._get_right_js.call()
+        #
+        # left_poses = list(left_js_resp.joint_poses)
+        # right_poses = list(right_js_resp.joint_poses)
+        #
+        # # hip_yaw
+        # left_poses[0] = 0
+        # right_poses[0] = 0
+        #
+        # # hip_roll
+        # left_poses[1] = 0
+        # right_poses[1] = 0
+        #
+        # # ankle_roll
+        # left_poses[-1] = 0
+        # right_poses[-1] = 0
 
-        left_poses = list(left_js_resp.joint_poses)
-        right_poses = list(right_js_resp.joint_poses)
+        # Initial pose, CoM moves 0.1 m down
+        left_poses = [-0.0008795538427514595, -0.0005686643056558551, -0.60,
+                      1.2123448701009976, -0.6226125423934215, 0.0005034733641374065]
+        right_poses = [-0.0003601948156768307, 0.0005466877003643672, -0.60,
+                       1.2126313823689296, -0.6230589553097939, -0.0008469963974085546]
 
-        # hip_yaw
-        left_poses[0] = 0
-        right_poses[0] = 0
-
-        # hip_roll
-        left_poses[1] = 0
-        right_poses[1] = 0
-
-        # ankle_roll
-        left_poses[-1] = 0
-        right_poses[-1] = 0
         goal = DualArmJointMoveGoal()
         goal.left_pose = left_poses
         goal.right_pose = right_poses
