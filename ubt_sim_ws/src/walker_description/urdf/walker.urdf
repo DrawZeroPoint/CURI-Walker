@@ -54,6 +54,20 @@
     <axis
       xyz="0 0 0" />
   </joint>
+  <link name="center_of_mass_with_box"/>
+  <joint
+    name="center_of_mass_with_box"
+    type="fixed">
+    <origin
+      xyz="0.1 0 -0.570128"
+      rpy="0 0 -1.570795" />
+    <parent
+      link="base_link" />
+    <child
+      link="center_of_mass_with_box" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
   <link
     name="right_limb_l1">
     <inertial>
