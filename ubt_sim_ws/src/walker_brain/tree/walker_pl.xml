@@ -20,6 +20,9 @@
             <output_port default="{target_nav_pose}" name="tgt_nav_pose"/>
             <output_port default="{target_pre_grasp_pose}" name="tgt_pre_grasp_pose"/>
         </Action>
+        <Action ID="ExecuteBalanceBase">
+            <input_port default="/execute_balance_base" name="service_name"/>
+        </Action>
         <Action ID="ExecuteDualArmJointStates">
             <input_port default="0 0 0 0 0 0 0" name="left_pose">Left arm joint states in degree</input_port>
             <input_port default="0" name="mirror">If mirror left arm joint trajectory to the right arm</input_port>
@@ -35,6 +38,30 @@
             <input_port name="right_pose">Right arm pose in position and orientation</input_port>
             <input_port default="base_link" name="right_ref_link">Could be base_link (absolute) or right_tcp (relative mode)</input_port>
             <input_port default="/walker/dual_arm_control/move_to_ee_pose" name="server_name"/>
+        </Action>
+        <Action ID="ExecuteDualLegFollowMove">
+            <input_port default="left_foot_sole" name="left_ee_link"/>
+            <input_port name="left_pose"/>
+            <input_port default="left_foot_sole" name="left_ref_link"/>
+            <input_port default="right_foot_sole" name="right_ee_link"/>
+            <input_port name="right_pose"/>
+            <input_port default="right_foot_sole" name="right_ref_link"/>
+            <input_port default="/walker/dual_leg_control/follow_ee_pose_trajectory" name="server_name"/>
+            <input_port default="0.5" name="stamp"/>
+        </Action>
+        <Action ID="ExecuteDualLegJointStates">
+            <input_port name="left_pose"/>
+            <input_port name="right_pose"/>
+            <input_port default="/walker/dual_leg_control/move_to_joint_pose" name="server_name"/>
+        </Action>
+        <Action ID="ExecuteDualLegMove">
+            <input_port default="left_foot_sole" name="left_ee_link"/>
+            <input_port name="left_pose"/>
+            <input_port default="left_foot_sole" name="left_ref_link"/>
+            <input_port default="right_foot_sole" name="right_ee_link"/>
+            <input_port name="right_pose"/>
+            <input_port default="right_foot_sole" name="right_ref_link"/>
+            <input_port default="/walker/dual_leg_control/move_to_ee_pose" name="server_name"/>
         </Action>
         <Action ID="ExecuteHeadJointStates">
             <input_port default="0 0" name="joint_states"/>
@@ -53,6 +80,25 @@
         <Action ID="ExecuteLHandGrasp">
             <input_port default="/walker/hand_helper_left/grasp" name="server_name"/>
             <input_port name="type">0: Open hand, 1: Grasp can, 2: Grasp cart handle, 3: Grasp fridge handle</input_port>
+        </Action>
+        <Action ID="ExecuteLLegFollowMove">
+            <input_port default="left_foot_sole" name="ee_link"/>
+            <input_port name="pose1">First pose to visit (regrading the staring pose)</input_port>
+            <input_port name="pose2">Second pose to visit (regrading the staring pose)</input_port>
+            <input_port default="left_foot_sole" name="ref_link">left_foot_sole</input_port>
+            <input_port default="/walker/move_helper_left_leg/follow_ee_pose_trajectory" name="server_name"/>
+            <input_port default="0.01" name="stamp1">Time to reach the first pose from start</input_port>
+            <input_port default="0.02" name="stamp2">Time to reach the second pose from start</input_port>
+        </Action>
+        <Action ID="ExecuteLLegMove">
+            <input_port default="left_foot_sole" name="ee_link"/>
+            <input_port name="pose"/>
+            <input_port default="left_foot_sole" name="ref_link"/>
+            <input_port default="/walker/move_helper_left_leg/move_to_ee_pose" name="server_name"/>
+        </Action>
+        <Action ID="ExecuteLegMotion">
+            <input_port name="joint_states">12 values in order: l_hip_y ; l_hip_r ; l_hip_p; l_knee ; l_ank_p ; l_ank_r</input_port>
+            <input_port default="execute_leg_motion" name="service_name"/>
         </Action>
         <Action ID="ExecuteMoveBase">
             <input_port default="{target_nav_pose}" name="pose"/>
@@ -75,6 +121,21 @@
         <Action ID="ExecuteRHandGrasp">
             <input_port default="/walker/hand_helper_right/grasp" name="server_name"/>
             <input_port name="type">0: Open hand, 1: Grasp can, 2: Grasp cart handle, 3: Grasp fridge handle</input_port>
+        </Action>
+        <Action ID="ExecuteRLegFollowMove">
+            <input_port default="right_foot_sole" name="ee_link"/>
+            <input_port name="pose1">Regrading the starting pose</input_port>
+            <input_port name="pose2">Regrading the starting pose</input_port>
+            <input_port default="right_foot_sole" name="ref_link">Default in relative move mode, could also be other frames of the robot</input_port>
+            <input_port default="/walker/move_helper_right_leg/follow_ee_pose_trajectory" name="server_name"/>
+            <input_port default="0.01" name="stamp1">Time of reaching to the first pose from start</input_port>
+            <input_port default="0.02" name="stamp2">Time of reaching to the second pose from start</input_port>
+        </Action>
+        <Action ID="ExecuteRLegMove">
+            <input_port default="right_foot_sole" name="ee_link"/>
+            <input_port name="pose"/>
+            <input_port default="right_foot_sole" name="ref_link"/>
+            <input_port default="/walker/move_helper_right_leg/move_to_ee_pose" name="server_name"/>
         </Action>
         <Action ID="ExecuteStabilizeBase">
             <input_port default="stabilize_base" name="service_name"/>

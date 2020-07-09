@@ -25,33 +25,33 @@ joint_limits:
   left_leg_j1:
     has_velocity_limits: false
     max_velocity: 0
-    has_acceleration_limits: false
-    max_acceleration: 0
+    has_acceleration_limits: true
+    max_acceleration: 3
   left_leg_j2:
     has_velocity_limits: false
     max_velocity: 0
-    has_acceleration_limits: false
-    max_acceleration: 0
+    has_acceleration_limits: true
+    max_acceleration: 3
   left_leg_j3:
     has_velocity_limits: false
     max_velocity: 0
-    has_acceleration_limits: false
-    max_acceleration: 0
+    has_acceleration_limits: true
+    max_acceleration: 3
   left_leg_j4:
     has_velocity_limits: false
     max_velocity: 0
-    has_acceleration_limits: false
-    max_acceleration: 0
+    has_acceleration_limits: true
+    max_acceleration: 3
   left_leg_j5:
     has_velocity_limits: false
     max_velocity: 0
-    has_acceleration_limits: false
-    max_acceleration: 0
+    has_acceleration_limits: true
+    max_acceleration: 3
   left_leg_j6:
     has_velocity_limits: false
     max_velocity: 0
-    has_acceleration_limits: false
-    max_acceleration: 0
+    has_acceleration_limits: true
+    max_acceleration: 3
   left_limb_j1:
     has_velocity_limits: false
     max_velocity: 0
@@ -140,33 +140,33 @@ joint_limits:
   right_leg_j1:
     has_velocity_limits: false
     max_velocity: 0
-    has_acceleration_limits: false
-    max_acceleration: 0
+    has_acceleration_limits: true
+    max_acceleration: 3
   right_leg_j2:
     has_velocity_limits: false
     max_velocity: 0
-    has_acceleration_limits: false
-    max_acceleration: 0
+    has_acceleration_limits: true
+    max_acceleration: 3
   right_leg_j3:
     has_velocity_limits: false
     max_velocity: 0
-    has_acceleration_limits: false
-    max_acceleration: 0
+    has_acceleration_limits: true
+    max_acceleration: 3
   right_leg_j4:
     has_velocity_limits: false
     max_velocity: 0
-    has_acceleration_limits: false
-    max_acceleration: 0
+    has_acceleration_limits: true
+    max_acceleration: 3
   right_leg_j5:
     has_velocity_limits: false
     max_velocity: 0
-    has_acceleration_limits: false
-    max_acceleration: 0
+    has_acceleration_limits: true
+    max_acceleration: 3
   right_leg_j6:
     has_velocity_limits: false
     max_velocity: 0
-    has_acceleration_limits: false
-    max_acceleration: 0
+    has_acceleration_limits: true
+    max_acceleration: 3
   right_limb_j1:
     has_velocity_limits: false
     max_velocity: 0

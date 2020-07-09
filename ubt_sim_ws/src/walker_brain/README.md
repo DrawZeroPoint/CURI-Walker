@@ -42,7 +42,7 @@ roslaunch walker_brain switch_light.launch
 ```
 
 **Note**: It is mandatory to wait for about 10 seconds after launching the prepare file, giving some time 
-for the loading of the MoveIt planning interface (when the `You can start planning now` message shows up).
+for the loading of the MoveIt planning interface (at least you should see the `You can start planning now` message shows up).
 
 ## Launching parameters
 

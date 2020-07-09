@@ -6,8 +6,9 @@ import rospy
 import math
 
 from std_msgs.msg import String
+from sensor_msgs.msg import JointState
 from geometry_msgs.msg import Twist, Pose2D
-from walker_brain.srv import MoveToPose2D, MoveToPose2DResponse, Dummy, DummyResponse
+from walker_brain.srv import MoveToPose2D, MoveToPose2DResponse, Dummy, DummyResponse, MoveLeg, MoveLegResponse
 from walker_srvs.srv import leg_motion_MetaFuncCtrl, leg_motion_MetaFuncCtrlRequest
 
 
@@ -202,6 +203,7 @@ if __name__ == "__main__":
     try:
         rospy.init_node('walk_helper')
         rospy.wait_for_service('/Leg/TaskScheduler')
+        rospy.logwarn("Walk service ready.")
         mtp = MoveToPoseServer()
         rospy.spin()
     except rospy.ROSInterruptException as e:
