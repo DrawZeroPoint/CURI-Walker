@@ -171,3 +171,19 @@ The you can launch the script with:
 ```
 rosrun walker_movement openFridge.py
 ```
+
+## Task 14: Grasp Box and Walk Backwards.
+
+This task can be executed in two phases.
+
+The first one, grasping the box, can be ran with the command:
+
+```
+rosrun walker_movement liftBox.py
+```
+
+The second one, the walking backwards with the grasped box, can be ran with:
+
+```
+rosrun walker_walk mat_pyth.py
+```
