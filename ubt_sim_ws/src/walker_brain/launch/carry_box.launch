@@ -1,0 +1,13 @@
+<launch>
+    <param name="/use_sim_time" value="true" />
+
+    <!-- For quick debug  -->
+    <node pkg="rosservice" type="rosservice" name="init_robot"
+          args='call --wait /walker/sence "{scene_name: CarryBox, nav: false, vision: false}"'>
+    </node>
+
+    <node pkg="walker_brain" type="bt_port_node" name="bt_port_node" output="screen">
+        <param name="tree_file" value="$(find walker_brain)/tree/carry_box_14.xml" />
+    </node>
+
+</launch>

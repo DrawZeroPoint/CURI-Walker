@@ -24,6 +24,7 @@
 #include <walker_movement/DualArmJointMoveAction.h>
 #include <walker_movement/FollowEePoseTrajectoryAction.h>
 #include <walker_movement/DualFollowEePoseTrajectoryAction.h>
+#include <walker_movement/DualArmMirroredEeMoveAction.h>
 
 
 using namespace BT;
@@ -900,6 +901,63 @@ private:
   std::string name_;
 };
 
+class ExecuteDualArmMirroredMove : public RosActionNode<walker_movement::DualArmMirroredEeMoveAction>
+{
+public:
+  ExecuteDualArmMirroredMove(ros::NodeHandle& handle, const std::string& name, const NodeConfiguration & cfg):
+    RosActionNode<walker_movement::DualArmMirroredEeMoveAction>(handle, name, cfg), name_(name) {}
+
+  static PortsList providedPorts() {
+    return {
+      InputPort<Pose>("left_pose"),
+      InputPort<std::string>("left_ee_link"),
+      InputPort<std::string>("left_ref_link"),
+      InputPort<int>("do_cartesian")
+    };
+  }
+
+  bool onSendGoal(GoalType& goal) override {
+    Pose left_pose{};
+    getInput<Pose>("left_pose", left_pose);
+    goal.left_pose.pose = left_pose.toROS();
+    getInput<std::string>("left_ref_link", goal.left_pose.header.frame_id);
+    getInput<std::string>("left_ee_link", goal.left_end_effector_link);
+
+    int do_cartesian = 0;
+    getInput<int>("do_cartesian", do_cartesian);
+    goal.do_cartesian = bool(do_cartesian);
+
+    ROS_INFO("Brain: %s sending request", name_.c_str());
+    return true;
+  }
+
+  NodeStatus onResult(const ResultType& res) override {
+    ROS_INFO("Brain: %s result received", name_.c_str());
+    if (res.succeded) {
+      ROS_INFO("Brain: %s response SUCCEEDED.", name_.c_str());
+      return NodeStatus::SUCCESS;
+    } else {
+      ROS_INFO("Brain: %s response FAILURE.", name_.c_str());
+      return NodeStatus::FAILURE;
+    }
+  }
+
+  virtual NodeStatus onFailedRequest(FailureCause failure) override {
+    ROS_ERROR("Brain: %s request failed %d", name_.c_str(), static_cast<int>(failure));
+    return NodeStatus::FAILURE;
+  }
+
+  void halt() override {
+    if(status() == NodeStatus::RUNNING) {
+      ROS_WARN("Brain: %s halted", name_.c_str());
+      BaseClass::halt();
+    }
+  }
+
+private:
+  std::string name_;
+};
+
 class ExecuteDualArmMove : public RosActionNode<walker_movement::DualArmEeMoveAction>
 {
 public:
@@ -1515,6 +1573,7 @@ int main(int argc, char **argv)
   RegisterRosAction<ExecuteHeadJointStates>(factory, "ExecuteHeadJointStates", nh);
   RegisterRosAction<ExecuteLArmJointStates>(factory, "ExecuteLArmJointStates", nh);
   RegisterRosAction<ExecuteLArmFollowMove>(factory, "ExecuteLArmFollowMove", nh);
+  RegisterRosAction<ExecuteDualArmMirroredMove>(factory, "ExecuteDualArmMirroredMove", nh);
   RegisterRosAction<ExecuteRArmJointStates>(factory, "ExecuteRArmJointStates", nh);
   RegisterRosAction<ExecuteDualArmJointStates>(factory, "ExecuteDualArmJointStates", nh);
   RegisterRosAction<ExecuteLArmMove>(factory, "ExecuteLArmMove", nh);
