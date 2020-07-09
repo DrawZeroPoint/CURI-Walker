@@ -1,7 +1,7 @@
 # CURI-Walker
 
 Team CURI's solution for World Artificial Intelligence Conference (WAIC) 2020 Walker challenge
-competition.
+competition. [Source Code]
 
 # Pre-requests
 
@@ -222,5 +222,6 @@ Three different packages have been defined to handle the robot control.
    Rollback any changes in the file `walker_model/worlds/.WAIC.wbproj`
 
 
+[Source Code]: <https://github.com/DrawZeroPoint/CURI-Walker>
 [ROS]: <http://wiki.ros.org/ROS/Tutorials/InstallingandConfiguringROSEnvironment>
 [kazam]: <https://linuxhint.com/record_screen_kazaam_ubuntu/>

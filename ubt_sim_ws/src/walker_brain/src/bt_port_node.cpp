@@ -648,6 +648,82 @@ private:
   std::string name_;
 };
 
+class ExecuteLArmFollowMove : public RosActionNode<walker_movement::FollowEePoseTrajectoryAction>
+{
+public:
+  ExecuteLArmFollowMove(ros::NodeHandle& handle, const std::string& name, const NodeConfiguration & cfg):
+    RosActionNode<walker_movement::FollowEePoseTrajectoryAction>(handle, name, cfg), name_(name) {}
+
+  static PortsList providedPorts() {
+    return {
+      InputPort<Pose>("pose1"),
+      InputPort<Pose>("pose2"),
+      InputPort<double>("stamp1"),
+      InputPort<double>("stamp2"),
+      InputPort<std::string>("ee_link"),
+      InputPort<std::string>("ref_link"),
+      //OutputPort<int>("result_status")
+    };
+  }
+
+  bool onSendGoal(GoalType& goal) override {
+    Pose pose1{};
+    getInput<Pose>("pose1", pose1);
+    geometry_msgs::PoseStamped ros_pose_1;
+    ros_pose_1.pose = pose1.toROS();
+    getInput<std::string>("ref_link", ros_pose_1.header.frame_id);
+    goal.poses.push_back(ros_pose_1);
+
+    Pose pose2{};
+    getInput<Pose>("pose2", pose2);
+    geometry_msgs::PoseStamped ros_pose_2;
+    ros_pose_2.pose = pose2.toROS();
+    getInput<std::string>("ref_link", ros_pose_2.header.frame_id);
+    goal.poses.push_back(ros_pose_2);
+
+    double ts_1;
+    getInput<double>("stamp1", ts_1);
+    ros::Duration td_1(ts_1);
+    goal.times_from_start.push_back(td_1);
+
+    double ts_2;
+    getInput<double>("stamp2", ts_2);
+    ros::Duration td_2(ts_2);
+    goal.times_from_start.push_back(td_2);
+
+    getInput<std::string>("ee_link", goal.end_effector_link);
+
+    ROS_INFO("Brain: %s sending request", name_.c_str());
+    return true;
+  }
+
+  NodeStatus onResult(const ResultType& res) override {
+    ROS_INFO("Brain: %s result received", name_.c_str());
+    if (res.succeded) {
+      ROS_INFO("Brain: %s response SUCCEEDED.", name_.c_str());
+      return NodeStatus::SUCCESS;
+    } else {
+      ROS_INFO("Brain: %s response FAILURE.", name_.c_str());
+      return NodeStatus::FAILURE;
+    }
+  }
+
+  virtual NodeStatus onFailedRequest(FailureCause failure) override {
+    ROS_ERROR("Brain: %s request failed %d", name_.c_str(), static_cast<int>(failure));
+    return NodeStatus::FAILURE;
+  }
+
+  void halt() override {
+    if(status() == NodeStatus::RUNNING) {
+      ROS_WARN("Brain: %s halted", name_.c_str());
+      BaseClass::halt();
+    }
+  }
+
+private:
+  std::string name_;
+};
+
 class ExecuteRArmMove : public RosActionNode<walker_movement::MoveToEePoseAction>
 {
 public:
@@ -1438,6 +1514,7 @@ int main(int argc, char **argv)
   // Upper body control
   RegisterRosAction<ExecuteHeadJointStates>(factory, "ExecuteHeadJointStates", nh);
   RegisterRosAction<ExecuteLArmJointStates>(factory, "ExecuteLArmJointStates", nh);
+  RegisterRosAction<ExecuteLArmFollowMove>(factory, "ExecuteLArmFollowMove", nh);
   RegisterRosAction<ExecuteRArmJointStates>(factory, "ExecuteRArmJointStates", nh);
   RegisterRosAction<ExecuteDualArmJointStates>(factory, "ExecuteDualArmJointStates", nh);
   RegisterRosAction<ExecuteLArmMove>(factory, "ExecuteLArmMove", nh);

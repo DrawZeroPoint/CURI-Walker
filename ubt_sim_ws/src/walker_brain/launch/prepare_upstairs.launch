@@ -10,7 +10,4 @@
         <arg name="legs_control" default="true" />
     </include>
 
-    <node pkg="walker_brain" type="upstairs_helper.py" name="upstairs_helper" output="screen">
-    </node>
-
 </launch>
