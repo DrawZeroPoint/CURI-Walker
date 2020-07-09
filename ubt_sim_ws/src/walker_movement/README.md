@@ -176,14 +176,8 @@ rosrun walker_movement openFridge.py
 
 This task can be executed in two phases.
 
-The first one, grasping the box, can be ran with the command:
+The first one, grasping the box, and then walking backwards, can be ran with the command:
 
 ```
 rosrun walker_movement liftBox.py
-```
-
-The second one, the walking backwards with the grasped box, can be ran with:
-
-```
-rosrun walker_walk mat_pyth.py
 ```

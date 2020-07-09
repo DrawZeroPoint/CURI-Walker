@@ -99,7 +99,7 @@ for elem in y:
         full_foot_right_z.append(aux)
 
 
-def rand_functio():
+def movement_function():
     goal = walker_movement.msg.DualFollowEePoseTrajectoryGoal()
 
     startTime = time_vector[0]
@@ -135,12 +135,13 @@ def rand_functio():
 
     rospy.loginfo("Before goal")
     dualFollowEeTrajClient.send_goal(goal)
+    rospy.logunfi("Sent Goal")
     dualFollowEeTrajClient.wait_for_result()
     if not dualFollowEeTrajClient.get_result().succeded:
-        rospy.logerr("Failed to steps :(")
+        rospy.logerr("Failed to steps")
         print(dualFollowEeTrajClient.get_result())
         exit(1)
-    rospy.loginfo("Step Completed")
+    rospy.loginfo("Movement Completed")
 
 
-rand_functio()
+movement_function()
