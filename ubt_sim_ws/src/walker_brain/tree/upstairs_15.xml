@@ -4,40 +4,35 @@
     <BehaviorTree ID="BehaviorTree">
         <Sequence name="Upstairs 15">
             <Sequence name="First step">
-                <Action ID="ExecuteDualLegMove" left_ee_link="left_foot_sole" left_pose="0 -0.1 0.1 0 0 0 1" left_ref_link="left_foot_sole" name="Transfer CoM to left foot" right_ee_link="right_foot_sole" right_pose="0 -0.1 0.25 0 0 0 1" right_ref_link="right_foot_sole" server_name="/walker/dual_leg_control/move_to_ee_pose"/>
-                <Action ID="ExecuteRLegFollowMove" duration1="0.01" duration2="0.02" ee_link="right_foot_sole" name="Swing right foot" pose1="0.28 0 0 0 0 0 1" pose2="0 0 -0.05 0 0 0 1" ref_link="right_foot_sole" server_name="/walker/move_helper_right_leg/follow_ee_pose_trajectory"/>
+                <Action ID="ExecuteDualLegMove" left_ee_link="left_foot_sole" left_pose="0 -0.11 0.1 0 0 0 1" left_ref_link="left_foot_sole" right_ee_link="right_foot_sole" right_pose="0 -0.11 0.25 0 0 0 1" right_ref_link="right_foot_sole" server_name="/walker/dual_leg_control/move_to_ee_pose"/>
+                <Action ID="ExecuteRLegFollowMove" ee_link="right_foot_sole" name="Swing right foot" pose1="0.27 0 0 0 0 0 1" pose2="0.27 0 -0.05 0 0 0 1" ref_link="right_foot_sole" server_name="/walker/move_helper_right_leg/follow_ee_pose_trajectory" stamp1="0.6" stamp2="0.8"/>
             </Sequence>
             <Repeat num_cycles="2">
                 <Sequence name="Intermediate steps">
-                    <Action ID="ExecuteDualLegMove" left_ee_link="left_foot_sole" left_pose="-0.28 0.2 0 0 0 0 1" left_ref_link="left_foot_sole" name="Transfer CoM to right foot" right_ee_link="right_foot_sole" right_pose="-0.28 0.2 0 0 0 0 1" right_ref_link="right_foot_sole" server_name="/walker/dual_leg_control/move_to_ee_pose"/>
+                    <Action ID="ExecuteDualLegMove" left_ee_link="left_foot_sole" left_pose="-0.27 0.22 0 0 0 0 1" left_ref_link="left_foot_sole" name="Transfer CoM to right foot" right_ee_link="right_foot_sole" right_pose="-0.27 0.22 0 0 0 0 1" right_ref_link="right_foot_sole" server_name="/walker/dual_leg_control/move_to_ee_pose"/>
                     <Sequence name="Swing left foot">
-                        <Action ID="ExecuteRLegMove" ee_link="right_foot_sole" name="Stand 0.15 on right foot" pose="0 0 -0.15 0 0 0 1" ref_link="right_foot_sole" server_name="/walker/move_helper_right_leg/move_to_ee_pose"/>
-                        <Action ID="ExecuteLLegMove" ee_link="left_foot_sole" name="Left foot forward 0.28 up 0.15" pose="0.28 0 0.15 0 0 0 1" ref_link="left_foot_sole" server_name="/walker/move_helper_left_leg/move_to_ee_pose"/>
-                        <Action ID="ExecuteLLegMove" ee_link="left_foot_sole" name="Left foot forward 0.28 down 0.05" pose="0.28 0 -0.05 0 0 0 1" ref_link="left_foot_sole" server_name="/walker/move_helper_left_leg/move_to_ee_pose"/>
-                        <Action ID="ExecuteRLegMove" ee_link="right_foot_sole" name="Lower 0.05 on right leg" pose="0 0 0.05 0 0 0 1" ref_link="right_foot_sole" server_name="/walker/move_helper_right_leg/move_to_ee_pose"/>
+                        <Action ID="ExecuteRLegFollowMove" ee_link="right_foot_sole" pose1="0 0 -0.15 0 0 0 1" pose2="0 0 -0.15 0 0 0 1" ref_link="right_foot_sole" server_name="/walker/move_helper_right_leg/follow_ee_pose_trajectory" stamp1="1" stamp2="1.01"/>
+                        <Action ID="ExecuteLLegFollowMove" ee_link="left_foot_sole" name="Left foot forward 0.27 up 0.15, then forward 0.27 down 0.05" pose1="0.27 0 0.12 0 0 0 1" pose2="0.54 0 0.1 0 0 0 1" ref_link="left_foot_sole" server_name="/walker/move_helper_left_leg/follow_ee_pose_trajectory" stamp1="0.6" stamp2="1.2"/>
+                        <Action ID="ExecuteRLegFollowMove" ee_link="right_foot_sole" pose1="0 0 0.05 0 0 0 1" pose2="0 0 0.05 0 0 0 1" ref_link="right_foot_sole" server_name="/walker/move_helper_right_leg/follow_ee_pose_trajectory" stamp1="0.2" stamp2="0.201"/>
                     </Sequence>
-                    <Action ID="ExecuteDualLegMove" left_ee_link="left_foot_sole" left_pose="-0.28 -0.2 0 0 0 0 1" left_ref_link="left_foot_sole" name="Transfer CoM to left foot" right_ee_link="right_foot_sole" right_pose="-0.28 -0.2 0 0 0 0 1" right_ref_link="right_foot_sole" server_name="/walker/dual_leg_control/move_to_ee_pose"/>
+                    <Action ID="ExecuteDualLegMove" left_ee_link="left_foot_sole" left_pose="-0.27 -0.22 0 0 0 0 1" left_ref_link="left_foot_sole" name="Transfer CoM to left foot" right_ee_link="right_foot_sole" right_pose="-0.27 -0.22 0 0 0 0 1" right_ref_link="right_foot_sole" server_name="/walker/dual_leg_control/move_to_ee_pose"/>
                     <Sequence name="Swing right foot">
-                        <Action ID="ExecuteLLegMove" ee_link="left_foot_sole" name="Stand 0.15 on left foot" pose="0 0 -0.15 0 0 0 1" ref_link="left_foot_sole" server_name="/walker/move_helper_left_leg/move_to_ee_pose"/>
-                        <Action ID="ExecuteRLegMove" ee_link="right_foot_sole" name="Right foot forward 0.28 up 0.15" pose="0.28 0 0.15 0 0 0 1" ref_link="right_foot_sole" server_name="/walker/move_helper_right_leg/move_to_ee_pose"/>
-                        <Action ID="ExecuteRLegMove" ee_link="right_foot_sole" name="Right foot forward 0.28 down 0.05" pose="0.28 0 -0.05 0 0 0 1" ref_link="right_foot_sole" server_name="/walker/move_helper_right_leg/move_to_ee_pose"/>
-                        <Action ID="ExecuteLLegMove" ee_link="left_foot_sole" name="Lower 0,05 on left leg" pose="0 0 0.05 0 0 0 1" ref_link="left_foot_sole" server_name="/walker/move_helper_left_leg/move_to_ee_pose"/>
+                        <Action ID="ExecuteLLegFollowMove" ee_link="left_foot_sole" pose1="0 0 -0.15 0 0 0 1" pose2="0 0 -0.15 0 0 0 1" ref_link="left_foot_sole" server_name="/walker/move_helper_left_leg/follow_ee_pose_trajectory" stamp1="1" stamp2="1.01"/>
+                        <Action ID="ExecuteRLegFollowMove" ee_link="right_foot_sole" pose1="0.27 0 0.12 0 0 0 1" pose2="0.54 0 0.1 0 0 0 1" ref_link="right_foot_sole" server_name="/walker/move_helper_right_leg/follow_ee_pose_trajectory" stamp1="0.6" stamp2="1.2"/>
+                        <Action ID="ExecuteLLegFollowMove" ee_link="left_foot_sole" pose1="0 0 0.05 0 0 0 1" pose2="0 0 0.05 0 0 0 1" ref_link="left_foot_sole" server_name="/walker/move_helper_left_leg/follow_ee_pose_trajectory" stamp1="0.2" stamp2="0.201"/>
                     </Sequence>
                 </Sequence>
             </Repeat>
             <Sequence name="Final step">
-                <Action ID="ExecuteDualLegMove" left_ee_link="left_foot_sole" left_pose="-0.28 0.2 0 0 0 0 1" left_ref_link="left_foot_sole" right_ee_link="right_foot_sole" right_pose="-0.28 0.2 0 0 0 0 1" right_ref_link="right_foot_sole" server_name="/walker/dual_leg_control/move_to_ee_pose"/>
+                <Action ID="ExecuteDualLegMove" left_ee_link="left_foot_sole" left_pose="-0.27 0.22 0 0 0 0 1" left_ref_link="left_foot_sole" name="Transfer CoM to right foot" right_ee_link="right_foot_sole" right_pose="-0.27 0.22 0 0 0 0 1" right_ref_link="right_foot_sole" server_name="/walker/dual_leg_control/move_to_ee_pose"/>
                 <Sequence name="Swing left foot">
-                    <Action ID="ExecuteRLegMove" ee_link="right_foot_sole" name="Up 0.15 on right leg" pose="0 0 -0.15 0 0 0 1" ref_link="right_foot_sole" server_name="/walker/move_helper_right_leg/move_to_ee_pose"/>
-                    <Action ID="ExecuteLLegMove" ee_link="left_foot_sole" name="Left foot forward 0.28 up 0.15" pose="0.28 0 0.15 0 0 0 1" ref_link="left_foot_sole" server_name="/walker/move_helper_left_leg/move_to_ee_pose"/>
-                    <Action ID="ExecuteLLegMove" ee_link="left_foot_sole" name="Left foot forward 0.28 down 0.05" pose="0.28 0 -0.05 0 0 0 1" ref_link="left_foot_sole" server_name="/walker/move_helper_left_leg/move_to_ee_pose"/>
-                    <Action ID="ExecuteRLegMove" ee_link="right_foot_sole" name="Lower 0.05 on right leg" pose="0 0 0.05 0 0 0 1" ref_link="right_foot_sole" server_name="/walker/move_helper_right_leg/move_to_ee_pose"/>
+                    <Action ID="ExecuteRLegFollowMove" ee_link="right_foot_sole" pose1="0 0 -0.15 0 0 0 1" pose2="0 0 -0.15 0 0 0 1" ref_link="right_foot_sole" server_name="/walker/move_helper_right_leg/follow_ee_pose_trajectory" stamp1="1" stamp2="1.01"/>
+                    <Action ID="ExecuteLLegFollowMove" ee_link="left_foot_sole" name="Left foot forward 0.28 up 0.15, then forward 0.28 down 0.05" pose1="0.27 0 0.12 0 0 0 1" pose2="0.56 0 0.1 0 0 0 1" ref_link="left_foot_sole" server_name="/walker/move_helper_left_leg/follow_ee_pose_trajectory" stamp1="0.6" stamp2="1.2"/>
+                    <Action ID="ExecuteRLegFollowMove" ee_link="right_foot_sole" pose1="0 0 0.05 0 0 0 1" pose2="0 0 0.05 0 0 0 1" ref_link="right_foot_sole" server_name="/walker/move_helper_right_leg/follow_ee_pose_trajectory" stamp1="0.2" stamp2="0.201"/>
                 </Sequence>
-                <Action ID="ExecuteDualLegMove" left_ee_link="left_foot_sole" left_pose="-0.28 -0.2 0 0 0 0 1" left_ref_link="left_foot_sole" name="Transfer CoM to left foot" right_ee_link="right_foot_sole" right_pose="-0.28 -0.2 0 0 0 0 1" right_ref_link="right_foot_sole" server_name="/walker/dual_leg_control/move_to_ee_pose"/>
-                <Sequence name="Swing right foot">
-                    <Action ID="ExecuteLLegMove" ee_link="left_foot_sole" name="Up 0.15 on left leg" pose="0 0 -0.15 0 0 0 1" ref_link="left_foot_sole" server_name="/walker/move_helper_left_leg/move_to_ee_pose"/>
-                    <Action ID="ExecuteRLegMove" ee_link="right_foot_sole" name="Right foot forward 0.28 down 0.05" pose="0.28 0 -0.05 0 0 0 1" ref_link="right_foot_sole" server_name="/walker/move_helper_right_leg/move_to_ee_pose"/>
-                </Sequence>
+                <Action ID="ExecuteDualLegMove" left_ee_link="left_foot_sole" left_pose="-0.29 -0.22 0 0 0 0 1" left_ref_link="left_foot_sole" name="Transfer CoM to left foot" right_ee_link="right_foot_sole" right_pose="-0.29 -0.22 0 0 0 0 1" right_ref_link="right_foot_sole" server_name="/walker/dual_leg_control/move_to_ee_pose"/>
+                <Action ID="ExecuteLLegFollowMove" ee_link="left_foot_sole" pose1="0 0 -0.15 0 0 0 1" pose2="0 0 -0.15 0 0 0 1" ref_link="left_foot_sole" server_name="/walker/move_helper_left_leg/follow_ee_pose_trajectory" stamp1="1" stamp2="1.01"/>
+                <Action ID="ExecuteRLegFollowMove" ee_link="right_foot_sole" name="Right foot forward 0.28 and then down 0.05" pose1="0.19 0 0.05 0 0 0 1" pose2="0.29 0 -0.05 0 0 0 1" ref_link="right_foot_sole" server_name="/walker/move_helper_right_leg/follow_ee_pose_trajectory" stamp1="0.5" stamp2="1"/>
             </Sequence>
         </Sequence>
     </BehaviorTree>
@@ -82,6 +77,16 @@
             <input_port default="base_link" name="right_ref_link">Could be base_link (absolute) or right_tcp (relative mode)</input_port>
             <input_port default="/walker/dual_arm_control/move_to_ee_pose" name="server_name"/>
         </Action>
+        <Action ID="ExecuteDualLegFollowMove">
+            <input_port default="left_foot_sole" name="left_ee_link"/>
+            <input_port name="left_pose"/>
+            <input_port default="left_foot_sole" name="left_ref_link"/>
+            <input_port default="right_foot_sole" name="right_ee_link"/>
+            <input_port name="right_pose"/>
+            <input_port default="right_foot_sole" name="right_ref_link"/>
+            <input_port default="/walker/dual_leg_control/follow_ee_pose_trajectory" name="server_name"/>
+            <input_port default="0.5" name="stamp"/>
+        </Action>
         <Action ID="ExecuteDualLegJointStates">
             <input_port name="left_pose"/>
             <input_port name="right_pose"/>
@@ -115,13 +120,13 @@
             <input_port name="type">0: Open hand, 1: Grasp can, 2: Grasp cart handle, 3: Grasp fridge handle</input_port>
         </Action>
         <Action ID="ExecuteLLegFollowMove">
-            <input_port default="0.01" name="duration1"/>
-            <input_port default="0.02" name="duration2"/>
             <input_port default="left_foot_sole" name="ee_link"/>
-            <input_port name="pose1">First pose to visit</input_port>
-            <input_port name="pose2">Second pose to visit</input_port>
+            <input_port name="pose1">First pose to visit (regrading the staring pose)</input_port>
+            <input_port name="pose2">Second pose to visit (regrading the staring pose)</input_port>
             <input_port default="left_foot_sole" name="ref_link">left_foot_sole</input_port>
             <input_port default="/walker/move_helper_left_leg/follow_ee_pose_trajectory" name="server_name"/>
+            <input_port default="0.01" name="stamp1">Time to reach the first pose from start</input_port>
+            <input_port default="0.02" name="stamp2">Time to reach the second pose from start</input_port>
         </Action>
         <Action ID="ExecuteLLegMove">
             <input_port default="left_foot_sole" name="ee_link"/>
@@ -156,13 +161,13 @@
             <input_port name="type">0: Open hand, 1: Grasp can, 2: Grasp cart handle, 3: Grasp fridge handle</input_port>
         </Action>
         <Action ID="ExecuteRLegFollowMove">
-            <input_port default="0.01" name="duration1">Time duration of reaching to the first pose</input_port>
-            <input_port default="0.02" name="duration2">Time duration of reaching to the second pose</input_port>
             <input_port default="right_foot_sole" name="ee_link"/>
-            <input_port name="pose1"/>
-            <input_port name="pose2"/>
-            <input_port default="right_foot_sole" name="ref_link"/>
+            <input_port name="pose1">Regrading the starting pose</input_port>
+            <input_port name="pose2">Regrading the starting pose</input_port>
+            <input_port default="right_foot_sole" name="ref_link">Default in relative move mode, could also be other frames of the robot</input_port>
             <input_port default="/walker/move_helper_right_leg/follow_ee_pose_trajectory" name="server_name"/>
+            <input_port default="0.01" name="stamp1">Time of reaching to the first pose from start</input_port>
+            <input_port default="0.02" name="stamp2">Time of reaching to the second pose from start</input_port>
         </Action>
         <Action ID="ExecuteRLegMove">
             <input_port default="right_foot_sole" name="ee_link"/>
